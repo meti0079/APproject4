@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 4,
+  "Name": "Polymorph",
+  "Rarity": "rare",
+  "Class": "Mage",
+  "Description": "Transform a minion into a 1/1 Sheep.",
+  "use": 0
+}

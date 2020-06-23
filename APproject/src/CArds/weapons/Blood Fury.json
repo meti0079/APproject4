@@ -1,0 +1,17 @@
+{
+  "type": "Weapon",
+  "Durability": 8,
+  "attack": 3,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 3,
+  "Name": "Blood Fury",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "use": 0
+}

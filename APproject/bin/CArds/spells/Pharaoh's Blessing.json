@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": true,
+  "DivineShield": true,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 6,
+  "Name": "Pharaoh\u0027s Blessing",
+  "Rarity": "Rare",
+  "Class": "Neutral",
+  "Description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+  "use": 0
+}

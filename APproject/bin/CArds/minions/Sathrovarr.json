@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 5,
+  "Attack": 5,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": true,
+  "Rush": false,
+  "quest": false,
+  "Mana": 9,
+  "Name": "Sathrovarr",
+  "Rarity": "legendary",
+  "Class": "Neutral",
+  "Description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
+  "use": 0
+}

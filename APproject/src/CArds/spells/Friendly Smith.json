@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 1,
+  "Name": "Friendly Smith",
+  "Rarity": "common",
+  "Class": "Rouge",
+  "Description": "Discover a weapon from any class. Add it to your Adventure Deck with +2/+2.",
+  "use": 0
+}

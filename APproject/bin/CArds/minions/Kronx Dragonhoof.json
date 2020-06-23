@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 6,
+  "Attack": 6,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": true,
+  "Rush": false,
+  "quest": false,
+  "Mana": 6,
+  "Name": "Kronx Dragonhoof",
+  "Rarity": "legendary",
+  "Class": "Neutral",
+  "Description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
+  "use": 0
+}

@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 5,
+  "Attack": 4,
+  "Windfury": false,
+  "Taunt": true,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": true,
+  "Rush": false,
+  "quest": false,
+  "Mana": 6,
+  "Name": "The Black Knight",
+  "Rarity": "legendary",
+  "Class": "Neutral",
+  "Description": "Battlecry: Destroy an enemy minion with Taunt.",
+  "use": 0
+}

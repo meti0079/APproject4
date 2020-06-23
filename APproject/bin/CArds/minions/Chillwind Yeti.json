@@ -1,0 +1,17 @@
+{
+  "type": "Minion",
+  "HP": 5,
+  "Attack": 4,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 4,
+  "Name": "Chillwind Yeti",
+  "Rarity": "rare",
+  "Class": "Neutral",
+  "use": 0
+}

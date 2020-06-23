@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 2,
+  "Attack": 4,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": true,
+  "Rush": false,
+  "quest": false,
+  "Mana": 5,
+  "Name": "Big Game Hunter",
+  "Rarity": "epic",
+  "Class": "Neutral",
+  "Description": "Battlecry: Destroy a minion with 7 or more Attack.",
+  "use": 0
+}

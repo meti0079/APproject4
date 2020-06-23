@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 2,
+  "Name": "gift",
+  "Rarity": "legendary",
+  "Class": "Warlock",
+  "Description": "gift 1 Hp to hero",
+  "use": 0
+}

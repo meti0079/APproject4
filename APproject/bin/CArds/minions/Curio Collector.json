@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 4,
+  "Attack": 4,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 5,
+  "Name": "Curio Collector",
+  "Rarity": "rare",
+  "Class": "Neutral",
+  "Description": "Whenever you draw a card, gain +1/+1.",
+  "use": 0
+}

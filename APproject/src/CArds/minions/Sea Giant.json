@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 8,
+  "Attack": 8,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 10,
+  "Name": "Sea Giant",
+  "Rarity": "epic",
+  "Class": "Neutral",
+  "Description": "Costs (1) less for each other minion on the battlefield.",
+  "use": 0
+}

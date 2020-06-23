@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 2,
+  "Name": "Book of Specters",
+  "Rarity": "epic",
+  "Class": "Neutral",
+  "Description": "Draw 3 cards. Discard any spells drawn.",
+  "use": 0
+}

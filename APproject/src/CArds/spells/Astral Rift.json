@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 2,
+  "Name": "Astral Rift",
+  "Rarity": "rare",
+  "Class": "Mage",
+  "Description": "Add 2 random minions to your hand.",
+  "use": 0
+}

@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 6,
+  "Attack": 2,
+  "Windfury": false,
+  "Taunt": true,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 6,
+  "Name": "Security Rover",
+  "Rarity": "rare",
+  "Class": "Neutral",
+  "Description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
+  "use": 0
+}

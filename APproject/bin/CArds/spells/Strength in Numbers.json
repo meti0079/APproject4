@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": true,
+  "Mana": 1,
+  "Name": "Strength in Numbers",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "Description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+  "use": 0
+}

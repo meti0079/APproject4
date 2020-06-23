@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 7,
+  "Name": "Sprint",
+  "Rarity": "epic",
+  "Class": "Rouge",
+  "Description": "Draw 4 cards.",
+  "use": 0
+}

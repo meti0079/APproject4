@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 3,
+  "Attack": 3,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 3,
+  "Name": "Murloc Warleader",
+  "Rarity": "epic",
+  "Class": "Neutral",
+  "Description": "Your other Murlocs have +2 Attack.",
+  "use": 0
+}

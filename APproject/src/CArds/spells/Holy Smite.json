@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 1,
+  "Name": "Holy Smite",
+  "Rarity": "common",
+  "Class": "Priest",
+  "Description": "Deal 3 damage to a minion.",
+  "use": 0
+}

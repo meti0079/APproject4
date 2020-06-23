@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 1,
+  "Name": "Arcane Shot",
+  "Rarity": "common",
+  "Class": "Hunter",
+  "Description": "Deal 2 damage.",
+  "use": 0
+}

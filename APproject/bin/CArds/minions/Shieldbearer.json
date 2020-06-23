@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 4,
+  "Attack": 0,
+  "Windfury": false,
+  "Taunt": true,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 1,
+  "Name": "Shieldbearer",
+  "Rarity": "Common",
+  "Class": "Neutral",
+  "Description": "Taunt",
+  "use": 0
+}

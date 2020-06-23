@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 2,
+  "Attack": 4,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 3,
+  "Name": "Dreadscale",
+  "Rarity": "legendary",
+  "Class": "Warlock",
+  "Description": "Deal 1 damage to each minion.",
+  "use": 0
+}

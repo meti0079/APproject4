@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 6,
+  "Attack": 3,
+  "Windfury": false,
+  "Taunt": true,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": true,
+  "Rush": false,
+  "quest": false,
+  "Mana": 8,
+  "Name": "Tomb Warden",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "Description": "Taunt . Battlecry: Summon a copy of this minion",
+  "use": 0
+}

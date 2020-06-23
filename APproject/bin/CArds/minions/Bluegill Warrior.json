@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 1,
+  "Attack": 2,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 2,
+  "Name": "Bluegill Warrior",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "Description": "Charge",
+  "use": 0
+}

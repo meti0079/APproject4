@@ -1,0 +1,17 @@
+{
+  "type": "Minion",
+  "HP": 1,
+  "Attack": 2,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 1,
+  "Name": "Murloc Raider",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "use": 0
+}

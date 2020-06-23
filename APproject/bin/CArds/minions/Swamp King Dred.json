@@ -1,0 +1,18 @@
+{
+  "type": "Minion",
+  "HP": 9,
+  "Attack": 9,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 7,
+  "Name": "Swamp King Dred",
+  "Rarity": "legendary",
+  "Class": "Hunter",
+  "Description": "After your opponent playes a minion ,attack it",
+  "use": 0
+}

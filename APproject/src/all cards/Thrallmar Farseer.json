@@ -1,0 +1,17 @@
+{
+  "Type": "Minion",
+  "HP": 3,
+  "Attack": 2,
+  "Windfury": true,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 3,
+  "Name": "Thrallmar Farseer",
+  "Rarity": "common",
+  "Class": "neutral",
+  "Description": "windfury"
+}

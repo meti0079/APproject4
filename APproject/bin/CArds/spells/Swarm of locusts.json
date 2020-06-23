@@ -1,0 +1,16 @@
+{
+  "type": "Spell",
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": true,
+  "quest": false,
+  "Mana": 6,
+  "Name": "Swarm of locusts",
+  "Rarity": "Rare",
+  "Class": "Neutral",
+  "Description": "ummon seven 1/1 Locusts with Rush.",
+  "use": 0
+}

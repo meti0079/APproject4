@@ -1,0 +1,17 @@
+{
+  "type": "Minion",
+  "HP": 7,
+  "Attack": 2,
+  "Windfury": false,
+  "Taunt": false,
+  "DivineShield": false,
+  "Deathrattle": false,
+  "Battlecry": false,
+  "Rush": false,
+  "quest": false,
+  "Mana": 4,
+  "Name": "Oasis Snapjaw",
+  "Rarity": "common",
+  "Class": "Neutral",
+  "use": 0
+}
