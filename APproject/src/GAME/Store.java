@@ -1,17 +1,13 @@
 package GAME;
-
-
 import java.util.ArrayList;
-
 import Cardspackage.Cards;
-import GAME.Players;
 import hero.Heros;
+
 public class Store {
 
 	private ArrayList< Cards> buyCard=new ArrayList<>();
 	private ArrayList<Heros> buyHero=new ArrayList<>(); 
-
-
+	
 	public void setBuyCard(ArrayList< Cards> a) {
 		buyCard=a;
 	}

@@ -5,10 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import Cardspackage.Cards;
 
 
@@ -17,7 +15,6 @@ public class Gamestate {
 	Scanner sca=new Scanner(System.in);
 	private	Players player;
 	private Store store;
-	private	Logger lg=Logger.getinsist();
 	private	Gson gson;;
 	public static Gamestate game;
 	private ArrayList<Passive> passives;

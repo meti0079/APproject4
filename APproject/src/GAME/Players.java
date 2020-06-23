@@ -1,15 +1,8 @@
 package GAME;
-
-
-import java.awt.List;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
 import Cardspackage.Cards;
 import hero.Heros;
-
-
 
 public class Players {
 	private String name;

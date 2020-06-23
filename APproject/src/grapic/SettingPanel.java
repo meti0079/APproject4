@@ -7,7 +7,7 @@ import GAME.Gamestate;
 public class SettingPanel extends JPanel{
 
 	
-	
+	private static final long serialVersionUID = 1L;
 	Gamestate game;
 	public SettingPanel() throws Exception {
 	game=Gamestate.getinsist();

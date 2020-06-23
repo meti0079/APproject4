@@ -4,24 +4,19 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import Cardspackage.Cards;
 
 
 
 public class CardShow extends JPanel  {
-	
+
+	private static final long serialVersionUID = 1L;
 	BufferedImage image;
 	public CardShow(Cards card) {
 		setPreferredSize(new Dimension(100, 150));

@@ -1,17 +1,14 @@
 package grapic;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,12 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import Cardspackage.Cards;
 import GAME.Gamestate;
 import GAME.Logger;
 
 public class Collection_search extends JPanel{
+
+	private static final long serialVersionUID = 1L;
 	private JTextField text;
 	private JButton ok;
 	private JButton g1;

@@ -1,24 +1,16 @@
 package grapic;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.Panel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 public class MainFrame extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private LoginPanel loginPanel;
 	public MainFrame () throws Exception {
 		super("HearthStone");

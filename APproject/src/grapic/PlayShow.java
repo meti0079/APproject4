@@ -9,6 +9,8 @@ import java.awt.TextArea;
 import javax.swing.JPanel;
 
 public class PlayShow extends JPanel{
+
+	private static final long serialVersionUID = 1L;
 TextArea text;
 	public PlayShow(MainFrame f) throws Exception {
 		setLayout(new BorderLayout());

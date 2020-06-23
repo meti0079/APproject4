@@ -1,9 +1,5 @@
 package Cardspackage;
 
-import java.util.ArrayList;
-
-
-
 public abstract  class Cards {
 	private boolean usedToAttack;
 	private boolean windfury=false;

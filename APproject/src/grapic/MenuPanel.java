@@ -1,27 +1,22 @@
 package grapic;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import GAME.Gamestate;
 import GAME.Logger;
 
 public class MenuPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private Gamestate game;
 	private Logger log;
 	private JButton play;

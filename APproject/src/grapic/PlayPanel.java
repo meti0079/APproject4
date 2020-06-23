@@ -7,12 +7,8 @@ import java.awt.Graphics;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,17 +17,19 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.text.AbstractDocument.BranchElement;
-import javax.swing.text.DefaultEditorKit.CutAction;
-
 import Cardspackage.Cards;
 import Cardspackage.Minion;
 import Cardspackage.Weapon;
 import GAME.Gamestate;
 import GAME.Logger;
+import myListeners.MyBattlegroundCardListener;
+import myListeners.MyHandCardListener;
+import myListeners.MyWeaponListener;
 
 
 public class PlayPanel extends JPanel{
+
+	private static final long serialVersionUID = 1L;
 	public static int i=0;
 	private int currentgem=1;
 	private int previousgem=1;
@@ -173,14 +171,14 @@ public class PlayPanel extends JPanel{
 		}
 	}
 
-	private void addTobattleground(Cards s) {
+	public void addTobattleground(Cards s) {
 		if(s.get_Mana()<=currentgem) {
 			if(s.getType().equalsIgnoreCase("minion")) {
 				if(battleground.size()<=6) {
 					hand.remove(s);
 					battleground.add(copy(s));
 					battleground.get(battleground.size()-1).setUsedToAttack(true);
-					String se=game.getPlayer().get_name()+"  played  "+ s.get_Name()+"\n";
+					String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
 					textArea.append(se);
 				}else {
 					JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
@@ -191,7 +189,7 @@ public class PlayPanel extends JPanel{
 				addUse(s);
 				hand.remove(s);			
 			}else {
-				String se=game.getPlayer().get_name()+"  played  "+ s.get_Name()+"\n";
+				String se=game.getPlayer().get_name()+"  Summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
 				addUse(s);
 				myWeapon=(Weapon) copyWeapon((Weapon) s);
@@ -206,41 +204,11 @@ public class PlayPanel extends JPanel{
 	private void addWeapon() {
 		we=new CardShow(myWeapon);
 		we.setBounds(560, 690, 100, 150);
-		we.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				if(!myWeapon.getUsedToAttack() || myWeapon.isBattlecry()) {
-					myWeapon.setDurability(myWeapon.getDurability()-1);
-					if(myWeapon.getDurability()==0) {
-						myWeapon=null;
-						try {
-							log.log(game.getPlayer().get_name(), game.getPlayer().get_name() ," played  "+ myWeapon.get_Name());
-							String se=game.getPlayer().get_name()+"  played  "+ myWeapon.get_Name();
-							textArea.append(se);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					myWeapon.setBattlecry(false);
-					myWeapon.setUsedToAttack(true);
-					updatePanel();
-				}
-			}
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-			}
-		});
+		we.addMouseListener(new MyWeaponListener(this, myWeapon));
 		add(we);
 	}
+
+
 	private void setCard() {
 		for(int i=currentBattleground.size()-1;i>=0;i--) {
 			remove(currentBattleground.get(i));
@@ -261,31 +229,7 @@ public class PlayPanel extends JPanel{
 		for(Cards s : battleground) {
 			CardShow x=new CardShow(s);
 			x.setBounds(700+(g[y]*100),500, 100, 150);
-			x.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					if(s.isBattlecry()||!s.getUsedToAttack()) {		
-						s.setBattlecry(false);
-						s.setUsedToAttack(true);
-						updatePanel();
-					}
-				}			
-				@Override
-				public void mouseExited(MouseEvent e) {
-								}
-				@Override
-				public void mouseEntered(MouseEvent e) {
-							}
-
-				@Override
-				public void mouseClicked(MouseEvent e) {
-							}
-			});
+			x.addMouseListener(new MyBattlegroundCardListener(this, s));
 			currentBattleground.add(x);
 			add(x);
 			y++;
@@ -293,48 +237,14 @@ public class PlayPanel extends JPanel{
 		int	j=-1;
 		for(Cards s : hand) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new MouseListener() {
-				@Override
-				public void mouseReleased(MouseEvent e) {	
-				}
-				@Override
-				public void mousePressed(MouseEvent e) {
-					if(!s.getUsedToAttack())
-						if(roundGame==0&&changes<3) {
-							deck.add(s);
-							hand.remove(s);
-							hand.add(deck.get(0));
-							hand.get(hand.size()-1).setUsedToAttack(true);
-							deck.remove(0);
-							updatePanel();
-							changes++;
-						}else {
-							addUse(s);
-							addTobattleground(s);
-							updatePanel();
-							try {
-								log.log(game.getPlayer().get_name(), game.getPlayer().get_name(), s.get_Name());
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}						
-						}
-				}
-				@Override
-				public void mouseExited(MouseEvent e) {	
-				}
-				@Override
-				public void mouseEntered(MouseEvent e) {	
-				}
-				@Override
-				public void mouseClicked(MouseEvent e) {
-				}
-			});
+			x.addMouseListener(new MyHandCardListener(this, s));
 			currentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
 			j--;
 		}	
 	}
+
 
 	private void drawHero(Graphics g, String hero) {
 		g.drawImage(new ImageIcon("src\\play image\\"+hero+".png").getImage(), 658,660, null);
@@ -358,7 +268,7 @@ public class PlayPanel extends JPanel{
 			f.setLocationRelativeTo(null);
 		}
 	}
-	private void addUse(Cards s) {
+	public void addUse(Cards s) {
 		for(Cards q: game.getPlayer().getMyDeck().getDeck())
 			if(s.get_Name().equals(s.get_Name()))
 				q.addUse();
@@ -401,10 +311,32 @@ public class PlayPanel extends JPanel{
 		s.setDurability(card.getDurability());
 		return s;
 	}
-	private void updatePanel() {
+	public void updatePanel() {
 		setCard();
 		repaint();
 		revalidate();
+	}
+	public int getRoundGame() {
+		return roundGame;
+	}
+	public void setRoundGame(int roundGame) {
+		this.roundGame = roundGame;
+	}
+	public int getChanges() {
+		return changes;
+	}
+	public void setChanges(int changes) {
+		this.changes = changes;
+	}
+	public ArrayList<Cards> getHand() {
+		return hand;
+	}
+	public ArrayList<Cards> getDeck() {
+		return deck;
+	}
+
+	public TextArea getTextArea() {
+		return textArea;
 	}
 
 }

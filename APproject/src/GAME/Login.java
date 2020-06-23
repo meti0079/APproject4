@@ -1,13 +1,10 @@
 package GAME;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import Cardspackage.Cards;
 import Cardspackage.Minion;
 import Cardspackage.Spell;
@@ -19,12 +16,8 @@ import hero.Priest;
 import hero.Rouge;
 import hero.Warlock;
 
-
-
 public class Login  {
-	private Gamestate game;
 	public Login(Players player) throws Exception {
-		game=Gamestate.getinsist();	
 		Random ran=new Random();
 		Heros first=new Mage();
 		Heros s1=new Rouge();

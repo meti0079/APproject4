@@ -2,11 +2,12 @@ package grapic;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class Collection_herospanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private String name="";
 	public Collection_herospanel(String name) {
 		setPreferredSize(new Dimension(1500,1500));

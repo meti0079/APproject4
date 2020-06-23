@@ -13,6 +13,8 @@ import GAME.Decks;
 import GAME.Gamestate;
 
 public class Statos extends JPanel{
+
+	private static final long serialVersionUID = 1L;
 	private Gamestate game=Gamestate.getinsist();
 	private  int size=game.getPlayer().getalldeck().size();
 	Decks [] allDeck=new Decks[size];
