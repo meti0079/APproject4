@@ -10,7 +10,10 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -71,12 +74,29 @@ public class LoginPanel extends JPanel {
 					}else {
 						try {
 							if(game.checkName(name, pass)) {
-								game.readPlayer(name);
-								game.setStor(game.getPlayer().getMyStore());
-								setVisible(false);
-								f.add(p);
-								f.pack();
-								f.setLocationRelativeTo(null);
+								File fw=new File("src\\LOGFILE\\"+name);
+								boolean del=false;
+								Scanner see=new Scanner(fw);
+								while (see.hasNextLine()) {
+									if(see.nextLine().startsWith("DELETED")) {
+										error.setVisible(true);	
+										del=true;
+									}
+								}
+								if(!del) {
+									game.readPlayer(name);
+									game.setStor(game.getPlayer().getMyStore());
+									setVisible(false);
+									f.add(p);
+									f.pack();
+									f.setLocationRelativeTo(null);
+									
+									try {
+										log.log(game.getPlayer().get_name(), "login at :  ", "");
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+								}
 							}else {
 								error.setVisible(true);							
 							}
@@ -84,11 +104,6 @@ public class LoginPanel extends JPanel {
 							e1.printStackTrace();
 						}
 					}
-				}
-				try {
-					log.log(game.getPlayer().get_name(), "login at :  ", "");
-				} catch (IOException e1) {
-					e1.printStackTrace();
 				}
 			}
 		});

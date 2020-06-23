@@ -25,6 +25,7 @@ public class MenuPanel extends JPanel {
 	private JButton store;
 	private JButton exit;
 	private JButton save;
+	private JButton setting;
 	public MenuPanel(JFrame frame) throws Exception {
 		super();
 		setPreferredSize(new    Dimension(1800, 1000));
@@ -36,38 +37,47 @@ public class MenuPanel extends JPanel {
 		play.setFont(new Font("Tahoma", Font.BOLD, 30));
 		play.setForeground(Color.BLACK);
 		play.setBackground(Color.orange);
-		play.setBounds(795, 300, 210, 60);
+		play.setBounds(795, 270, 210, 60);
 		add(play);
 		collection=new JButton("Collection");
 		collection.setFont(new Font("Tahoma", Font.BOLD, 30));
 		collection.setForeground(Color.BLACK);
 		collection.setBackground(Color.orange);
-		collection.setBounds(765, 365, 270, 60);
+		collection.setBounds(765, 335, 270, 60);
 		add(collection);
 		store=new JButton("Shop");
 		store.setFont(new Font("Tahoma", Font.BOLD, 30));
 		store.setForeground(Color.BLACK);
 		store.setBackground(Color.orange);
-		store.setBounds(735, 430, 330, 60);
+		store.setBounds(735, 400, 330, 60);
 		add(store);
 		save=new JButton("Save");
 		save.setFont(new Font("Tahoma", Font.BOLD, 30));
 		save.setForeground(Color.BLACK);
 		save.setBackground(Color.orange);
-		save.setBounds(735, 495, 330, 60);
+		save.setBounds(735, 530, 330, 60);
 		add(save);
 		status=new JButton("Status");
 		status.setFont(new Font("Tahoma", Font.BOLD, 30));
 		status.setForeground(Color.BLACK);
 		status.setBackground(Color.orange);
-		status.setBounds(765, 560, 270, 60);
+		status.setBounds(705, 465, 390, 60);
 		add(status);
 		exit=new JButton("Exit");
 		exit.setFont(new Font("Tahoma", Font.BOLD, 30));
 		exit.setForeground(Color.BLACK);
 		exit.setBackground(Color.orange);
-		exit.setBounds(795, 625, 210, 60);
+		exit.setBounds(795, 660, 210, 60);
 		add(exit);
+		
+		setting=new JButton("setting");
+		setting.setFont(new Font("Tahoma", Font.BOLD, 30));
+		setting.setForeground(Color.BLACK);
+		setting.setBackground(Color.orange);
+		setting.setBounds(765, 595, 270, 60);
+		add(setting);
+		
+		
 		//////set buttons finish
 		/////set actin listener
 		save.addActionListener(new ActionListener() {
@@ -242,6 +252,31 @@ public class MenuPanel extends JPanel {
 				frame.repaint();
 				frame.pack();
 				frame.setLocationRelativeTo(null);
+			}
+		});
+		
+		
+		setting.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					log.log(game.getPlayer().get_name(), "go to setting", "");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				SettingPanel s=null;
+				try {
+					s = new SettingPanel((MainFrame)frame);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				frame.remove(MenuPanel.this);
+				frame.setContentPane(s);
+				frame.revalidate();
+				frame.repaint();
+				frame.pack();
+				frame.setLocationRelativeTo(null);				
 			}
 		});
 	}

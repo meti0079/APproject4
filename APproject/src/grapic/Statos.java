@@ -49,7 +49,9 @@ public class Statos extends JPanel{
 				if(game.getPlayer().getPlays()==0) {
 					g.drawString("won / paly  : no match ", co,first );					
 				}else {
-					g.drawString("won / paly  : " +(s.getWin()/game.getPlayer().getPlays()), co,first );						
+					float av=((float)s.getWin())/((float)game.getPlayer().getPlays());
+					System.out.println(av);
+					g.drawString("won / paly  : "+av , co,first );						
 				}
 				first+=x;
 				g.drawString( "won "+ s.getWin(), co, first);

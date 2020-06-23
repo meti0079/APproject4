@@ -5,6 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import Cardspackage.Cards;
@@ -19,7 +23,7 @@ public class Gamestate {
 	public static Gamestate game;
 	private ArrayList<Passive> passives;
 	private String backCard="ca.png";
-	private String backBattleGround="nattle.jpg";
+	private String backBattleGround="nattle1.jpg";
 	private Passive playPassive; 
 
 
@@ -148,6 +152,17 @@ public class Gamestate {
 		}
 		//	lg.log(player.get_name(), "select hero", " selected"+player.get_hero().getname());
 	}
-
+	public void DeletPlayer() throws IOException {
+		String ss=JOptionPane.showInputDialog(null, "enter your password");
+			if(ss.equals(player.get_pass())) {
+				if(JOptionPane.showConfirmDialog(null, "account deleted")==JOptionPane.OK_OPTION) {
+					Logger.getinsist().deletAccount(player.get_name());
+					JOptionPane.showConfirmDialog(null, "account deleted","good luck",JOptionPane.OK_OPTION);
+					System.exit(0);
+						}
+			}else
+				JOptionPane.showMessageDialog(null, "the password incorrect");
+	}
+	
 
 }

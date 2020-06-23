@@ -2,16 +2,19 @@ package grapic;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import GAME.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import Cardspackage.Cards;
 import GAME.Gamestate;
-import myListeners.CollectionCardListener;
-import myListeners.DeckCardListener;
 import myListeners.LockCardListener;
 
 public class CollectionPanel extends JPanel {
@@ -87,7 +90,46 @@ public class CollectionPanel extends JPanel {
 		for(Cards s : game.getPlayer().get_myCards()) {
 			if(s.get_Class().equalsIgnoreCase(name)) {
 				final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-				lp.addMouseListener(new CollectionCardListener(s, deckPanel, this, deckbord));
+				lp.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+					}
+
+					@Override
+					public void mousePressed(MouseEvent arg0) {
+						int x=JOptionPane.showConfirmDialog(null, "do you want to add this to your deck",
+								"add card to deck", JOptionPane.OK_CANCEL_OPTION);
+						if(x==JOptionPane.OK_OPTION) {
+							game.getPlayer().getMyDeck().addUsethisDeck(0);
+							game.getPlayer().getMyDeck().addWin(0);
+							if(game.getPlayer().getMyDeck().addCardToDeck(s)){
+								try {
+									Logger.getinsist().log(game.getPlayer().get_name(), "add card to deck", s.get_Name());
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+								setdeck();
+								deckPanel.repaint();
+								deckPanel.revalidate();
+								deckbord.updateBut(deckPanel, CollectionPanel.this);
+								deckbord.repaint();
+								deckbord.revalidate();
+							}
+						}
+					}
+					@Override
+					public void mouseExited(MouseEvent arg0) {
+					}
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+					}
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+					}
+
+			
+				
+				});
 				p.add(lp);
 			}
 		}
@@ -110,7 +152,42 @@ public class CollectionPanel extends JPanel {
 		}
 		for(Cards s : game.getPlayer().get_mydeck()) {			
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-			lp.addMouseListener(new DeckCardListener(deckPanel, s, lp));
+			lp.addMouseListener( new MouseListener() {
+								@Override
+								public void mouseReleased(MouseEvent e) {
+								}
+								@Override
+								public void mousePressed(MouseEvent e) {
+									int x=JOptionPane.showConfirmDialog(null, "do you want to remove this from your deck",
+											"remove from deck", JOptionPane.OK_CANCEL_OPTION);
+									if(x==JOptionPane.OK_OPTION) {
+										try {
+											game.getPlayer().getMyDeck().addUsethisDeck(0);
+											game.getPlayer().getMyDeck().addWin(0);
+											Logger.getinsist().log(game.getPlayer().get_name(), "remove card from deck", s.get_Name());
+										} catch (IOException e1) {
+											e1.printStackTrace();
+										}
+										game.getPlayer().getMyDeck().getDeck().remove(s);
+										
+										deckPanel.remove(lp);
+										deckPanel.repaint();
+										deckPanel.revalidate();
+										deckbord.updateBut(deckPanel, CollectionPanel.this);
+										deckbord.repaint();
+										deckbord.revalidate();
+									}
+								}
+								@Override
+								public void mouseExited(MouseEvent e) {
+								}
+								@Override
+								public void mouseEntered(MouseEvent e) {
+								}
+								@Override
+								public void mouseClicked(MouseEvent e) {
+								}
+							});
 			deckPanel.add(lp);
 			current.add(lp);
 		}

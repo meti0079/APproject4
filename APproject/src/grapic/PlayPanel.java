@@ -129,7 +129,7 @@ public class PlayPanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(new ImageIcon("src\\play image\\nattle.jpg").getImage(), 0, 0, null);
+		g.drawImage(new ImageIcon("src\\play image\\"+game.getBackBattleground()).getImage(), 0, 0, null);
 		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 660, 10, null);
 		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 725, 10, null);
 		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 790, 10, null);
