@@ -4,14 +4,14 @@ package Cardspackage;
 
 public class Minion extends Cards{
 	private int HP;
-	private int Attack;
+	private int attack;
 	public Minion() {
 		this.setType("Minion");
 
 	}
 
 	public int getAttack() {
-		return this.Attack;
+		return this.attack;
 	}
 
 	@Override
@@ -21,7 +21,7 @@ public class Minion extends Cards{
 //
 	@Override
 	public void setAttack(int x) {
-		Attack=x;
+		attack=x;
 	}
 //
 	@Override

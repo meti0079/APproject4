@@ -117,6 +117,15 @@ public class PlayPanel extends JPanel{
 			next.setVisible(false);
 		repaint();
 		i=0;
+
+		for (Cards cards : battleground) {
+			cards.setUsedToAttack(false);
+		}
+		for (Cards cards : hand) {
+			cards.setUsedToAttack(false);
+		}
+		if(myWeapon!=null)
+			myWeapon.setUsedToAttack(false);
 	}
 
 	@Override
@@ -169,7 +178,8 @@ public class PlayPanel extends JPanel{
 			if(s.getType().equalsIgnoreCase("minion")) {
 				if(battleground.size()<=6) {
 					hand.remove(s);
-					battleground.add(copy(s));	
+					battleground.add(copy(s));
+					battleground.get(battleground.size()-1).setUsedToAttack(true);
 					String se=game.getPlayer().get_name()+"  played  "+ s.get_Name()+"\n";
 					textArea.append(se);
 				}else {
@@ -185,6 +195,7 @@ public class PlayPanel extends JPanel{
 				textArea.append(se);
 				addUse(s);
 				myWeapon=(Weapon) copyWeapon((Weapon) s);
+				myWeapon.setUsedToAttack(true);
 				hand.remove(s);
 			}
 			currentgem-=s.get_Mana();
@@ -192,9 +203,8 @@ public class PlayPanel extends JPanel{
 			next.setVisible(true);
 		}
 	}
-	private void addWeapon(Cards s) {
-		Weapon x=(Weapon) s;
-		we=new CardShow(x);
+	private void addWeapon() {
+		we=new CardShow(myWeapon);
 		we.setBounds(560, 690, 100, 150);
 		we.addMouseListener(new MouseListener() {
 			@Override
@@ -202,20 +212,22 @@ public class PlayPanel extends JPanel{
 			}
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				x.setDurability(x.getDurability()-1);
-				if(x.getDurability()==0) {
-					myWeapon=null;
-					try {
-						log.log(game.getPlayer().get_name(), game.getPlayer().get_name() ," played  "+ s.get_Name());
-						String se=game.getPlayer().get_name()+"  played  "+ s.get_Name();
-						textArea.append(se);
-					} catch (IOException e) {
-						e.printStackTrace();
+				if(!myWeapon.getUsedToAttack() || myWeapon.isBattlecry()) {
+					myWeapon.setDurability(myWeapon.getDurability()-1);
+					if(myWeapon.getDurability()==0) {
+						myWeapon=null;
+						try {
+							log.log(game.getPlayer().get_name(), game.getPlayer().get_name() ," played  "+ myWeapon.get_Name());
+							String se=game.getPlayer().get_name()+"  played  "+ myWeapon.get_Name();
+							textArea.append(se);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
+					myWeapon.setBattlecry(false);
+					myWeapon.setUsedToAttack(true);
+					updatePanel();
 				}
-				setCard();
-				repaint();
-				revalidate();
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
@@ -242,7 +254,7 @@ public class PlayPanel extends JPanel{
 			remove(we);
 		}
 		if(myWeapon!=null)
-			addWeapon(myWeapon);
+			addWeapon();
 
 		int[] g=new int[7];g[0]=0;g[1]=-1;g[2]=1;g[3]=-2;g[4]=2;g[5]=-3;g[6]=3;
 		int y =0;
@@ -253,42 +265,26 @@ public class PlayPanel extends JPanel{
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
 				}
 
 				@Override
 				public void mousePressed(MouseEvent e) {
-					for(int i=0;i<battleground.size();i++) {
-						if(s.get_Name().equalsIgnoreCase(battleground.get(i).get_Name())) {
-							setCard();
-							repaint();
-							revalidate();
-
-							break;
-						}
+					if(s.isBattlecry()||!s.getUsedToAttack()) {		
+						s.setBattlecry(false);
+						s.setUsedToAttack(true);
+						updatePanel();
 					}
-
-
-				}
-
+				}			
 				@Override
 				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
+								}
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
+							}
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
+							}
 			});
 			currentBattleground.add(x);
 			add(x);
@@ -303,28 +299,25 @@ public class PlayPanel extends JPanel{
 				}
 				@Override
 				public void mousePressed(MouseEvent e) {
-
-					if(roundGame==0&&changes<3) {
-						deck.add(s);
-						hand.remove(s);
-						hand.add(deck.get(0));
-						deck.remove(0);
-						setCard();
-						repaint();
-						revalidate();
-						changes++;
-					}else {
-						addUse(s);
-						addTobattleground(s);
-						setCard();
-						revalidate();
-						repaint();
-						try {
-							log.log(game.getPlayer().get_name(), game.getPlayer().get_name(), s.get_Name());
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}						
-					}
+					if(!s.getUsedToAttack())
+						if(roundGame==0&&changes<3) {
+							deck.add(s);
+							hand.remove(s);
+							hand.add(deck.get(0));
+							hand.get(hand.size()-1).setUsedToAttack(true);
+							deck.remove(0);
+							updatePanel();
+							changes++;
+						}else {
+							addUse(s);
+							addTobattleground(s);
+							updatePanel();
+							try {
+								log.log(game.getPlayer().get_name(), game.getPlayer().get_name(), s.get_Name());
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}						
+						}
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {	
@@ -408,6 +401,10 @@ public class PlayPanel extends JPanel{
 		s.setDurability(card.getDurability());
 		return s;
 	}
-
+	private void updatePanel() {
+		setCard();
+		repaint();
+		revalidate();
+	}
 
 }

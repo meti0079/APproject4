@@ -2,7 +2,7 @@ package Cardspackage;
 
 public class Weapon extends Cards{
 
-	private int Durability;
+	private int durability;
 	private int attack;
 	public Weapon() {
 		setType("Weapon");
@@ -14,18 +14,18 @@ public class Weapon extends Cards{
 		this.attack = attack;
 	}
 	public int getDurability() {
-		return Durability;
+		return durability;
 	}
 	public void setDurability(int durability) {
-		Durability = durability;
+		this.durability = durability;
 	}
 	@Override
 	public int getHp() {
-		return Durability;
+		return durability;
 	}
 	@Override
 	public void setHp(int x) {
-		Durability=x;		
+		durability=x;		
 	}
 
 	@Override

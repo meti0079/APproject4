@@ -5,30 +5,23 @@ import java.util.ArrayList;
 
 
 public abstract  class Cards {
-	private boolean Windfury=false;
-	private boolean Taunt=false;
-	private boolean DivineShield=false;
-	private boolean Deathrattle=false;
-	private boolean Battlecry=false;
-	private boolean Rush=false;
+	private boolean usedToAttack;
+	private boolean windfury=false;
+	private boolean taunt=false;
+	private boolean divineShield=false;
+	private boolean deathrattle=false;
+	private boolean battlecry=false;
+	private boolean rush=false;
 	private boolean quest;
-	private int Mana;
-	private String Name;
-	private String type;
+	private int mana;
+	private String name;
 	private int use;
-	private String Rarity;
-	private String Class;
-	private String Description;
+	private String rarity;
+	private String cardClass;
+	private String description;
+	private String type;
 	
 	
-	
-	
-	public int getUse() {
-		return use;
-	}
-	public void addUse() {
-		this.use++;
-	}
 	
 	public abstract int getAttack();
 	public abstract void setAttack(int x);
@@ -36,6 +29,18 @@ public abstract  class Cards {
 	public abstract void setHp(int x);
 	public abstract String getType();
 	
+	public int getUse() {
+		return use;
+	}
+	public void addUse() {
+		this.use++;
+	}
+	public  boolean getUsedToAttack() {
+		return usedToAttack;
+	}
+	public  void setUsedToAttack(boolean flag) {
+		this.usedToAttack=flag;
+	}
 	public void setType(String type) {
 		this.type = type;
 	}
@@ -44,50 +49,50 @@ public abstract  class Cards {
 		
 	}
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 	public void Set_Mana(int a) {
-		Mana=a;
+		mana=a;
 	}
 	public void Set_Name(String a) {
-		Name=a;
+		name=a;
 	}
 	public boolean isTaunt() {
-		return Taunt;
+		return taunt;
 	}	
 	public void setTaunt(boolean taunt) {
-		Taunt = taunt;
+		this.taunt = taunt;
 	}
 
 	public boolean isDivineShield() {
-		return DivineShield;
+		return divineShield;
 	}
 
 	public void setDivineShield(boolean divineShield) {
-		DivineShield = divineShield;
+		this.divineShield = divineShield;
 	}
 	public void Set_Rarity(String a) {
-		Rarity=a;
+		rarity=a;
 	}
 
 	public boolean isWindfury() {
-		return Windfury;
+		return windfury;
 	}
 
 	public void setWindfury(boolean windfury) {
-		Windfury = windfury;
+		this.windfury = windfury;
 	}
 	public void Set_Class(String a) {
-		Class=a;
+		cardClass=a;
 	}
 	public int get_Mana() {
-		return Mana;
+		return mana;
 	}
 	public String get_Name() {
-		return Name;
+		return name;
 	}
 
 	public boolean isQuest() {
@@ -98,30 +103,30 @@ public abstract  class Cards {
 		this.quest = quest;
 	}
 	public boolean isRush() {
-		return Rush;
+		return rush;
 	}
 	public void setRush(boolean rush) {
-		Rush = rush;
+		this.rush = rush;
 	}
 	public String  get_Rarity() {
-		return Rarity;
+		return rarity;
 	}
 	public String get_Class() {
-		return Class;
+		return cardClass;
 	}
 	public boolean isDeathrattle() {
-		return Deathrattle;
+		return deathrattle;
 	}
 
 	public void setDeathrattle(boolean deathrattle) {
-		Deathrattle = deathrattle;
+		this.deathrattle = deathrattle;
 	}
 	public boolean isBattlecry() {
-		return Battlecry;
+		return battlecry;
 	}
 
 	public void setBattlecry(boolean battlecry) {
-		Battlecry = battlecry;
+		this.battlecry = battlecry;
 	}
 	
 }
