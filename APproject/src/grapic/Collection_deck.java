@@ -23,7 +23,7 @@ public class Collection_deck extends JPanel{
 	private Gamestate game;
 	private Logger log;
 	private ArrayList< JButton> allBut;
-	
+	private JButton enemyBut;
 	public Collection_deck(Collection_herospanel x,CollectionPanel y) throws Exception {
 		setLayout(null);
 		allBut=new ArrayList<>();
@@ -169,6 +169,20 @@ public class Collection_deck extends JPanel{
 		add(edit1);
 		updateBut(x,y);
 
+		
+		
+		enemyBut=new JButton("enemy deck   "+ game.getPlayer().getEnemyDeck().getHeroDeck().getname()+"    size : "+game.getPlayer().getEnemyDeck().getDeck().size());
+		enemyBut.setBounds(10, 60, 280, 40);
+		enemyBut.setFont(new Font("tahoma", Font.BOLD, 15));
+		enemyBut.setBackground(new Color(165, 62, 22));
+		add(enemyBut);
+		
+		
+		
+	}
+	
+	public JButton getEnemyBut() {
+		return enemyBut;
 	}
 
 	@Override
@@ -176,7 +190,6 @@ public class Collection_deck extends JPanel{
 		super.paintComponent(g);
 		ImageIcon icon =new ImageIcon("src\\button image\\2.png");
 		g.drawImage(icon.getImage(), 5, 0, null);
-		g.drawRoundRect(10, 60, 280, 40, 5, 5);
 		g.drawRoundRect(10, 105, 280, 40, 5, 5);
 		g.drawRoundRect(10, 150, 280, 40, 5, 5);
 		g.drawRoundRect(10, 195, 280, 40, 5, 5);
@@ -198,7 +211,7 @@ public class Collection_deck extends JPanel{
 			remove(jButton);
 		}
 		allBut.removeAll(allBut);
-		int i=0;
+		int i=1;
 		for(Decks s: game.getPlayer().getalldeck()) {
 			JButton b= new JButton(s.getName()+"       "+s.getHeroDeck().getname()+ "   size :"+ s.getDeck().size());
 			b.setFont(new Font("tahoma", Font.BOLD, 15));

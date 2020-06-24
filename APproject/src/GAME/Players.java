@@ -14,14 +14,7 @@ public class Players {
 	private ArrayList<Heros> my_Heros=new ArrayList<>();
 	private int plays;
 	private Decks myDeck;
-
-	public Decks getMyDeck() {
-		return myDeck;
-	}
-
-	public void setMyDeck(Decks myDeck) {
-		this.myDeck = myDeck;
-	}
+	private Decks enemyDeck;
 
 	public Players(String name,String pass,int g) {
 		this.name=name;
@@ -102,6 +95,22 @@ public class Players {
 	}
 	public ArrayList<Decks> getalldeck() {
 		return my_Decks;
+	}
+
+	public Decks getEnemyDeck() {
+		return enemyDeck;
+	}
+
+	public void setEnemyDeck(Decks enemyDeck) {
+		this.enemyDeck = enemyDeck;
+	}
+
+	public Decks getMyDeck() {
+		return myDeck;
+	}
+
+	public void setMyDeck(Decks myDeck) {
+		this.myDeck = myDeck;
 	}
 
 }

@@ -34,6 +34,13 @@ public class Login  {
 		dec.setHeroDeck(first.getname());
 		player.adddeck(dec);
 		player.setMyDeck(dec);
+		Decks enemy=new Decks();
+		enemy.setHeroDeck("mage");
+		enemy.setName("enemy deck");
+		player.setEnemyDeck(enemy);
+		
+		
+		
 		Gson j=new GsonBuilder().setPrettyPrinting().create();
 		File fe=new File(System.getProperty("user.dir")+"\\src\\CArds\\spells");
 
