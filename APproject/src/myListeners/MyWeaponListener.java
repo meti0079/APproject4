@@ -8,12 +8,13 @@ import GAME.Logger;
 import grapic.PlayPanel;
 
 public class MyWeaponListener implements MouseListener {
-	private PlayPanel panel;
-	private Weapon myWeapon;
-	public MyWeaponListener(PlayPanel panel,Weapon weapon) {
+	private final PlayPanel panel;
+	private  Weapon myWeapon;
+	private final String name;
+	public MyWeaponListener(PlayPanel panel,Weapon weapon, String name) {
 		this.myWeapon=weapon;
 		this.panel=panel;
-
+		this.name=name;
 	}
 
 	@Override
@@ -36,25 +37,28 @@ public class MyWeaponListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if(panel.getRoundGame()%2==0) {
 		if(!myWeapon.getUsedToAttack() || myWeapon.isBattlecry()) {
 			myWeapon.setDurability(myWeapon.getDurability()-1);
-			if(myWeapon.getDurability()==0) {
-				myWeapon=null;
-				try {
-					Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name() ," played  "+ myWeapon.get_Name());
-					String se=Gamestate.getinsist().getPlayer().get_name()+"  played  "+ myWeapon.get_Name();
-					panel.getTextArea().append(se);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+			try {
+				Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name() ,name+ " played  "+ myWeapon.get_Name());
+				String se=name+"  played  "+ myWeapon.get_Name()+"\n";
+				panel.getTextArea().append(se);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-			myWeapon.setBattlecry(false);
-			myWeapon.setUsedToAttack(true);
-			panel.updatePanel();
+			if(myWeapon.getDurability()!=0) {
+				myWeapon.setBattlecry(false);
+				myWeapon.setUsedToAttack(true);
+				panel.updatePanel();	
+			}else {
+				myWeapon=null;
+				panel.updatePanel();
+			}
 		}
 	}
-
+	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub

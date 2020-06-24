@@ -1,6 +1,6 @@
 {
-  "name": "mee",
-  "password": "mee",
+  "name": "zz",
+  "password": "zz",
   "gem": 50,
   "myStore": {
     "buyCard": [
@@ -129,58 +129,18 @@
         "data": {
           "usedToAttack": false,
           "windfury": false,
-          "taunt": true,
-          "divineShield": true,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 6,
-          "name": "Pharaoh\u0027s Blessing",
-          "use": 0,
-          "rarity": "Rare",
-          "cardClass": "Neutral",
-          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
-          "type": "Spell"
-        }
-      },
-      {
-        "type": "Cardspackage.Spell",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
           "taunt": false,
           "divineShield": false,
           "deathrattle": false,
           "battlecry": false,
           "rush": false,
-          "quest": true,
-          "mana": 1,
-          "name": "Strength in Numbers",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
-          "type": "Spell"
-        }
-      },
-      {
-        "type": "Cardspackage.Spell",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": true,
           "quest": false,
-          "mana": 6,
-          "name": "Swarm of locusts",
+          "mana": 7,
+          "name": "Sprint",
           "use": 0,
-          "rarity": "Rare",
-          "cardClass": "Neutral",
-          "description": "ummon seven 1/1 Locusts with Rush.",
+          "rarity": "epic",
+          "cardClass": "Rogue",
+          "description": "Draw 4 cards.",
           "type": "Spell"
         }
       },
@@ -206,6 +166,49 @@
         }
       },
       {
+        "type": "Cardspackage.Weapon",
+        "data": {
+          "durability": 3,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Heavy Axe",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "type": "Weapon"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 2,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 5,
+          "name": "Big Game Hunter",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
+          "type": "Minion"
+        }
+      },
+      {
         "type": "Cardspackage.Minion",
         "data": {
           "HP": 1,
@@ -224,27 +227,6 @@
           "rarity": "common",
           "cardClass": "Neutral",
           "description": "Charge",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Minion",
-        "data": {
-          "HP": 5,
-          "attack": 4,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 4,
-          "name": "Chillwind Yeti",
-          "use": 0,
-          "rarity": "rare",
-          "cardClass": "Neutral",
           "type": "Minion"
         }
       },
@@ -339,6 +321,49 @@
       {
         "type": "Cardspackage.Minion",
         "data": {
+          "HP": 6,
+          "attack": 6,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Kronx Dragonhoof",
+          "use": 0,
+          "rarity": "legendary",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 1,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Murloc Raider",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
           "HP": 4,
           "attack": 2,
           "usedToAttack": false,
@@ -377,28 +402,6 @@
           "rarity": "legendary",
           "cardClass": "Neutral",
           "description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Minion",
-        "data": {
-          "HP": 8,
-          "attack": 8,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 10,
-          "name": "Sea Giant",
-          "use": 0,
-          "rarity": "epic",
-          "cardClass": "Neutral",
-          "description": "Costs (1) less for each other minion on the battlefield.",
           "type": "Minion"
         }
       },
@@ -579,6 +582,151 @@
         {
           "type": "Cardspackage.Minion",
           "data": {
+            "HP": 5,
+            "attack": 4,
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": true,
+            "divineShield": false,
+            "deathrattle": false,
+            "battlecry": true,
+            "rush": false,
+            "quest": false,
+            "mana": 6,
+            "name": "The Black Knight",
+            "use": 0,
+            "rarity": "legendary",
+            "cardClass": "Neutral",
+            "description": "Battlecry: Destroy an enemy minion with Taunt.",
+            "type": "Minion"
+          }
+        },
+        {
+          "type": "Cardspackage.Spell",
+          "data": {
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": false,
+            "divineShield": false,
+            "deathrattle": false,
+            "battlecry": false,
+            "rush": true,
+            "quest": false,
+            "mana": 6,
+            "name": "Swarm of locusts",
+            "use": 0,
+            "rarity": "Rare",
+            "cardClass": "Neutral",
+            "description": "ummon seven 1/1 Locusts with Rush.",
+            "type": "Spell"
+          }
+        },
+        {
+          "type": "Cardspackage.Minion",
+          "data": {
+            "HP": 1,
+            "attack": 1,
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": false,
+            "divineShield": false,
+            "deathrattle": true,
+            "battlecry": false,
+            "rush": false,
+            "quest": false,
+            "mana": 1,
+            "name": "Leper Gnome",
+            "use": 0,
+            "rarity": "common",
+            "cardClass": "Neutral",
+            "description": "Deathrattle: Deal 2 damage to the enemy hero.",
+            "type": "Minion"
+          }
+        },
+        {
+          "type": "Cardspackage.Spell",
+          "data": {
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": false,
+            "divineShield": false,
+            "deathrattle": false,
+            "battlecry": false,
+            "rush": false,
+            "quest": false,
+            "mana": 2,
+            "name": "Book of Specters",
+            "use": 0,
+            "rarity": "epic",
+            "cardClass": "Neutral",
+            "description": "Draw 3 cards. Discard any spells drawn.",
+            "type": "Spell"
+          }
+        },
+        {
+          "type": "Cardspackage.Spell",
+          "data": {
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": true,
+            "divineShield": true,
+            "deathrattle": false,
+            "battlecry": false,
+            "rush": false,
+            "quest": false,
+            "mana": 6,
+            "name": "Pharaoh\u0027s Blessing",
+            "use": 0,
+            "rarity": "Rare",
+            "cardClass": "Neutral",
+            "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+            "type": "Spell"
+          }
+        },
+        {
+          "type": "Cardspackage.Spell",
+          "data": {
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": false,
+            "divineShield": false,
+            "deathrattle": false,
+            "battlecry": false,
+            "rush": false,
+            "quest": true,
+            "mana": 1,
+            "name": "Strength in Numbers",
+            "use": 0,
+            "rarity": "common",
+            "cardClass": "Neutral",
+            "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+            "type": "Spell"
+          }
+        },
+        {
+          "type": "Cardspackage.Minion",
+          "data": {
+            "HP": 5,
+            "attack": 4,
+            "usedToAttack": false,
+            "windfury": false,
+            "taunt": false,
+            "divineShield": false,
+            "deathrattle": false,
+            "battlecry": false,
+            "rush": false,
+            "quest": false,
+            "mana": 4,
+            "name": "Chillwind Yeti",
+            "use": 0,
+            "rarity": "rare",
+            "cardClass": "Neutral",
+            "type": "Minion"
+          }
+        },
+        {
+          "type": "Cardspackage.Minion",
+          "data": {
             "HP": 6,
             "attack": 2,
             "usedToAttack": false,
@@ -623,30 +771,8 @@
         {
           "type": "Cardspackage.Minion",
           "data": {
-            "HP": 1,
-            "attack": 1,
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": true,
-            "battlecry": false,
-            "rush": false,
-            "quest": false,
-            "mana": 1,
-            "name": "Leper Gnome",
-            "use": 0,
-            "rarity": "common",
-            "cardClass": "Neutral",
-            "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-            "type": "Minion"
-          }
-        },
-        {
-          "type": "Cardspackage.Minion",
-          "data": {
-            "HP": 7,
-            "attack": 2,
+            "HP": 8,
+            "attack": 8,
             "usedToAttack": false,
             "windfury": false,
             "taunt": false,
@@ -655,75 +781,13 @@
             "battlecry": false,
             "rush": false,
             "quest": false,
-            "mana": 4,
-            "name": "Oasis Snapjaw",
-            "use": 0,
-            "rarity": "common",
-            "cardClass": "Neutral",
-            "type": "Minion"
-          }
-        },
-        {
-          "type": "Cardspackage.Minion",
-          "data": {
-            "HP": 6,
-            "attack": 6,
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": true,
-            "rush": false,
-            "quest": false,
-            "mana": 6,
-            "name": "Kronx Dragonhoof",
-            "use": 0,
-            "rarity": "legendary",
-            "cardClass": "Neutral",
-            "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
-            "type": "Minion"
-          }
-        },
-        {
-          "type": "Cardspackage.Spell",
-          "data": {
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": false,
-            "rush": false,
-            "quest": false,
-            "mana": 7,
-            "name": "Sprint",
+            "mana": 10,
+            "name": "Sea Giant",
             "use": 0,
             "rarity": "epic",
-            "cardClass": "Rogue",
-            "description": "Draw 4 cards.",
-            "type": "Spell"
-          }
-        },
-        {
-          "type": "Cardspackage.Weapon",
-          "data": {
-            "durability": 3,
-            "attack": 1,
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": false,
-            "rush": false,
-            "quest": false,
-            "mana": 1,
-            "name": "Heavy Axe",
-            "use": 0,
-            "rarity": "common",
             "cardClass": "Neutral",
-            "type": "Weapon"
+            "description": "Costs (1) less for each other minion on the battlefield.",
+            "type": "Minion"
           }
         },
         {
@@ -751,71 +815,7 @@
         {
           "type": "Cardspackage.Minion",
           "data": {
-            "HP": 2,
-            "attack": 4,
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": true,
-            "rush": false,
-            "quest": false,
-            "mana": 5,
-            "name": "Big Game Hunter",
-            "use": 0,
-            "rarity": "epic",
-            "cardClass": "Neutral",
-            "description": "Battlecry: Destroy a minion with 7 or more Attack.",
-            "type": "Minion"
-          }
-        },
-        {
-          "type": "Cardspackage.Spell",
-          "data": {
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": false,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": false,
-            "rush": false,
-            "quest": false,
-            "mana": 2,
-            "name": "Book of Specters",
-            "use": 0,
-            "rarity": "epic",
-            "cardClass": "Neutral",
-            "description": "Draw 3 cards. Discard any spells drawn.",
-            "type": "Spell"
-          }
-        },
-        {
-          "type": "Cardspackage.Minion",
-          "data": {
-            "HP": 5,
-            "attack": 4,
-            "usedToAttack": false,
-            "windfury": false,
-            "taunt": true,
-            "divineShield": false,
-            "deathrattle": false,
-            "battlecry": true,
-            "rush": false,
-            "quest": false,
-            "mana": 6,
-            "name": "The Black Knight",
-            "use": 0,
-            "rarity": "legendary",
-            "cardClass": "Neutral",
-            "description": "Battlecry: Destroy an enemy minion with Taunt.",
-            "type": "Minion"
-          }
-        },
-        {
-          "type": "Cardspackage.Minion",
-          "data": {
-            "HP": 1,
+            "HP": 7,
             "attack": 2,
             "usedToAttack": false,
             "windfury": false,
@@ -825,8 +825,8 @@
             "battlecry": false,
             "rush": false,
             "quest": false,
-            "mana": 1,
-            "name": "Murloc Raider",
+            "mana": 4,
+            "name": "Oasis Snapjaw",
             "use": 0,
             "rarity": "common",
             "cardClass": "Neutral",
@@ -904,6 +904,151 @@
     {
       "type": "Cardspackage.Minion",
       "data": {
+        "HP": 5,
+        "attack": 4,
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": true,
+        "divineShield": false,
+        "deathrattle": false,
+        "battlecry": true,
+        "rush": false,
+        "quest": false,
+        "mana": 6,
+        "name": "The Black Knight",
+        "use": 0,
+        "rarity": "legendary",
+        "cardClass": "Neutral",
+        "description": "Battlecry: Destroy an enemy minion with Taunt.",
+        "type": "Minion"
+      }
+    },
+    {
+      "type": "Cardspackage.Spell",
+      "data": {
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": false,
+        "divineShield": false,
+        "deathrattle": false,
+        "battlecry": false,
+        "rush": true,
+        "quest": false,
+        "mana": 6,
+        "name": "Swarm of locusts",
+        "use": 0,
+        "rarity": "Rare",
+        "cardClass": "Neutral",
+        "description": "ummon seven 1/1 Locusts with Rush.",
+        "type": "Spell"
+      }
+    },
+    {
+      "type": "Cardspackage.Minion",
+      "data": {
+        "HP": 1,
+        "attack": 1,
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": false,
+        "divineShield": false,
+        "deathrattle": true,
+        "battlecry": false,
+        "rush": false,
+        "quest": false,
+        "mana": 1,
+        "name": "Leper Gnome",
+        "use": 0,
+        "rarity": "common",
+        "cardClass": "Neutral",
+        "description": "Deathrattle: Deal 2 damage to the enemy hero.",
+        "type": "Minion"
+      }
+    },
+    {
+      "type": "Cardspackage.Spell",
+      "data": {
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": false,
+        "divineShield": false,
+        "deathrattle": false,
+        "battlecry": false,
+        "rush": false,
+        "quest": false,
+        "mana": 2,
+        "name": "Book of Specters",
+        "use": 0,
+        "rarity": "epic",
+        "cardClass": "Neutral",
+        "description": "Draw 3 cards. Discard any spells drawn.",
+        "type": "Spell"
+      }
+    },
+    {
+      "type": "Cardspackage.Spell",
+      "data": {
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": true,
+        "divineShield": true,
+        "deathrattle": false,
+        "battlecry": false,
+        "rush": false,
+        "quest": false,
+        "mana": 6,
+        "name": "Pharaoh\u0027s Blessing",
+        "use": 0,
+        "rarity": "Rare",
+        "cardClass": "Neutral",
+        "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+        "type": "Spell"
+      }
+    },
+    {
+      "type": "Cardspackage.Spell",
+      "data": {
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": false,
+        "divineShield": false,
+        "deathrattle": false,
+        "battlecry": false,
+        "rush": false,
+        "quest": true,
+        "mana": 1,
+        "name": "Strength in Numbers",
+        "use": 0,
+        "rarity": "common",
+        "cardClass": "Neutral",
+        "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+        "type": "Spell"
+      }
+    },
+    {
+      "type": "Cardspackage.Minion",
+      "data": {
+        "HP": 5,
+        "attack": 4,
+        "usedToAttack": false,
+        "windfury": false,
+        "taunt": false,
+        "divineShield": false,
+        "deathrattle": false,
+        "battlecry": false,
+        "rush": false,
+        "quest": false,
+        "mana": 4,
+        "name": "Chillwind Yeti",
+        "use": 0,
+        "rarity": "rare",
+        "cardClass": "Neutral",
+        "type": "Minion"
+      }
+    },
+    {
+      "type": "Cardspackage.Minion",
+      "data": {
         "HP": 6,
         "attack": 2,
         "usedToAttack": false,
@@ -948,30 +1093,8 @@
     {
       "type": "Cardspackage.Minion",
       "data": {
-        "HP": 1,
-        "attack": 1,
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": true,
-        "battlecry": false,
-        "rush": false,
-        "quest": false,
-        "mana": 1,
-        "name": "Leper Gnome",
-        "use": 0,
-        "rarity": "common",
-        "cardClass": "Neutral",
-        "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-        "type": "Minion"
-      }
-    },
-    {
-      "type": "Cardspackage.Minion",
-      "data": {
-        "HP": 7,
-        "attack": 2,
+        "HP": 8,
+        "attack": 8,
         "usedToAttack": false,
         "windfury": false,
         "taunt": false,
@@ -980,75 +1103,13 @@
         "battlecry": false,
         "rush": false,
         "quest": false,
-        "mana": 4,
-        "name": "Oasis Snapjaw",
-        "use": 0,
-        "rarity": "common",
-        "cardClass": "Neutral",
-        "type": "Minion"
-      }
-    },
-    {
-      "type": "Cardspackage.Minion",
-      "data": {
-        "HP": 6,
-        "attack": 6,
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": true,
-        "rush": false,
-        "quest": false,
-        "mana": 6,
-        "name": "Kronx Dragonhoof",
-        "use": 0,
-        "rarity": "legendary",
-        "cardClass": "Neutral",
-        "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
-        "type": "Minion"
-      }
-    },
-    {
-      "type": "Cardspackage.Spell",
-      "data": {
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": false,
-        "rush": false,
-        "quest": false,
-        "mana": 7,
-        "name": "Sprint",
+        "mana": 10,
+        "name": "Sea Giant",
         "use": 0,
         "rarity": "epic",
-        "cardClass": "Rogue",
-        "description": "Draw 4 cards.",
-        "type": "Spell"
-      }
-    },
-    {
-      "type": "Cardspackage.Weapon",
-      "data": {
-        "durability": 3,
-        "attack": 1,
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": false,
-        "rush": false,
-        "quest": false,
-        "mana": 1,
-        "name": "Heavy Axe",
-        "use": 0,
-        "rarity": "common",
         "cardClass": "Neutral",
-        "type": "Weapon"
+        "description": "Costs (1) less for each other minion on the battlefield.",
+        "type": "Minion"
       }
     },
     {
@@ -1076,71 +1137,7 @@
     {
       "type": "Cardspackage.Minion",
       "data": {
-        "HP": 2,
-        "attack": 4,
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": true,
-        "rush": false,
-        "quest": false,
-        "mana": 5,
-        "name": "Big Game Hunter",
-        "use": 0,
-        "rarity": "epic",
-        "cardClass": "Neutral",
-        "description": "Battlecry: Destroy a minion with 7 or more Attack.",
-        "type": "Minion"
-      }
-    },
-    {
-      "type": "Cardspackage.Spell",
-      "data": {
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": false,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": false,
-        "rush": false,
-        "quest": false,
-        "mana": 2,
-        "name": "Book of Specters",
-        "use": 0,
-        "rarity": "epic",
-        "cardClass": "Neutral",
-        "description": "Draw 3 cards. Discard any spells drawn.",
-        "type": "Spell"
-      }
-    },
-    {
-      "type": "Cardspackage.Minion",
-      "data": {
-        "HP": 5,
-        "attack": 4,
-        "usedToAttack": false,
-        "windfury": false,
-        "taunt": true,
-        "divineShield": false,
-        "deathrattle": false,
-        "battlecry": true,
-        "rush": false,
-        "quest": false,
-        "mana": 6,
-        "name": "The Black Knight",
-        "use": 0,
-        "rarity": "legendary",
-        "cardClass": "Neutral",
-        "description": "Battlecry: Destroy an enemy minion with Taunt.",
-        "type": "Minion"
-      }
-    },
-    {
-      "type": "Cardspackage.Minion",
-      "data": {
-        "HP": 1,
+        "HP": 7,
         "attack": 2,
         "usedToAttack": false,
         "windfury": false,
@@ -1150,8 +1147,8 @@
         "battlecry": false,
         "rush": false,
         "quest": false,
-        "mana": 1,
-        "name": "Murloc Raider",
+        "mana": 4,
+        "name": "Oasis Snapjaw",
         "use": 0,
         "rarity": "common",
         "cardClass": "Neutral",
@@ -1169,7 +1166,7 @@
       "name": "Mage"
     }
   ],
-  "plays": 0,
+  "plays": 1,
   "myDeck": {
     "heroDeck": {
       "HP": 30,
@@ -1244,6 +1241,151 @@
       {
         "type": "Cardspackage.Minion",
         "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "The Black Knight",
+          "use": 0,
+          "rarity": "legendary",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy an enemy minion with Taunt.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 6,
+          "name": "Swarm of locusts",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "ummon seven 1/1 Locusts with Rush.",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": true,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Leper Gnome",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 2,
+          "name": "Book of Specters",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Draw 3 cards. Discard any spells drawn.",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": true,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Pharaoh\u0027s Blessing",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Strength in Numbers",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 4,
+          "name": "Chillwind Yeti",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
           "HP": 6,
           "attack": 2,
           "usedToAttack": false,
@@ -1288,30 +1430,8 @@
       {
         "type": "Cardspackage.Minion",
         "data": {
-          "HP": 1,
-          "attack": 1,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": true,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 1,
-          "name": "Leper Gnome",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Minion",
-        "data": {
-          "HP": 7,
-          "attack": 2,
+          "HP": 8,
+          "attack": 8,
           "usedToAttack": false,
           "windfury": false,
           "taunt": false,
@@ -1320,75 +1440,13 @@
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 4,
-          "name": "Oasis Snapjaw",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Minion",
-        "data": {
-          "HP": 6,
-          "attack": 6,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": true,
-          "rush": false,
-          "quest": false,
-          "mana": 6,
-          "name": "Kronx Dragonhoof",
-          "use": 0,
-          "rarity": "legendary",
-          "cardClass": "Neutral",
-          "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Spell",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 7,
-          "name": "Sprint",
+          "mana": 10,
+          "name": "Sea Giant",
           "use": 0,
           "rarity": "epic",
-          "cardClass": "Rogue",
-          "description": "Draw 4 cards.",
-          "type": "Spell"
-        }
-      },
-      {
-        "type": "Cardspackage.Weapon",
-        "data": {
-          "durability": 3,
-          "attack": 1,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 1,
-          "name": "Heavy Axe",
-          "use": 0,
-          "rarity": "common",
           "cardClass": "Neutral",
-          "type": "Weapon"
+          "description": "Costs (1) less for each other minion on the battlefield.",
+          "type": "Minion"
         }
       },
       {
@@ -1416,23 +1474,57 @@
       {
         "type": "Cardspackage.Minion",
         "data": {
-          "HP": 2,
-          "attack": 4,
+          "HP": 7,
+          "attack": 2,
           "usedToAttack": false,
           "windfury": false,
           "taunt": false,
           "divineShield": false,
           "deathrattle": false,
-          "battlecry": true,
+          "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 5,
-          "name": "Big Game Hunter",
+          "mana": 4,
+          "name": "Oasis Snapjaw",
           "use": 0,
-          "rarity": "epic",
+          "rarity": "common",
           "cardClass": "Neutral",
-          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
           "type": "Minion"
+        }
+      }
+    ],
+    "name": "first deck",
+    "win": 1,
+    "useThisDeck": 1
+  },
+  "enemyDeck": {
+    "heroDeck": {
+      "HP": 30,
+      "Hero_power": " Spend 2 mana lesser than others for spells",
+      "specialPower": "Spend 2 mana and damage 1 any enemy",
+      "useHeropower": 1,
+      "HeroPowerMana": 2,
+      "name": "Mage"
+    },
+    "deck": [
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 2,
+          "name": "Astral Rift",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Mage",
+          "description": "Add 2 random minions to your hand.",
+          "type": "Spell"
         }
       },
       {
@@ -1446,13 +1538,34 @@
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 2,
-          "name": "Book of Specters",
+          "mana": 4,
+          "name": "Polymorph",
           "use": 0,
-          "rarity": "epic",
-          "cardClass": "Neutral",
-          "description": "Draw 3 cards. Discard any spells drawn.",
+          "rarity": "rare",
+          "cardClass": "Mage",
+          "description": "Transform a minion into a 1/1 Sheep.",
           "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Weapon",
+        "data": {
+          "durability": 2,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Battle Axe",
+          "use": 0,
+          "rarity": "Common",
+          "cardClass": "Mage",
+          "type": "Weapon"
         }
       },
       {
@@ -1478,9 +1591,220 @@
         }
       },
       {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 6,
+          "name": "Swarm of locusts",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "ummon seven 1/1 Locusts with Rush.",
+          "type": "Spell"
+        }
+      },
+      {
         "type": "Cardspackage.Minion",
         "data": {
           "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": true,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Leper Gnome",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 2,
+          "name": "Book of Specters",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Draw 3 cards. Discard any spells drawn.",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": true,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Pharaoh\u0027s Blessing",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Spell",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Strength in Numbers",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+          "type": "Spell"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 4,
+          "name": "Chillwind Yeti",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 6,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Security Rover",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 3,
+          "attack": 3,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 3,
+          "name": "Murloc Warleader",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Your other Murlocs have +2 Attack.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 8,
+          "attack": 8,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 10,
+          "name": "Sea Giant",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Costs (1) less for each other minion on the battlefield.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 4,
+          "attack": 0,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Shieldbearer",
+          "use": 0,
+          "rarity": "Common",
+          "cardClass": "Neutral",
+          "description": "Taunt",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 7,
           "attack": 2,
           "usedToAttack": false,
           "windfury": false,
@@ -1490,8 +1814,8 @@
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 1,
-          "name": "Murloc Raider",
+          "mana": 4,
+          "name": "Oasis Snapjaw",
           "use": 0,
           "rarity": "common",
           "cardClass": "Neutral",
@@ -1499,7 +1823,7 @@
         }
       }
     ],
-    "name": "first deck",
+    "name": "enemy deck",
     "win": 0,
     "useThisDeck": 0
   }

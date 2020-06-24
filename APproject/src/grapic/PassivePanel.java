@@ -26,6 +26,7 @@ public class PassivePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private Gamestate game;
+	private JButton go;
 	private Logger log;
 	private Random random=new Random();
 	public PassivePanel(MainFrame f) throws Exception {
@@ -34,7 +35,7 @@ public class PassivePanel extends JPanel{
 		game=Gamestate.getinsist();
 		log=Logger.getinsist();
 		setPassives();
-		JButton go=new JButton("go");
+		go=new JButton("go");
 		go.setBounds(1400, 700, 100, 100);
 		go.addActionListener(new ActionListener() {
 			@Override
@@ -56,7 +57,11 @@ public class PassivePanel extends JPanel{
 					}	
 			}
 		});
+		go.setVisible(false);
 		add(go);
+		setEnemyBut();
+		setDeckReaderBut();
+		setComputerBut();
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -95,4 +100,44 @@ public class PassivePanel extends JPanel{
 			add(lp1);
 		}
 	}	
+	
+	private void setEnemyBut() {
+		JButton b= new JButton("Play with enemy");
+		b.setBounds(280, 700, 200, 60);
+		b.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.setState("enemy");
+				go.setVisible(true);
+			}
+		});
+		add(b);
+	}
+	private void setDeckReaderBut() {
+		JButton b= new JButton("Deck reader");
+		b.setBounds(490, 700, 200, 60);
+		b.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.setState("Deck");
+				go.setVisible(true);
+			}
+		});
+		add(b);
+	}
+	private void setComputerBut() {
+		JButton b= new JButton("Play with computer");
+		b.setBounds(700, 700, 200, 60);
+		b.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.setState("computer");
+				go.setVisible(true);
+			}
+		});
+		add(b);
+	}
+	
 }

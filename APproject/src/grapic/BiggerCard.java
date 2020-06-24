@@ -6,23 +6,18 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import Cardspackage.Cards;
-import GAME.Decks;
 import GAME.Gamestate;
 import GAME.Logger;
 
 public class BiggerCard extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 	private Cards card;
 	private  JButton addToMyDeck;
@@ -40,7 +35,7 @@ public class BiggerCard extends JPanel {
 		this.panel=pan;
 		this.deckbord=declbord;
 		this.deckpanel=deckpanel;
-		
+
 		File input_file = new File("src\\card image\\"+card.get_Name()+".png"); 
 		image = new BufferedImage(100, 150, 
 				BufferedImage.TYPE_INT_ARGB);
@@ -51,7 +46,7 @@ public class BiggerCard extends JPanel {
 		}
 
 		addToEnemyDeck=new JButton("add to enemy deck");
-		addToEnemyDeck.setBounds(68 , 100, 200, 60);
+		addToEnemyDeck.setBounds(680 , 100, 200, 60);
 		addToEnemyDeck.addActionListener(new ActionListener() {
 
 			@Override
@@ -59,14 +54,14 @@ public class BiggerCard extends JPanel {
 				try {
 					if(Gamestate.getinsist().getPlayer().getEnemyDeck().addCardToDeck(card))
 						Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "add card to deck", card.get_Name());					
-					
+
 					panel.setEnemyDeck();
 					deckbord.getEnemyBut().setText("enemy deck  "+ Gamestate.getinsist().getPlayer().getEnemyDeck().getHeroDeck().getname()+"   size : "+Gamestate.getinsist().getPlayer().getEnemyDeck().getDeck().size());
 					setVisible(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 
@@ -123,11 +118,6 @@ public class BiggerCard extends JPanel {
 			g.drawString("attack  :   " + card.getAttack(), 20, 850);
 			g.drawString("HP  :  " + card.getHp(), 20, 880);			
 		}
-
-
-
-
-
 
 	}
 }

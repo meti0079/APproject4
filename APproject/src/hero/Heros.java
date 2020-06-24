@@ -52,4 +52,12 @@ public class Heros {
 	public int getHeroPowerMana() {
 		return HeroPowerMana;
 	}
+	public Heros clone() {
+		Heros s= new Heros();
+		s.setname(this.name);
+		s.set_SpecialPower(this.specialPower);
+		s.setHero_power(this.Hero_power);
+		s.setHP(this.HP);
+		return s;
+	}
 }

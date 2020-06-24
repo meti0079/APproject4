@@ -17,6 +17,7 @@ import Cardspackage.Cards;
 
 public class Gamestate {
 	Scanner sca=new Scanner(System.in);
+	private String state; 
 	private	Players player;
 	private Store store;
 	private	Gson gson;;
@@ -27,27 +28,7 @@ public class Gamestate {
 	private Passive playPassive; 
 
 
-	public Passive getPlayPassive() {
-		return playPassive;
-	}
-
-	public void setPlayPassive(Passive playPassive) {
-		this.playPassive = playPassive;
-	}
-	public String getBackCard() {
-		return backCard;
-	}
-	public void setBackCard(String backCard) {
-		this.backCard = backCard;
-	}
-	public String getBackBattleground() {
-		return backBattleGround;
-	}
-	public void setBackBattleground(String backBattleground) {
-		this.backBattleGround = backBattleground;
-	}
-
-	private Gamestate() throws Exception{
+		private Gamestate() throws Exception{
 		passives=new ArrayList<>();
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
@@ -55,18 +36,18 @@ public class Gamestate {
 		gson=gsonBilder.create();
 	}
 
+		public static Gamestate getinsist() throws Exception {
+			if(game==null) {
+				game=new Gamestate();
+			}
+			return game;
+		}
 	public ArrayList<Passive> getPassives() {
 		return passives;
 	}
 
 	public void addPassives(Passive a) {
 		passives.add(a);
-	}
-	public static Gamestate getinsist() throws Exception {
-		if(game==null) {
-			game=new Gamestate();
-		}
-		return game;
 	}
 	public Players getPlayer() {
 		return player;
@@ -163,6 +144,32 @@ public class Gamestate {
 			}else
 				JOptionPane.showMessageDialog(null, "the password incorrect");
 	}
-	
+	public Passive getPlayPassive() {
+		return playPassive;
+	}
+
+	public void setPlayPassive(Passive playPassive) {
+		this.playPassive = playPassive;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getBackCard() {
+		return backCard;
+	}
+	public void setBackCard(String backCard) {
+		this.backCard = backCard;
+	}
+	public String getBackBattleground() {
+		return backBattleGround;
+	}
+	public void setBackBattleground(String backBattleground) {
+		this.backBattleGround = backBattleground;
+	}
+
+
 
 }

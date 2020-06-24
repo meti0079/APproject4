@@ -37,13 +37,14 @@ public class MyHandCardListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if(panel.getRoundGame()%2==0) {	
 		if(!card.getUsedToAttack())
-			if(panel.getRoundGame()==0&&panel.getChanges()<3) {
-				panel.getDeck().add(card);
-				panel.getHand().remove(card);
-				panel.getHand().add(panel.getDeck().get(0));
-				panel.getHand().get(panel.getHand().size()-1).setUsedToAttack(true);
-				panel.getDeck().remove(0);
+			if(panel.getRoundGame()==60&&panel.getChanges()<3) {
+				panel.getDeck1().add(card);
+				panel.getHand1().remove(card);
+				panel.getHand1().add(panel.getDeck1().get(0));
+				panel.getHand1().get(panel.getHand1().size()-1).setUsedToAttack(true);
+				panel.getDeck1().remove(0);
 				panel.updatePanel();
 				panel.setChanges(panel.getChanges()+1);
 			}else {
@@ -58,6 +59,7 @@ public class MyHandCardListener implements MouseListener {
 					e1.printStackTrace();
 				}						
 			}
+	}
 	}
 
 	@Override
