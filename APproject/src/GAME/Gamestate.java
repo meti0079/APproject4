@@ -169,7 +169,5 @@ public class Gamestate {
 	public void setBackBattleground(String backBattleground) {
 		this.backBattleGround = backBattleground;
 	}
-
-
-
 }
+

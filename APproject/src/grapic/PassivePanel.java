@@ -57,7 +57,7 @@ public class PassivePanel extends JPanel{
 					}	
 			}
 		});
-		go.setVisible(false);
+		go.setEnabled(false);
 		add(go);
 		setEnemyBut();
 		setDeckReaderBut();
@@ -109,7 +109,7 @@ public class PassivePanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("enemy");
-				go.setVisible(true);
+				go.setEnabled(true);
 			}
 		});
 		add(b);
@@ -121,7 +121,8 @@ public class PassivePanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("Deck");
-				go.setVisible(true);
+				go.setEnabled(true);
+				
 			}
 		});
 		add(b);
@@ -129,6 +130,7 @@ public class PassivePanel extends JPanel{
 	private void setComputerBut() {
 		JButton b= new JButton("Play with computer");
 		b.setBounds(700, 700, 200, 60);
+		b.setEnabled(false);
 		b.addActionListener(new ActionListener() {
 			
 			@Override

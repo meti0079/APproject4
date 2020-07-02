@@ -26,6 +26,8 @@ public class SettingPanel extends JPanel{
 	private JButton deletAcount;
 	private JLabel background1;
 	private JLabel background2;
+	private JLabel background3;
+	private JLabel background4;
 	private InfoPanel inf;
 	public SettingPanel(MainFrame f) throws Exception {
 		inf=InfoPanel.getinsist(f);
@@ -47,6 +49,12 @@ public class SettingPanel extends JPanel{
 	background2=new JLabel(new ImageIcon("src\\play image\\nattle21.jpg"));
 	background2.setBounds(1100, 260, 226,158);
 	add(background2);
+	background3=new JLabel(new ImageIcon("src\\play image\\nattle31.jpg"));
+	background3.setBounds(840, 460, 226,158);
+	add(background3);
+	background4=new JLabel(new ImageIcon("src\\play image\\nattle41.jpg"));
+	background4.setBounds(1100,460, 226,158);
+	add(background4);
 	
 	
 	
@@ -112,6 +120,72 @@ public class SettingPanel extends JPanel{
 			setBattlebackGround(2);
 			JOptionPane.showMessageDialog(null, "choosed");
 
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+	background3.addMouseListener(new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			setBattlebackGround(3);
+			JOptionPane.showMessageDialog(null, "choosed");
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+	background4.addMouseListener(new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			setBattlebackGround(4);
+			JOptionPane.showMessageDialog(null, "choosed");
+			
 		}
 		
 		@Override

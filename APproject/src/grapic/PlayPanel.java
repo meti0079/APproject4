@@ -7,8 +7,13 @@ import java.awt.Graphics;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,13 +21,21 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import Cardspackage.Cards;
 import Cardspackage.Minion;
 import Cardspackage.Weapon;
+import GAME.DeckReader;
 import GAME.Gamestate;
 import GAME.Logger;
+import GAME.Players;
 import hero.Heros;
+import hero.Mage;
 import myListeners.EnemyBattlegrounCardListener;
 import myListeners.EnemyHandCardListener;
 import myListeners.EnemyWeaponListener;
@@ -35,7 +48,6 @@ public class PlayPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	public static int i=0;
-	private int space=1;
 	private MainFrame f;	
 	private int previousgem=1;
 	private JButton manabut;	
@@ -46,6 +58,7 @@ public class PlayPanel extends JPanel{
 	private Logger log;
 	private JLabel turnPlayed;
 	private int roundGame=60;
+	private DeckReader deckReader;
 	/////player 1
 	private Heros player1Hero;
 	private int currentgemPlayer1=1;
@@ -53,11 +66,14 @@ public class PlayPanel extends JPanel{
 	private Weapon player1Weapon;
 	private CardShow player1WeaponCard;
 	private ArrayList<Cards> player1Hand;
-	private ArrayList<Cards> player1Deck;
+	private ArrayList<Cards> player1Deck=new ArrayList<>();
 	private ArrayList<Cards> player1Battleground;
 	private ArrayList<JComponent> player1CurrentBattleground=new ArrayList<>();
 	private ArrayList<JComponent> player1CurrentHand=new ArrayList<>();
-
+	private JLabel player1DeckRemind;
+	private JLabel player1HandRemind;
+	private int player1Decksize;
+	private CardPlace[] player1BattleGroundPlace=new CardPlace[7];
 	////////  player 2
 	private Heros player2Hero;
 	private int player2Changes=0;
@@ -65,12 +81,14 @@ public class PlayPanel extends JPanel{
 	private Weapon player2Weapon;
 	private CardShow player2WeaponCard;
 	private ArrayList<Cards> player2Hand;
-	private ArrayList<Cards> player2Deck;
+	private ArrayList<Cards> player2Deck=new ArrayList<>();
 	private ArrayList<Cards> player2Battleground;
 	private ArrayList<JComponent> player2CurrentBattleground=new ArrayList<>();
 	private ArrayList<JComponent> player2CurrentHand=new ArrayList<>();
-
-
+	private JLabel player2DeckRemind;
+	private int player2Decksize;
+	private JLabel player2HandRemind;
+	private CardPlace[] player2BattleGroundPlace=new CardPlace[7];
 
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		textArea=t;
@@ -78,19 +96,35 @@ public class PlayPanel extends JPanel{
 		log=Logger.getinsist();
 		game=Gamestate.getinsist();
 		if(game.getState().equalsIgnoreCase("enemy")) {
-			player1Deck=(ArrayList<Cards>) game.getPlayer().get_mydeck().clone();
 			player1Hero= game.getPlayer().getMyDeck().getHeroDeck().clone();
-
-			player2Deck=(ArrayList<Cards>) game.getPlayer().getEnemyDeck().getDeck().clone();
 			player2Hero=game.getPlayer().getEnemyDeck().getHeroDeck().clone();
-		}
 
+		}else if(game.getState().equalsIgnoreCase("deck")) {
+			player1Hero= new Mage();
+			player2Hero=new Mage();			
+			File f1=new File("C:\\Users\\MohammadMehdi\\git\\repository2\\APproject\\src\\main\\deckreader.json");
+			Scanner s=new Scanner(f1);
+			String se="";
+			while(s.hasNext()) {
+				se+=s.nextLine(); 
+			}
+			Gson gson=new GsonBuilder().setPrettyPrinting().create();
+			deckReader=gson.fromJson(se, DeckReader.class);	
+
+		}
+		readDeck();
 		player1Battleground=new ArrayList<>();
 		player1Hand=new ArrayList<>();
 		player2Battleground=new ArrayList<>();
 		player2Hand=new ArrayList<>();
 		setPreferredSize(new Dimension(1800, 1000));
 		setLayout(null);
+		player1Decksize=player1Deck.size();
+		player1DeckRemind=new JLabel(player1Decksize+"");
+		player2Decksize=player2Deck.size();
+		player2DeckRemind=new JLabel(player2Decksize+"");
+		player2HandRemind=new JLabel("3");
+		player1HandRemind=new JLabel("3");
 		manabut= new JButton();
 		manabut.setBounds(1280, 400, 120, 80);
 		manabut.setBorder(BorderFactory.createEmptyBorder());
@@ -102,26 +136,43 @@ public class PlayPanel extends JPanel{
 			}
 		});
 		add(manabut);
-		addToHand(player1Hand,player1Deck);
-		addToHand(player1Hand,player1Deck);
-		addToHand(player1Hand,player1Deck);
-		addToHand(player2Hand,player2Deck);
-		addToHand(player2Hand,player2Deck);
-		addToHand(player2Hand,player2Deck);
-
+		addToHand(1);
+		addToHand(1);
+		addToHand(1);
+		addToHand(2);
+		addToHand(2);
+		addToHand(2);
 		setCard();
 		next=new JLabel("click end turn");
 		next.setForeground(Color.RED);
-		next .setBounds(1280, 540, 120, 10);
+		next .setBounds(1280, 540, 100, 10);
 		next.setVisible(false);
 		add(next);
 		turnPlayed=new JLabel("30");
 		turnPlayed.setForeground(Color.RED);
-		turnPlayed.setBounds(1380, 690, 120, 30);
+		turnPlayed.setBounds(1430, 430,70, 30);
 		turnPlayed.setFont(new Font("Tahoma", Font.BOLD, 30));
-
-
 		add(turnPlayed);
+		player1DeckRemind.setForeground(Color.red);
+		player1DeckRemind.setFont(new Font("Tohama", Font.BOLD, 30));
+		player1DeckRemind.setBounds(1380, 690, 120, 30);
+
+		player2DeckRemind.setForeground(Color.red);
+		player2DeckRemind.setFont(new Font("Tohama", Font.BOLD, 30));
+		player2DeckRemind.setBounds(1370, 190, 120, 30);
+
+		player1HandRemind.setForeground(Color.red);
+		player1HandRemind.setFont(new Font("Tahoma", Font.BOLD, 30));
+		player1HandRemind.setBounds(1030, 950, 30, 30);
+
+		player2HandRemind.setBounds(995, 10, 30, 30);
+		player2HandRemind.setFont(new Font("Tahoma", Font.BOLD, 30));
+		player2HandRemind.setForeground(Color.red);
+
+		add(player1HandRemind);
+		add(player2HandRemind);
+		add(player1DeckRemind);
+		add(player2DeckRemind);
 		JProgressBar jp=new JProgressBar(0, 60);
 		jp.setBounds(10, 440, 150, 40);
 		jp.setValue(0);
@@ -131,8 +182,6 @@ public class PlayPanel extends JPanel{
 		add(jp);
 		timer.start();
 	}
-
-
 	protected void nextTurn() {
 		if(roundGame==60) {
 			roundGame--;
@@ -146,14 +195,13 @@ public class PlayPanel extends JPanel{
 		} catch (Exception e) {	
 			e.printStackTrace();
 		}
-
 		if(roundGame%2==1) {
-			turnPlayed.setText(roundGame/2+"");			
-			addToHand(player1Hand,player1Deck);
+			turnPlayed.setText(((roundGame/2))+"");
+			addToHand(1);
 			setCard();
 		}else {
-			turnPlayed.setText(((roundGame/2)+1)+"");
-			addToHand(player2Hand, player2Deck);
+			turnPlayed.setText(roundGame/2+"");			
+			addToHand(2);
 			setCard();
 		}
 		roundGame--;
@@ -162,7 +210,6 @@ public class PlayPanel extends JPanel{
 			next.setVisible(false);
 		repaint();
 		i=0;
-
 		for (Cards cards : player1Battleground) {
 			cards.setUsedToAttack(false);
 		}
@@ -188,7 +235,7 @@ public class PlayPanel extends JPanel{
 		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 725, 10, null);
 		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 790, 10, null);
 		drawGem(g);
-		drawHero(g,game.getPlayer().getMyDeck().getHeroDeck().getname());
+		drawHero();
 	}
 	public void manaSet() {
 		if(roundGame%2==0) {
@@ -219,23 +266,60 @@ public class PlayPanel extends JPanel{
 			}			
 		}
 	}
-	private void addToHand(ArrayList<Cards> hand, ArrayList<Cards> deck) {
-		if(deck.size()==0) {
-			if(roundGame%2==1) {
-				deck=(ArrayList<Cards>) game.getPlayer().get_mydeck().clone();
+	private void addToHand(int turn) {
+		int x=0;	
+		readDeck();
+		if(game.getState().equalsIgnoreCase("enemy") ||game.getState().equalsIgnoreCase("computer")  ) {
+			if(turn==1) {
+				if(player1Deck.size()==0) {
+					x=0;
+				}else {
+					x=random.nextInt(player1Deck.size());						
+				}
+				player1Decksize--;
+				player1DeckRemind.setText(player1Decksize+"");
+				if(player1Hand.size()<10) {
+					player1Hand.add(player1Deck.get(Math.abs(x)));
+					player1Deck.remove(Math.abs(x));
+				}else {
+					player1Deck.remove(Math.abs(x));	
+				}
 			}else {
-				deck=(ArrayList<Cards>) game.getPlayer().getEnemyDeck().getDeck().clone();
+				if(player2Deck.size()==0) {
+					x=0;
+				}else {
+					x=random.nextInt(player2Deck.size());						
+				}
+				if(player2Hand.size()<10) {
+					player2Hand.add(player2Deck.get(Math.abs(x)));
+					player2Deck.remove(Math.abs(x));
+				}else {
+					player2Deck.remove(Math.abs(x));	
+				}
+				player2Decksize--;
+				player2DeckRemind.setText(player2Decksize+"");	
 			}
-		}
-		if(hand.size()<10) {
-			int x=0;
-			if(deck.size()==0) {
-				x=0;
+		}else {
+			x=0;
+			if(turn==1) {
+				player1Decksize--;
+				player1DeckRemind.setText(player1Decksize+"");
+				if(player1Hand.size()<10) {
+					player1Hand.add(player1Deck.get(x));
+					player1Deck.remove(x);
+				}else {
+					player1Deck.remove(x);	
+				}
 			}else {
-				x=random.nextInt(deck.size());						
+				if(player2Hand.size()<10) {
+					player2Hand.add(player2Deck.get(x));
+					player2Deck.remove(x);
+				}else {
+					player2Deck.remove(x);	
+				}
+				player2Decksize--;
+				player2DeckRemind.setText(player2Decksize+"");	
 			}
-			hand.add(deck.get(Math.abs(x)));
-			deck.remove(Math.abs(x));
 		}
 	}
 	public void addTobattleground(Cards s) {
@@ -310,7 +394,7 @@ public class PlayPanel extends JPanel{
 		add(player2WeaponCard);
 	}
 	private void setCard() {
-		
+
 		for(int i=player1CurrentBattleground.size()-1;i>=0;i--) {
 			remove(player1CurrentBattleground.get(i));
 			player1CurrentBattleground.remove(player1CurrentBattleground.get(i));
@@ -329,7 +413,7 @@ public class PlayPanel extends JPanel{
 				addPlayer1Weapon();				
 			}
 		}
-////////// player2
+		////////// player2
 		for(int i=player2CurrentBattleground.size()-1;i>=0;i--) {
 			remove(player2CurrentBattleground.get(i));
 			player2CurrentBattleground.remove(player2CurrentBattleground.get(i));
@@ -347,16 +431,30 @@ public class PlayPanel extends JPanel{
 			}else {
 				addPlayer2Weapon();				
 			}
-			
+
 		}
-//////////player 1
-			
+		//////////player 1
+
 		int[] g=new int[7];g[0]=0;g[1]=-1;g[2]=1;g[3]=-2;g[4]=2;g[5]=-3;g[6]=3;
 		int y =0;
 		for(Cards s : player1Battleground) {
 			CardShow x=new CardShow(s);
 			x.setBounds(700+(g[y]*100),500, 100, 150);
 			x.addMouseListener(new MyBattlegroundCardListener(this, s));
+			x.addMouseMotionListener(new MouseMotionListener() {
+
+				@Override
+				public void mouseMoved(MouseEvent e) {}
+
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					if(roundGame%2==0) {
+						int newX = e.getX() + x.getX();
+						int newY = e.getY() + x.getY();
+						x.setBounds(newX, newY, 100	, 150);	
+					}
+				}
+			});
 			player1CurrentBattleground.add(x);
 			add(x);
 			y++;
@@ -370,13 +468,27 @@ public class PlayPanel extends JPanel{
 			add(x);
 			j--;
 		}
-		
+
 		//////player2 
 		int[] g2=new int[7];g2[0]=0;g2[1]=-1;g2[2]=1;g2[3]=-2;g2[4]=2;g2[5]=-3;g2[6]=3;
 		int y2 =0;
 		for(Cards s : player2Battleground) {
 			CardShow x=new CardShow(s);
 			x.setBounds(700+(g2[y2]*100),300, 100, 150);
+			x.addMouseMotionListener(new MouseMotionListener() {
+
+				@Override
+				public void mouseMoved(MouseEvent e) {}
+
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					if(roundGame%2==1) {
+						int newX = e.getX() + x.getX();
+						int newY = e.getY() + x.getY();
+						x.setBounds(newX, newY, 100	, 150);	
+					}
+				}
+			});
 			x.addMouseListener(new EnemyBattlegrounCardListener(this, s));
 			player2CurrentBattleground.add(x);
 			add(x);
@@ -391,9 +503,16 @@ public class PlayPanel extends JPanel{
 			add(x);
 			j2--;
 		}
+		player1HandRemind.setText(player1Hand.size()+"");
+		player2HandRemind.setText(player2Hand.size()+"");
 	}
-	private void drawHero(Graphics g, String hero) {
-		g.drawImage(new ImageIcon("src\\play image\\"+hero+".png").getImage(), 658,660, null);
+	private void drawHero() {
+		HeroShow x1= new HeroShow(player1Hero);
+		x1.setBounds(658, 660, 190, 200);
+		add(x1);
+		HeroShow x2= new HeroShow(player2Hero);
+		x2.setBounds(658, 100, 190, 200);
+		add(x2);
 	}
 	private  void finish(MainFrame f) throws Exception {
 		if(player2Hero.get_HP()==0  || player1Hero.get_HP()==0||roundGame==0) {
@@ -407,11 +526,14 @@ public class PlayPanel extends JPanel{
 				textArea.append(se);
 				JOptionPane.showConfirmDialog(null, "YOU WON !!!!", "game finished", JOptionPane.OK_CANCEL_OPTION);
 				log.log(game.getPlayer().get_name(), game.getPlayer().get_name()+"  won the match", "");
-				game.getPlayer().getMyDeck().addWin();
+				if(game.getState().equalsIgnoreCase("enemy"))
+					game.getPlayer().getMyDeck().addWin();
 			}
-			game.getPlayer().addPlays();				
-			game.getPlayer().getMyDeck().addUsethisDeck();
-			game.setPlayPassive(null);
+			if(game.getState().equalsIgnoreCase("enemy")) {
+				game.getPlayer().addPlays();				
+				game.getPlayer().getMyDeck().addUsethisDeck();
+				game.setPlayPassive(null);				
+			}
 			MenuPanel m=new MenuPanel(f);
 			f.remove(PlayPanel.this);
 			f.setContentPane(m);
@@ -422,9 +544,10 @@ public class PlayPanel extends JPanel{
 		}
 	}
 	public void addUse(Cards s) {
-		for(Cards q: game.getPlayer().getMyDeck().getDeck())
-			if(s.get_Name().equals(s.get_Name()))
-				q.addUse();
+		if(game.getState().equalsIgnoreCase("enemy"))
+			for(Cards q: game.getPlayer().getMyDeck().getDeck())
+				if(s.get_Name().equals(s.get_Name()))
+					q.addUse();
 	}
 	protected Cards copy(Cards card) {
 		Minion x=(Minion)card;
@@ -501,5 +624,43 @@ public class PlayPanel extends JPanel{
 	public TextArea getTextArea() {
 		return textArea;
 	}
+
+	//	public boolean isInMyBoard(int x , int y) {
+	//		if
+	//	}
+	//	public boolean isInEnemyBoard(int x , int y) {
+	//		
+	//	}
+	private void readDeck() {
+		if (game.getState().equalsIgnoreCase("enemy")) {
+			if(player1Deck.size()==0 ) {
+				player1Deck=(ArrayList<Cards>) game.getPlayer().get_mydeck().clone();
+				player1Decksize=player1Deck.size();
+				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
+			}
+			if( player2Deck.size()==0) {
+				player2Deck=(ArrayList<Cards>) game.getPlayer().getEnemyDeck().getDeck().clone();
+				player2Decksize=player2Deck.size();
+				JOptionPane.showMessageDialog(null, "player2 : Deck update");
+			}
+
+		}else if(game.getState().equalsIgnoreCase("Deck")){
+			if(player1Deck.size()==0 ) {
+				player1Deck=(ArrayList<Cards>) deckReader.cardFactory("friend").clone();
+				player1Decksize=player1Deck.size();
+				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
+			}
+			if( player2Deck.size()==0) {
+				player2Deck=(ArrayList<Cards>) deckReader.cardFactory("enemy").clone();
+				player2Decksize=player2Deck.size();
+				JOptionPane.showMessageDialog(null, "player2 : Deck update");
+			}
+
+
+		}else {
+
+		}
+	}
+
 
 }

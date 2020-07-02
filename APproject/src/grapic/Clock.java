@@ -24,7 +24,7 @@ public class Clock  extends Thread{
 		alarm=new JLabel("Hurry up");
 		alarm.setForeground(Color.RED);
 		alarm.setFont(new Font("Tahoma", Font.BOLD, 35));
-		alarm.setBounds(650	,420,200,50	);
+		alarm.setBounds(650	,440,200,50	);
 		playPanel.add(alarm);
 		alarm.setVisible(false);
 	}

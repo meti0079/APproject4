@@ -37,7 +37,6 @@ public class EnemyBattlegrounCardListener implements MouseListener{
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-
 	}
 
 	@Override
