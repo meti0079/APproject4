@@ -1,0 +1,38 @@
+{
+  "enemy": [
+    "Dreadscale",
+    "Heavy Axe",
+    "Swarm of locusts",
+    "Tomb Warden",
+    "Sathrovarr",
+    "Murloc Raider",
+    "Murloc Warleader",
+    "Chillwind Yeti",
+    "Leper Gnome",
+    "Oasis Snapjaw",
+    "Security Rover"
+  ],
+  "friend": [
+    "Learn Draconic",
+    "Book of Specters",
+    "Big Game Hunter",
+    "Bluegill Warrior",
+    "Oasis Snapjaw",
+    "Sprint",
+    "Backstab",
+    "Astral Rift",
+    "friendly smith",
+    "curio collector",
+    "Pharaoh's Blessing",
+    "Polymorph",
+    "sprint",
+    "Dreadscale",
+    "Dreadscale",
+    "High Priest Amet",
+    "Leper Gnome",
+    "Murloc Raider",
+    "Murloc Warleader",
+    "Chillwind Yeti",
+    "Curio Collector"
+  ]
+}
