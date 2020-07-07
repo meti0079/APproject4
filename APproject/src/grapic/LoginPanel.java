@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import GAME.Enemy;
 import GAME.Gamestate;
 import GAME.Logger;
 import GAME.Login;
@@ -85,6 +87,7 @@ public class LoginPanel extends JPanel {
 								}
 								if(!del) {
 									game.readPlayer(name);
+									game.readEnemy(name);
 									game.setStor(game.getPlayer().getMyStore());
 									setVisible(false);
 									f.add(p);
@@ -121,11 +124,12 @@ public class LoginPanel extends JPanel {
 						loog.getParentFile().mkdir();
 						loog.createNewFile();
 						game.setPlayer(new Players(name, pass, 50));
+						game.setEnemy(new Enemy());
 						log.makeLog(game.getPlayer().get_name(), game.getPlayer().get_pass());
 						log.log(game.getPlayer().get_name(), "sign up ", " ");
 						game.setStor(new Store());
 						game.getPlayer().setMyStore(game.getStor());
-						Login log=new Login(game.getPlayer());
+						Login log=new Login(game.getPlayer(),game.getEnemy());
 						setVisible(false);
 						f.add(p,BorderLayout.CENTER);
 						f.pack();

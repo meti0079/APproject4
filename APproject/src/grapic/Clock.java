@@ -21,6 +21,9 @@ public class Clock  extends Thread{
 		reset();
 		this.jp=jp;
 		this.playPanel=playPanel;
+		makeAlarmLable();
+	}
+	private void makeAlarmLable() {
 		alarm=new JLabel("Hurry up");
 		alarm.setForeground(Color.RED);
 		alarm.setFont(new Font("Tahoma", Font.BOLD, 35));
@@ -28,27 +31,21 @@ public class Clock  extends Thread{
 		playPanel.add(alarm);
 		alarm.setVisible(false);
 	}
-
 	public void reset() {
 		this.CycleUsed=0;
 		this.Cyclehave=0.0f;
 		this.lastupdate=getCurrenttime();
 	}
-
 	private long getCurrenttime() {
 		return System.nanoTime()/1000000;
 	}
-
 	public void update() {
 		long cur=getCurrenttime();
 		float a=(float)(cur-lastupdate)+Cyclehave;
-		
-			this.CycleUsed += (int)Math.floor(a / movepessecond);
-			this.Cyclehave = a % movepessecond;
-		
+		this.CycleUsed += (int)Math.floor(a / movepessecond);
+		this.Cyclehave = a % movepessecond;
 		this.lastupdate=cur;
 	}
-
 	public boolean hascycle() {
 		if(CycleUsed>0) {
 			this.CycleUsed--;
@@ -56,13 +53,11 @@ public class Clock  extends Thread{
 		}
 		return false;
 	}
-
 	@Override
 	public  void run() {
 		while(true) {
 			long s=System.nanoTime();
 			update();
-
 			if(hascycle()) {
 				PlayPanel.i++;
 			}
@@ -73,7 +68,6 @@ public class Clock  extends Thread{
 				alarm.setVisible(true);
 			}else if(playPanel.i==42)
 				alarm.setVisible(false);
-
 			if(e<Frametime) {
 				try {
 					this.sleep(1000);
@@ -81,15 +75,11 @@ public class Clock  extends Thread{
 					System.out.println(255);			
 					e1.printStackTrace();
 				}
-
 			}
-			
-			
 			if (PlayPanel.i==60) {
 				PlayPanel.i=0;
 				playPanel.nextTurn();
 			}
 		}
 	}
-
 }

@@ -44,5 +44,32 @@ public class Store {
 		buyHero.remove(s);
 		return s;
 	}
+	public ArrayList<Cards> findHeroCard(String name){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : buyCard) {
+			if(s.get_Class().contains(name)) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+	public ArrayList<Cards> findManaCard(int x){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : buyCard) {
+			if(s.get_Mana()==x) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+	public ArrayList<Cards> findNameCard(String x){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : buyCard) {
+			if(s.get_Name().contains(x)) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
 
 }

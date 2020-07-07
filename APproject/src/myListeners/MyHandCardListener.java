@@ -49,7 +49,7 @@ public class MyHandCardListener implements MouseListener {
 				panel.setChanges(panel.getChanges()+1);
 			}else {
 				panel.addUse(card);
-				panel.addTobattleground(card);
+//				panel.addTobattleground(card);
 				panel.updatePanel();
 				try {
 					Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name(), card.get_Name());

@@ -1,0 +1,191 @@
+{
+  "enemyDeck": {
+    "heroDeck": {
+      "HP": 30,
+      "Hero_power": " Spend 2 mana lesser than others for spells",
+      "specialPower": "Spend 2 mana and damage 1 any enemy",
+      "useHeropower": 1,
+      "HeroPowerMana": 2,
+      "name": "Mage"
+    },
+    "deck": [
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 2,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 5,
+          "name": "Big Game Hunter",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 6,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Security Rover",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 2,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 5,
+          "name": "Big Game Hunter",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 4,
+          "name": "Chillwind Yeti",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 4,
+          "name": "Chillwind Yeti",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 6,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Security Rover",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Neutral",
+          "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 1,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 2,
+          "name": "Bluegill Warrior",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Charge",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minion",
+        "data": {
+          "HP": 1,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 2,
+          "name": "Bluegill Warrior",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Charge",
+          "type": "Minion"
+        }
+      }
+    ],
+    "name": "enemy deck",
+    "win": 0,
+    "useThisDeck": 0
+  }
+}

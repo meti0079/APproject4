@@ -17,7 +17,14 @@ public class Collection_herospanel extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		drawBackGround(g);
+	}
+	private void drawBackGround(Graphics g) {
 		ImageIcon icon =new ImageIcon("src\\backgrund image\\"+name+".jpg");
-		g.drawImage(icon.getImage(), 0, 0, null);
+		g.drawImage(icon.getImage(), 0, 0, null);		
+	}
+	public void update() {
+		this.repaint();
+		this.revalidate();
 	}
 }

@@ -14,7 +14,6 @@ public class Players {
 	private ArrayList<Heros> my_Heros=new ArrayList<>();
 	private int plays;
 	private Decks myDeck;
-	private Decks enemyDeck;
 
 	public Players(String name,String pass,int g) {
 		this.name=name;
@@ -97,13 +96,6 @@ public class Players {
 		return my_Decks;
 	}
 
-	public Decks getEnemyDeck() {
-		return enemyDeck;
-	}
-
-	public void setEnemyDeck(Decks enemyDeck) {
-		this.enemyDeck = enemyDeck;
-	}
 
 	public Decks getMyDeck() {
 		return myDeck;
@@ -112,5 +104,31 @@ public class Players {
 	public void setMyDeck(Decks myDeck) {
 		this.myDeck = myDeck;
 	}
-
+	public ArrayList<Cards> findHeroCard(String name){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : my_Cards) {
+			if(s.get_Class().contains(name)) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+	public ArrayList<Cards> findManaCard(int x){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : my_Cards) {
+			if(s.get_Mana()==x) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+	public ArrayList<Cards> findNameCard(String x){
+		ArrayList<Cards> sum=new ArrayList<>();
+		for(Cards s : my_Cards) {
+			if(s.get_Name().contains(x)) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
 }

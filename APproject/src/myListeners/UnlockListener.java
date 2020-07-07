@@ -1,0 +1,33 @@
+package myListeners;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import Cardspackage.Cards;
+import grapic.BiggerCard;
+import grapic.CollectionPanel;
+import grapic.Collection_deck;
+
+public class UnlockListener implements MouseListener{
+private Cards s;
+private CollectionPanel p;
+private Collection_deck deckboard;
+public UnlockListener(Cards s, CollectionPanel p, Collection_deck deckboard) {
+	this.s = s;
+	this.p = p;
+	this.deckboard = deckboard;
+}
+@Override
+public void mouseReleased(MouseEvent arg0) {}
+@Override
+public void mousePressed(MouseEvent arg0) {
+	BiggerCard x=new BiggerCard(s, p, deckboard);
+	p.getParent().add(x);
+}		
+@Override
+public void mouseExited(MouseEvent arg0) {}
+@Override
+public void mouseEntered(MouseEvent arg0) {}
+@Override
+public void mouseClicked(MouseEvent arg0) {}
+}

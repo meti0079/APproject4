@@ -1,6 +1,7 @@
 package GAME;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,28 +21,31 @@ public class Gamestate {
 	private String state; 
 	private	Players player;
 	private Store store;
-	private	Gson gson;;
+	private	Gson gson;
 	public static Gamestate game;
 	private ArrayList<Passive> passives;
 	private String backCard="ca.png";
 	private String backBattleGround="nattle1.jpg";
 	private Passive playPassive; 
+	private Enemy enemy;
 
-
-		private Gamestate() throws Exception{
+	private Gamestate() throws Exception{
 		passives=new ArrayList<>();
+		initialGson();
+	}
+	private void initialGson() {
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 	}
 
-		public static Gamestate getinsist() throws Exception {
-			if(game==null) {
-				game=new Gamestate();
-			}
-			return game;
+	public static Gamestate getinsist() throws Exception {
+		if(game==null) {
+			game=new Gamestate();
 		}
+		return game;
+	}
 	public ArrayList<Passive> getPassives() {
 		return passives;
 	}
@@ -74,6 +78,10 @@ public class Gamestate {
 		String se=gson.toJson(player);
 		f.write(se);
 		f.close();
+		FileWriter ff=new FileWriter(System.getProperty("user.dir")+"\\src\\pll\\"+player.get_name()+"enemy");
+		String ss=gson.toJson(enemy);
+		ff.write(ss);
+		ff.close();
 	}
 
 	public Boolean checkName(String name ,String pass) throws IOException {
@@ -96,7 +104,6 @@ public class Gamestate {
 		boolean  re=false;
 		File file=new File(System.getProperty("user.dir")+"\\src\\PLAYERSNAME\\playersname.txt");
 		Scanner ss=new Scanner(file);
-
 		while (ss.hasNext()) {
 			String line=ss.nextLine();
 			if(line.startsWith(s) ) {
@@ -120,8 +127,17 @@ public class Gamestate {
 			se+=s.nextLine(); 
 		}
 		player=gson.fromJson(se, Players.class);	
-		
+
 		//		lg.log(player.get_name(), "sign in ", "");
+	}
+	public void readEnemy(String name) throws FileNotFoundException {
+		File f=new File(System.getProperty("user.dir")+"\\src\\pll\\"+name+"enemy");
+		Scanner s=new Scanner(f);
+		String se="";
+		while(s.hasNext()) {
+			se+=s.nextLine(); 
+		}
+		enemy=gson.fromJson(se, Enemy.class);
 	}
 	public void SelectHero(String name) throws Exception {
 		for (int i = 0; i < player.get_myheros().size(); i++) {
@@ -135,14 +151,14 @@ public class Gamestate {
 	}
 	public void DeletPlayer() throws IOException {
 		String ss=JOptionPane.showInputDialog(null, "enter your password");
-			if(ss.equals(player.get_pass())) {
-				if(JOptionPane.showConfirmDialog(null, "account deleted")==JOptionPane.OK_OPTION) {
-					Logger.getinsist().deletAccount(player.get_name());
-					JOptionPane.showConfirmDialog(null, "account deleted","good luck",JOptionPane.OK_OPTION);
-					System.exit(0);
-						}
-			}else
-				JOptionPane.showMessageDialog(null, "the password incorrect");
+		if(ss.equals(player.get_pass())) {
+			if(JOptionPane.showConfirmDialog(null, "account deleted")==JOptionPane.OK_OPTION) {
+				Logger.getinsist().deletAccount(player.get_name());
+				JOptionPane.showConfirmDialog(null, "account deleted","good luck",JOptionPane.OK_OPTION);
+				System.exit(0);
+			}
+		}else
+			JOptionPane.showMessageDialog(null, "the password incorrect");
 	}
 	public Passive getPlayPassive() {
 		return playPassive;
@@ -168,6 +184,14 @@ public class Gamestate {
 	}
 	public void setBackBattleground(String backBattleground) {
 		this.backBattleGround = backBattleground;
+	}
+
+	public Enemy getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(Enemy enemy) {
+		this.enemy = enemy;
 	}
 }
 

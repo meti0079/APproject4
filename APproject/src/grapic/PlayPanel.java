@@ -8,9 +8,12 @@ import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -67,13 +70,12 @@ public class PlayPanel extends JPanel{
 	private CardShow player1WeaponCard;
 	private ArrayList<Cards> player1Hand;
 	private ArrayList<Cards> player1Deck=new ArrayList<>();
-	private ArrayList<Cards> player1Battleground;
 	private ArrayList<JComponent> player1CurrentBattleground=new ArrayList<>();
 	private ArrayList<JComponent> player1CurrentHand=new ArrayList<>();
 	private JLabel player1DeckRemind;
 	private JLabel player1HandRemind;
 	private int player1Decksize;
-	private CardPlace[] player1BattleGroundPlace=new CardPlace[7];
+	private LinkedList<Cards> pb1=new LinkedList<>();
 	////////  player 2
 	private Heros player2Hero;
 	private int player2Changes=0;
@@ -82,22 +84,21 @@ public class PlayPanel extends JPanel{
 	private CardShow player2WeaponCard;
 	private ArrayList<Cards> player2Hand;
 	private ArrayList<Cards> player2Deck=new ArrayList<>();
-	private ArrayList<Cards> player2Battleground;
 	private ArrayList<JComponent> player2CurrentBattleground=new ArrayList<>();
 	private ArrayList<JComponent> player2CurrentHand=new ArrayList<>();
 	private JLabel player2DeckRemind;
 	private int player2Decksize;
 	private JLabel player2HandRemind;
-	private CardPlace[] player2BattleGroundPlace=new CardPlace[7];
-
-	public PlayPanel(MainFrame f, TextArea t) throws Exception {
+	private LinkedList<Cards> pb2=new LinkedList<Cards>();
+	
+public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		textArea=t;
 		this.f=f;
 		log=Logger.getinsist();
 		game=Gamestate.getinsist();
 		if(game.getState().equalsIgnoreCase("enemy")) {
 			player1Hero= game.getPlayer().getMyDeck().getHeroDeck().clone();
-			player2Hero=game.getPlayer().getEnemyDeck().getHeroDeck().clone();
+			player2Hero=game.getEnemy().getEnemyDeck().getHeroDeck().clone();
 
 		}else if(game.getState().equalsIgnoreCase("deck")) {
 			player1Hero= new Mage();
@@ -112,10 +113,12 @@ public class PlayPanel extends JPanel{
 			deckReader=gson.fromJson(se, DeckReader.class);	
 
 		}
+		for(int i=0;i<7;i++) {
+			pb1.add(null);
+			pb2.add(null);
+		}
 		readDeck();
-		player1Battleground=new ArrayList<>();
 		player1Hand=new ArrayList<>();
-		player2Battleground=new ArrayList<>();
 		player2Hand=new ArrayList<>();
 		setPreferredSize(new Dimension(1800, 1000));
 		setLayout(null);
@@ -192,9 +195,7 @@ public class PlayPanel extends JPanel{
 		try {
 			log.log(game.getPlayer().get_name(), "clicked end turn ", "");
 			finish(f);
-		} catch (Exception e) {	
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 		if(roundGame%2==1) {
 			turnPlayed.setText(((roundGame/2))+"");
 			addToHand(1);
@@ -210,20 +211,20 @@ public class PlayPanel extends JPanel{
 			next.setVisible(false);
 		repaint();
 		i=0;
-		for (Cards cards : player1Battleground) {
+		for (Cards cards : pb1) { 
+			if(cards != null)
 			cards.setUsedToAttack(false);
 		}
-		for (Cards cards : player1Hand) {
+		for (Cards cards : player1Hand) 
 			cards.setUsedToAttack(false);
-		}
 		if(player1Weapon!=null)
 			player1Weapon.setUsedToAttack(false);
-		for (Cards cards : player2Battleground) {
+		for (Cards cards : pb2) { 
+				if(cards != null)
 			cards.setUsedToAttack(false);
 		}
-		for (Cards cards : player2Hand) {
+		for (Cards cards : player2Hand) 
 			cards.setUsedToAttack(false);
-		}
 		if(player2Weapon!=null)
 			player2Weapon.setUsedToAttack(false);
 	}
@@ -231,11 +232,62 @@ public class PlayPanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("src\\play image\\"+game.getBackBattleground()).getImage(), 0, 0, null);
-		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 660, 10, null);
-		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 725, 10, null);
-		g.drawImage(new ImageIcon("src\\play image\\ca.png").getImage(), 790, 10, null);
 		drawGem(g);
 		drawHero();
+	}
+	private boolean betweencards1(int x, Cards s) {
+		for(int i=x+1;i<7;i++) {
+			if(pb1.get(i)==null) {
+				pb1.remove(i);
+				player1Hand.remove(s);
+				pb1.add(x+1,copy(s));
+				pb1.get(x+1).setUsedToAttack(true);
+				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
+				textArea.append(se);
+				currentgemPlayer1-=s.get_Mana();
+				return true;
+			}
+		}
+		for(int i=x-1;i>=0;i--) {
+			if(pb1.get(i)==null) {
+				pb1.remove(i);
+				player1Hand.remove(s);
+				pb1.add(x,copy(s));
+				pb1.get(x).setUsedToAttack(true);
+				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
+				textArea.append(se);
+				currentgemPlayer1-=s.get_Mana();
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean betweencards2(int x, Cards s) {
+		for(int i=x+1;i<7;i++) {
+			if(pb2.get(i)==null) {
+				pb2.remove(i);
+				player2Hand.remove(s);
+				pb2.add(x+1,copy(s));
+				pb2.get(x+1).setUsedToAttack(true);
+				String se="enemy  summon  "+ s.get_Name()+"\n";
+				textArea.append(se);
+				currentgemPlayer2-=s.get_Mana();
+				return true;
+			}
+		}
+		for(int i=x-1;i>=0;i--) {
+			if(pb2.get(i)==null) {
+				pb2.remove(i);
+				player2Hand.remove(s);
+				pb2.add(x,copy(s));
+				pb2.get(x).setUsedToAttack(true);
+				String se="enemy  summon  "+ s.get_Name()+"\n";
+				textArea.append(se);
+				currentgemPlayer2-=s.get_Mana();
+				return true;
+			}
+		}
+		return false;
 	}
 	public void manaSet() {
 		if(roundGame%2==0) {
@@ -322,24 +374,34 @@ public class PlayPanel extends JPanel{
 			}
 		}
 	}
-	public void addTobattleground(Cards s) {
+	public boolean addTobattleground(Cards s,int x,int y) {
 		if(roundGame%2==0) {
 			if(s.get_Mana()<=currentgemPlayer1) {
 				if(s.getType().equalsIgnoreCase("minion")) {
-					if(player1Battleground.size()<=6) {
-						player1Hand.remove(s);
-						player1Battleground.add(copy(s));
-						player1Battleground.get(player1Battleground.size()-1).setUsedToAttack(true);
-						String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
-						textArea.append(se);
+					if(y<700 && y>480) {
+						if(pb1.get((x-200)/160) == null ) {
+							player1Hand.remove(s);
+							pb1.remove((x-200)/160);
+							pb1.add((x-200)/160,copy(s));
+							pb1.get((x-200)/160).setUsedToAttack(true);
+							String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
+							textArea.append(se);
+							currentgemPlayer1-=s.get_Mana();
+							return true;
+						}else if(betweencards1(((x-200)/160), s)) {
+							return true;
+						}else {						
+							JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
+							return false;							
+						}
 					}else {
-						JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
-					}						
+						return false;
+					}
 				}else if(s.getType().equalsIgnoreCase("Spell")) {
 					String se=game.getPlayer().get_name()+"  played  "+ s.get_Name()+"\n";
 					textArea.append(se);
 					addUse(s);
-					player1Hand.remove(s);			
+					player1Hand.remove(s);
 				}else {
 					String se=game.getPlayer().get_name()+"  Summon  "+ s.get_Name()+"\n";
 					textArea.append(se);
@@ -349,21 +411,33 @@ public class PlayPanel extends JPanel{
 					player1Hand.remove(s);
 				}
 				currentgemPlayer1-=s.get_Mana();
+				return true;
 			}else {
 				next.setVisible(true);
+				return false;
 			}
 		}else {
 			if(s.get_Mana()<=currentgemPlayer2) {
 				if(s.getType().equalsIgnoreCase("minion")) {
-					if(player2Battleground.size()<=6) {
-						player2Hand.remove(s);
-						player2Battleground.add(copy(s));
-						player2Battleground.get(player2Battleground.size()-1).setUsedToAttack(true);
-						String se="enemy  summon  "+ s.get_Name()+"\n";
-						textArea.append(se);
-					}else {
-						JOptionPane.showConfirmDialog(null, "enemy battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
-					}						
+						if(y>=250 && y<=480) {
+							if(pb2.get((x-200)/160)==null ) {
+								player2Hand.remove(s);
+								pb2.remove((x-200)/160);
+								pb2.add((x-200)/160,copy(s));
+								pb2.get((x-200)/160).setUsedToAttack(true);
+								String se="enemy  summon  "+ s.get_Name()+"\n";
+								textArea.append(se);
+								currentgemPlayer2-=s.get_Mana();
+								return true;
+							}else if(betweencards2(((x-200)/160),s)) {		
+							return true;
+							}else {						
+								JOptionPane.showConfirmDialog(null, "enemy battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
+								return false;
+							}
+						}else {
+						return false;
+						}
 				}else if(s.getType().equalsIgnoreCase("Spell")) {
 					String se=" enemy  played  "+ s.get_Name()+"\n";
 					textArea.append(se);
@@ -376,8 +450,10 @@ public class PlayPanel extends JPanel{
 					player2Hand.remove(s);
 				}
 				currentgemPlayer2-=s.get_Mana();
+				return true;
 			}else {
 				next.setVisible(true);
+				return false;
 			}
 		}
 	}
@@ -394,7 +470,6 @@ public class PlayPanel extends JPanel{
 		add(player2WeaponCard);
 	}
 	private void setCard() {
-
 		for(int i=player1CurrentBattleground.size()-1;i>=0;i--) {
 			remove(player1CurrentBattleground.get(i));
 			player1CurrentBattleground.remove(player1CurrentBattleground.get(i));
@@ -431,77 +506,218 @@ public class PlayPanel extends JPanel{
 			}else {
 				addPlayer2Weapon();				
 			}
-
 		}
 		//////////player 1
-
-		int[] g=new int[7];g[0]=0;g[1]=-1;g[2]=1;g[3]=-2;g[4]=2;g[5]=-3;g[6]=3;
-		int y =0;
-		for(Cards s : player1Battleground) {
-			CardShow x=new CardShow(s);
-			x.setBounds(700+(g[y]*100),500, 100, 150);
-			x.addMouseListener(new MyBattlegroundCardListener(this, s));
-			x.addMouseMotionListener(new MouseMotionListener() {
-
-				@Override
-				public void mouseMoved(MouseEvent e) {}
-
-				@Override
-				public void mouseDragged(MouseEvent e) {
-					if(roundGame%2==0) {
-						int newX = e.getX() + x.getX();
-						int newY = e.getY() + x.getY();
-						x.setBounds(newX, newY, 100	, 150);	
+		for(int i=0;i<7;i++) {
+			final int y =i;
+			if(pb1.get(i) !=null) {
+				CardShow x=new CardShow(pb1.get(i));
+				x.setBounds(200+160*i,500, 100, 150);
+				x.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if(getRoundGame()%2==0) {
+							if(pb1.get(y).isBattlecry()||!pb1.get(y).getUsedToAttack()) {		
+								pb1.get(y).setBattlecry(false);
+								pb1.get(y).setUsedToAttack(true);
+								String ss="";
+								try {
+									ss=Gamestate.getinsist().getPlayer().get_name()+"     played   "+pb1.get(y).get_Name()+"\n";
+								} catch (Exception e1) {}
+								getTextArea().append(ss);
+								updatePanel();	
+							}
+						}
 					}
-				}
-			});
-			player1CurrentBattleground.add(x);
-			add(x);
-			y++;
+					@Override
+					public void mouseEntered(MouseEvent e) {}
+					@Override
+					public void mouseExited(MouseEvent e) {}
+					@Override
+					public void mousePressed(MouseEvent e) {}
+					@Override
+					public void mouseReleased(MouseEvent e) {
+							updatePanel();
+					}
+				});
+				x.addMouseMotionListener(new MouseMotionListener() {
+					@Override
+					public void mouseDragged(MouseEvent e) {
+						if(getRoundGame()%2==0) {
+							int newX = e.getX() + x.getX();
+							int newY = e.getY() + x.getY();
+							x.setBounds(newX, newY, 100	, 150);	
+						}		
+					}
+					@Override
+					public void mouseMoved(MouseEvent e) {}
+				});
+				player1CurrentBattleground.add(x);
+				add(x);
+			}
 		}
 		int	j=-1;
 		for(Cards s : player1Hand) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new MyHandCardListener(this, s));
+			x.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(getRoundGame()%2==0) {	
+						if(!s.getUsedToAttack()){
+							if(addTobattleground(s,x.getX(), x.getY())) {
+								addUse(s);
+								updatePanel();
+								try {
+									Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name(), s.get_Name());
+								} catch (Exception e1) {}						
+							}else {
+								updatePanel();
+							}
+						}else {
+							updatePanel();
+						}
+					}					
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if(getRoundGame()==60 && getChanges()<3) {
+						getDeck1().add(s);
+						getHand1().remove(s);
+						getHand1().add(getDeck1().get(0));
+						getHand1().get(getHand1().size()-1).setUsedToAttack(true);
+						getDeck1().remove(0);
+						updatePanel();
+						setChanges(getChanges()+1);
+					}
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				@Override
+				public void mouseClicked(MouseEvent e) {}
+			});
+			x.addMouseMotionListener(new MouseMotionListener() {
+				@Override
+				public void mouseMoved(MouseEvent e) {}		
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					if(getRoundGame()%2==0) {
+						int newX = e.getX() + x.getX();
+						int newY = e.getY() + x.getY();
+						x.setBounds(newX, newY, 100	, 150);	
+					}					
+				}
+			});
 			player1CurrentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
 			j--;
 		}
-
 		//////player2 
-		int[] g2=new int[7];g2[0]=0;g2[1]=-1;g2[2]=1;g2[3]=-2;g2[4]=2;g2[5]=-3;g2[6]=3;
-		int y2 =0;
-		for(Cards s : player2Battleground) {
-			CardShow x=new CardShow(s);
-			x.setBounds(700+(g2[y2]*100),300, 100, 150);
-			x.addMouseMotionListener(new MouseMotionListener() {
+		for(int i=0;i<7;i++) {
+			final int y =i;
+			if(pb2.get(i) !=null) {
+				CardShow x=new CardShow(pb2.get(i));
+				x.setBounds(200+160*i,300, 100, 150);
+				x.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if(getRoundGame()%2==1) {
+							if(pb2.get(y).isBattlecry()||!pb2.get(y).getUsedToAttack()) {		
+								pb2.get(y).setBattlecry(false);
+								pb2.get(y).setUsedToAttack(true);
+								String ss="";
+								try {
+									ss="enemy     played   "+pb2.get(y).get_Name()+"\n";
+								} catch (Exception e1) {}
+								getTextArea().append(ss);
+								updatePanel();	
+							}
+						}
+					}
+					@Override
+					public void mouseEntered(MouseEvent e) {}
+					@Override
+					public void mouseExited(MouseEvent e) {}
+					@Override
+					public void mousePressed(MouseEvent e) {}
+					@Override
+					public void mouseReleased(MouseEvent e) {
+							updatePanel();
+				}
+				});
+				x.addMouseMotionListener(new MouseMotionListener() {
+					@Override
+					public void mouseDragged(MouseEvent e) {
+						if(getRoundGame()%2==1) {
+							int newX = e.getX() + x.getX();
+							int newY = e.getY() + x.getY();
+							x.setBounds(newX, newY, 100	, 150);	
+						}		
+					}
+					@Override
+					public void mouseMoved(MouseEvent e) {}
+				});
+				player2CurrentBattleground.add(x);
+				add(x);
+			}
+		}
+		int	j1=-1;
+		for(Cards s : player2Hand) {
+			final CardShow x=new CardShow(s);
+			x.addMouseListener(new MouseListener() {
 
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					if(getRoundGame()%2==1) {	
+						if(!s.getUsedToAttack()){
+							if(addTobattleground(s,x.getX(), x.getY())) {
+								try {
+									Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name(), s.get_Name());
+								} catch (Exception e1) {}						
+							}	updatePanel();
+						}
+					}					
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					if(getRoundGame()==59 && getChanges1()<3) {
+						getDeck2().add(s);
+						getHand2().remove(s);
+						getHand2().add(getDeck2().get(0));
+						getHand2().get(getHand2().size()-1).setUsedToAttack(true);
+						getDeck2().remove(0);
+						updatePanel();
+						setChanges1(getChanges1()+1);
+					}
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+				}
+				@Override
+				public void mouseClicked(MouseEvent e) {}
+			});
+			x.addMouseMotionListener(new MouseMotionListener() {
 				@Override
 				public void mouseMoved(MouseEvent e) {}
-
 				@Override
 				public void mouseDragged(MouseEvent e) {
-					if(roundGame%2==1) {
+					if(getRoundGame()%2==1) {
 						int newX = e.getX() + x.getX();
 						int newY = e.getY() + x.getY();
 						x.setBounds(newX, newY, 100	, 150);	
-					}
+					}					
 				}
 			});
-			x.addMouseListener(new EnemyBattlegrounCardListener(this, s));
-			player2CurrentBattleground.add(x);
-			add(x);
-			y2++;
-		}
-		int	j2=-1;
-		for(Cards s : player2Hand) {
-			final CardShow x=new CardShow(s);
-			x.addMouseListener(new EnemyHandCardListener(this, s));
 			player2CurrentHand.add(x);
-			x.setBounds(1000+(j2*100), 5, 100, 150);
+			x.setBounds(1000+(j1*100), 5, 100, 150);
 			add(x);
-			j2--;
+			j1--;
 		}
 		player1HandRemind.setText(player1Hand.size()+"");
 		player2HandRemind.setText(player2Hand.size()+"");
@@ -624,13 +840,6 @@ public class PlayPanel extends JPanel{
 	public TextArea getTextArea() {
 		return textArea;
 	}
-
-	//	public boolean isInMyBoard(int x , int y) {
-	//		if
-	//	}
-	//	public boolean isInEnemyBoard(int x , int y) {
-	//		
-	//	}
 	private void readDeck() {
 		if (game.getState().equalsIgnoreCase("enemy")) {
 			if(player1Deck.size()==0 ) {
@@ -639,7 +848,7 @@ public class PlayPanel extends JPanel{
 				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if( player2Deck.size()==0) {
-				player2Deck=(ArrayList<Cards>) game.getPlayer().getEnemyDeck().getDeck().clone();
+				player2Deck=(ArrayList<Cards>) game.getEnemy().getEnemyDeck().getDeck().clone();
 				player2Decksize=player2Deck.size();
 				JOptionPane.showMessageDialog(null, "player2 : Deck update");
 			}
@@ -661,6 +870,5 @@ public class PlayPanel extends JPanel{
 
 		}
 	}
-
 
 }

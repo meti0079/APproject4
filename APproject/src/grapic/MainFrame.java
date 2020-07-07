@@ -14,24 +14,33 @@ public class MainFrame extends JFrame {
 	private LoginPanel loginPanel;
 	public MainFrame () throws Exception {
 		super("HearthStone");
-		setLayout(new BorderLayout());
+		initial();
 		MenuPanel menupanel=new MenuPanel(this); 
 		this.loginPanel=new LoginPanel(this,menupanel);
-		add(loginPanel, BorderLayout.CENTER);
+		add(loginPanel, BorderLayout.CENTER);	
+	}
+	public void Update() {
+		this.repaint();
+		this.revalidate();
+		this.pack();
+	}
+	private void initial() {
+		setLayout(new BorderLayout());
 		setSize(new Dimension(1800, 1000));
 		setResizable(false);
 		pack();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 		setVisible(true);
-		///	set icon
+		setIcon();
+	}
+	private void setIcon() {
 		BufferedImage image = null; 
 		try{ 
 			File input_file = new File("stone.png"); 
 			image = ImageIO.read(input_file); 
 		} 
-		catch(IOException e) 
-		{	}
+		catch(IOException e) {	}
 		setIconImage(image);
 	}
 }

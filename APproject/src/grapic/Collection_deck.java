@@ -24,17 +24,29 @@ public class Collection_deck extends JPanel{
 	private Logger log;
 	private ArrayList< JButton> allBut;
 	private JButton enemyBut;
+	private Collection_herospanel x;
+	private CollectionPanel y;
 	public Collection_deck(Collection_herospanel x,CollectionPanel y) throws Exception {
-		setLayout(null);
+		initial();
+		this.x=x;
+		this.y=y;
 		allBut=new ArrayList<>();
 		log =Logger.getinsist();
 		game=Gamestate.getinsist();
-		setPreferredSize(new Dimension(300, 900));
-		setBackground(new Color(162, 82,45));
-
-
+		initialAddDeckButton();
+		initialChangeNameButton();
+		initialSelectHeroButton();
+		initialEnemyButton();
+	}
+	private void initialEnemyButton() {
+		enemyBut=new JButton("enemy deck   "+ game.getEnemy().getEnemyDeck().getHeroDeck().getname()+"    size : "+game.getEnemy().getEnemyDeck().getDeck().size());
+		enemyBut.setBounds(10, 60, 280, 40);
+		enemyBut.setFont(new Font("tahoma", Font.BOLD, 15));
+		enemyBut.setBackground(new Color(165, 62, 22));
+		add(enemyBut);
+	}
+	private void initialAddDeckButton() {
 		JButton b= new JButton(new ImageIcon("src\\\\button image\\\\add.png"));
-
 		b.setBounds(25,780, 200, 50);
 		b.setContentAreaFilled(false);
 		b.setBorder(BorderFactory.createEmptyBorder());
@@ -44,58 +56,74 @@ public class Collection_deck extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					log.log(game.getPlayer().get_name(), "clicked add deck ", "");
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-				if(game.getPlayer().getalldeck().size()>16) {
-					JOptionPane.showConfirmDialog(null, "you have maximum deck!!! delet or edit some", "error", JOptionPane.YES_OPTION);
-					return;
-				}	
-				Decks s=null;
-				try {
-					s = new Decks();
-				} catch (Exception e1) {
-					System.out.println("cant make deck , collection");
-					e1.printStackTrace();
-				}
-				while(true ) {
-					Boolean flag=false;
-					String name=JOptionPane.showInputDialog("enter your deck name")+"";
-					for(Decks a : game.getPlayer().getalldeck()) {
-						if(a.getName().equalsIgnoreCase(name)) {
-							flag=true;
-						}
-					}
-					if(flag==false) {
-						s.setName(name);
-						break;
-					}
-				}
-				String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
-				for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
-					myhero[i]=game.getPlayer().get_myheros().get(i).getname();
-				String n="";
-				n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
-						"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
-				try {
-					s.setHeroDeck(n);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				game.getPlayer().setMyDeck(s);
-				game.getPlayer().getalldeck().add(s);
-				try {
-					log.log(game.getPlayer().get_name(), "add deck ", s.getName());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				updateBut(x,y);
-				repaint();
-				revalidate();
+					if(game.getPlayer().getalldeck().size()>16) {
+						JOptionPane.showConfirmDialog(null, "you have maximum deck!!! delet or edit some", "error", JOptionPane.YES_OPTION);
+						return;
+					}	
+					makeNewDeck();
+					update();
+				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
 		add(b);
-
+	}
+	private void makeNewDeck() throws Exception {
+		Decks s = new Decks();
+		while(true ) {
+			Boolean flag=false;
+			String name=JOptionPane.showInputDialog("enter your deck name")+"";
+			for(Decks a : game.getPlayer().getalldeck()) {
+				if(a.getName().equalsIgnoreCase(name)) {
+					flag=true;
+				}
+			}
+			if(flag==false) {
+				s.setName(name);
+				break;
+			}
+		}
+		String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
+		for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
+			myhero[i]=game.getPlayer().get_myheros().get(i).getname();
+		String n="";
+		n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
+				"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
+		s.setHeroDeck(n);
+		game.getPlayer().setMyDeck(s);
+		game.getPlayer().getalldeck().add(s);
+		log.log(game.getPlayer().get_name(), "add deck ", s.getName());
+		update();
+	}
+	private void initialSelectHeroButton() {
+		JButton edit1=new JButton(new ImageIcon("src\\button image\\edit.png"));
+		edit1.setContentAreaFilled(false);
+		edit1.setBorder(BorderFactory.createEmptyBorder());
+		edit1.setBounds(25, 830, 100, 50);
+		edit1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					log.log(game.getPlayer().get_name(), "clicked chang hero button ", "");
+					String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
+					for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
+						myhero[i]=game.getPlayer().get_myheros().get(i).getname();
+					String n="";
+					n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
+							"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
+					if(n.equalsIgnoreCase("")) {
+					}else {
+						game.getPlayer().getMyDeck().addUsethisDeck(0);
+						game.getPlayer().getMyDeck().addWin(0);
+						game.getPlayer().getMyDeck().setHeroDeck(n);
+						log.log(game.getPlayer().get_name(), "change hero of deck  ", "to : " +n);
+					}
+				} catch (Exception e1) {e1.printStackTrace();}
+			}
+		});
+		add(edit1);
+		updateBut(x,y);
+	}
+	private void initialChangeNameButton() {
 		JButton edit=new JButton(new ImageIcon("src\\button image\\edit2.png"));
 		edit.setContentAreaFilled(false);
 		edit.setBorder(BorderFactory.createEmptyBorder());
@@ -105,91 +133,46 @@ public class Collection_deck extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					log.log(game.getPlayer().get_name(), "clicked editName deck  button ", "");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				while(true ) {
-					Boolean flag=false;
-					String name=JOptionPane.showInputDialog("enter your deck name")+"";
-					for(Decks a : game.getPlayer().getalldeck()) {
-						if(a.getName().equalsIgnoreCase(name)) {
-							flag=true;
+					while(true ) {
+						Boolean flag=false;
+						String name=JOptionPane.showInputDialog("enter your deck name")+"";
+						for(Decks a : game.getPlayer().getalldeck()) {
+							if(a.getName().equalsIgnoreCase(name)) {
+								flag=true;
+							}
 						}
-					}
-					if(flag==false) {
-						game.getPlayer().getMyDeck().setName(name);
-						updateBut(x,y);
-						repaint();
-						revalidate();
-						try {
+						if(flag==false) {
+							game.getPlayer().getMyDeck().setName(name);
+							update();
 							log.log(game.getPlayer().get_name(), "deck name edited ","new name of deck : "+name );
-						} catch (IOException e) {
-							e.printStackTrace();
+							break;
 						}
-						break;
 					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		});
 		add(edit);
-
-		JButton edit1=new JButton(new ImageIcon("src\\button image\\edit.png"));
-		edit1.setContentAreaFilled(false);
-		edit1.setBorder(BorderFactory.createEmptyBorder());
-		edit1.setBounds(25, 830, 100, 50);
-		edit1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					log.log(game.getPlayer().get_name(), "clicked chang hero button ", "");
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
-				String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
-				for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
-					myhero[i]=game.getPlayer().get_myheros().get(i).getname();
-				String n="";
-				n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
-						"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
-				try {
-					if(n.equalsIgnoreCase("")) {
-					}else {
-						game.getPlayer().getMyDeck().addUsethisDeck(0);
-						game.getPlayer().getMyDeck().addWin(0);
-						game.getPlayer().getMyDeck().setHeroDeck(n);
-						log.log(game.getPlayer().get_name(), "change hero of deck  ", "to : " +n);
-					}
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		add(edit1);
-		updateBut(x,y);
-
-		
-		
-		enemyBut=new JButton("enemy deck   "+ game.getPlayer().getEnemyDeck().getHeroDeck().getname()+"    size : "+game.getPlayer().getEnemyDeck().getDeck().size());
-		enemyBut.setBounds(10, 60, 280, 40);
-		enemyBut.setFont(new Font("tahoma", Font.BOLD, 15));
-		enemyBut.setBackground(new Color(165, 62, 22));
-		add(enemyBut);
-		
-		
-		
 	}
-	
 	public JButton getEnemyBut() {
 		return enemyBut;
 	}
-
-	@Override
+	public void update() {
+		enemyBut.setText("enemy deck  "+ game.getEnemy().getEnemyDeck().getHeroDeck().getname()
+				+"   size : "+game.getEnemy().getEnemyDeck().getDeck().size());
+		this.updateBut(x, y);
+		this.repaint();
+		this.revalidate();
+	}
+	@Override	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		ImageIcon icon =new ImageIcon("src\\button image\\2.png");
 		g.drawImage(icon.getImage(), 5, 0, null);
+		drawDeckPlace(g);
+	}
+	private void drawDeckPlace(Graphics g) { 
 		g.drawRoundRect(10, 105, 280, 40, 5, 5);
 		g.drawRoundRect(10, 150, 280, 40, 5, 5);
 		g.drawRoundRect(10, 195, 280, 40, 5, 5);
@@ -222,14 +205,10 @@ public class Collection_deck extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					try {
 						log.log(game.getPlayer().get_name(), "change deck", "to " +s.getName());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					} catch (IOException e1) {e1.printStackTrace();}
 					game.getPlayer().setMyDeck(s);
 					y.setdeck();
-					x.revalidate();
-					x.repaint();
-				}
+					x.update();}
 			});
 			add(b);
 			allBut.add(b);
@@ -244,12 +223,15 @@ public class Collection_deck extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					log.log(game.getPlayer().get_name(), "change deck", " to  "+s.getName());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				} catch (IOException e1) {e1.printStackTrace();}
 				game.getPlayer().setMyDeck(s);
 			}
 		});
 		add(b);
+	}
+	private void initial() {
+		setLayout(null);
+		setPreferredSize(new Dimension(300, 900));
+		setBackground(new Color(162, 82,45));
 	}
 }
