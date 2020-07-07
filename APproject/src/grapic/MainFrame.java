@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 
@@ -18,6 +19,7 @@ public class MainFrame extends JFrame {
 		MenuPanel menupanel=new MenuPanel(this); 
 		this.loginPanel=new LoginPanel(this,menupanel);
 		add(loginPanel, BorderLayout.CENTER);	
+		pack();
 	}
 	public void Update() {
 		this.repaint();
@@ -28,7 +30,6 @@ public class MainFrame extends JFrame {
 		setLayout(new BorderLayout());
 		setSize(new Dimension(1800, 1000));
 		setResizable(false);
-		pack();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);		
 		setVisible(true);
@@ -42,5 +43,13 @@ public class MainFrame extends JFrame {
 		} 
 		catch(IOException e) {	}
 		setIconImage(image);
+	}
+	public<T extends JPanel> void ChangePanel(JPanel T) {
+		remove(getContentPane());
+		setContentPane(T);
+		revalidate();
+		repaint();
+		pack();
+		setLocationRelativeTo(null);
 	}
 }

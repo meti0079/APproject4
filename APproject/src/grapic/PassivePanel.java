@@ -29,12 +29,36 @@ public class PassivePanel extends JPanel{
 	private JButton go;
 	private Logger log;
 	private Random random=new Random();
-	public PassivePanel(MainFrame f) throws Exception {
+	private void initial() throws Exception {
 		setLayout(null);
 		setPreferredSize(new Dimension(1800, 900));
 		game=Gamestate.getinsist();
-		log=Logger.getinsist();
+		log=Logger.getinsist();	
+	}
+	public PassivePanel(MainFrame f) throws Exception {
+		initial();
 		setPassives();
+		setGoButton(f);
+		setEnemyBut();
+		setDeckReaderBut();
+		setComputerBut();
+	}
+	@Override
+	protected void paintComponent(Graphics g) {
+		draWBackGround(g);
+		g.setFont(new Font("Tahoma", Font.BOLD, 50));
+		g.setColor(Color.WHITE);
+		g.drawString("Choose a treasure !!	", 600, 100);
+	}
+	private void draWBackGround(Graphics g) {
+		ImageIcon image = new ImageIcon("src\\passiva image\\passiva.png"); 
+		g.drawImage(image.getImage(),0,0,null);
+	}
+	public void setPassives() throws FileNotFoundException{
+		readPassiveFile();
+		setPassiveLables();
+	}
+	private void setGoButton(MainFrame f) {
 		go=new JButton("go");
 		go.setBounds(1400, 700, 100, 100);
 		go.addActionListener(new ActionListener() {
@@ -46,32 +70,17 @@ public class PassivePanel extends JPanel{
 					try {
 						log.log(game.getPlayer().get_name(), "go to play game", "");
 						PlayShow p= new PlayShow((MainFrame)f);
-						f.remove(PassivePanel.this);
-						f.setContentPane(p);
-						f.revalidate();
-						f.repaint();
-						f.pack();
-						f.setLocationRelativeTo(null);
+						f.ChangePanel(p);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}	
 			}
 		});
 		go.setEnabled(false);
-		add(go);
-		setEnemyBut();
-		setDeckReaderBut();
-		setComputerBut();
+		add(go);	
 	}
-	@Override
-	protected void paintComponent(Graphics g) {
-		ImageIcon image = new ImageIcon("src\\passiva image\\passiva.png"); 
-		g.drawImage(image.getImage(),0,0,null);
-		g.setFont(new Font("Tahoma", Font.BOLD, 50));
-		g.setColor(Color.WHITE);
-		g.drawString("Choose a treasure !!	", 600, 100);
-	}
-	public void setPassives() throws FileNotFoundException{
+	//////mapper
+	private void readPassiveFile() throws FileNotFoundException {
 		Gson j= new Gson();
 		File f3=new File(System.getProperty("user.dir")+"\\src\\passive");
 		File[] dirr3=f3.listFiles();
@@ -84,8 +93,11 @@ public class PassivePanel extends JPanel{
 				}
 				Passive s= j.fromJson(t1, Passive.class);
 				game.addPassives(s);
+				sca.close();
 			}
 		}
+	}
+	private void setPassiveLables() {
 		ArrayList<Integer > a=new ArrayList<>();
 		while (a.size()!=3) {
 			int x=(random.nextInt(7));
@@ -99,13 +111,12 @@ public class PassivePanel extends JPanel{
 			lp1.addMouseListener(new PassiveListener(a.get(index)));
 			add(lp1);
 		}
-	}	
-	
+	}
+	/////////////////
 	private void setEnemyBut() {
 		JButton b= new JButton("Play with enemy");
 		b.setBounds(280, 700, 200, 60);
-		b.addActionListener(new ActionListener() {
-			
+		b.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("enemy");
@@ -121,8 +132,7 @@ public class PassivePanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("Deck");
-				go.setEnabled(true);
-				
+				go.setEnabled(true);	
 			}
 		});
 		add(b);
@@ -131,8 +141,7 @@ public class PassivePanel extends JPanel{
 		JButton b= new JButton("Play with computer");
 		b.setBounds(700, 700, 200, 60);
 		b.setEnabled(false);
-		b.addActionListener(new ActionListener() {
-			
+		b.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("computer");
@@ -141,5 +150,5 @@ public class PassivePanel extends JPanel{
 		});
 		add(b);
 	}
-	
+
 }

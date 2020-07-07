@@ -1,5 +1,10 @@
 package Cardspackage;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import javax.swing.text.StyledEditorKit.BoldAction;
+
 public abstract  class Cards {
 	private boolean usedToAttack;
 	private boolean windfury=false;
@@ -16,15 +21,15 @@ public abstract  class Cards {
 	private String cardClass;
 	private String description;
 	private String type;
-	
-	
-	
+
+
+
 	public abstract int getAttack();
 	public abstract void setAttack(int x);
 	public abstract int getHp();
 	public abstract void setHp(int x);
 	public abstract String getType();
-	
+
 	public int getUse() {
 		return use;
 	}
@@ -40,9 +45,9 @@ public abstract  class Cards {
 	public void setType(String type) {
 		this.type = type;
 	}
- 
+
 	public Cards() {
-		
+
 	}
 	public String getDescription() {
 		return description;
@@ -124,5 +129,61 @@ public abstract  class Cards {
 	public void setBattlecry(boolean battlecry) {
 		this.battlecry = battlecry;
 	}
-	
+	public int gemCost() {
+		if(this.get_Rarity().equalsIgnoreCase("rare"))
+			return 2;
+		if(this.get_Rarity().equalsIgnoreCase("epic"))
+			return 3;
+		if(this.get_Rarity().equalsIgnoreCase("legendary"))
+			return 4;
+		if(this.get_Rarity().equalsIgnoreCase("common"))
+			return 1;
+		return 1;
+	}
+	public static LinkedList<Cards> sortByUse(ArrayList<Cards > s) {
+		LinkedList< Cards> sum=new LinkedList<>();
+		ArrayList<Cards> cop=(ArrayList<Cards>) s.clone();
+		int top=0;
+		int index=0;
+		for (int i = 0; i <10; i++) {			
+			for (Cards cards : cop) {
+				if(cards.getUse()>top) {
+					top=cards.getUse();
+					index=s.indexOf(cards);
+				}
+			}
+			if(sum.size()>0)
+				if(sum.get(0).getUse()>cop.get(index).getUse())
+					return sum;
+			sum.add(cop.get(index));
+			cop.remove(index);
+			top=0;
+			index=0;
+		}
+		return sum;
+
+	}
+	public static boolean compareUse(Cards s,Cards w) {
+		if(s.getUse()==w.getUse())
+			return true;
+		return false;
+	}
+	public static Boolean compareRarity(Cards s,Cards w) {
+		if(s.rarity.equalsIgnoreCase(w.rarity))
+			return true;
+		return false;
+
+	}
+	public static boolean compareMana(Cards s,Cards w) {
+		if(s.mana==w.mana)
+			return true;
+		return false;
+
+	}
+	public static boolean compareType(Cards s,Cards w) {
+		if(s.type.equalsIgnoreCase(w.type))
+			return true;
+		return false;
+	}
+
 }

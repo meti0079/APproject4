@@ -13,7 +13,7 @@ public class Players {
 	private  ArrayList<Cards> my_Cards =new ArrayList<>();
 	private ArrayList<Heros> my_Heros=new ArrayList<>();
 	private int plays;
-	private Decks myDeck;
+	private int currentDeck;
 
 	public Players(String name,String pass,int g) {
 		this.name=name;
@@ -48,10 +48,10 @@ public class Players {
 		return name;	
 	}
 	public Heros get_hero() {
-		return myDeck.getHeroDeck();
+		return my_Decks.get(currentDeck).getHeroDeck();
 	}
 	public ArrayList<Cards> get_mydeck() {
-		return myDeck.getDeck();
+		return my_Decks.get(currentDeck).getDeck();
 
 	}
 	public ArrayList<Cards> get_myCards() {
@@ -98,11 +98,11 @@ public class Players {
 
 
 	public Decks getMyDeck() {
-		return myDeck;
+		return my_Decks.get(currentDeck);
 	}
 
-	public void setMyDeck(Decks myDeck) {
-		this.myDeck = myDeck;
+	public void setMyDeck(int x) {
+		this.currentDeck=x;
 	}
 	public ArrayList<Cards> findHeroCard(String name){
 		ArrayList<Cards> sum=new ArrayList<>();
@@ -130,5 +130,35 @@ public class Players {
 			}
 		}
 		return sum;
+	}
+	public ArrayList<Decks> sortDecks() {
+		Decks [] allDeck=new Decks[my_Decks.size()];
+		int x=0;
+		for(Decks s : getalldeck()) {
+			allDeck[x]=s;
+			x++;
+		}
+		for(int i=0;i<my_Decks.size()-1;i++) {
+			for(int j=my_Decks.size()-i-1;j>0;j--) {
+				if(allDeck[j].getWin()>=allDeck[j-1].getWin()) {	
+					Decks y=allDeck[j-1];
+					allDeck[j-1]=allDeck[j];
+					allDeck[j]=y;
+				}
+			}
+		}
+		ArrayList<Decks> su=new ArrayList<>();
+		for(Decks s : allDeck) {
+			su.add(s);
+		}
+		return su;
+	}
+	public Cards SpecialCard(String name ) {
+		for (Cards cards : my_Decks.get(currentDeck).getDeck()) {
+			if (cards.get_Name().equalsIgnoreCase(name)) {
+				return cards;
+			}
+		}
+		return null;
 	}
 }

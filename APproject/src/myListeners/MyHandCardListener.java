@@ -48,7 +48,7 @@ public class MyHandCardListener implements MouseListener {
 				panel.updatePanel();
 				panel.setChanges(panel.getChanges()+1);
 			}else {
-				panel.addUse(card);
+//				panel.addUse(card);
 //				panel.addTobattleground(card);
 				panel.updatePanel();
 				try {

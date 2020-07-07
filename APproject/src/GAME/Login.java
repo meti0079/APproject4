@@ -108,7 +108,7 @@ public class Login  {
 		dec.setName("first deck");
 		dec.setHeroDeck(first.getname());
 		player.adddeck(dec);
-		player.setMyDeck(dec);
+		player.setMyDeck(0);
 	}
 	private void makeEnemyDeck(Enemy en) throws Exception {
 		Decks enemy=new Decks();

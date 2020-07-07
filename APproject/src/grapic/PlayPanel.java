@@ -3,6 +3,7 @@ package grapic;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,8 @@ import myListeners.EnemyWeaponListener;
 import myListeners.MyBattlegroundCardListener;
 import myListeners.MyHandCardListener;
 import myListeners.MyWeaponListener;
+import playModel.Mapper;
+import playModel.Player;
 
 
 public class PlayPanel extends JPanel{
@@ -60,7 +63,7 @@ public class PlayPanel extends JPanel{
 	private TextArea textArea;
 	private Logger log;
 	private JLabel turnPlayed;
-	private int roundGame=60;
+	private static int roundGame=60;
 	private DeckReader deckReader;
 	/////player 1
 	private Heros player1Hero;
@@ -91,8 +94,23 @@ public class PlayPanel extends JPanel{
 	private JLabel player2HandRemind;
 	private LinkedList<Cards> pb2=new LinkedList<Cards>();
 	
+	
+	
+	///////
+	private Player me;
+	private Player enemy;
+	private Mapper map=Mapper.getinsist();
+	
+	
+	
+	private void initial() throws Exception {
+		me=map.readMe();
+		System.out.println(me.getDecksize());
+//		enemy=map.readEnemy();
+	}
 public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		textArea=t;
+		initial();
 		this.f=f;
 		log=Logger.getinsist();
 		game=Gamestate.getinsist();
@@ -400,12 +418,10 @@ public PlayPanel(MainFrame f, TextArea t) throws Exception {
 				}else if(s.getType().equalsIgnoreCase("Spell")) {
 					String se=game.getPlayer().get_name()+"  played  "+ s.get_Name()+"\n";
 					textArea.append(se);
-					addUse(s);
 					player1Hand.remove(s);
 				}else {
 					String se=game.getPlayer().get_name()+"  Summon  "+ s.get_Name()+"\n";
 					textArea.append(se);
-					addUse(s);
 					player1Weapon=(Weapon) copyWeapon((Weapon) s);
 					player1Weapon.setUsedToAttack(true);
 					player1Hand.remove(s);
@@ -744,6 +760,7 @@ public PlayPanel(MainFrame f, TextArea t) throws Exception {
 				log.log(game.getPlayer().get_name(), game.getPlayer().get_name()+"  won the match", "");
 				if(game.getState().equalsIgnoreCase("enemy"))
 					game.getPlayer().getMyDeck().addWin();
+				
 			}
 			if(game.getState().equalsIgnoreCase("enemy")) {
 				game.getPlayer().addPlays();				
@@ -751,20 +768,13 @@ public PlayPanel(MainFrame f, TextArea t) throws Exception {
 				game.setPlayPassive(null);				
 			}
 			MenuPanel m=new MenuPanel(f);
-			f.remove(PlayPanel.this);
-			f.setContentPane(m);
-			f.revalidate();
-			f.repaint();
-			f.pack();
-			f.setLocationRelativeTo(null);
+			f.ChangePanel(m);
 		}
 	}
 	public void addUse(Cards s) {
 		if(game.getState().equalsIgnoreCase("enemy"))
-			for(Cards q: game.getPlayer().getMyDeck().getDeck())
-				if(s.get_Name().equals(s.get_Name()))
-					q.addUse();
-	}
+			game.getPlayer().SpecialCard(s.get_Name()).addUse();
+			}
 	protected Cards copy(Cards card) {
 		Minion x=(Minion)card;
 		Minion s=new Minion();
@@ -807,11 +817,11 @@ public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		repaint();
 		revalidate();
 	}
-	public int getRoundGame() {
+	public  static int getRoundGame() {
 		return roundGame;
 	}
-	public void setRoundGame(int roundGame) {
-		this.roundGame = roundGame;
+	public static void setRoundGame(int rondGame) {
+	roundGame = rondGame;
 	}
 	public int getChanges() {
 		return player1Changes;

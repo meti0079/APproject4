@@ -89,8 +89,8 @@ public class Collection_deck extends JPanel{
 		n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
 				"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
 		s.setHeroDeck(n);
-		game.getPlayer().setMyDeck(s);
 		game.getPlayer().getalldeck().add(s);
+		game.getPlayer().setMyDeck(game.getPlayer().getalldeck().size()-1);
 		log.log(game.getPlayer().get_name(), "add deck ", s.getName());
 		update();
 	}
@@ -196,38 +196,28 @@ public class Collection_deck extends JPanel{
 		allBut.removeAll(allBut);
 		int i=1;
 		for(Decks s: game.getPlayer().getalldeck()) {
-			JButton b= new JButton(s.getName()+"       "+s.getHeroDeck().getname()+ "   size :"+ s.getDeck().size());
-			b.setFont(new Font("tahoma", Font.BOLD, 15));
-			b.setBackground(new Color(165, 42, 42));
-			b.setBounds(10, 45*i+60, 280, 40);
-			b.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					try {
-						log.log(game.getPlayer().get_name(), "change deck", "to " +s.getName());
-					} catch (IOException e1) {e1.printStackTrace();}
-					game.getPlayer().setMyDeck(s);
-					y.setdeck();
-					x.update();}
-			});
-			add(b);
-			allBut.add(b);
+			makeDeck(s, i);
 			i++;
 		}
 	}
-	public void makeDeck(Decks s , String name) {
-		JButton b= new JButton(name);
+	public void makeDeck(Decks s , int i) {
+		JButton b= new JButton(s.getName()+"       "+s.getHeroDeck().getname()+ "   size :"+ s.getDeck().size());
+		b.setFont(new Font("tahoma", Font.BOLD, 15));
 		b.setBackground(new Color(165, 42, 42));
+		b.setBounds(10, 45*i+60, 280, 40);
+		int tt=i-1;
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "change deck", " to  "+s.getName());
+					log.log(game.getPlayer().get_name(), "change deck", "to " +s.getName());
 				} catch (IOException e1) {e1.printStackTrace();}
-				game.getPlayer().setMyDeck(s);
-			}
+				game.getPlayer().setMyDeck(tt);
+				y.setdeck();
+				x.update();}
 		});
 		add(b);
+		allBut.add(b);
 	}
 	private void initial() {
 		setLayout(null);

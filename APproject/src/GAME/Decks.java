@@ -1,6 +1,7 @@
 package GAME;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
@@ -16,11 +17,9 @@ public class Decks {
 	private int useThisDeck;
 
 	public Decks() throws Exception {
-
 		this.deck=new ArrayList<>();
 		win=0;
 		useThisDeck=0;
-
 	}
 
 	public float GetAverage() {
@@ -40,7 +39,6 @@ public class Decks {
 		for(Heros s:game.getPlayer().get_myheros())
 			if(s.getname().equalsIgnoreCase(name)) {
 				this.heroDeck =s ;
-
 			}
 		for(Cards a:deck) {
 			if(!a.get_Class().equalsIgnoreCase("Neutral"))
@@ -56,7 +54,6 @@ public class Decks {
 			if(ss.get_Name().equalsIgnoreCase(e.get_Name()))
 				sum++;
 		}
-
 		if(sum<2) {
 			if(e.get_Class().equalsIgnoreCase(heroDeck.getname()) || e.get_Class().equalsIgnoreCase("Neutral")) {
 				if(deck.size()<15) {
@@ -76,6 +73,13 @@ public class Decks {
 		}
 		return false;
 	}
+	/**
+	 * @param deck the deck to set
+	 */
+	public void setDeck(ArrayList<Cards> deck) {
+		this.deck = deck;
+	}
+
 	public void removeCardFromDeck(Cards e) {
 		this.deck.remove(e);
 	}
@@ -103,5 +107,42 @@ public class Decks {
 	public void addUsethisDeck(int a) {
 		this.useThisDeck =a;
 	}
-
+	public Cards bestCard() {
+		if(this.getDeck().size()<2)
+			return null;
+		LinkedList< Cards > ee=Cards.sortByUse(getDeck());			
+		if(ee.size()==1) {
+			return ee.get(0);
+		}
+		if(Cards.compareUse(ee.get(0), ee.get(1))) {
+			if(Cards.compareRarity(ee.get(0), ee.get(1))){
+				if(Cards.compareMana(ee.get(0),ee.get(1))) {
+					if(Cards.compareType(ee.get(0),ee.get(1)))
+						return ee.get(0);
+				}else {
+					if(ee.get(0).get_Mana()  >  ee.get(1).get_Mana())
+						return ee.get(0);
+					return ee.get(1);
+				}
+			}else {
+				if(ee.get(0).get_Rarity().equalsIgnoreCase("legandry"))
+					return ee.get(0);
+				if(ee.get(1).get_Rarity().equalsIgnoreCase("legandry"))
+					return ee.get(1);
+				if(ee.get(0).get_Rarity().equalsIgnoreCase("epic"))
+					return ee.get(0);
+				if(ee.get(1).get_Rarity().equalsIgnoreCase("epic"))
+					return ee.get(1);
+				if(ee.get(0).get_Rarity().equalsIgnoreCase("rare"))
+					return ee.get(0);
+				if(ee.get(1).get_Rarity().equalsIgnoreCase("rare"))
+					return ee.get(1);
+			}
+		}else {
+			if(ee.get(0).getUse()  >  ee.get(1).getUse())
+				return ee.get(0);
+			return ee.get(1);
+		}
+		return  null;
+	}
 }

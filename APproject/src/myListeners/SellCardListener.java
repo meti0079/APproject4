@@ -58,13 +58,13 @@ public class SellCardListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int j=JOptionPane.showConfirmDialog(null, "Do you want sell this card??"
-				+ "\n you give "+shop.gemCost(card)+" gem t. \n "
+				+ "\n you give "+card.gemCost()+" gem t. \n "
 				+ "this card for "+card.get_Class()+" class.\n"
 				+"and rarity is : "+card.get_Rarity(), "Confirm", JOptionPane.OK_CANCEL_OPTION);
 		if(j==JOptionPane.OK_OPTION) {
 			try {
 				if(Gamestate.getinsist().getPlayer().sellaCard(card)) {			
-					Gamestate.getinsist().getPlayer().gem+=shop.gemCost(card);
+					Gamestate.getinsist().getPlayer().gem+=card.gemCost();
 					x.remove(cardLable);
 					shop.setCard(x, store);
 					x.repaint();	
