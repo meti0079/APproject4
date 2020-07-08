@@ -8,6 +8,7 @@ import GAME.Decks;
 import hero.Heros;
 
 public class Player {
+	private String name;
 	private Heros Hero;
 	private int currentgem=1;
 	private int Changes=0;
@@ -19,13 +20,24 @@ public class Player {
 	private  int turn;
 	
 	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	private void initial() {
 		battleGroundCard=new LinkedList<>();
+		for (int i = 0; i <7; i++) {
+			battleGroundCard.add(null);
+		}
 		Hand=new ArrayList<>();
 	}
-	public Player(Decks deck, int tu) {
+	public Player(Decks deck, int tu, String name) {
 		initial();
 		turn=tu;
+		this.name=name;
 		Hero=deck.getHeroDeck();
 		this.deck=(ArrayList<Cards>) deck.getDeck().clone();
 		Decksize=this.deck.size();

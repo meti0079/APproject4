@@ -1,70 +1,70 @@
 package myListeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
 import Cardspackage.Cards;
 import GAME.Gamestate;
 import GAME.Logger;
+import grapic.CardShow;
 import grapic.PlayPanel;
+import playModel.Player;
 
-public class EnemyHandCardListener implements MouseListener{
+public class EnemyHandCardListener implements MouseListener,MouseMotionListener{
 
 	private Cards card;
 	private PlayPanel panel;
-	public EnemyHandCardListener(PlayPanel panel,Cards card) {
+	private Player enemy;
+	private CardShow x;
+	public EnemyHandCardListener(PlayPanel panel,Cards card, Player enemy, CardShow x) {
 		this.card=card;
 		this.panel=panel;
+		this.enemy=enemy;
+		this.x=x;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseReleased(MouseEvent e) {
+		if(panel.getRoundGame()%2==1) {	
+			if(!card.getUsedToAttack()){
+				if(panel.addTobattleground(card,x.getX(), x.getY())) {
+					try {
+						Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "enemy", card.get_Name());
+					} catch (Exception e1) {}						
+				}	panel.updatePanel();
+			}
+		}					
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(panel.getRoundGame()%2==1) {
-			if(!card.getUsedToAttack())
-				if(panel.getRoundGame()==59&&panel.getChanges1()<3) {
-					panel.getDeck2().add(card);
-					panel.getHand2().remove(card);
-					panel.getHand2().add(panel.getDeck2().get(0));
-					panel.getHand2().get(panel.getHand2().size()-1).setUsedToAttack(true);
-					panel.getDeck2().remove(0);
-					panel.updatePanel();
-					panel.setChanges1(panel.getChanges1()+1);
-				}else {
-//					panel.addUse(card);
-//					panel.addTobattleground(card);
-					panel.updatePanel();
-					try {
-						Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name(), card.get_Name());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}						
-				}
+		if(panel.getRoundGame()==59 && enemy.getChanges()<3) {
+			enemy.getDeck().add(card);
+			enemy.getHand().remove(card);
+			enemy.getHand().add(enemy.getDeck().get(0));
+			enemy.getHand().get(enemy.getHand().size()-1).setUsedToAttack(true);
+			enemy.getDeck().remove(0);
+			panel.updatePanel();
+			enemy.setChanges(enemy.getChanges()+1);
 		}
 	}
+
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void mouseExited(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {
 	}
-
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	@Override
+	public void mouseMoved(MouseEvent e) {}
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(panel.getRoundGame()%2==1) {
+			int newX = e.getX() + x.getX();
+			int newY = e.getY() + x.getY();
+			x.setBounds(newX, newY, 100	, 150);	
+		}					
+	}
 }
