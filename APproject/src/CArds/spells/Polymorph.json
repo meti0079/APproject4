@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 4,
-  "name": "Polymorph",
-  "rarity": "rare",
-  "cardClass": "Mage",
-  "description": "Transform a minion into a 1/1 Sheep.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.Polymorph",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 4,
+    "name": "Polymorph",
+    "use": 0,
+    "rarity": "rare",
+    "cardClass": "Mage",
+    "description": "Transform a minion into a 1/1 Sheep."
+  }
 }

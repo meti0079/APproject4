@@ -14,12 +14,12 @@ import grapic.PlayPanel;
 import playModel.Mapper;
 import playModel.Player;
 
-public class MyHandCardListener implements MouseListener,MouseMotionListener {
+public class HandCardListener implements MouseListener,MouseMotionListener {
 	private Cards card;
 	private PlayPanel panel;
 	private CardShow x;
 	private Player me;
-	public MyHandCardListener(PlayPanel panel,Cards card, CardShow x, Player p) {
+	public HandCardListener(PlayPanel panel,Cards card, CardShow x, Player p) {
 		this.card=card;
 		this.panel=panel;
 		this.x=x;
@@ -28,17 +28,17 @@ public class MyHandCardListener implements MouseListener,MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(PlayPanel.getRoundGame()%2==0) {	
+		if(PlayPanel.getRoundGame()%2==me.getTurn()) {	
 			if(!card.getUsedToAttack()){
+				try {
 				if(panel.addTobattleground(card,x.getX(), x.getY())) {
-					try {
 					Mapper.getinsist().addUse(card);
 					panel.updatePanel();
 						Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name(), card.get_Name());
-					} catch (Exception e1) {}						
 				}else {
 					panel.updatePanel();
 				}
+				} catch (Exception e1) {}						
 			}else {
 				panel.updatePanel();
 			}
@@ -46,14 +46,11 @@ public class MyHandCardListener implements MouseListener,MouseMotionListener {
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(panel.getRoundGame()==60 && me.getChanges()<3) {
-			me.getDeck().add(card);
-			me.getHand().remove(card);
-			me.getHand().add(me.getDeck().get(0));
-			me.getHand().get(me.getHand().size()-1).setUsedToAttack(true);
-			me.getDeck().remove(0);
+		if(panel.getRoundGame()==60-me.getTurn() && me.getChanges()<3) {
+			try {
+				Mapper.getinsist().changeCartAtFirst(me, card);
+			} catch (Exception e1) {e1.printStackTrace();}
 			panel.updatePanel();
-			me.setChanges(me.getChanges()+1);
 		}
 	}
 	@Override
@@ -66,7 +63,7 @@ public class MyHandCardListener implements MouseListener,MouseMotionListener {
 	public void mouseMoved(MouseEvent e) {}		
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(panel.getRoundGame()%2==0) {
+		if(PlayPanel.getRoundGame()%2==me.getTurn()) {
 			int newX = e.getX() + x.getX();
 			int newY = e.getY() + x.getY();
 			x.setBounds(newX, newY, 100	, 150);	

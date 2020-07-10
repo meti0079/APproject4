@@ -82,4 +82,9 @@ public class Shop extends JPanel{
 			x.add(lb1);
 		}
 	}
+	public void update(JPanel x, StorePanel y) {
+		setCard(x, y);
+		repaint();
+		revalidate();
+	}
 }

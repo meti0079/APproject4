@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": true,
-  "mana": 1,
-  "name": "Learn Draconic",
-  "rarity": "Common",
-  "cardClass": "Neutral",
-  "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.LearnDraconic",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": true,
+    "mana": 1,
+    "name": "Learn Draconic",
+    "use": 0,
+    "rarity": "Common",
+    "cardClass": "Neutral",
+    "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon."
+  }
 }

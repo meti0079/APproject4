@@ -25,20 +25,11 @@ public class HeroBuyListener implements MouseListener {
 		this.log = log;
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseClicked(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int j=JOptionPane.showConfirmDialog(null, "Do you want buy this hero??\n"+
@@ -54,8 +45,7 @@ public class HeroBuyListener implements MouseListener {
 					Gamestate.getinsist().getPlayer().gem-=25;
 					Gamestate.getinsist().getPlayer().get_myheros().add(s);
 					Gamestate.getinsist().getPlayer().getMyStore().getBuyHero().remove(s);
-					x.revalidate();
-					x.repaint();
+					x.update();
 					inf.repaint();
 					log.log(Gamestate.getinsist().getPlayer().get_name(), "buy hero ", s.getname());
 				}else {
@@ -67,9 +57,6 @@ public class HeroBuyListener implements MouseListener {
 		}
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 }

@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import Cardspackage.Cards;
 import Cardspackage.Weapon;
 import GAME.Decks;
+import GAME.ExportVisitor;
+import GAME.Passive;
 import hero.Heros;
+import interfaces.Acceptable;
 
 public class Player {
 	private String name;
@@ -18,9 +21,17 @@ public class Player {
 	private int Decksize;
 	private LinkedList<Cards> battleGroundCard;
 	private  int turn;
+	private Passive passive;
 	
 	
 	
+	public Passive getPassive() {
+		return passive;
+	}
+
+	public void setPassive(Passive passive) {
+		this.passive = passive;
+	}
 	public String getName() {
 		return name;
 	}
@@ -41,6 +52,12 @@ public class Player {
 		Hero=deck.getHeroDeck();
 		this.deck=(ArrayList<Cards>) deck.getDeck().clone();
 		Decksize=this.deck.size();
+		for(Cards s: this.deck) {
+			s.accept(new ExportVisitor());
+		}
+		
+		
+
 	}
 	public int getTurn() {
 		return turn;

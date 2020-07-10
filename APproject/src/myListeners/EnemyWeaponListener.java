@@ -5,16 +5,19 @@ import Cardspackage.Weapon;
 import GAME.Gamestate;
 import GAME.Logger;
 import grapic.PlayPanel;
+import playModel.Mapper;
+import playModel.Player;
 
 public class EnemyWeaponListener implements MouseListener {
 
 
 	private final PlayPanel panel;
 	private  Weapon myWeapon;
-
-	public EnemyWeaponListener(PlayPanel panel,Weapon weapon) {
+	Player enemy;
+	public EnemyWeaponListener(PlayPanel panel,Weapon weapon, Player enemy) {
 		this.myWeapon=weapon;
 		this.panel=panel;
+		this.enemy=enemy;
 	}
 
 	@Override
@@ -38,27 +41,18 @@ public class EnemyWeaponListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if(panel.getRoundGame()%2==1) {
-			if(!myWeapon.getUsedToAttack() || myWeapon.isBattlecry()) {
-				myWeapon.setDurability(myWeapon.getDurability()-1);
-				try {
-					Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), Gamestate.getinsist().getPlayer().get_name() , "enemy  played  "+ myWeapon.get_Name());
+			try {
+				if(Mapper.getinsist().useWeapon(myWeapon, enemy)) {
+					panel.updatePanel();
 					String se="enemy  played  "+ myWeapon.get_Name()+"\n";
 					panel.getTextArea().append(se);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-				if(myWeapon.getDurability()!=0) {					
-					myWeapon.setBattlecry(false);
-					myWeapon.setUsedToAttack(true);
-					panel.updatePanel();
-				}else {
-					myWeapon=null;
-					panel.updatePanel();
-				}
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		}
 	}
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub

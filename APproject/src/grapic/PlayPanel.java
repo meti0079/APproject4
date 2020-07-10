@@ -14,13 +14,53 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
 import Cardspackage.Cards;
+import Cardspackage.Minions.BigGameHunter;
+import Cardspackage.Minions.BluegillWarrior;
+import Cardspackage.Minions.ChillwindYeti;
+import Cardspackage.Minions.CurioCollector;
+import Cardspackage.Minions.Dreadscale;
+import Cardspackage.Minions.Gruul;
+import Cardspackage.Minions.HighPriestAmet;
+import Cardspackage.Minions.KronxDragonhoof;
+import Cardspackage.Minions.LeperGnome;
+import Cardspackage.Minions.MurlocRaider;
+import Cardspackage.Minions.MurlocWarleader;
+import Cardspackage.Minions.OasisSnapjaw;
+import Cardspackage.Minions.Sandbinder;
+import Cardspackage.Minions.Sathrovarr;
+import Cardspackage.Minions.SeaGiant;
+import Cardspackage.Minions.SecurityRover;
+import Cardspackage.Minions.Shieldbearer;
+import Cardspackage.Minions.SwampKingDred;
+import Cardspackage.Minions.TheBlackKnight;
+import Cardspackage.Minions.ThrallmarFarseer;
+import Cardspackage.Minions.TombWarden;
+import Cardspackage.Spells.ArcaneShot;
+import Cardspackage.Spells.AstralRift;
+import Cardspackage.Spells.Backstab;
+import Cardspackage.Spells.BookofSpecters;
+import Cardspackage.Spells.FriendlySmith;
+import Cardspackage.Spells.HolySmite;
+import Cardspackage.Spells.LearnDraconic;
+import Cardspackage.Spells.PharaohBlessing;
+import Cardspackage.Spells.Polymorph;
+import Cardspackage.Spells.Sprint;
+import Cardspackage.Spells.StrengthinNumbers;
+import Cardspackage.Spells.Swarmoflocusts;
+import Cardspackage.Spells.gift;
+import Cardspackage.Weapons.BattleAxe;
+import Cardspackage.Weapons.BloodFury;
+import Cardspackage.Weapons.HeavyAxe;
 import GAME.Gamestate;
 import GAME.Logger;
+import interfaces.Acceptable;
+import interfaces.Visitor;
 import myListeners.EnemyBattlegrounCardListener;
+import myListeners.EnemyWeaponListener;
 import myListeners.MyBattlegroundCardListener;
-import myListeners.MyHandCardListener;
-import myListeners.MyWeaponListener;
+import myListeners.HandCardListener;
 import playModel.Mapper;
 import playModel.Player;
 
@@ -47,7 +87,6 @@ public class PlayPanel extends JPanel{
 	private ArrayList<CardShow> CurrentBattleground=new ArrayList<>();
 	private ArrayList<CardShow> CurrentHand=new ArrayList<>();
 	private ArrayList<CardShow> weapons=new ArrayList<>();
-
 
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		initialPlayers();
@@ -93,6 +132,7 @@ public class PlayPanel extends JPanel{
 		add(manabut);
 	}
 	private void initial() throws Exception {
+		
 		log=Logger.getinsist();
 		game=Gamestate.getinsist();
 		setPreferredSize(new Dimension(1800, 1000));
@@ -158,8 +198,8 @@ public class PlayPanel extends JPanel{
 		int	j=-1;
 		for(Cards s : me.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new MyHandCardListener(this, s, x, me)); 
-			x.addMouseMotionListener(new MyHandCardListener(this, s, x, me));
+			x.addMouseListener(new HandCardListener(this, s, x, me)); 
+			x.addMouseMotionListener(new HandCardListener(this, s, x, me));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
@@ -170,7 +210,8 @@ public class PlayPanel extends JPanel{
 		int	j1=-1;
 		for(Cards s : enemy.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new MyHandCardListener(this, s, x, enemy));
+			x.addMouseListener(new HandCardListener(this, s, x, enemy));
+			x.addMouseMotionListener(new HandCardListener(this, s, x, enemy));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j1*100), 5, 100, 150);
 			add(x);
@@ -284,8 +325,8 @@ public class PlayPanel extends JPanel{
 	}
 	private void addPlayerWeapon(Player p) {
 		CardShow x=new CardShow(p.getWeapon());
-		x.setBounds(560, 690-(500*p.getTurn()), 100, 150);
-		x.addMouseListener(new MyWeaponListener(this, p.getWeapon(),p.getName()));
+		x.setBounds(560, 690-(520*p.getTurn()), 100, 150);
+		x.addMouseListener(new  EnemyWeaponListener(this, p.getWeapon(), p));
 		add(x);
 		weapons.add(x);
 	}
@@ -318,7 +359,7 @@ public class PlayPanel extends JPanel{
 			player2DeckRemind.setText(enemy.getDecksize()+"");	
 		}
 	}
-	public boolean addTobattleground(Cards s,int x,int y) {
+	public boolean addTobattleground(Cards s,int x,int y) throws Exception {
 		if(roundGame%2==0) {
 			if(map.addTobattleground(s, x, y, me, textArea)) {
 				return true;

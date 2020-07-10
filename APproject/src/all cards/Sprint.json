@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 7,
-  "name": "Sprint",
-  "rarity": "epic",
-  "cardClass": "Rogue",
-  "description": "Draw 4 cards.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.Sprint",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 7,
+    "name": "Sprint",
+    "use": 0,
+    "rarity": "epic",
+    "cardClass": "Rogue",
+    "description": "Draw 4 cards."
+  }
 }

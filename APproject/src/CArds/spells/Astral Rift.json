@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 2,
-  "name": "Astral Rift",
-  "rarity": "rare",
-  "cardClass": "Mage",
-  "description": "Add 2 random minions to your hand.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.AstralRift",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 2,
+    "name": "Astral Rift",
+    "use": 0,
+    "rarity": "rare",
+    "cardClass": "Mage",
+    "description": "Add 2 random minions to your hand."
+  }
 }

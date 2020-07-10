@@ -1,18 +1,21 @@
 {
-  "type": "Weapon",
-  "durability": 8,
-  "attack": 3,
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 3,
-  "name": "Blood Fury",
-  "rarity": "common",
-  "cardClass": "Neutral",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Weapons.BloodFury",
+  "data": {
+    "durability": 8,
+    "attack": 3,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 3,
+    "name": "Blood Fury",
+    "use": 0,
+    "rarity": "common",
+    "cardClass": "Neutral",
+    "type": "Weapon"
+  }
 }

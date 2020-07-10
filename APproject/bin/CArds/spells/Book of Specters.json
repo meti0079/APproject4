@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 2,
-  "name": "Book of Specters",
-  "rarity": "epic",
-  "cardClass": "Neutral",
-  "description": "Draw 3 cards. Discard any spells drawn.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.BookofSpecters",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 2,
+    "name": "Book of Specters",
+    "use": 0,
+    "rarity": "epic",
+    "cardClass": "Neutral",
+    "description": "Draw 3 cards. Discard any spells drawn."
+  }
 }

@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": true,
-  "divineShield": true,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 6,
-  "name": "Pharaoh\u0027s Blessing",
-  "rarity": "Rare",
-  "cardClass": "Neutral",
-  "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.PharaohBlessing",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": true,
+    "divineShield": true,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 6,
+    "name": "Pharaoh\u0027s Blessing",
+    "use": 0,
+    "rarity": "Rare",
+    "cardClass": "Neutral",
+    "description": "Give a minion +4/+4, Divine Shield, and Taunt."
+  }
 }

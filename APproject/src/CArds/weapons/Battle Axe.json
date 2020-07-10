@@ -1,18 +1,21 @@
 {
-  "type": "Weapon",
-  "durability": 2,
-  "attack": 2,
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 1,
-  "name": "Battle Axe",
-  "rarity": "Common",
-  "cardClass": "Mage",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Weapons.BattleAxe",
+  "data": {
+    "durability": 2,
+    "attack": 2,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 1,
+    "name": "Battle Axe",
+    "use": 0,
+    "rarity": "Common",
+    "cardClass": "Mage",
+    "type": "Weapon"
+  }
 }

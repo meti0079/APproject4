@@ -26,42 +26,28 @@ public class MyBattlegroundCardListener implements MouseListener,MouseMotionList
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if(panel.getRoundGame()%2==0) {
-		if(card.isBattlecry()||!card.getUsedToAttack()) {		
-			card.setBattlecry(false);
-			card.setUsedToAttack(true);
-			String s="";
-			try {
-				 s=Gamestate.getinsist().getPlayer().get_name()+"     played   "+card.get_Name()+"\n";
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			if(card.isBattlecry()||!card.getUsedToAttack()) {		
+				card.setBattlecry(false);
+				card.setUsedToAttack(true);
+				String s="";
+				try {
+					s=Gamestate.getinsist().getPlayer().get_name()+"     played   "+card.get_Name()+"\n";
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				panel.getTextArea().append(s);
+				panel.updatePanel();	
 			}
-			panel.getTextArea().append(s);
-			panel.updatePanel();	
 		}
 	}
-	}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void mousePressed(MouseEvent e) {}
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	
-	}
+	public void mouseReleased(MouseEvent e) {}
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if(panel.getRoundGame()%2==0) {
@@ -70,12 +56,7 @@ public class MyBattlegroundCardListener implements MouseListener,MouseMotionList
 			x.setBounds(newX, newY, 100	, 150);	
 		}		
 	}
-
-
 	@Override
-	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseMoved(MouseEvent e) {	}
 
 }

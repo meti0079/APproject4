@@ -12,9 +12,5 @@ public class Mage extends Heros{
 		this.set_SpecialPower("Spend 2 mana and damage 1 any enemy");
 
 	}
-//public void UseHeroPower(Minion s) {
-//	s.setHp(s.getHp()-1);
-//	this.Use_Hero_power--;
-//}
 
 }

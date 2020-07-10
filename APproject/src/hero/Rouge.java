@@ -13,7 +13,6 @@ public Rouge() {
 	this.changeHeroPowerMana(3);
 	
 }
-//Hero power  nazadam
 
 
 

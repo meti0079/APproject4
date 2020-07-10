@@ -38,22 +38,13 @@ public class SellCardListener implements MouseListener {
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -65,29 +56,21 @@ public class SellCardListener implements MouseListener {
 			try {
 				if(Gamestate.getinsist().getPlayer().sellaCard(card)) {			
 					Gamestate.getinsist().getPlayer().gem+=card.gemCost();
-					x.remove(cardLable);
 					shop.setCard(x, store);
-					x.repaint();	
 					inf.repaint();
-					store.update();
+					x.remove(cardLable);
+					x.repaint();	
 					x.revalidate();
-					store.revalidate();
-					store.repaint();
+					store.update();
 					log.log(Gamestate.getinsist().getPlayer().get_name(), "sell card", card.get_Name());	
 				}else {
 					log.log(Gamestate.getinsist().getPlayer().get_name(), "error", "cant sell card : "+card.get_Name());
 				}
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			} catch (Exception e1) {e1.printStackTrace();}
 		}
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 }

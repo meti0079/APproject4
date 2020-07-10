@@ -19,7 +19,7 @@ public class BuyCardListener implements MouseListener {
 	private Cards card;
 	private InfoPanel inf;
 	private Collection_herospanel sellPanel;
-	
+
 	public BuyCardListener(Shop shop, StorePanel store, JLabel cardLabl, Cards card,InfoPanel inf, Collection_herospanel sellpanel) {
 		super();
 		this.sellPanel=sellpanel;
@@ -30,20 +30,11 @@ public class BuyCardListener implements MouseListener {
 		this.card = card;
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseClicked(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int j=JOptionPane.showConfirmDialog(null, "Do you want buy this card??"
@@ -58,18 +49,10 @@ public class BuyCardListener implements MouseListener {
 					store.remove(cardLabl);
 					store.repaint();	
 					inf.repaint();
-					shop.setCard(sellPanel,store);
-					shop.repaint();
-					shop.revalidate();
-					try {
-						GAME.Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "buy card", card.get_Name());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
+					shop.update(sellPanel, store);
+					GAME.Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "buy card", card.get_Name());
 				}else {
-				
-						GAME.Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "error ", "dont have enogh gem to buy : "+card.get_Name());
-				
+					GAME.Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "error ", "dont have enogh gem to buy : "+card.get_Name());
 					JOptionPane.showMessageDialog(null, "you dont have enough gem", "Erorr", JOptionPane.ERROR_MESSAGE);
 				}
 			} catch (Exception e1) {
@@ -78,8 +61,5 @@ public class BuyCardListener implements MouseListener {
 		}
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 }

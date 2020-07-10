@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": true,
-  "quest": false,
-  "mana": 6,
-  "name": "Swarm of locusts",
-  "rarity": "Rare",
-  "cardClass": "Neutral",
-  "description": "ummon seven 1/1 Locusts with Rush.",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.Swarmoflocusts",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": true,
+    "quest": false,
+    "mana": 6,
+    "name": "Swarm of locusts",
+    "use": 0,
+    "rarity": "Rare",
+    "cardClass": "Neutral",
+    "description": "ummon seven 1/1 Locusts with Rush."
+  }
 }

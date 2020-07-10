@@ -60,7 +60,7 @@ public class PassivePanel extends JPanel{
 	}
 	private void setGoButton(MainFrame f) {
 		go=new JButton("go");
-		go.setBounds(1400, 700, 100, 100);
+		go.setBounds(1450, 800, 50, 50);
 		go.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,7 +79,6 @@ public class PassivePanel extends JPanel{
 		go.setEnabled(false);
 		add(go);	
 	}
-	//////mapper
 	private void readPassiveFile() throws FileNotFoundException {
 		Gson j= new Gson();
 		File f3=new File(System.getProperty("user.dir")+"\\src\\passive");
@@ -112,7 +111,6 @@ public class PassivePanel extends JPanel{
 			add(lp1);
 		}
 	}
-	/////////////////
 	private void setEnemyBut() {
 		JButton b= new JButton("Play with enemy");
 		b.setBounds(280, 700, 200, 60);

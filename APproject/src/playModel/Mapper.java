@@ -1,6 +1,5 @@
 package playModel;
 
-import java.awt.Panel;
 import java.awt.TextArea;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,12 +51,12 @@ public class Mapper {
 			p.getWeapon().setUsedToAttack(false);
 		PlayPanel.i=0;
 	}
-	public boolean betweencards(Player p,int x, Cards s, TextArea textArea) {
+	public boolean betweencards(Player p,int x, Cards s, TextArea textArea) throws Exception {
 		for(int i=x+1;i<7;i++) {
 			if(p.getBattleGroundCard().get(i)==null) {
 				p.getBattleGroundCard().remove(i);
 				p.getHand().remove(s);
-				p.getBattleGroundCard().add(x+1,copy(s));
+				p.getBattleGroundCard().add(x+1,s.copy());
 				p.getBattleGroundCard().get(x+1).setUsedToAttack(true);
 				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
@@ -69,7 +68,7 @@ public class Mapper {
 			if(p.getBattleGroundCard().get(i)==null) {
 				p.getBattleGroundCard().remove(i);
 				p.getHand().remove(s);
-				p.getBattleGroundCard().add(x,copy(s));
+				p.getBattleGroundCard().add(x,s.copy());
 				p.getBattleGroundCard().get(x).setUsedToAttack(true);
 				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
@@ -80,17 +79,30 @@ public class Mapper {
 		return false;
 	}
 
+	public void changeCartAtFirst(Player p, Cards card) {
+		if(card.getUsedToAttack())
+			return ;
+		p.getDeck().add(card);
+		p.getHand().remove(card);
+		p.getHand().add(p.getDeck().get(0));
+		p.getHand().get(p.getHand().size()-1).setUsedToAttack(true);
+		p.getDeck().remove(0);
+		p.setChanges(p.getChanges()+1);
+	}
 
 
-
-	public boolean addTobattleground(Cards s,int x,int y, Player p, TextArea textArea) {
+	public boolean addTobattleground(Cards s,int x,int y, Player p, TextArea textArea) throws Exception {
+		System.out.println(p.getName());
 		if(s.get_Mana()<=p.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
+				System.out.println("yse1");
 				if(y<700-(220*p.getTurn()) && y>480-(220*p.getTurn())) {
+					System.out.println("yes2");
 					if(p.getBattleGroundCard().get((x-200)/160) == null ) {
+						System.out.println("yse3");
 						p.getHand().remove(s);
 						p.getBattleGroundCard().remove((x-200)/160);
-						p.getBattleGroundCard().add((x-200)/160,copy(s));
+						p.getBattleGroundCard().add((x-200)/160,s.copy());
 						p.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
 						String se=p.getName()+"  summon  "+ s.get_Name()+"\n";
 						textArea.append(se);
@@ -112,7 +124,7 @@ public class Mapper {
 			}else {
 				String se=p.getName()+"  Summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
-				p.setWeapon((Weapon) copyWeapon((Weapon) s));
+				p.setWeapon( (Weapon) s.copy());
 				p.getWeapon().setUsedToAttack(true);
 				p.getHand().remove(s);
 			}
@@ -134,45 +146,22 @@ public class Mapper {
 			enemy.setCurrentgem(previousGem);;			
 		}
 	}
-
-	protected Cards copy(Cards card) {
-		Minion x=(Minion)card;
-		Minion s=new Minion();
-		s.setAttack(x.getAttack());
-		s.Set_Class(x.getClass()+"");
-		s.setHp(x.getHp());
-		s.Set_Mana(card.get_Mana());
-		s.Set_Name(card.get_Name());
-		s.Set_Rarity(card.get_Rarity());
-		s.setBattlecry(card.isBattlecry());
-		s.setDeathrattle(card.isDeathrattle());
-		s.setDescription(card.getDescription());
-		s.setDivineShield(card.isDivineShield());
-		s.setQuest(card.isQuest());
-		s.setRush(card.isRush());
-		s.setTaunt(card.isTaunt());
-		s.setWindfury(card.isWindfury());
-		return s;
+	public boolean useWeapon(Weapon weapon, Player p) {
+		if(!weapon.getUsedToAttack() || weapon.isBattlecry()) {
+			weapon.setDurability(weapon.getDurability()-1);
+			try {
+				Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "" , p.getName()+"  played  "+ weapon.get_Name());
+			} catch (Exception e) {	e.printStackTrace();	}
+			if(weapon.getDurability()!=0) {					
+				weapon.setBattlecry(false);
+				weapon.setUsedToAttack(true);
+			}else {
+				weapon=null;
+			}
+			return true;
+		}
+		return false;
 	}
-	protected Cards copyWeapon(Weapon card) {
-		Weapon s=new Weapon();
-		s.setAttack(card.getAttack());
-		s.Set_Class(card.getClass()+"");
-		s.Set_Mana(card.get_Mana());
-		s.Set_Name(card.get_Name());
-		s.Set_Rarity(card.get_Rarity());
-		s.setBattlecry(card.isBattlecry());
-		s.setDeathrattle(card.isDeathrattle());
-		s.setDescription(card.getDescription());
-		s.setDivineShield(card.isDivineShield());
-		s.setQuest(card.isQuest());
-		s.setRush(card.isRush());
-		s.setTaunt(card.isTaunt());
-		s.setWindfury(card.isWindfury());
-		s.setDurability(card.getDurability());
-		return s;
-	}
-
 	public void addToHand(Player p) {
 		int x=0;	
 		if(game.getState().equalsIgnoreCase("enemy") ||game.getState().equalsIgnoreCase("computer")  ) {

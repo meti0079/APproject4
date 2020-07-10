@@ -27,10 +27,7 @@ public class EnemyBattlegrounCardListener implements MouseListener,MouseMotionLi
 			if(card.isBattlecry()||!card.getUsedToAttack()) {		
 				card.setBattlecry(false);
 				card.setUsedToAttack(true);
-				String ss="";
-				try {
-					ss="enemy     played   "+card.get_Name()+"\n";
-				} catch (Exception e1) {}
+				String 	ss="enemy     played   "+card.get_Name()+"\n";
 				panel.getTextArea().append(ss);
 				panel.updatePanel();	
 			}

@@ -21,20 +21,11 @@ public class LockCardListener implements MouseListener {
 		this.card = card;
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseClicked(MouseEvent e) {}
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseEntered(MouseEvent e) {}
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {	}
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int x=JOptionPane.showConfirmDialog(null, "you dont have this card!! do yo want to buy this??",
@@ -53,9 +44,6 @@ public class LockCardListener implements MouseListener {
 		}
 	}
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 }

@@ -1,17 +1,19 @@
 {
-  "type": "Spell",
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 2,
-  "name": "gift",
-  "rarity": "legendary",
-  "cardClass": "Warlock",
-  "description": "gift 1 Hp to hero",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Spells.gift",
+  "data": {
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 2,
+    "name": "gift",
+    "use": 0,
+    "rarity": "legendary",
+    "cardClass": "Warlock",
+    "description": "gift 1 Hp to hero"
+  }
 }

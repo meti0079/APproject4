@@ -18,10 +18,10 @@ import hero.Rouge;
 import hero.Warlock;
 
 public class Login  {
-	Gson j;
+	Gson gson;
 
 	public Login(Players player, Enemy enem) throws Exception {
-		j=new GsonBuilder().setPrettyPrinting().create();
+		initialGson();
 		makeHero(player);
 		makeDeck(player, player.get_myheros().get(0));
 		makeEnemyDeck(enem);
@@ -29,13 +29,18 @@ public class Login  {
 		makeMinion(player);
 		makeWeapon(player);
 	}
-
+	private void initialGson() {
+		GsonBuilder gsonBilder=new GsonBuilder();
+		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
+		gsonBilder.setPrettyPrinting();
+		gson=gsonBilder.create();
+	}
 	private void makeWeapon(Players player) throws FileNotFoundException {
 		File fa=new File(System.getProperty("user.dir")+"\\src\\CArds\\weapons");
 		File[] dirr=fa.listFiles();
 		if(dirr!=null) {
 			for(File ch:dirr) {
-				Weapon m=j.fromJson(readFileString(ch), Weapon.class);
+				Cards m=gson.fromJson(readFileString(ch), Cards.class);
 				if(m.get_Class().equals("Mage") ) {
 					addToDeck(m, player);
 				}else {
@@ -51,10 +56,10 @@ public class Login  {
 		File[] dirr2=f2.listFiles();
 		if(dirr2!=null) {
 			for(File ch:dirr2) {
-				Minion m=j.fromJson(readFileString(ch), Minion.class);
+				Cards m=gson.fromJson(readFileString(ch), Cards.class);
 				player.getMyStore().getBuyCard().add(m);
 			}
-			while(player.get_mydeck().size()<15) {	
+			while(player.get_mydeck().size()<14) {	
 				int shans=ran.nextInt(player.getMyStore().getBuyCard().size()-1);
 				Cards m=player.getMyStore().getBuyCard().get(shans);
 				if(m.get_Class().equalsIgnoreCase("Mage") && player.get_mydeck().size()<=15) {
@@ -93,7 +98,7 @@ public class Login  {
 		if(dir!=null) {
 			int i=0;
 			for(File ch:dir) {
-				Spell m=j.fromJson(readFileString(ch), Spell.class);
+				Cards m=gson.fromJson(readFileString(ch), Cards.class);
 				if(m.get_Class().equals("Mage")  && i<=1) {
 					addToDeck(m, player);
 					i++;	

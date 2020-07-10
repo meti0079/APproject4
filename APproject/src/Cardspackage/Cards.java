@@ -1,11 +1,17 @@
 package Cardspackage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import javax.swing.text.StyledEditorKit.BoldAction;
+import interfaces.Acceptable;
+import interfaces.Visitor;
 
-public abstract  class Cards {
+public abstract  class Cards implements Acceptable {
 	private boolean usedToAttack;
 	private boolean windfury=false;
 	private boolean taunt=false;
@@ -29,7 +35,6 @@ public abstract  class Cards {
 	public abstract int getHp();
 	public abstract void setHp(int x);
 	public abstract String getType();
-
 	public int getUse() {
 		return use;
 	}
@@ -185,5 +190,6 @@ public abstract  class Cards {
 			return true;
 		return false;
 	}
+	public abstract Cards copy();
 
 }

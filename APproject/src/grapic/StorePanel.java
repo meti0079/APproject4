@@ -24,7 +24,7 @@ public class StorePanel  extends JPanel{
 		this.shop=shop;
 		sellPanel=sell;
 		initial((MainFrame)f);
-		update();
+		updatePanel();
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -34,7 +34,7 @@ public class StorePanel  extends JPanel{
 	private void setBackGround(Graphics g) {
 		g.drawImage(new ImageIcon("8.jpg").getImage(), 0, 0, null);		
 	}
-	public void update() {
+	public void updatePanel() {
 		removeLables();
 		for(Cards s:game.getPlayer().getMyStore().getBuyCard()) {
 			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png");
@@ -59,5 +59,10 @@ public class StorePanel  extends JPanel{
 		}
 		repaint();
 		revalidate();
+	}
+	public void update() {
+		repaint();
+		revalidate();
+		updatePanel();
 	}
 }

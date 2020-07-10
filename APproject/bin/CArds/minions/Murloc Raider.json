@@ -1,18 +1,21 @@
 {
-  "type": "Minion",
-  "HP": 1,
-  "attack": 2,
-  "windfury": false,
-  "taunt": false,
-  "divineShield": false,
-  "deathrattle": false,
-  "battlecry": false,
-  "rush": false,
-  "quest": false,
-  "mana": 1,
-  "name": "Murloc Raider",
-  "rarity": "common",
-  "cardClass": "Neutral",
-  "use": 0,
-  "usedToAttack": false
+  "type": "Cardspackage.Minions.MurlocRaider",
+  "data": {
+    "HP": 1,
+    "attack": 2,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 1,
+    "name": "Murloc Raider",
+    "use": 0,
+    "rarity": "common",
+    "cardClass": "Neutral",
+    "type": "Minion"
+  }
 }
