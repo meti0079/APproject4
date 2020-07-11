@@ -272,7 +272,6 @@ public class PlayPanel extends JPanel{
 		for(int i=0;i<2;i++)
 			remove(heros.get(1));
 		heros.removeAll(heros);
-	System.out.println("removwe");
 	}
 	private  void finish(MainFrame f) throws Exception {
 		if(map.isFinished(me, enemy, textArea)) {
