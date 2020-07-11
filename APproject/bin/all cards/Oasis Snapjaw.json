@@ -16,6 +16,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Neutral",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

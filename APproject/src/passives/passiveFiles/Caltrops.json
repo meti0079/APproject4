@@ -1,0 +1,7 @@
+{
+  "type": "passives.Caltrops",
+  "data": {
+    "description": "After your opponent plays a minion, deal 1 damage to it.",
+    "name": "Caltrops"
+  }
+}

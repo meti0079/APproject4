@@ -8,7 +8,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Decks;
 import GAME.Gamestate;
 

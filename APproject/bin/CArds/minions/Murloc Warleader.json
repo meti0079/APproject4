@@ -17,6 +17,7 @@
     "rarity": "epic",
     "cardClass": "Neutral",
     "description": "Your other Murlocs have +2 Attack.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

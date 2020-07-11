@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 import myListeners.LockCardListener;
@@ -54,13 +54,13 @@ public class Collection_search extends JPanel{
 		}
 	}
 
-	private void initialCardLable(Cards s) {
+	private void initialCardLable(Card s) {
 		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
 		lp.addMouseListener(new UnlockListener(s, p, dec));
 		current.add(lp);
 		add(lp);
 	}
-	private void initialLockCardLable(Cards s, MainFrame f) {
+	private void initialLockCardLable(Card s, MainFrame f) {
 		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+"1.png"));
 		lp.addMouseListener(new LockCardListener(f, s));
 		current.add(lp);
@@ -71,10 +71,10 @@ public class Collection_search extends JPanel{
 			remove(current.get(i));
 			current.remove(current.get(i));
 		}
-		for(Cards s : game.getPlayer().findManaCard(x)) {
+		for(Card s : game.getPlayer().findManaCard(x)) {
 			initialCardLable(s);
 		}
-		for(Cards s2 : game.getPlayer().getMyStore().findManaCard(x)) {
+		for(Card s2 : game.getPlayer().getMyStore().findManaCard(x)) {
 			initialLockCardLable(s2, f);		
 		}
 
@@ -98,21 +98,21 @@ public class Collection_search extends JPanel{
 		}	
 	}
 	private void addHave() {
-		for(Cards s : game.getPlayer().get_myCards()) {
+		for(Card s : game.getPlayer().get_myCards()) {
 			initialCardLable(s);
 		}
 	}
 	private void addnothave(MainFrame f) {
-		for(Cards s2 : game.getPlayer().getMyStore().getBuyCard()) {
+		for(Card s2 : game.getPlayer().getMyStore().getBuyCard()) {
 			initialLockCardLable(s2, f);
 		}
 	}
 	private void nameFilter(String x,MainFrame f) {
 		removeLables();
-		for(Cards s : game.getPlayer().findNameCard(x)) {
+		for(Card s : game.getPlayer().findNameCard(x)) {
 		initialCardLable(s);	
 		}
-		for(Cards s2 : game.getPlayer().getMyStore().findNameCard(x)) {
+		for(Card s2 : game.getPlayer().getMyStore().findNameCard(x)) {
 		initialLockCardLable(s2, f);	
 		}
 	}

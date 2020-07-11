@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "epic",
     "cardClass": "Neutral",
-    "description": "Draw 3 cards. Discard any spells drawn."
+    "description": "Draw 3 cards. Discard any spells drawn.",
+    "needTarget": false
   }
 }

@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Neutral",
     "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

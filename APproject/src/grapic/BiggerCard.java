@@ -12,20 +12,20 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 
 public class BiggerCard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
-	private Cards card;
+	private Card card;
 	private  JButton addToMyDeck;
 	private JButton addToEnemyDeck;
 	private JButton cancel;
 	private CollectionPanel panel;
 	private Collection_deck deckbord;
-	public BiggerCard(Cards card, CollectionPanel pan, Collection_deck declbord) {
+	public BiggerCard(Card card, CollectionPanel pan, Collection_deck declbord) {
 		this.card=card;
 		this.panel=pan;
 		this.deckbord=declbord;

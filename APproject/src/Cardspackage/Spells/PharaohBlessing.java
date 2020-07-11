@@ -3,6 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Player;
 
 public class PharaohBlessing extends Spell implements Acceptable{
 
@@ -17,9 +18,8 @@ public class PharaohBlessing extends Spell implements Acceptable{
 	}
 
 	@Override
-	public void accept(Visitor v) {
-		// TODO Auto-generated method stub
-		
-	}
+	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		v.visitPharaohBlessing(this, taeget, attackerP, targetP);
+		return true;}
 
 }

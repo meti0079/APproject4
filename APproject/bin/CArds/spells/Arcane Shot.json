@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Hunter",
-    "description": "Deal 2 damage."
+    "description": "Deal 2 damage.",
+    "needTarget": true
   }
 }

@@ -17,6 +17,7 @@
     "rarity": "common",
     "cardClass": "Neutral",
     "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

@@ -1,28 +1,28 @@
 package GAME;
 import java.util.ArrayList;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import hero.Heros;
 
 public class Store {
 
-	private ArrayList< Cards> buyCard=new ArrayList<>();
+	private ArrayList< Card> buyCard=new ArrayList<>();
 	private ArrayList<Heros> buyHero=new ArrayList<>(); 
 	
-	public void setBuyCard(ArrayList< Cards> a) {
+	public void setBuyCard(ArrayList< Card> a) {
 		buyCard=a;
 	}
-	public void setCardToBuyCard(Cards s) {
+	public void setCardToBuyCard(Card s) {
 		buyCard.add(s);
 	}
-	public ArrayList<Cards> getBuyCard() {
+	public ArrayList<Card> getBuyCard() {
 		return buyCard;
 	}
-	public void removeCardFromBuyCard(Cards s) {
+	public void removeCardFromBuyCard(Card s) {
 		buyCard.remove(s);
 	}
 
 
-	public  Cards getCard(Cards s) {
+	public  Card getCard(Card s) {
 		buyCard.remove(s);
 		return s;
 	}
@@ -44,27 +44,27 @@ public class Store {
 		buyHero.remove(s);
 		return s;
 	}
-	public ArrayList<Cards> findHeroCard(String name){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : buyCard) {
+	public ArrayList<Card> findHeroCard(String name){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : buyCard) {
 			if(s.get_Class().contains(name)) {
 				sum.add(s);		
 			}
 		}
 		return sum;
 	}
-	public ArrayList<Cards> findManaCard(int x){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : buyCard) {
+	public ArrayList<Card> findManaCard(int x){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : buyCard) {
 			if(s.get_Mana()==x) {
 				sum.add(s);		
 			}
 		}
 		return sum;
 	}
-	public ArrayList<Cards> findNameCard(String x){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : buyCard) {
+	public ArrayList<Card> findNameCard(String x){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : buyCard) {
 			if(s.get_Name().contains(x)) {
 				sum.add(s);		
 			}

@@ -181,7 +181,7 @@ public class MenuPanel extends JPanel {
 				try {				
 					if(game.getPlayer().getMyDeck().getDeck().size()==15) {
 						log.log(game.getPlayer().get_name(), "go to play", "");
-						PassiveShow p = new PassiveShow((MainFrame)frame);
+						StartPlayShow p = new StartPlayShow((MainFrame)frame);
 						p.setPreferredSize(new Dimension(1800,1000));
 						frame.ChangePanel(p);
 					}else {

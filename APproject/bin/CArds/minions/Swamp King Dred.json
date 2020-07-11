@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Hunter",
     "description": "After your opponent playes a minion ,attack it",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

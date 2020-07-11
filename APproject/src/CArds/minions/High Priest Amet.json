@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Priest",
     "description": "whenever you summon a minion set its Health equal to this minion.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

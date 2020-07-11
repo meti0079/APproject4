@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Rouge",
-    "description": "Discover a weapon from any class. Add it to your Adventure Deck with +2/+2."
+    "description": "Discover a weapon from any class. Add it to your Adventure Deck with +2/+2.",
+    "needTarget": false
   }
 }

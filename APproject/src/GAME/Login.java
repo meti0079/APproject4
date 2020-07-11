@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import Cardspackage.Minion;
 import Cardspackage.Spell;
 import Cardspackage.Weapon;
@@ -31,7 +31,7 @@ public class Login  {
 	}
 	private void initialGson() {
 		GsonBuilder gsonBilder=new GsonBuilder();
-		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
+		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 	}
@@ -40,7 +40,7 @@ public class Login  {
 		File[] dirr=fa.listFiles();
 		if(dirr!=null) {
 			for(File ch:dirr) {
-				Cards m=gson.fromJson(readFileString(ch), Cards.class);
+				Card m=gson.fromJson(readFileString(ch), Card.class);
 				if(m.get_Class().equals("Mage") ) {
 					addToDeck(m, player);
 				}else {
@@ -56,12 +56,12 @@ public class Login  {
 		File[] dirr2=f2.listFiles();
 		if(dirr2!=null) {
 			for(File ch:dirr2) {
-				Cards m=gson.fromJson(readFileString(ch), Cards.class);
+				Card m=gson.fromJson(readFileString(ch), Card.class);
 				player.getMyStore().getBuyCard().add(m);
 			}
 			while(player.get_mydeck().size()<14) {	
 				int shans=ran.nextInt(player.getMyStore().getBuyCard().size()-1);
-				Cards m=player.getMyStore().getBuyCard().get(shans);
+				Card m=player.getMyStore().getBuyCard().get(shans);
 				if(m.get_Class().equalsIgnoreCase("Mage") && player.get_mydeck().size()<=15) {
 					addToDeck(m, player);
 					player.getMyStore().getBuyCard().remove(shans);
@@ -98,7 +98,7 @@ public class Login  {
 		if(dir!=null) {
 			int i=0;
 			for(File ch:dir) {
-				Cards m=gson.fromJson(readFileString(ch), Cards.class);
+				Card m=gson.fromJson(readFileString(ch), Card.class);
 				if(m.get_Class().equals("Mage")  && i<=1) {
 					addToDeck(m, player);
 					i++;	
@@ -121,7 +121,7 @@ public class Login  {
 		enemy.setName("enemy deck");
 		en.setEnemyDeck(enemy);
 	}
-	private void addToDeck(Cards m, Players player) {
+	private void addToDeck(Card m, Players player) {
 		player.get_mydeck().add(m);
 		player.add_card(m);	
 	}

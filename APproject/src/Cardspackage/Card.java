@@ -8,10 +8,11 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import GAME.AbstractAdapter;
 import interfaces.Acceptable;
 import interfaces.Visitor;
 
-public abstract  class Cards implements Acceptable {
+public abstract  class Card implements Acceptable {
 	private boolean usedToAttack;
 	private boolean windfury=false;
 	private boolean taunt=false;
@@ -27,9 +28,16 @@ public abstract  class Cards implements Acceptable {
 	private String cardClass;
 	private String description;
 	private String type;
+	private boolean needTarget=true;
 
 
-
+	
+	public boolean isNeedTarget() {
+		return needTarget;
+	}
+	public void setNeedTarget(boolean needTarget) {
+		this.needTarget = needTarget;
+	}
 	public abstract int getAttack();
 	public abstract void setAttack(int x);
 	public abstract int getHp();
@@ -51,7 +59,7 @@ public abstract  class Cards implements Acceptable {
 		this.type = type;
 	}
 
-	public Cards() {
+	public Card() {
 
 	}
 	public String getDescription() {
@@ -145,13 +153,13 @@ public abstract  class Cards implements Acceptable {
 			return 1;
 		return 1;
 	}
-	public static LinkedList<Cards> sortByUse(ArrayList<Cards > s) {
-		LinkedList< Cards> sum=new LinkedList<>();
-		ArrayList<Cards> cop=(ArrayList<Cards>) s.clone();
+	public static LinkedList<Card> sortByUse(ArrayList<Card > s) {
+		LinkedList< Card> sum=new LinkedList<>();
+		ArrayList<Card> cop=(ArrayList<Card>) s.clone();
 		int top=0;
 		int index=0;
 		for (int i = 0; i <10; i++) {			
-			for (Cards cards : cop) {
+			for (Card cards : cop) {
 				if(cards.getUse()>top) {
 					top=cards.getUse();
 					index=s.indexOf(cards);
@@ -168,28 +176,47 @@ public abstract  class Cards implements Acceptable {
 		return sum;
 
 	}
-	public static boolean compareUse(Cards s,Cards w) {
+	public static boolean compareUse(Card s,Card w) {
 		if(s.getUse()==w.getUse())
 			return true;
 		return false;
 	}
-	public static Boolean compareRarity(Cards s,Cards w) {
+	public static Boolean compareRarity(Card s,Card w) {
 		if(s.rarity.equalsIgnoreCase(w.rarity))
 			return true;
 		return false;
 
 	}
-	public static boolean compareMana(Cards s,Cards w) {
+	public static boolean compareMana(Card s,Card w) {
 		if(s.mana==w.mana)
 			return true;
 		return false;
 
 	}
-	public static boolean compareType(Cards s,Cards w) {
+	public static boolean compareType(Card s,Card w) {
 		if(s.type.equalsIgnoreCase(w.type))
 			return true;
 		return false;
 	}
-	public abstract Cards copy();
-
+	public  Card copy() {
+		GsonBuilder gsonBilder=new GsonBuilder();
+		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.setPrettyPrinting();
+		Gson gson=gsonBilder.create();
+		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
+		Scanner s = null;
+		try {
+			s = new Scanner(f);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		String se="";
+		while(s.hasNext()) {
+			se+=s.nextLine(); 
+		}
+		Card x= gson.fromJson(se, Card.class);			
+		return x;	
+		
+	}
+	
 }

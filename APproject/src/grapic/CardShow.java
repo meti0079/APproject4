@@ -13,14 +13,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 
 public class CardShow extends JPanel  {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
-	private Cards card;
-	public CardShow(Cards card) {
+	private Card card;
+	public CardShow(Card card) {
 		this.card=card;
 		initial();
 		readImage();
@@ -57,14 +57,14 @@ public class CardShow extends JPanel  {
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0,this.getWidth(), this.getHeight(),null);
 	}
-	private void setAtackLable(Cards x) {
+	private void setAtackLable(Card x) {
 		JLabel attackJLabel=new JLabel(x.getAttack()+"");
 		attackJLabel.setBounds(10, 121, 20, 20);
 		attackJLabel.setForeground(Color.WHITE);
 		attackJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(attackJLabel);
 	}
-	private void setHpLable(Cards x) {
+	private void setHpLable(Card x) {
 		JLabel hpJLabel=new JLabel(x.getHp()+"");
 		hpJLabel.setBounds((this.getWidth()*4)/5, 126, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);
@@ -72,14 +72,14 @@ public class CardShow extends JPanel  {
 		add(hpJLabel);
 
 	}
-	private void setAtackLable1(Cards x) {
+	private void setAtackLable1(Card x) {
 		JLabel attackJLabel=new JLabel(x.getAttack()+"");
 		attackJLabel.setBounds(10, 121, 20, 20);
 		attackJLabel.setForeground(Color.WHITE);
 		attackJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(attackJLabel);
 	}
-	private void setDuribalityLable(Cards x) {
+	private void setDuribalityLable(Card x) {
 		JLabel hpJLabel=new JLabel(x.getHp()+"");
 		hpJLabel.setBounds(81, 126, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);

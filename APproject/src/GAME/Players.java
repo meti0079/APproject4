@@ -1,7 +1,7 @@
 package GAME;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import hero.Heros;
 
 public class Players {
@@ -10,7 +10,7 @@ public class Players {
 	public  int gem;
 	private Store myStore;
 	private ArrayList<Decks> my_Decks=new ArrayList<>();
-	private  ArrayList<Cards> my_Cards =new ArrayList<>();
+	private  ArrayList<Card> my_Cards =new ArrayList<>();
 	private ArrayList<Heros> my_Heros=new ArrayList<>();
 	private int plays;
 	private int currentDeck;
@@ -31,7 +31,7 @@ public class Players {
 	public void change_Password(String s) {
 		password=s;
 	}
-	public void add_card(Cards s) {
+	public void add_card(Card s) {
 		my_Cards.add(s);
 	}
 	public void reduce_gem(int s) {
@@ -50,11 +50,11 @@ public class Players {
 	public Heros get_hero() {
 		return my_Decks.get(currentDeck).getHeroDeck();
 	}
-	public ArrayList<Cards> get_mydeck() {
+	public ArrayList<Card> get_mydeck() {
 		return my_Decks.get(currentDeck).getDeck();
 
 	}
-	public ArrayList<Cards> get_myCards() {
+	public ArrayList<Card> get_myCards() {
 		return my_Cards;	
 	}
 	public ArrayList<Heros> get_myheros() {
@@ -66,13 +66,13 @@ public class Players {
 	public void setMyStore(Store mystore) {
 		this.myStore = mystore;
 	}
-	public void buyaCard(Cards s) {
+	public void buyaCard(Card s) {
 		my_Cards.add(this.myStore.getCard(s));
 		myStore.getBuyCard().remove(s);		
 	}
-	public boolean sellaCard(Cards s) {
+	public boolean sellaCard(Card s) {
 		for(Decks q: my_Decks) {
-			for(Cards w : q.getDeck())
+			for(Card w : q.getDeck())
 				if(w.get_Name().equals(s.get_Name())) {
 					JOptionPane.showConfirmDialog(null, "cant sell because this card used in deck   :  "+q.getName()
 					+"\n remove this from our deck", "cant sell",JOptionPane.ERROR_MESSAGE);
@@ -104,27 +104,27 @@ public class Players {
 	public void setMyDeck(int x) {
 		this.currentDeck=x;
 	}
-	public ArrayList<Cards> findHeroCard(String name){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : my_Cards) {
+	public ArrayList<Card> findHeroCard(String name){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : my_Cards) {
 			if(s.get_Class().contains(name)) {
 				sum.add(s);		
 			}
 		}
 		return sum;
 	}
-	public ArrayList<Cards> findManaCard(int x){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : my_Cards) {
+	public ArrayList<Card> findManaCard(int x){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : my_Cards) {
 			if(s.get_Mana()==x) {
 				sum.add(s);		
 			}
 		}
 		return sum;
 	}
-	public ArrayList<Cards> findNameCard(String x){
-		ArrayList<Cards> sum=new ArrayList<>();
-		for(Cards s : my_Cards) {
+	public ArrayList<Card> findNameCard(String x){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : my_Cards) {
 			if(s.get_Name().contains(x)) {
 				sum.add(s);		
 			}
@@ -153,8 +153,8 @@ public class Players {
 		}
 		return su;
 	}
-	public Cards SpecialCard(String name ) {
-		for (Cards cards : my_Decks.get(currentDeck).getDeck()) {
+	public Card SpecialCard(String name ) {
+		for (Card cards : my_Decks.get(currentDeck).getDeck()) {
 			if (cards.get_Name().equalsIgnoreCase(name)) {
 				return cards;
 			}

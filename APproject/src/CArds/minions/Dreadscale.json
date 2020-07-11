@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Warlock",
     "description": "Deal 1 damage to each minion.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

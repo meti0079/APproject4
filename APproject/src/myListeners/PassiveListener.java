@@ -6,13 +6,19 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 
 import GAME.Gamestate;
+import grapic.PassivePanel;
+import passives.Passive;
+import playModel.Player;
 
 public class PassiveListener implements MouseListener{
-private int index;
-
-	public PassiveListener(int index) {
-	this.index = index;
-}
+	private Passive index;
+	private Player p;
+	PassivePanel pas;
+	public PassiveListener(Passive index, Player p,PassivePanel pas) {
+		this.index = index;
+		this.p=p;
+		this.pas=pas;
+	}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 	@Override
@@ -24,9 +30,10 @@ private int index;
 	@Override
 	public void mousePressed(MouseEvent e) {
 		try {
-			Gamestate.getinsist().setPlayPassive(Gamestate.getinsist().getPassives().get(index));
-			JOptionPane.showMessageDialog(null, "passive chosed");
+			p.setPassive(index);
+			JOptionPane.showMessageDialog(null,  p.getName()+"  passive chosed");
 		} catch (Exception e1) {e1.printStackTrace();}
+	pas.setVisible(false);
 	}
 
 	@Override

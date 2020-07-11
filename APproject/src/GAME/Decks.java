@@ -5,13 +5,13 @@ import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import hero.Heros;
 
 
 public class Decks {
 	private  Heros heroDeck;
-	private ArrayList<Cards> deck;
+	private ArrayList<Card> deck;
 	private String name;
 	private int win;
 	private int useThisDeck;
@@ -24,7 +24,7 @@ public class Decks {
 
 	public float GetAverage() {
 		int sum=0;
-		for(Cards a:deck)
+		for(Card a:deck)
 			sum+=a.get_Mana();
 		if(deck.size()==0)
 			return 0;
@@ -40,17 +40,17 @@ public class Decks {
 			if(s.getname().equalsIgnoreCase(name)) {
 				this.heroDeck =s ;
 			}
-		for(Cards a:deck) {
+		for(Card a:deck) {
 			if(!a.get_Class().equalsIgnoreCase("Neutral"))
 				deck.remove(a);
 		}
 	}
-	public ArrayList<Cards> getDeck() {
+	public ArrayList<Card> getDeck() {
 		return deck;
 	}
-	public boolean addCardToDeck(Cards e) {
+	public boolean addCardToDeck(Card e) {
 		int sum=0;
-		for(Cards ss:deck) {
+		for(Card ss:deck) {
 			if(ss.get_Name().equalsIgnoreCase(e.get_Name()))
 				sum++;
 		}
@@ -76,11 +76,11 @@ public class Decks {
 	/**
 	 * @param deck the deck to set
 	 */
-	public void setDeck(ArrayList<Cards> deck) {
+	public void setDeck(ArrayList<Card> deck) {
 		this.deck = deck;
 	}
 
-	public void removeCardFromDeck(Cards e) {
+	public void removeCardFromDeck(Card e) {
 		this.deck.remove(e);
 	}
 	public String getName() {
@@ -107,17 +107,17 @@ public class Decks {
 	public void addUsethisDeck(int a) {
 		this.useThisDeck =a;
 	}
-	public Cards bestCard() {
+	public Card bestCard() {
 		if(this.getDeck().size()<2)
 			return null;
-		LinkedList< Cards > ee=Cards.sortByUse(getDeck());			
+		LinkedList< Card > ee=Card.sortByUse(getDeck());			
 		if(ee.size()==1) {
 			return ee.get(0);
 		}
-		if(Cards.compareUse(ee.get(0), ee.get(1))) {
-			if(Cards.compareRarity(ee.get(0), ee.get(1))){
-				if(Cards.compareMana(ee.get(0),ee.get(1))) {
-					if(Cards.compareType(ee.get(0),ee.get(1)))
+		if(Card.compareUse(ee.get(0), ee.get(1))) {
+			if(Card.compareRarity(ee.get(0), ee.get(1))){
+				if(Card.compareMana(ee.get(0),ee.get(1))) {
+					if(Card.compareType(ee.get(0),ee.get(1)))
 						return ee.get(0);
 				}else {
 					if(ee.get(0).get_Mana()  >  ee.get(1).get_Mana())

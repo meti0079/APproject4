@@ -1,15 +1,26 @@
 
 package main;
 
-import grapic.MainFrame;
-import java.io.FileWriter;
-//import java.util.ArrayList;
 import javax.swing.SwingUtilities;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import grapic.MainFrame;
+//import passives.AlchemistsStone;
+//import passives.BandofScarabs;
+//import passives.Caltrops;
+//import passives.CapturedFlag;
+//import passives.Entrenchment;
+//import passives.GlyphofWarding;
+//import passives.GrommashsArmguards;
+//import passives.Passive;
+//import passives.Stargazing;
 //
-//import Cardspackage.Cards;
+//import java.io.FileWriter;
+//import java.security.spec.PSSParameterSpec;
+//import java.util.ArrayList;
+//
+//import java.util.ArrayList;
+//import com.google.gson.Gson;
+//import com.google.gson.GsonBuilder;
+////
 //import Cardspackage.Minions.BigGameHunter;
 //import Cardspackage.Minions.BluegillWarrior;
 //import Cardspackage.Minions.ChillwindYeti;
@@ -46,15 +57,15 @@ import com.google.gson.reflect.TypeToken;
 //import Cardspackage.Weapons.BattleAxe;
 //import Cardspackage.Weapons.BloodFury;
 //import Cardspackage.Weapons.HeavyAxe;
-import GAME.AbstractAdapter;
-
-import Cardspackage.Cards;
-import Cardspackage.Spells.AstralRift;
+//import GAME.AbstractAdapter;
+//
+//import Cardspackage.Card;
+//import Cardspackage.Spells.AstralRift;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-//		ArrayList<Cards> all=new ArrayList<>();
-//		Cards a=new ArcaneShot(); 
+//		ArrayList<Card> all=new ArrayList<>();
+//		Card a=new ArcaneShot(); 
 //		all.add(a);
 //		ArcaneShot ar=new ArcaneShot();
 //		all.add(ar);
@@ -126,19 +137,42 @@ public class Main {
 //		all.add(th);
 //		ThrallmarFarseer t=new ThrallmarFarseer();
 //		all.add(t);
-//		Cards to= new TombWarden();
+//		Card to= new TombWarden();
 //		all.add(to);
 //		
 //		GsonBuilder gsonBilder=new GsonBuilder();
-//		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
+//		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
 //		gsonBilder.setPrettyPrinting();
-//		Gson gson=gsonBilder.create();
-//	Cards cards=new AstralRift();
+//		Gson gson=gsonBilder.create();	
+////		
+//		for (Card  cards : all) {
+//			
 //			FileWriter fileWriter = new FileWriter("E:\\2\\"+cards.get_Name()+".json");
-//			gson.toJson(cards, new TypeToken<Cards>(){}.getType(), fileWriter);
+//			gson.toJson(cards, new TypeToken<Card>(){}.getType(), fileWriter);
 //			fileWriter.flush();
+//			
+//		}
+//		Passive p=new AlchemistsStone();
+//		Passive s=new BandofScarabs();
+//		Passive q=new Caltrops();
+//		Passive w=new CapturedFlag();
+//		Passive t=new Entrenchment();
+//		Passive f=new GlyphofWarding();
+//		Passive g=new GrommashsArmguards();
+//		Passive c=new Stargazing();
 //		
-
+//		ArrayList<Passive > al=new ArrayList<>();
+//		al.add(c);
+//		al.add(g);
+//		al.add(q);
+//		al.add(s);
+//		al.add(p);
+//		al.add(f);
+//		al.add(t);
+//		al.add(w);
+//			
+		//	Cards cards=new AstralRift();
+//		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

@@ -1,0 +1,7 @@
+{
+  "type": "passives.Stargazing",
+  "data": {
+    "description": "You can use your Hero Power twice each turn. It costs (1) less.",
+    "name": "Stargazing"
+  }
+}

@@ -78,7 +78,12 @@ public class Clock  extends Thread{
 			}
 			if (PlayPanel.i==60) {
 				PlayPanel.i=0;
-				playPanel.nextTurn();
+				try {
+					playPanel.nextTurn();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

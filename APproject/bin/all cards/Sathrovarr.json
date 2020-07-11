@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Neutral",
     "description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

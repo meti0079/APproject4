@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import grapic.Collection_herospanel;
 import grapic.InfoPanel;
@@ -16,11 +16,11 @@ public class BuyCardListener implements MouseListener {
 	private Shop shop;
 	private StorePanel store;
 	private JLabel cardLabl;
-	private Cards card;
+	private Card card;
 	private InfoPanel inf;
 	private Collection_herospanel sellPanel;
 
-	public BuyCardListener(Shop shop, StorePanel store, JLabel cardLabl, Cards card,InfoPanel inf, Collection_herospanel sellpanel) {
+	public BuyCardListener(Shop shop, StorePanel store, JLabel cardLabl, Card card,InfoPanel inf, Collection_herospanel sellpanel) {
 		super();
 		this.sellPanel=sellpanel;
 		this.inf=inf;

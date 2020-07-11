@@ -3,16 +3,16 @@ package myListeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import grapic.BiggerCard;
 import grapic.CollectionPanel;
 import grapic.Collection_deck;
 
 public class UnlockListener implements MouseListener{
-private Cards s;
+private Card s;
 private CollectionPanel p;
 private Collection_deck deckboard;
-public UnlockListener(Cards s, CollectionPanel p, Collection_deck deckboard) {
+public UnlockListener(Card s, CollectionPanel p, Collection_deck deckboard) {
 	this.s = s;
 	this.p = p;
 	this.deckboard = deckboard;

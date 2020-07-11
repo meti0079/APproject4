@@ -1,5 +1,6 @@
 package GAME;
 
+import Cardspackage.Minion;
 import Cardspackage.Minions.BigGameHunter;
 import Cardspackage.Minions.BluegillWarrior;
 import Cardspackage.Minions.ChillwindYeti;
@@ -37,227 +38,219 @@ import Cardspackage.Spells.gift;
 import Cardspackage.Weapons.BattleAxe;
 import Cardspackage.Weapons.BloodFury;
 import Cardspackage.Weapons.HeavyAxe;
+import hero.Heros;
 import interfaces.Visitor;
+import playModel.Player;
 
 public class ExportVisitor implements Visitor{
 
 	@Override
-	public void visitArcaneShot(ArcaneShot m) {
+	public void visitArcaneShot(ArcaneShot m, Object taeget, Player attackerP, Player targetP) {
+		System.out.println("arcane");
+	}
+
+	@Override
+	public void visitAstralRift(AstralRift m, Object taeget, Player attackerP, Player targetP) {
+System.out.println("astrial");		
+	}
+
+	@Override
+	public void visitBackstab(Backstab m, Object taeget, Player attackerP, Player targetP) {
+System.out.println("back");	
+}
+
+	@Override
+	public void visitBattleAxe(BattleAxe m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitAstralRift(AstralRift m) {
+	public void visitBigGameHunter(BigGameHunter m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitBackstab(Backstab m) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void visitBattleAxe(BattleAxe m) {
+	public void visitBloodFury(BloodFury m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitBigGameHunter(BigGameHunter m) {
+	public void visitBluegillWarrior(BluegillWarrior m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitBloodFury(BloodFury m) {
+	public void visitBookofSpecters(BookofSpecters m, Object taeget, Player attackerP, Player targetP) {
+		System.out.println( "book");
+	}
+
+	@Override
+	public void visitChillwindYeti(ChillwindYeti m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitBluegillWarrior(BluegillWarrior m) {
+	public void visitCurioCollector(CurioCollector m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitBookofSpecters(BookofSpecters m) {
+	public void visitDreadscale(Dreadscale m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitChillwindYeti(ChillwindYeti m) {
+	public void visitFriendlySmith(FriendlySmith m, Object taeget, Player attackerP, Player targetP) {	
+		System.out.println("fri");
+	}
+
+	@Override
+	public void visitgift(gift m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitCurioCollector(CurioCollector m) {
+	public void visitGruul(Gruul m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitDreadscale(Dreadscale m) {
+	public void visitHeavyAxe(HeavyAxe m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitFriendlySmith(FriendlySmith m) {
+	public void visitHighPriestAmet(HighPriestAmet m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitgift(gift m) {
+	public void visitHolySmite(HolySmite m, Object taeget, Player attackerP, Player targetP) {
+		System.out.println("holy");
+	}
+
+	@Override
+	public void visitKronxDragonhoof(KronxDragonhoof m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitGruul(Gruul m) {
+	public void visitLearnDraconic(LearnDraconic m, Object taeget, Player attackerP, Player targetP) {
+		System.out.println("learn");
+	}
+
+	@Override
+	public void visitLeperGnome(LeperGnome m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitHeavyAxe(HeavyAxe m) {
+	public void visitMurlocWarleader(MurlocWarleader m, Object taeget, Player attackerP, Player targetP) {
+	
+	}
+
+	@Override
+	public void visitMurlocRaider(MurlocRaider m, Object taeget, Player attackerP, Player targetP) {
+	}
+
+	@Override
+	public void visitOasisSnapjaw(OasisSnapjaw m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitHighPriestAmet(HighPriestAmet m) {
+	public void visitPharaohBlessing(PharaohBlessing m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitHolySmite(HolySmite m) {
+	public void visitPolymorph(Polymorph m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitKronxDragonhoof(KronxDragonhoof m) {
+	public void visitSandbinder(Sandbinder m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitLearnDraconic(LearnDraconic m) {
+	public void visitSathrovarr(Sathrovarr m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitLeperGnome(LeperGnome m) {
+	public void visitSeaGiant(SeaGiant m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitMurlocWarleader(MurlocWarleader m) {
+	public void visitSecurityRover(SecurityRover m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitMurlocRaider(MurlocRaider m) {
+	public void visitShieldbearer(Shieldbearer m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitOasisSnapjaw(OasisSnapjaw m) {
+	public void visitSprint(Sprint m, Object taeget, Player attackerP, Player targetP) {
+		System.out.println("sprint");
+		}
+
+	@Override
+	public void visitStrengthinNumbers(StrengthinNumbers m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitPharaohBlessing(PharaohBlessing m) {
+	public void visitSwampKingDred(SwampKingDred m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitPolymorph(Polymorph m) {
+	public void visitSwarmoflocusts(Swarmoflocusts m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitSandbinder(Sandbinder m) {
+	public void visitTheBlackKnight(TheBlackKnight m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitSathrovarr(Sathrovarr m) {
+	public void visitThrallmarFarseer(ThrallmarFarseer m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void visitSeaGiant(SeaGiant m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitSecurityRover(SecurityRover m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitShieldbearer(Shieldbearer m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitSprint(Sprint m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitStrengthinNumbers(StrengthinNumbers m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitSwampKingDred(SwampKingDred m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitSwarmoflocusts(Swarmoflocusts m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitTheBlackKnight(TheBlackKnight m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitThrallmarFarseer(ThrallmarFarseer m) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visitTombWarden(TombWarden m) {
+	public void visitTombWarden(TombWarden m, Object taeget, Player attackerP, Player targetP) {
 		// TODO Auto-generated method stub
 		
 	}

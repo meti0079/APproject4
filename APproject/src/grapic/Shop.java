@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 import hero.Heros;
@@ -64,7 +64,7 @@ public class Shop extends JPanel{
 	}
 	public void setCard(JPanel x, StorePanel y) {
 		removeLables(x);
-		for(Cards s:game.getPlayer().get_myCards()) {
+		for(Card s:game.getPlayer().get_myCards()) {
 			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png");
 			final	JLabel lb1=new JLabel(icon);
 			lb1.addMouseListener(new SellCardListener(y, x, lb1, inf, s, log, this));		 

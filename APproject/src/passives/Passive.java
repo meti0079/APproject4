@@ -1,9 +1,11 @@
-package GAME;
+package passives;
 
-public class Passive {
+import interfaces.PassiveVisitor;
+
+public abstract class Passive {
 	private String description;
 	private String name;
-
+public abstract void accept();
 
 	public String getDescription() {
 		return description;

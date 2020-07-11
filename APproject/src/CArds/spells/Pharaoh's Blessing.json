@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "Rare",
     "cardClass": "Neutral",
-    "description": "Give a minion +4/+4, Divine Shield, and Taunt."
+    "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+    "needTarget": false
   }
 }

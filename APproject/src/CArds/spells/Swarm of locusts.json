@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "Rare",
     "cardClass": "Neutral",
-    "description": "ummon seven 1/1 Locusts with Rush."
+    "description": "summon seven 1/1 Locusts with Rush.",
+    "needTarget": true
   }
 }

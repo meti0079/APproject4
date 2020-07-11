@@ -17,6 +17,7 @@
     "rarity": "rare",
     "cardClass": "Neutral",
     "description": "Whenever you draw a card, gain +1/+1.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

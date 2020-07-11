@@ -17,6 +17,7 @@
     "rarity": "epic",
     "cardClass": "Neutral",
     "description": "Battlecry: Draw an Elemental from your deck.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

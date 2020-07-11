@@ -1,8 +1,7 @@
 package Cardspackage;
 
-import interfaces.Visitor;
 
-public abstract  class Spell extends Cards{
+public abstract  class Spell extends Card{
 
 	@Override
 	public int getAttack() {
@@ -27,10 +26,7 @@ public abstract  class Spell extends Cards{
 	public String getType() {
 		return "Spell";
 	}
-	@Override
-	public Cards copy() {
-		return null;
-	}
+	
 
 
 	

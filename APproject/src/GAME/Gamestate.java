@@ -12,7 +12,8 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import Cardspackage.Cards;
+import Cardspackage.Card;
+import passives.Passive;
 
 
 
@@ -23,33 +24,17 @@ public class Gamestate {
 	private Store store;
 	private	Gson gson;
 	public static Gamestate game;
-	private ArrayList<Passive> passives;
 	private String backCard="ca.png";
 	private String backBattleGround="nattle1.jpg";
-	private Passive playPassive; 
 	private Enemy enemy;
+	private Object attacker;	
+	
 
-	private Gamestate() throws Exception{
-		passives=new ArrayList<>();
-		initialGson();
-	}
-	private void initialGson() {
-		GsonBuilder gsonBilder=new GsonBuilder();
-		gsonBilder.registerTypeAdapter(Cards.class, new AbstractAdapter<Cards>());
-		gsonBilder.setPrettyPrinting();
-		gson=gsonBilder.create();
-	}
 	public static Gamestate getinsist() throws Exception {
 		if(game==null) {
 			game=new Gamestate();
 		}
 		return game;
-	}
-	public ArrayList<Passive> getPassives() {
-		return passives;
-	}
-	public void addPassives(Passive a) {
-		passives.add(a);
 	}
 	public Players getPlayer() {
 		return player;
@@ -150,13 +135,6 @@ public class Gamestate {
 		}else
 			JOptionPane.showMessageDialog(null, "the password incorrect");
 	}
-	public Passive getPlayPassive() {
-		return playPassive;
-	}
-
-	public void setPlayPassive(Passive playPassive) {
-		this.playPassive = playPassive;
-	}
 	public String getState() {
 		return state;
 	}
@@ -180,6 +158,21 @@ public class Gamestate {
 	}
 	public void setEnemy(Enemy enemy) {
 		this.enemy = enemy;
+	}
+	public Object getAttacker() {
+		return attacker;
+	}
+	public void setAttacker(Object attacker) {
+		this.attacker = attacker;
+	}
+	private Gamestate() throws Exception{
+		initialGson();
+	}
+	private void initialGson() {
+		GsonBuilder gsonBilder=new GsonBuilder();
+		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.setPrettyPrinting();
+		gson=gsonBilder.create();
 	}
 }
 

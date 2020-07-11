@@ -17,6 +17,7 @@
     "rarity": "common",
     "cardClass": "Neutral",
     "description": "Taunt . Battlecry: Summon a copy of this minion",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

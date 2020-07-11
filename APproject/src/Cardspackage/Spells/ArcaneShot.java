@@ -3,6 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Player;
 
 public class ArcaneShot extends Spell implements Acceptable{
 
@@ -11,14 +12,14 @@ public class ArcaneShot extends Spell implements Acceptable{
 		this.Set_Class("Hunter");
 		this.Set_Mana(1);
 		this.Set_Rarity("common");
-		this.setDescription("Deal 2 damage.");	
+		this.setDescription("Deal 2 damage.");
 		
 	}
 
 	@Override
-	public void accept(Visitor v) {
-		// TODO Auto-generated method stub
-		
+	public boolean  accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		v.visitArcaneShot(this, taeget,  attackerP, targetP);		
+		return true;
 	}
 		
 }

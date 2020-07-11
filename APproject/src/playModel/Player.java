@@ -2,13 +2,13 @@ package playModel;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import Cardspackage.Weapon;
 import GAME.Decks;
 import GAME.ExportVisitor;
-import GAME.Passive;
 import hero.Heros;
 import interfaces.Acceptable;
+import passives.Passive;
 
 public class Player {
 	private String name;
@@ -16,15 +16,13 @@ public class Player {
 	private int currentgem=1;
 	private int Changes=0;
 	private Weapon Weapon;
-	private ArrayList<Cards> Hand;
-	private ArrayList<Cards> deck;
+	private ArrayList<Card> Hand;
+	private ArrayList<Card> deck;
 	private int Decksize;
-	private LinkedList<Cards> battleGroundCard;
+	private LinkedList<Card> battleGroundCard;
 	private  int turn;
 	private Passive passive;
-	
-	
-	
+
 	public Passive getPassive() {
 		return passive;
 	}
@@ -50,14 +48,8 @@ public class Player {
 		turn=tu;
 		this.name=name;
 		Hero=deck.getHeroDeck();
-		this.deck=(ArrayList<Cards>) deck.getDeck().clone();
+		this.deck=(ArrayList<Card>) deck.getDeck().clone();
 		Decksize=this.deck.size();
-		for(Cards s: this.deck) {
-			s.accept(new ExportVisitor());
-		}
-		
-		
-
 	}
 	public int getTurn() {
 		return turn;
@@ -90,19 +82,19 @@ public class Player {
 	public void setWeapon(Weapon weapon) {
 		Weapon = weapon;
 	}
-	public ArrayList<Cards> getHand() {
+	public ArrayList<Card> getHand() {
 		return Hand;
 	}
-	public void AddToHand(Cards hand) {
+	public void AddToHand(Card hand) {
 		Hand.add(hand) ;
 	}
-	public ArrayList<Cards> getDeck() {
+	public ArrayList<Card> getDeck() {
 		return deck;
 	}
-	public void AddToDeck(Cards e) {
+	public void AddToDeck(Card e) {
 		deck.add(e) ;
 	}
-	public void setDeck(ArrayList<Cards> deck) {
+	public void setDeck(ArrayList<Card> deck) {
 		this.deck = deck;
 	}
 	public int getDecksize() {
@@ -111,10 +103,20 @@ public class Player {
 	public void setDecksize(int decksize) {
 		Decksize = decksize;
 	}
-	public LinkedList<Cards> getBattleGroundCard() {
+	public LinkedList<Card> getBattleGroundCard() {
 		return battleGroundCard;
 	}
-	public void setBattleGroundCard(LinkedList<Cards> battleGroundCard) {
+	public void setBattleGroundCard(LinkedList<Card> battleGroundCard) {
 		this.battleGroundCard = battleGroundCard;
+	}
+	public void checkCard() {
+		for (int i = 0; i < 7; i++) {
+			if(battleGroundCard.get(i)!= null) {
+				if(battleGroundCard.get(i).getHp()<=0) {
+					getBattleGroundCard().remove(i);
+					getBattleGroundCard().add(i, null);									
+				}
+			}
+		}
 	}
 }

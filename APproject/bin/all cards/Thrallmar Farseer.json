@@ -17,6 +17,7 @@
     "rarity": "common",
     "cardClass": "neutral",
     "description": "windfury",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

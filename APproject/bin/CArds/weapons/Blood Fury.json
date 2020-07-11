@@ -16,6 +16,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Neutral",
-    "type": "Weapon"
+    "type": "Weapon",
+    "needTarget": true
   }
 }

@@ -17,6 +17,7 @@
     "rarity": "common",
     "cardClass": "Neutral",
     "description": "Charge",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

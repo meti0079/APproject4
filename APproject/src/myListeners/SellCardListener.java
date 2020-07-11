@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 import grapic.InfoPanel;
@@ -20,12 +20,12 @@ public class SellCardListener implements MouseListener {
 	private JPanel x;
 	private JLabel cardLable;
 	private InfoPanel inf;
-	private Cards card;
+	private Card card;
 	private Logger log;
 	private Shop shop;
 
 
-	public SellCardListener(StorePanel store, JPanel x, JLabel cardLable, InfoPanel inf, Cards card, Logger log,
+	public SellCardListener(StorePanel store, JPanel x, JLabel cardLable, InfoPanel inf, Card card, Logger log,
 			Shop shop) {
 		super();
 		this.store = store;

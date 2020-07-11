@@ -17,6 +17,7 @@
     "rarity": "rare",
     "cardClass": "Neutral",
     "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

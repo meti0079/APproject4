@@ -13,7 +13,7 @@ import GAME.Logger;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import myListeners.EnemyDeckListener;
 import myListeners.LockCardListener;
@@ -95,12 +95,12 @@ public class CollectionPanel extends JPanel {
 		tp.setPreferredSize(new Dimension(1500, 790));
 	}	
 	private void setCardToHeroPanel(String name,JPanel p,MainFrame f) {
-		for(Cards s : game.getPlayer().findHeroCard(name)) {
+		for(Card s : game.getPlayer().findHeroCard(name)) {
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
 			lp.addMouseListener(new UnlockListener(s, this, deckbord));
 			p.add(lp);
 		}
-		for(Cards s2 : game.getPlayer().getMyStore().findHeroCard(name)) {
+		for(Card s2 : game.getPlayer().getMyStore().findHeroCard(name)) {
 			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s2.get_Name()+"1.png"));
 			lp1.addMouseListener(new LockCardListener(f, s2));
 			p.add(lp1);
@@ -116,7 +116,7 @@ public class CollectionPanel extends JPanel {
 	}	
 	public void setdeck() {
 		removeDeckLablesFromPanel();
-		for(Cards s : game.getPlayer().get_mydeck()) {			
+		for(Card s : game.getPlayer().get_mydeck()) {			
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
 			lp.addMouseListener( new MyDeckListener(s, lp, this));
 			myDeckPanel.add(lp);
@@ -125,14 +125,14 @@ public class CollectionPanel extends JPanel {
 	}
 	public void setEnemyDeck(){
 		removeEnemyLablesFromPanel();
-		for(Cards s : game.getEnemy().getEnemyDeck().getDeck()) {			
+		for(Card s : game.getEnemy().getEnemyDeck().getDeck()) {			
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
 			lp.addMouseListener( new EnemyDeckListener(s, lp, this));
 			enemyDeckPanel.add(lp);
 			enemyCurrent.add(lp);
 		}
 	}	
-	public void makeChangeInEnemyDeck(Cards s, JLabel lp) {
+	public void makeChangeInEnemyDeck(Card s, JLabel lp) {
 		try {
 			Logger.getinsist().log(game.getPlayer().get_name(), "remove card from enemy deck", s.get_Name());
 		} catch (IOException e1) {e1.printStackTrace();	}
@@ -141,7 +141,7 @@ public class CollectionPanel extends JPanel {
 		enemyDeckPanel.update();
 		deckbord.update();
 	}	
-	public void makeChangeInDeck(Cards s, JLabel lp) {
+	public void makeChangeInDeck(Card s, JLabel lp) {
 		try {
 			game.getPlayer().getMyDeck().addUsethisDeck(0);
 			game.getPlayer().getMyDeck().addWin(0);

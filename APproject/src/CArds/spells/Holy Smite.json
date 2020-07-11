@@ -14,6 +14,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Priest",
-    "description": "Deal 3 damage to a minion."
+    "description": "Deal 3 damage to a minion.",
+    "needTarget": true
   }
 }

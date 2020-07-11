@@ -1,7 +1,11 @@
 package Cardspackage;
 
+import hero.Heros;
+import interfaces.Visitor;
+import playModel.Mapper;
+import playModel.Player;
 
-public abstract  class Minion extends Cards{
+public abstract  class Minion extends Card{
 	private int HP;
 	private int attack;
 	public Minion() {
@@ -17,39 +21,55 @@ public abstract  class Minion extends Cards{
 	public int getHp() {
 		return this.HP;
 	}
-//
+	//
 	@Override
 	public void setAttack(int x) {
 		attack=x;
 	}
-//
+	//
 	@Override
 	public void setHp(int x) {
 		HP=x;
 	}
-//
+	//
 	@Override
 	public String getType() {
 		return "Minion" ;
 	}
-	public Cards copy() {
-//		Minion s=new Minion();
-//		s.setAttack(this.getAttack());
-//		s.Set_Class(this.getClass()+"");
-//		s.setHp(this.getHp());
-//		s.Set_Mana(this.get_Mana());
-//		s.Set_Name(this.get_Name());
-//		s.Set_Rarity(this.get_Rarity());
-//		s.setBattlecry(this.isBattlecry());
-//		s.setDeathrattle(this.isDeathrattle());
-//		s.setDescription(this.getDescription());
-//		s.setDivineShield(this.isDivineShield());
-//		s.setQuest(this.isQuest());
-//		s.setRush(this.isRush());
-//		s.setTaunt(this.isTaunt());
-//		s.setWindfury(this.isWindfury());
-		return null;
+	@Override
+	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		System.out.println("called first");
+		if(taeget == null)
+			return false;
+		try {
+			if(Mapper.getinsist().checkTount(targetP)) {
+				if(taeget instanceof Minion &&((Minion) taeget).isTaunt()&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
+					System.out.println("called tunt");
+					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
+					this.setHp(this.getHp()-((Minion) taeget).getAttack());
+					attackerP.checkCard();
+					targetP.checkCard();
+					return true;
+				}
+			}
+			if(taeget instanceof Heros && taeget.equals(targetP.getHero())) {
+				System.out.println("called hero");
+				((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
+				System.out.println(((Heros) taeget).get_HP());
+				return true;
+			}else if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
+				System.out.println("called secend");
+				((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
+				this.setHp(this.getHp()-((Minion) taeget).getAttack());	
+				attackerP.checkCard();
+				targetP.checkCard();
+				return true;
+			}
+			System.out.println("bad new");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
-
 
 }

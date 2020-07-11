@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import Cardspackage.Minions.BigGameHunter;
 import Cardspackage.Minions.BluegillWarrior;
 import Cardspackage.Minions.ChillwindYeti;
@@ -53,6 +53,7 @@ import Cardspackage.Spells.gift;
 import Cardspackage.Weapons.BattleAxe;
 import Cardspackage.Weapons.BloodFury;
 import Cardspackage.Weapons.HeavyAxe;
+import GAME.ExportVisitor;
 import GAME.Gamestate;
 import GAME.Logger;
 import interfaces.Acceptable;
@@ -79,7 +80,7 @@ public class PlayPanel extends JPanel{
 	private static int roundGame=60;
 	private Player me;
 	private Player enemy;
-	private Mapper map=Mapper.getinsist();
+	private Mapper map;
 	private JLabel player2DeckRemind;
 	private JLabel player1DeckRemind;
 	private JLabel player1HandRemind;
@@ -87,12 +88,14 @@ public class PlayPanel extends JPanel{
 	private ArrayList<CardShow> CurrentBattleground=new ArrayList<>();
 	private ArrayList<CardShow> CurrentHand=new ArrayList<>();
 	private ArrayList<CardShow> weapons=new ArrayList<>();
+	private ArrayList<HeroShow> heros=new ArrayList<>(); 
+	private ExportVisitor visitor=new ExportVisitor();
 
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
+		initial();
 		initialPlayers();
 		textArea=t;
 		this.f=f;
-		initial();
 		initialNextTurnBtutton();
 		initialLables();
 		startGame();
@@ -117,6 +120,13 @@ public class PlayPanel extends JPanel{
 		Clock timer =new Clock(jp, this);
 		add(jp);
 		timer.start();		
+	initialPassive(me);
+	}
+	private void  initialPassive(Player pp) throws Exception {
+		PassivePanel p=new PassivePanel(pp);
+		p.setBounds(200, 300, 1000, 500);
+		this.add(p);
+
 	}
 	private void initialNextTurnBtutton() {
 		manabut= new JButton();
@@ -126,19 +136,25 @@ public class PlayPanel extends JPanel{
 		manabut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				nextTurn();
+				try {
+					nextTurn();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		add(manabut);
 	}
 	private void initial() throws Exception {
-		
+		map=Mapper.getinsist();
 		log=Logger.getinsist();
 		game=Gamestate.getinsist();
 		setPreferredSize(new Dimension(1800, 1000));
 		setLayout(null);
 	}
 	private void initialLables() {
+		drawHero();
 		player1DeckRemind = new JLabel(me.getDecksize()+"");
 		player2DeckRemind=new JLabel(enemy.getDecksize()+"");
 		player2HandRemind=new JLabel("3");
@@ -182,13 +198,13 @@ public class PlayPanel extends JPanel{
 			}else {		addPlayerWeapon(enemy);		}
 		}
 	}	
-	private void setMyBattleGroundCard() {
+	public void setMyBattleGroundCard() {
 		for(int i=0;i<7;i++) {
 			if(me.getBattleGroundCard().get(i) !=null) {
 				CardShow x=new CardShow(me.getBattleGroundCard().get(i));
 				x.setBounds(200+160*i,500, 100, 150);
-				x.addMouseListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x));
-				x.addMouseMotionListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x));
+				x.addMouseListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x, me, enemy, visitor));
+				x.addMouseMotionListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x, me , enemy, visitor));
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -196,10 +212,10 @@ public class PlayPanel extends JPanel{
 	}
 	private void setMyHandCard() {
 		int	j=-1;
-		for(Cards s : me.getHand()) {
+		for(Card s : me.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new HandCardListener(this, s, x, me)); 
-			x.addMouseMotionListener(new HandCardListener(this, s, x, me));
+			x.addMouseListener(new HandCardListener(this, s, x, me, enemy, visitor)); 
+			x.addMouseMotionListener(new HandCardListener(this, s, x, me, enemy, visitor));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
@@ -208,23 +224,23 @@ public class PlayPanel extends JPanel{
 	}
 	private void setenemyHandCard() {
 		int	j1=-1;
-		for(Cards s : enemy.getHand()) {
+		for(Card s : enemy.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new HandCardListener(this, s, x, enemy));
-			x.addMouseMotionListener(new HandCardListener(this, s, x, enemy));
+			x.addMouseListener(new HandCardListener(this, s, x, enemy, me, visitor));
+			x.addMouseMotionListener(new HandCardListener(this, s, x, enemy, me, visitor));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j1*100), 5, 100, 150);
 			add(x);
 			j1--;
 		}
 	}
-	private void setenemyBattleGroundCard() {
+	public void setenemyBattleGroundCard() {
 		for(int i=0;i<7;i++) {
 			if(enemy.getBattleGroundCard().get(i) !=null) {
 				CardShow x=new CardShow(enemy.getBattleGroundCard().get(i));
 				x.setBounds(200+160*i,300, 100, 150);
-				x.addMouseListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x));
-				x.addMouseMotionListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x));
+				x.addMouseListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
+				x.addMouseMotionListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -232,10 +248,12 @@ public class PlayPanel extends JPanel{
 	}
 	private void setCard() {
 		removeLables();
+		removeHeros();
 		setWeaons();
 		setMyHandCard();
 		setMyBattleGroundCard();
 		setenemyBattleGroundCard();
+		drawHero();
 		setenemyHandCard();
 		player1HandRemind.setText(me.getHand().size()+"");
 		player2HandRemind.setText(enemy.getHand().size()+"");
@@ -244,9 +262,17 @@ public class PlayPanel extends JPanel{
 		HeroShow x1= new HeroShow(me.getHero());
 		x1.setBounds(658, 660, 190, 200);
 		add(x1);
+		heros.add(x1);
 		HeroShow x2= new HeroShow(enemy.getHero());
 		x2.setBounds(658, 100, 190, 200);
 		add(x2);
+		heros.add(x2);
+	}
+	private void removeHeros() {
+		for(int i=0;i<2;i++)
+			remove(heros.get(1));
+		heros.removeAll(heros);
+	System.out.println("removwe");
 	}
 	private  void finish(MainFrame f) throws Exception {
 		if(map.isFinished(me, enemy, textArea)) {
@@ -290,8 +316,9 @@ public class PlayPanel extends JPanel{
 		manaSet();
 		repaint();
 	}
-	protected void nextTurn() {
+	protected void nextTurn() throws Exception {
 		if(roundGame==60) {
+			initialPassive(enemy);
 			firstRound();
 			return;
 		}
@@ -309,11 +336,10 @@ public class PlayPanel extends JPanel{
 		manaSet();
 		if(next!=null)
 			next.setVisible(false);
-		repaint();
 	}
 	private void player1Turn() {
 		turnPlayed.setText(((roundGame/2))+"");
-		map.nextTurn(me);
+		map.nextTurn(me, enemy);
 		addToHand(me.getTurn()+1);
 		setCard();
 	}	@Override
@@ -321,8 +347,18 @@ public class PlayPanel extends JPanel{
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("src\\play image\\"+game.getBackBattleground()).getImage(), 0, 0, null);
 		drawGem(g);
-		drawHero();
+		drawPlaces(g);
 	}
+	
+	private void drawPlaces(Graphics g) {
+		for(int i=0 ;i<8;i++)
+			g.drawLine(200+i*160, 260, 200+i*160, 700);
+	g.drawLine(200, 260, 1160, 260);
+	g.drawLine(200, 480, 1160, 480);
+	g.drawLine(200, 700, 1160, 700);
+	}
+	
+	
 	private void addPlayerWeapon(Player p) {
 		CardShow x=new CardShow(p.getWeapon());
 		x.setBounds(560, 690-(520*p.getTurn()), 100, 150);
@@ -330,11 +366,14 @@ public class PlayPanel extends JPanel{
 		add(x);
 		weapons.add(x);
 	}
-	private void removeLables() {
+	public void removeBattlegroundCard() {
 		for(int i=CurrentBattleground.size()-1;i>=0;i--) {
 			remove(CurrentBattleground.get(i));
 			CurrentBattleground.remove(CurrentBattleground.get(i));
-		}
+		}		
+	}
+	private void removeLables() {
+		removeBattlegroundCard();
 		for(int i=CurrentHand.size()-1;i>=0;i--) {
 			remove(CurrentHand.get(i));
 			CurrentHand.remove(CurrentHand.get(i));
@@ -344,7 +383,7 @@ public class PlayPanel extends JPanel{
 		}	
 	}
 	private void player2Turn() {
-		map.nextTurn(enemy);
+		map.nextTurn(enemy, me);
 		turnPlayed.setText(roundGame/2+"");			
 		addToHand(enemy.getTurn()+1);
 		setCard();
@@ -359,16 +398,16 @@ public class PlayPanel extends JPanel{
 			player2DeckRemind.setText(enemy.getDecksize()+"");	
 		}
 	}
-	public boolean addTobattleground(Cards s,int x,int y) throws Exception {
+	public boolean addTobattleground(Card s,int x,int y) throws Exception {
 		if(roundGame%2==0) {
-			if(map.addTobattleground(s, x, y, me, textArea)) {
+			if(map.addTobattleground(s, x, y, me, enemy, visitor, textArea)) {
 				return true;
 			}else {
 				next.setVisible(true);			
 				return false;
 			}
 		}else {
-			if (map.addTobattleground(s, x, y, enemy, textArea)) { 
+			if (map.addTobattleground(s, x, y, enemy, me, visitor, textArea)) { 
 				return true;
 			}else {
 				next.setVisible(true);			

@@ -17,6 +17,7 @@
     "rarity": "legendary",
     "cardClass": "Neutral",
     "description": "Battlecry: Destroy an enemy minion with Taunt.",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

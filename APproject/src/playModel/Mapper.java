@@ -7,31 +7,42 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import Cardspackage.Minion;
+import Cardspackage.Spell;
 import Cardspackage.Weapon;
+import GAME.AbstractAdapter;
 import GAME.DeckReader;
 import GAME.Decks;
 import GAME.Gamestate;
 import GAME.Logger;
+import grapic.HeroShow;
 import grapic.PlayPanel;
+import hero.Heros;
+import interfaces.Visitor;
+import myListeners.PassiveListener;
+import passives.Passive;
 
 public class Mapper {
 
 
-
+	private ArrayList<Passive> allPassives;
 	private int previousGem=0;
 	private DeckReader deckReader;
 	private static Mapper map;
 	private Gamestate game;
 	private Mapper() throws Exception {
 		game=Gamestate.getinsist();
+		allPassives=new ArrayList<>();
 		readFromFile();
+		readPassiveFile();
 	}
 	public static Mapper getinsist() throws Exception {
 		if (map==null) {
@@ -39,19 +50,29 @@ public class Mapper {
 		}
 		return map;
 	}
-
-	public void nextTurn(Player p) {
-		for (Cards cards : p.getBattleGroundCard()) { 
-			if(cards != null)
-				cards.setUsedToAttack(false);
-		}
-		for (Cards cards : p.getHand()) 
+	
+	
+	public void setBackGroundCard(Player p) {
+		p.checkCard();
+		for (int i=0;i<7;i++) { 
+			if(p.getBattleGroundCard().get(i) != null) {
+				p.getBattleGroundCard().get(i).setUsedToAttack(false);
+			}
+		}		
+	}
+	
+	
+	
+	public void nextTurn(Player p, Player enemy) {
+		setBackGroundCard(p);
+		setBackGroundCard(enemy);
+		for (Card cards : p.getHand()) 
 			cards.setUsedToAttack(false);
 		if(p.getWeapon()!=null)
 			p.getWeapon().setUsedToAttack(false);
 		PlayPanel.i=0;
 	}
-	public boolean betweencards(Player p,int x, Cards s, TextArea textArea) throws Exception {
+	public boolean betweencards(Player p,int x, Card s, TextArea textArea) throws Exception {
 		for(int i=x+1;i<7;i++) {
 			if(p.getBattleGroundCard().get(i)==null) {
 				p.getBattleGroundCard().remove(i);
@@ -79,7 +100,7 @@ public class Mapper {
 		return false;
 	}
 
-	public void changeCartAtFirst(Player p, Cards card) {
+	public void changeCartAtFirst(Player p, Card card) {
 		if(card.getUsedToAttack())
 			return ;
 		p.getDeck().add(card);
@@ -90,25 +111,20 @@ public class Mapper {
 		p.setChanges(p.getChanges()+1);
 	}
 
-
-	public boolean addTobattleground(Cards s,int x,int y, Player p, TextArea textArea) throws Exception {
-		System.out.println(p.getName());
-		if(s.get_Mana()<=p.getCurrentgem()) {
+	public boolean addTobattleground(Card s,int x,int y, Player me, Player enemy, Visitor v,TextArea textArea) throws Exception {
+		if(s.get_Mana()<=me.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
-				System.out.println("yse1");
-				if(y<700-(220*p.getTurn()) && y>480-(220*p.getTurn())) {
-					System.out.println("yes2");
-					if(p.getBattleGroundCard().get((x-200)/160) == null ) {
-						System.out.println("yse3");
-						p.getHand().remove(s);
-						p.getBattleGroundCard().remove((x-200)/160);
-						p.getBattleGroundCard().add((x-200)/160,s.copy());
-						p.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
-						String se=p.getName()+"  summon  "+ s.get_Name()+"\n";
+				if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
+					if(me.getBattleGroundCard().get((x-200)/160) == null ) {
+						me.getHand().remove(s);
+						me.getBattleGroundCard().remove((x-200)/160);
+						me.getBattleGroundCard().add((x-200)/160,s.copy());
+						me.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
+						String se=me.getName()+"  summon  "+ s.get_Name()+"\n";
 						textArea.append(se);
-						p.setCurrentgem(p.getCurrentgem()-s.get_Mana());
+						me.setCurrentgem(me.getCurrentgem()-s.get_Mana());
 						return true;
-					}else if(betweencards(p,((x-200)/160) , s, textArea)) {
+					}else if(betweencards(me,((x-200)/160) , s, textArea)) {
 						return true;
 					}else {						
 						JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
@@ -118,22 +134,40 @@ public class Mapper {
 					return false;
 				}
 			}else if(s.getType().equalsIgnoreCase("Spell")) {
-				String se=p.getName()+"  played  "+ s.get_Name()+"\n";
-				textArea.append(se);
-				p.getHand().remove(s);
+				if(s.accept(v, findTarget(x, y, me, enemy), me, enemy)) {
+					String se=me.getName()+"  played  "+ s.get_Name()+"\n";
+					textArea.append(se);
+					me.getHand().remove(s);					
+				}
 			}else {
-				String se=p.getName()+"  Summon  "+ s.get_Name()+"\n";
+				String se=me.getName()+"  Summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
-				p.setWeapon( (Weapon) s.copy());
-				p.getWeapon().setUsedToAttack(true);
-				p.getHand().remove(s);
+				me.setWeapon( (Weapon) s.copy());
+				me.getWeapon().setUsedToAttack(true);
+				me.getHand().remove(s);
 			}
-			p.setCurrentgem(p.getCurrentgem()-s.get_Mana());;
+			me.setCurrentgem(me.getCurrentgem()-s.get_Mana());;
 			return true;
 		}else {
 			return false;
 		}
 	}
+	
+	
+	private Object findTarget(int x, int y, Player me, Player enemy) {
+
+		if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
+			return me.getBattleGroundCard().get((x-200)/160);
+		}else if(y<700-(220*enemy.getTurn()) && y>480-(220*enemy.getTurn())) {
+			return enemy.getBattleGroundCard().get((x-200)/160);
+		}else if(658 <x && x<850  && y>660-(560*me.getTurn()) &&y<860-(560*me.getTurn())) {
+			return me.getHero();
+		}else if(658 <x && x<850  && y>100+(560*me.getTurn()) &&y<300+(560*me.getTurn())) {
+		return enemy.getHero();
+		}
+		return null;		
+	}
+	
 	public void manaSet(Player me, Player enemy) {
 		if(PlayPanel.getRoundGame()%2==me.getTurn()) {
 			if(previousGem==10) {
@@ -194,23 +228,23 @@ public class Mapper {
 	public void readDeck(Player me,Player enemy) {
 		if (game.getState().equalsIgnoreCase("enemy")) {
 			if(me.getDecksize()==0 ) {
-				me.setDeck((ArrayList<Cards>) game.getPlayer().get_mydeck().clone());
+				me.setDeck((ArrayList<Card>) game.getPlayer().get_mydeck().clone());
 				me.setDecksize(me.getDeck().size());
 				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if(enemy.getDecksize()==0 ) {
-				enemy.setDeck((ArrayList<Cards>) game.getEnemy().getEnemyDeck().getDeck().clone());
+				enemy.setDeck((ArrayList<Card>) game.getEnemy().getEnemyDeck().getDeck().clone());
 				enemy.setDecksize(enemy.getDeck().size());
 				JOptionPane.showMessageDialog(null, "player2 : Deck update");	
 			}
 		}else if(game.getState().equalsIgnoreCase("Deck")){
 			if(me.getDecksize()==0 ) {
-				me.setDeck((ArrayList<Cards>) deckReader.cardFactory("friend").clone());
+				me.setDeck((ArrayList<Card>) deckReader.cardFactory("friend").clone());
 				me.setDecksize(me.getDeck().size());
 				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if(enemy.getDecksize()==0 ) {
-				enemy.setDeck((ArrayList<Cards>) deckReader.cardFactory("enemy").clone());
+				enemy.setDeck((ArrayList<Card>) deckReader.cardFactory("enemy").clone());
 				enemy.setDecksize(enemy.getDeck().size());
 				JOptionPane.showMessageDialog(null, "player2 : Deck update");	
 			}
@@ -263,7 +297,7 @@ public class Mapper {
 			return null;
 		}	
 	}
-	public void addUse(Cards s) {
+	public void addUse(Card s) {
 		if(game.getState().equalsIgnoreCase("enemy"))
 			game.getPlayer().SpecialCard(s.get_Name()).addUse();
 	}
@@ -286,11 +320,98 @@ public class Mapper {
 				if(game.getState().equalsIgnoreCase("enemy")) {
 					game.getPlayer().addPlays();				
 					game.getPlayer().getMyDeck().addUsethisDeck();
-					game.setPlayPassive(null);				
 				}
 				return true;
 			}
 		}catch (Exception e) {}
 		return false;
 	}
+	private void readPassiveFile() throws FileNotFoundException {
+		GsonBuilder gsonBilder=new GsonBuilder();
+		gsonBilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+		gsonBilder.setPrettyPrinting();
+		Gson gson=gsonBilder.create();		
+		File f3=new File(System.getProperty("user.dir")+"\\src\\passives\\passiveFiles");
+		File[] dirr3=f3.listFiles();
+		if(dirr3!=null) {
+			for(File ch:dirr3) {
+				Scanner sca=new Scanner(ch);
+				String t1="";
+				while(sca.hasNext()) {
+					t1+=sca.nextLine();
+				}
+				Passive s= gson.fromJson(t1, Passive.class);
+				allPassives.add(s);
+				sca.close();
+			}
+		}
+	}
+
+	public ArrayList<Passive> getAllPassives() {
+		return allPassives;
+	}
+
+	public void setAllPassives(ArrayList<Passive> allPassives) {
+		this.allPassives = allPassives;
+	}
+	public boolean handleAttack(Player me , Player enemy, Visitor v, int x, int y, Card card) {
+		return card.accept(v, findTarget(x, y, me, enemy), me, enemy);
+	}
+	public boolean checkTount(Player targetP) {
+		for(Card card : targetP.getBattleGroundCard()) {
+			if(card !=null)
+				if(card.isTaunt())
+					return true;
+		}
+		return false;
+	}
+	public boolean validCard(Player targetP , Card ca) {
+		for(Card card : targetP.getBattleGroundCard()) {
+			if(card !=null)
+				if(card.equals(ca))
+					return true;
+		}
+		return false;
+	}
+
 }
+
+//	public boolean addTobattleground(Card s,int x,int y, Player p, TextArea textArea) throws Exception {
+//		if(s.get_Mana()<=p.getCurrentgem()) {
+//			if(s.getType().equalsIgnoreCase("minion")) {
+//				if(y<700-(220*p.getTurn()) && y>480-(220*p.getTurn())) {
+//					if(p.getBattleGroundCard().get((x-200)/160) == null ) {
+//						p.getHand().remove(s);
+//						p.getBattleGroundCard().remove((x-200)/160);
+//						p.getBattleGroundCard().add((x-200)/160,s.copy());
+//						p.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
+//						String se=p.getName()+"  summon  "+ s.get_Name()+"\n";
+//						textArea.append(se);
+//						p.setCurrentgem(p.getCurrentgem()-s.get_Mana());
+//						return true;
+//					}else if(betweencards(p,((x-200)/160) , s, textArea)) {
+//						return true;
+//					}else {						
+//						JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
+//						return false;							
+//					}
+//				}else {
+//					return false;
+//				}
+//			}else if(s.getType().equalsIgnoreCase("Spell")) {
+//				String se=p.getName()+"  played  "+ s.get_Name()+"\n";
+//				textArea.append(se);
+//				p.getHand().remove(s);
+//			}else {
+//				String se=p.getName()+"  Summon  "+ s.get_Name()+"\n";
+//				textArea.append(se);
+//				p.setWeapon( (Weapon) s.copy());
+//				p.getWeapon().setUsedToAttack(true);
+//				p.getHand().remove(s);
+//			}
+//			p.setCurrentgem(p.getCurrentgem()-s.get_Mana());;
+//			return true;
+//		}else {
+//			return false;
+//		}
+//	}

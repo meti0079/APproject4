@@ -17,6 +17,7 @@
     "rarity": "Common",
     "cardClass": "Neutral",
     "description": "Taunt",
-    "type": "Minion"
+    "type": "Minion",
+    "needTarget": true
   }
 }

@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import myListeners.BuyCardListener;
 
@@ -36,7 +36,7 @@ public class StorePanel  extends JPanel{
 	}
 	public void updatePanel() {
 		removeLables();
-		for(Cards s:game.getPlayer().getMyStore().getBuyCard()) {
+		for(Card s:game.getPlayer().getMyStore().getBuyCard()) {
 			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png");
 			final	JLabel lb1=new JLabel(icon);
 			lb1.addMouseListener(new BuyCardListener(shop, this, lb1,s, inf, sellPanel)); 

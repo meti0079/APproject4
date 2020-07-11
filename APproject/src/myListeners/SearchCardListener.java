@@ -5,13 +5,13 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JOptionPane;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 
 public class SearchCardListener implements MouseListener {
-	private Cards s;
-	 public SearchCardListener(Cards card) {
+	private Card s;
+	 public SearchCardListener(Card card) {
 		s=card;
 	}
 	@Override

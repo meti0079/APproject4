@@ -8,7 +8,7 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import Cardspackage.Minion;
 import Cardspackage.Spell;
 import Cardspackage.Weapon;
@@ -20,11 +20,13 @@ public class DeckReader {
 	private Gson gson;
 
 
-	public ArrayList<Cards> cardFactory(String name) {
-		ArrayList< Cards> enemyDe=new ArrayList<>();
-		ArrayList< Cards> friendDe=new ArrayList<>();
-		gson=new Gson();
-
+	public ArrayList<Card> cardFactory(String name) {
+		ArrayList< Card> enemyDe=new ArrayList<>();
+		ArrayList< Card> friendDe=new ArrayList<>();
+		GsonBuilder gsonBilder=new GsonBuilder();
+		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.setPrettyPrinting();
+		gson=gsonBilder.create();
 		if(name.equalsIgnoreCase("enemy")) {
 			for (String string : enemy) {
 				enemyDe.add(find(string));		
@@ -43,18 +45,7 @@ public class DeckReader {
 	public ArrayList<String> getFriend() {
 		return friend;
 	}
-	
-	private Cards find(String name) {
-		String spe="Arcane ShotAstral RiftBackstabBook of SpectersFriendly Smithgift"
-				+ "Holy SmiteLearn DraconicPharaoh's BlessingPolymorphSprintStrength in NumbersSwarm of locusts";
-		String mi="Big Game HunterBluegill WarriorChillwind YetiCurio CollectorDreadscale"
-				+ "GruulHigh Priest Amet"
-				+ "Kronx DragonhoofLeper GnomeMurloc RaiderMurloc Warleader"
-				+ "Oasis Snapjaw"
-				+ "SandbinderSathrovarrSea GiantSecurity RoverShieldbearer"
-				+ "Swamp King DredThe Black KnightThrallmar FarseerTomb Warden";
-		String we="Battle AxeBlood FuryHeavy Axe";
-
+	private Card find(String name) {
 		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
 		Scanner s = null;
 		try {
@@ -66,18 +57,17 @@ public class DeckReader {
 		while(s.hasNext()) {
 			se+=s.nextLine(); 
 		}
-		if(spe.contains(name)) {
-			Spell x= gson.fromJson(se, Spell.class);
-			return x;	
-		}else if(mi.contains(name)) {
-			Minion x=gson.fromJson(se, Minion.class);
-			return x;
-		}else {
-			Weapon x= gson.fromJson(se, Weapon.class);
-			return x;
-		}
+		Card x= gson.fromJson(se, Card.class);			
+		return x;	
 	}
-
-
-
 }
+
+//		String spe="Arcane ShotAstral RiftBackstabBook of SpectersFriendly Smithgift"
+//				+ "Holy SmiteLearn DraconicPharaoh's BlessingPolymorphSprintStrength in NumbersSwarm of locusts";
+//		String mi="Big Game HunterBluegill WarriorChillwind YetiCurio CollectorDreadscale"
+//				+ "GruulHigh Priest Amet"
+//				+ "Kronx DragonhoofLeper GnomeMurloc RaiderMurloc Warleader"
+//				+ "Oasis Snapjaw"
+//				+ "SandbinderSathrovarrSea GiantSecurity RoverShieldbearer"
+//				+ "Swamp King DredThe Black KnightThrallmar FarseerTomb Warden";
+//		String we="Battle AxeBlood FuryHeavy Axe";

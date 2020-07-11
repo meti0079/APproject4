@@ -6,14 +6,14 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import grapic.CollectionPanel;
 
 public class EnemyDeckListener implements MouseListener {
-	Cards s;
+	Card s;
 	JLabel lp;
 	private CollectionPanel p;
-	public EnemyDeckListener(Cards s, JLabel lp,CollectionPanel p) {
+	public EnemyDeckListener(Card s, JLabel lp,CollectionPanel p) {
 	this.p=p;
 	this.s=s;
 	this.lp=lp;		

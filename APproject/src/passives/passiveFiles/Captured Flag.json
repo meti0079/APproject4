@@ -1,0 +1,7 @@
+{
+  "type": "passives.CapturedFlag",
+  "data": {
+    "description": "Your minions have +1/+1.",
+    "name": "Captured Flag"
+  }
+}

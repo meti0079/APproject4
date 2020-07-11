@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JOptionPane;
 
-import Cardspackage.Cards;
+import Cardspackage.Card;
 import GAME.Gamestate;
 import GAME.Logger;
 import grapic.CollectionPanel;
@@ -14,8 +14,8 @@ import grapic.Shop;
 
 public class LockCardListener implements MouseListener {
 	private MainFrame f;
-	private Cards card;
-	public LockCardListener(MainFrame f, Cards card) {
+	private Card card;
+	public LockCardListener(MainFrame f, Card card) {
 		super();
 		this.f = f;
 		this.card = card;

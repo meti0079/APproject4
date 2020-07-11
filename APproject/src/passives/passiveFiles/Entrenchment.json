@@ -1,0 +1,7 @@
+{
+  "type": "passives.Entrenchment",
+  "data": {
+    "description": "Your minions have +2 Health.",
+    "name": "Entrenchment"
+  }
+}
