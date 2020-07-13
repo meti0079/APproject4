@@ -13,7 +13,7 @@
     "name": "Sprint",
     "use": 0,
     "rarity": "epic",
-    "cardClass": "Rogue",
+    "cardClass": "Rouge",
     "description": "Draw 4 cards.",
     "needTarget": false
   }

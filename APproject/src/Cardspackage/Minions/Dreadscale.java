@@ -13,17 +13,15 @@ public Dreadscale() {
 		this.Set_Mana(3);
 	this.setHp(2);
 	this.setAttack(4);
-	this.setDescription("Deal 1 damage to each minion.");
+	this.setDescription(" At the end of your turn Deal 1 damage to each minion.");
 
 	
 }
 
 @Override
 public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-	if(super.accept(v, taeget, attackerP, targetP)) {
+	super.accept(v, taeget, attackerP, targetP);
 		v.visitDreadscale(this, taeget, attackerP, targetP);
-return true;		
-	}
 return false;
 }
 

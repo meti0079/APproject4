@@ -8,7 +8,7 @@
     "taunt": false,
     "divineShield": false,
     "deathrattle": false,
-    "battlecry": true,
+    "battlecry": false,
     "rush": false,
     "quest": false,
     "mana": 6,
@@ -16,7 +16,7 @@
     "use": 0,
     "rarity": "legendary",
     "cardClass": "Neutral",
-    "description": "Battlecry: Draw Galakrond. If you\u0027re already Galakrond, unleash a Devastation.",
+    "description": "",
     "type": "Minion",
     "needTarget": true
   }

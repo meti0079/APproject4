@@ -18,6 +18,8 @@ public class ArcaneShot extends Spell implements Acceptable{
 
 	@Override
 	public boolean  accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		if(taeget == null ||attackerP.getBattleGroundCard().contains(taeget) || attackerP.getHero().equals(taeget))
+			return false;
 		v.visitArcaneShot(this, taeget,  attackerP, targetP);		
 		return true;
 	}

@@ -1,6 +1,7 @@
 package Cardspackage.Spells;
 
 import Cardspackage.Spell;
+import hero.Heros;
 import interfaces.Acceptable;
 import interfaces.Visitor;
 import playModel.Player;
@@ -19,7 +20,10 @@ public class PharaohBlessing extends Spell implements Acceptable{
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		if(taeget==null || taeget instanceof Heros || targetP.getBattleGroundCard().contains(taeget) )
+			return false;
 		v.visitPharaohBlessing(this, taeget, attackerP, targetP);
-		return true;}
+		return true;
+		}
 
 }

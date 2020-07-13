@@ -19,6 +19,7 @@ public class BloodFury extends Weapon implements Acceptable{
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		super.accept(v, taeget, attackerP, targetP);
 		v.visitBloodFury(this, taeget, attackerP, targetP);
 		return true;}
 

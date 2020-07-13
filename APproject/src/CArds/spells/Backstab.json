@@ -14,7 +14,7 @@
     "use": 0,
     "rarity": "common",
     "cardClass": "Rouge",
-    "description": "Deal 2 damage to an undamaged minion.",
+    "description": "Deal 2 damage to enemy hero.",
     "needTarget": false
   }
 }

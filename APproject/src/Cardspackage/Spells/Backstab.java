@@ -11,7 +11,7 @@ public class Backstab extends Spell  implements Acceptable{
 		this.Set_Class("Rouge");
 		this.Set_Mana(0);
 		this.Set_Rarity("common");
-		this.setDescription("Deal 2 damage to an undamaged minion.");
+		this.setDescription("Deal 2 damage to enemy hero.");
 		this.setNeedTarget(false);
 	}
 

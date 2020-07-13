@@ -11,7 +11,7 @@ import interfaces.Visitor;
 import playModel.Mapper;
 import playModel.Player;
 
-public class EnemyBattlegrounCardListener implements MouseListener,MouseMotionListener{
+public class BattlegrounCardListener implements MouseListener,MouseMotionListener{
 
 	private PlayPanel panel;
 	private Card card;
@@ -19,7 +19,7 @@ public class EnemyBattlegrounCardListener implements MouseListener,MouseMotionLi
 	private Player me;
 	private Player enemy;
 	private Visitor v;
-	public  EnemyBattlegrounCardListener(PlayPanel panel,Card card, CardShow x, Player me, Player enemy, Visitor v) {
+	public  BattlegrounCardListener(PlayPanel panel,Card card, CardShow x, Player me, Player enemy, Visitor v) {
 		this.panel=panel;
 		this.card=card;
 		this.x=x;
@@ -39,25 +39,22 @@ public class EnemyBattlegrounCardListener implements MouseListener,MouseMotionLi
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-			try {
-				if(Mapper.getinsist().handleAttack(me, enemy, v, x.getX(), x.getY(), card)) {
-					String 	ss=me.getName()+"     played   "+card.get_Name()+"\n";
-					card.setBattlecry(false);
-					card.setUsedToAttack(true);
-					panel.getTextArea().append(ss);	
-				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
+		if(card.getUsedToAttack() ==false) {
+		try {
+			if(Mapper.getinsist().handleAttack(me, enemy, v, x.getX(), x.getY(), card)) {
+				String 	ss=me.getName()+"     played   "+card.get_Name()+"\n";
+				card.setUsedToAttack(true);
+				panel.getTextArea().append(ss);	
 			}
-			panel.removeBattlegroundCard();
-			panel.setenemyBattleGroundCard();
-			panel.setMyBattleGroundCard();
-			
-		
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		}
+		panel.updatePanel();	
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(panel.getRoundGame()%2==1) {
+		if(panel.getRoundGame()%2==me.getTurn()) {
 			int newX = e.getX() + x.getX();
 			int newY = e.getY() + x.getY();
 			x.setBounds(newX, newY, 100	, 150);	

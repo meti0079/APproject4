@@ -13,16 +13,13 @@ public class HighPriestAmet extends Minion  implements Acceptable{
 		this.Set_Mana(4);
 		this.setHp(7);
 		this.setAttack(2);	
-		this.setDescription("whenever you summon a minion set its Health equal to this minion.");
-
+		this.setDescription("whenever you summon this set a minion Health equal to this .");
 	}
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		if(super.accept(v, taeget, attackerP, targetP)) {
-			v.visitHighPriestAmet(this, taeget, attackerP, targetP);
+		super.accept(v, taeget, attackerP, targetP);
+		v.visitHighPriestAmet(this, taeget, attackerP, targetP);
 			return true;
-		}
-		return false;
 	}
 }

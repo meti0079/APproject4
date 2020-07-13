@@ -45,20 +45,26 @@ public class DeckReader {
 	public ArrayList<String> getFriend() {
 		return friend;
 	}
-	private Card find(String name) {
-		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
-		Scanner s = null;
+	public  Card find(String name) {
+		GsonBuilder gsonBilder=new GsonBuilder();
+
+		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.setPrettyPrinting();
+		gson=gsonBilder.create();
 		try {
-			s = new Scanner(f);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
+		Scanner s = new Scanner(f);
 		String se="";
 		while(s.hasNext()) {
 			se+=s.nextLine(); 
 		}
-		Card x= gson.fromJson(se, Card.class);			
+		Card x= gson.fromJson(se, Card.class);
+		System.out.println(x.get_Name());
 		return x;	
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
 

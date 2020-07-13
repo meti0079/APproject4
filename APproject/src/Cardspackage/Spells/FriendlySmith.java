@@ -20,7 +20,8 @@ public class FriendlySmith extends Spell implements Acceptable{
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
 		v.visitFriendlySmith(this, taeget, attackerP, targetP);
-		return true;}
+		return true;
+		}
 	
 //	do attack nazadam
 	

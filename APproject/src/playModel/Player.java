@@ -3,11 +3,13 @@ package playModel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import Cardspackage.Card;
+import Cardspackage.Minion;
 import Cardspackage.Weapon;
 import GAME.Decks;
 import GAME.ExportVisitor;
 import hero.Heros;
 import interfaces.Acceptable;
+import interfaces.Visitor;
 import passives.Passive;
 
 public class Player {
@@ -22,7 +24,6 @@ public class Player {
 	private LinkedList<Card> battleGroundCard;
 	private  int turn;
 	private Passive passive;
-
 	public Passive getPassive() {
 		return passive;
 	}
@@ -109,14 +110,24 @@ public class Player {
 	public void setBattleGroundCard(LinkedList<Card> battleGroundCard) {
 		this.battleGroundCard = battleGroundCard;
 	}
-	public void checkCard() {
-		for (int i = 0; i < 7; i++) {
+	public void checkCard(Player enemy, Visitor v) {
+			for (int i = 0; i < 7; i++) {
 			if(battleGroundCard.get(i)!= null) {
 				if(battleGroundCard.get(i).getHp()<=0) {
+					battleGroundCard.get(i).accept(v, null,this, enemy);
 					getBattleGroundCard().remove(i);
 					getBattleGroundCard().add(i, null);									
 				}
 			}
 		}
+//			for (int i = this.getHand().size()-1; i>=0; i--) {
+//				if(Hand.get(i) instanceof Minion)	
+//					if(Hand.get(i).getHp()<=0) {
+//						Hand.get(i).accept(v, null,this, enemy);
+//						Hand.remove(i);
+//						Hand.add(i, null);									
+//					}
+//				}
+			
 	}
 }

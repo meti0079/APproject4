@@ -1,5 +1,6 @@
 package Cardspackage;
 
+import Cardspackage.Minions.SecurityRover;
 import hero.Heros;
 import interfaces.Visitor;
 import playModel.Mapper;
@@ -38,32 +39,40 @@ public abstract  class Minion extends Card{
 	}
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("called first");
 		if(taeget == null)
 			return false;
+		
 		try {
-			if(Mapper.getinsist().checkTount(targetP)) {
-				if(taeget instanceof Minion &&((Minion) taeget).isTaunt()&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
-					System.out.println("called tunt");
+			
+			if(taeget instanceof Heros) {
+				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
+					System.out.println("called hero");
+					((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
+					System.out.println(((Heros) taeget).get_HP());
+					return true;
+				}	
+			}else {	
+				if(Mapper.getinsist().checkTount(targetP)&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
+					if(taeget instanceof Minion &&((Minion) taeget).isTaunt()) {
+						System.out.println("called tunt");
+						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
+						this.setHp(this.getHp()-((Minion) taeget).getAttack());
+						if(taeget instanceof SecurityRover)
+							((SecurityRover)taeget).accept(v, null, targetP, attackerP);
+						attackerP.checkCard(targetP,v);
+						targetP.checkCard(attackerP, v);
+						return true;
+					}else
+						return false;
+				}
+				if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
+					System.out.println("called secend");
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
-					this.setHp(this.getHp()-((Minion) taeget).getAttack());
-					attackerP.checkCard();
-					targetP.checkCard();
+					this.setHp(this.getHp()-((Minion) taeget).getAttack());	
+					attackerP.checkCard(targetP,v);
+					targetP.checkCard(attackerP, v);
 					return true;
 				}
-			}
-			if(taeget instanceof Heros && taeget.equals(targetP.getHero())) {
-				System.out.println("called hero");
-				((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
-				System.out.println(((Heros) taeget).get_HP());
-				return true;
-			}else if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
-				System.out.println("called secend");
-				((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
-				this.setHp(this.getHp()-((Minion) taeget).getAttack());	
-				attackerP.checkCard();
-				targetP.checkCard();
-				return true;
 			}
 			System.out.println("bad new");
 		} catch (Exception e) {

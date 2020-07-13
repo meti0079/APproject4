@@ -1,0 +1,22 @@
+{
+  "type": "Cardspackage.Minions.SleepyDragon",
+  "data": {
+    "HP": 6,
+    "attack": 6,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 9,
+    "name": "Sleepy Dragon",
+    "use": 0,
+    "rarity": "rare",
+    "cardClass": "Neutral",
+    "type": "Minion",
+    "needTarget": true
+  }
+}

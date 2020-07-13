@@ -17,6 +17,8 @@ public class HolySmite  extends Spell implements Acceptable{
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		if(taeget== null ||attackerP.getHero().equals(taeget) || attackerP.getBattleGroundCard().contains(taeget))
+			return false;
 		v.visitHolySmite(this, taeget, attackerP, targetP);
 		return true;}
 

@@ -13,13 +13,17 @@ import grapic.MainFrame;
 //import passives.Passive;
 //import passives.Stargazing;
 //
-//import java.io.FileWriter;
+import java.io.FileWriter;
 //import java.security.spec.PSSParameterSpec;
 //import java.util.ArrayList;
 //
 //import java.util.ArrayList;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+//
+import Cardspackage.Card;
+//import Cardspackage.Minions.Locust;
 ////
 //import Cardspackage.Minions.BigGameHunter;
 //import Cardspackage.Minions.BluegillWarrior;
@@ -61,6 +65,11 @@ import grapic.MainFrame;
 //
 //import Cardspackage.Card;
 //import Cardspackage.Spells.AstralRift;
+import Cardspackage.Minions.Locust;
+import Cardspackage.Minions.Sheep;
+import Cardspackage.Minions.SleepyDragon;
+import Cardspackage.Minions.WaxElemental;
+import GAME.AbstractAdapter;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -139,18 +148,19 @@ public class Main {
 //		all.add(t);
 //		Card to= new TombWarden();
 //		all.add(to);
-//		
+////		
 //		GsonBuilder gsonBilder=new GsonBuilder();
 //		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
 //		gsonBilder.setPrettyPrinting();
-//		Gson gson=gsonBilder.create();	
+//		Gson gson=gsonBilder.create();
+//		Card x= new SleepyDragon();
 ////		
 //		for (Card  cards : all) {
 //			
-//			FileWriter fileWriter = new FileWriter("E:\\2\\"+cards.get_Name()+".json");
-//			gson.toJson(cards, new TypeToken<Card>(){}.getType(), fileWriter);
+//			FileWriter fileWriter = new FileWriter("E:\\2\\"+x.get_Name()+".json");
+//			gson.toJson(x, new TypeToken<Card>(){}.getType(), fileWriter);
 //			fileWriter.flush();
-//			
+////			
 //		}
 //		Passive p=new AlchemistsStone();
 //		Passive s=new BandofScarabs();

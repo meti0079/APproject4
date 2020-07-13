@@ -21,5 +21,4 @@ public class Swarmoflocusts extends Spell implements Acceptable{
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
 		v.visitSwarmoflocusts(this, taeget, attackerP, targetP);
 		return true;}
-
 }

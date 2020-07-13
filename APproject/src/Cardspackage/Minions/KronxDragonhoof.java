@@ -13,16 +13,13 @@ public class KronxDragonhoof extends Minion implements Acceptable{
 		this.Set_Mana(6);
 		this.setHp(6);
 		this.setAttack(6);	
-		this.setDescription("Battlecry: Draw Galakrond. If you're already Galakrond, unleash a Devastation.");
-		this.setBattlecry(true);
+		this.setDescription("");
 	}
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		if(super.accept(v, taeget, attackerP, targetP)) {
+		super.accept(v, taeget, attackerP, targetP);
 			v.visitKronxDragonhoof(this, taeget, attackerP, targetP);
 			return true;
-		}
-		return false;
 	}
 }

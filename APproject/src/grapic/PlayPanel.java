@@ -14,53 +14,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-
 import Cardspackage.Card;
-import Cardspackage.Minions.BigGameHunter;
-import Cardspackage.Minions.BluegillWarrior;
-import Cardspackage.Minions.ChillwindYeti;
-import Cardspackage.Minions.CurioCollector;
-import Cardspackage.Minions.Dreadscale;
-import Cardspackage.Minions.Gruul;
-import Cardspackage.Minions.HighPriestAmet;
-import Cardspackage.Minions.KronxDragonhoof;
-import Cardspackage.Minions.LeperGnome;
-import Cardspackage.Minions.MurlocRaider;
-import Cardspackage.Minions.MurlocWarleader;
-import Cardspackage.Minions.OasisSnapjaw;
-import Cardspackage.Minions.Sandbinder;
-import Cardspackage.Minions.Sathrovarr;
-import Cardspackage.Minions.SeaGiant;
-import Cardspackage.Minions.SecurityRover;
-import Cardspackage.Minions.Shieldbearer;
-import Cardspackage.Minions.SwampKingDred;
-import Cardspackage.Minions.TheBlackKnight;
-import Cardspackage.Minions.ThrallmarFarseer;
-import Cardspackage.Minions.TombWarden;
-import Cardspackage.Spells.ArcaneShot;
-import Cardspackage.Spells.AstralRift;
-import Cardspackage.Spells.Backstab;
-import Cardspackage.Spells.BookofSpecters;
-import Cardspackage.Spells.FriendlySmith;
-import Cardspackage.Spells.HolySmite;
-import Cardspackage.Spells.LearnDraconic;
-import Cardspackage.Spells.PharaohBlessing;
-import Cardspackage.Spells.Polymorph;
-import Cardspackage.Spells.Sprint;
-import Cardspackage.Spells.StrengthinNumbers;
-import Cardspackage.Spells.Swarmoflocusts;
-import Cardspackage.Spells.gift;
-import Cardspackage.Weapons.BattleAxe;
-import Cardspackage.Weapons.BloodFury;
-import Cardspackage.Weapons.HeavyAxe;
 import GAME.ExportVisitor;
 import GAME.Gamestate;
 import GAME.Logger;
-import interfaces.Acceptable;
-import interfaces.Visitor;
-import myListeners.EnemyBattlegrounCardListener;
-import myListeners.EnemyWeaponListener;
-import myListeners.MyBattlegroundCardListener;
+import myListeners.BattlegrounCardListener;
 import myListeners.HandCardListener;
 import playModel.Mapper;
 import playModel.Player;
@@ -138,10 +96,7 @@ public class PlayPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					nextTurn();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} catch (Exception e) {e.printStackTrace();	}
 			}
 		});
 		add(manabut);
@@ -190,12 +145,12 @@ public class PlayPanel extends JPanel{
 		if(me.getWeapon()!=null) {
 			if(me.getWeapon().getDurability()==0) {
 				me.setWeapon(null);
-			}else {  addPlayerWeapon(me);	}
+			}else {  addPlayerWeapon(me, enemy);	}
 		}
 		if(enemy.getWeapon()!=null) {
 			if(enemy.getWeapon().getDurability()==0) {
 				enemy.setWeapon(null);
-			}else {		addPlayerWeapon(enemy);		}
+			}else {		addPlayerWeapon(enemy, me);		}
 		}
 	}	
 	public void setMyBattleGroundCard() {
@@ -203,8 +158,8 @@ public class PlayPanel extends JPanel{
 			if(me.getBattleGroundCard().get(i) !=null) {
 				CardShow x=new CardShow(me.getBattleGroundCard().get(i));
 				x.setBounds(200+160*i,500, 100, 150);
-				x.addMouseListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x, me, enemy, visitor));
-				x.addMouseMotionListener(new MyBattlegroundCardListener(this, me.getBattleGroundCard().get(i), x, me , enemy, visitor));
+				x.addMouseListener(new BattlegrounCardListener(this, me.getBattleGroundCard().get(i), x, me, enemy, visitor));
+				x.addMouseMotionListener(new BattlegrounCardListener(this, me.getBattleGroundCard().get(i), x, me , enemy, visitor));
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -239,8 +194,8 @@ public class PlayPanel extends JPanel{
 			if(enemy.getBattleGroundCard().get(i) !=null) {
 				CardShow x=new CardShow(enemy.getBattleGroundCard().get(i));
 				x.setBounds(200+160*i,300, 100, 150);
-				x.addMouseListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
-				x.addMouseMotionListener(new EnemyBattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
+				x.addMouseListener(new BattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
+				x.addMouseMotionListener(new BattlegrounCardListener(this, enemy.getBattleGroundCard().get(i), x, enemy, me,visitor));
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -270,7 +225,7 @@ public class PlayPanel extends JPanel{
 	}
 	private void removeHeros() {
 		for(int i=0;i<2;i++)
-			remove(heros.get(1));
+			remove(heros.get(i));
 		heros.removeAll(heros);
 	}
 	private  void finish(MainFrame f) throws Exception {
@@ -335,10 +290,12 @@ public class PlayPanel extends JPanel{
 		manaSet();
 		if(next!=null)
 			next.setVisible(false);
+		
+		updatePanel();
 	}
 	private void player1Turn() {
 		turnPlayed.setText(((roundGame/2))+"");
-		map.nextTurn(me, enemy);
+		map.nextTurn(me, enemy, visitor);
 		addToHand(me.getTurn()+1);
 		setCard();
 	}	@Override
@@ -358,10 +315,11 @@ public class PlayPanel extends JPanel{
 	}
 	
 	
-	private void addPlayerWeapon(Player p) {
+	private void addPlayerWeapon(Player p , Player enemy) {
 		CardShow x=new CardShow(p.getWeapon());
 		x.setBounds(560, 690-(520*p.getTurn()), 100, 150);
-		x.addMouseListener(new  EnemyWeaponListener(this, p.getWeapon(), p));
+		x.addMouseListener(new  BattlegrounCardListener(this, p.getWeapon(), x, p, enemy, visitor));
+		x.addMouseMotionListener(new BattlegrounCardListener(this, p.getWeapon(), x, p, enemy, visitor));
 		add(x);
 		weapons.add(x);
 	}
@@ -382,7 +340,7 @@ public class PlayPanel extends JPanel{
 		}	
 	}
 	private void player2Turn() {
-		map.nextTurn(enemy, me);
+		map.nextTurn(enemy, me, visitor);
 		turnPlayed.setText(roundGame/2+"");			
 		addToHand(enemy.getTurn()+1);
 		setCard();
@@ -390,10 +348,10 @@ public class PlayPanel extends JPanel{
 	private void addToHand(int turn) {	
 		map.readDeck(me, enemy);
 		if(turn==1) {
-			map.addToHand(me);
+			map.addToHand(me, enemy ,visitor);
 			player1DeckRemind.setText(me.getDecksize()+"");
 		}else {
-			map.addToHand(enemy);
+			map.addToHand(enemy, me, visitor);
 			player2DeckRemind.setText(enemy.getDecksize()+"");	
 		}
 	}
@@ -414,6 +372,7 @@ public class PlayPanel extends JPanel{
 			}			
 		}
 	}
+	
 	public void manaSet() {
 		map.manaSet(me, enemy);
 	}

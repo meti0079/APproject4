@@ -41,20 +41,16 @@ public class MyBattlegroundCardListener implements MouseListener,MouseMotionList
 	public void mousePressed(MouseEvent e) {}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 		try {
 			if(Mapper.getinsist().handleAttack(me, enemy, v, x.getX(), x.getY(), card)) {
 				String 	ss=me.getName()+"     played   "+card.get_Name()+"\n";
-				card.setBattlecry(false);
 				card.setUsedToAttack(true);
 				panel.getTextArea().append(ss);	
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();	
 		}
-		panel.removeBattlegroundCard();
-		panel.setenemyBattleGroundCard();
-		panel.setMyBattleGroundCard();
+		panel.updatePanel();
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {

@@ -1,5 +1,9 @@
 package Cardspackage;
 
+import hero.Heros;
+import interfaces.Visitor;
+import playModel.Mapper;
+import playModel.Player;
 
 public abstract  class Weapon extends Card{
 
@@ -32,6 +36,42 @@ public abstract  class Weapon extends Card{
 	@Override
 	public String getType() {
 		return "Weapon";
+	}
+	@Override
+	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+		if(taeget == null)
+			return false;
+		try {
+			
+			if(taeget instanceof Heros) {
+				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
+					((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
+					return true;
+				}	
+			}else {	
+				if(Mapper.getinsist().checkTount(targetP)&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
+					if(taeget instanceof Minion &&((Minion) taeget).isTaunt()) {
+						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
+						this.setHp(this.getHp()-1);
+						attackerP.checkCard(targetP,v);
+						targetP.checkCard(attackerP, v);
+						return true;
+					}else
+						return false;
+				}
+				if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
+					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
+					this.setHp(this.getHp()-1);	
+					attackerP.checkCard(targetP,v);
+					targetP.checkCard(attackerP, v);
+					return true;
+				}
+			}
+			System.out.println("bad new");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

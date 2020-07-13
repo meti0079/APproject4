@@ -17,12 +17,9 @@ public class MurlocRaider extends Minion implements Acceptable{
 
 	@Override
 	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		if(super.accept(v, taeget, attackerP, targetP)) {
+		super.accept(v, taeget, attackerP, targetP);
 			v.visitMurlocRaider(this, taeget, attackerP, targetP);
 			return true;
-		}
-		return false;
 	}
-
 
 }

@@ -9,7 +9,7 @@ public class Sprint extends Spell implements Acceptable{
 
 	public Sprint() {
 		this.Set_Name("Sprint");
-		this.Set_Class("Rogue");
+		this.Set_Class("Rouge");
 		this.Set_Mana(7);
 		this.Set_Rarity("epic");
 		this.setDescription("Draw 4 cards.");

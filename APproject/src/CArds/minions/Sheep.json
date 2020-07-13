@@ -1,0 +1,23 @@
+{
+  "type": "Cardspackage.Minions.Sheep",
+  "data": {
+    "HP": 1,
+    "attack": 1,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 1,
+    "name": "Sheep",
+    "use": 0,
+    "rarity": "free",
+    "cardClass": "Neutral",
+    "description": "",
+    "type": "Minion",
+    "needTarget": true
+  }
+}

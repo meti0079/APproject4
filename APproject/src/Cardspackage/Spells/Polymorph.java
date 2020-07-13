@@ -15,8 +15,9 @@ public Polymorph() {
 }
 
 @Override
-public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {	
 	v.visitPolymorph(this, taeget, attackerP, targetP);
-	return true;}
+	return true;
+	}
 
 }

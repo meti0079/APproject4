@@ -50,22 +50,22 @@ public class Mapper {
 		}
 		return map;
 	}
-	
-	
+
+
 	public void setBackGroundCard(Player p) {
-		p.checkCard();
 		for (int i=0;i<7;i++) { 
 			if(p.getBattleGroundCard().get(i) != null) {
 				p.getBattleGroundCard().get(i).setUsedToAttack(false);
 			}
-		}		
+		}			
 	}
-	
-	
-	
-	public void nextTurn(Player p, Player enemy) {
+
+
+
+	public void nextTurn(Player p, Player enemy, Visitor v) {
 		setBackGroundCard(p);
-		setBackGroundCard(enemy);
+		p.checkCard(enemy, v);
+		enemy.checkCard(p, v);
 		for (Card cards : p.getHand()) 
 			cards.setUsedToAttack(false);
 		if(p.getWeapon()!=null)
@@ -115,16 +115,20 @@ public class Mapper {
 		if(s.get_Mana()<=me.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
 				if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
+					s.accept(v,findTarget(x, y, me, enemy), me, enemy);
 					if(me.getBattleGroundCard().get((x-200)/160) == null ) {
-						me.getHand().remove(s);
+						calleBattleAccept(me, enemy, v, s);
 						me.getBattleGroundCard().remove((x-200)/160);
 						me.getBattleGroundCard().add((x-200)/160,s.copy());
+						me.getHand().remove(s);
 						me.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
 						String se=me.getName()+"  summon  "+ s.get_Name()+"\n";
 						textArea.append(se);
 						me.setCurrentgem(me.getCurrentgem()-s.get_Mana());
+						me.checkCard(enemy, v);
 						return true;
 					}else if(betweencards(me,((x-200)/160) , s, textArea)) {
+						me.checkCard(enemy, v);
 						return true;
 					}else {						
 						JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
@@ -137,7 +141,8 @@ public class Mapper {
 				if(s.accept(v, findTarget(x, y, me, enemy), me, enemy)) {
 					String se=me.getName()+"  played  "+ s.get_Name()+"\n";
 					textArea.append(se);
-					me.getHand().remove(s);					
+					me.getHand().remove(s);	
+					me.setCurrentgem(me.getCurrentgem()-s.get_Mana());;
 				}
 			}else {
 				String se=me.getName()+"  Summon  "+ s.get_Name()+"\n";
@@ -145,15 +150,15 @@ public class Mapper {
 				me.setWeapon( (Weapon) s.copy());
 				me.getWeapon().setUsedToAttack(true);
 				me.getHand().remove(s);
+				me.setCurrentgem(me.getCurrentgem()-s.get_Mana());;
 			}
-			me.setCurrentgem(me.getCurrentgem()-s.get_Mana());;
 			return true;
 		}else {
 			return false;
 		}
 	}
-	
-	
+
+
 	private Object findTarget(int x, int y, Player me, Player enemy) {
 
 		if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
@@ -163,11 +168,11 @@ public class Mapper {
 		}else if(658 <x && x<850  && y>660-(560*me.getTurn()) &&y<860-(560*me.getTurn())) {
 			return me.getHero();
 		}else if(658 <x && x<850  && y>100+(560*me.getTurn()) &&y<300+(560*me.getTurn())) {
-		return enemy.getHero();
+			return enemy.getHero();
 		}
 		return null;		
 	}
-	
+
 	public void manaSet(Player me, Player enemy) {
 		if(PlayPanel.getRoundGame()%2==me.getTurn()) {
 			if(previousGem==10) {
@@ -196,9 +201,30 @@ public class Mapper {
 		}
 		return false;
 	}
-	public void addToHand(Player p) {
+	private void calleBattleAccept(Player p , Player enemy, Visitor v, Card x) {
+		for (int i = 0; i < 7; i++) {
+			if(p.getBattleGroundCard().get(i) != null)
+				p.getBattleGroundCard().get(i).accept(v, x, p, enemy);
+		}
+		for (int i = 0; i < 7; i++) {
+			if(enemy.getBattleGroundCard().get(i) != null)
+				enemy.getBattleGroundCard().get(i).accept(v, x, p, enemy);
+		}
+	}
+	private void calleHandAccept(Player p , Player enemy, Visitor v) {
+		for (int i = 0; i < 7; i++) {
+			if(p.getBattleGroundCard().get(i) != null)
+				p.getBattleGroundCard().get(i).accept(v, null, p, enemy);
+		}
+		for (int i = 0; i < 7; i++) {
+			if(enemy.getBattleGroundCard().get(i) != null)
+				enemy.getBattleGroundCard().get(i).accept(v, null, p, enemy);
+		}
+	}
+	public void addToHand(Player p, Player enemy, Visitor v) {
 		int x=0;	
-		if(game.getState().equalsIgnoreCase("enemy") ||game.getState().equalsIgnoreCase("computer")  ) {
+		calleHandAccept(p, enemy, v);
+		if(game.getState().equalsIgnoreCase("enemy") ||game.getState().equalsIgnoreCase("computer")  ) {			
 			if(p.getDecksize()==0) {
 				x=0;
 			}else {
@@ -303,7 +329,7 @@ public class Mapper {
 	}
 	public boolean isFinished(Player me, Player enemy, TextArea textArea) {
 		try {
-			if(enemy.getHero().get_HP()==0  || me.getHero().get_HP()==0||PlayPanel.getRoundGame()==1) {
+			if(enemy.getHero().get_HP()<=0  || me.getHero().get_HP()<=0||PlayPanel.getRoundGame()==1) {
 				if(enemy.getHero().get_HP()> me.getHero().get_HP()) {
 					String se="Enemy  win the game !!!!!!";
 					textArea.append(se);

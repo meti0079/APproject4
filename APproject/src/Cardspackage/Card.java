@@ -214,7 +214,16 @@ public abstract  class Card implements Acceptable {
 		while(s.hasNext()) {
 			se+=s.nextLine(); 
 		}
-		Card x= gson.fromJson(se, Card.class);			
+		Card x= gson.fromJson(se, Card.class);
+		if(x.get_Mana()!=this.get_Mana()) {
+			x.Set_Mana(this.get_Mana());
+		}
+		if(x.getAttack()!=this.getAttack()) {
+			x.setAttack(this.getAttack());
+		}
+		if(x.getHp()!=this.getHp()) {
+			x.setHp(this.getHp());
+		}
 		return x;	
 		
 	}
