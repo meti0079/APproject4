@@ -14,6 +14,7 @@ public class BluegillWarrior extends Minion implements Acceptable {
 		this.setHp(1);
 		this.setAttack(2);
 		this.setDescription("Charge");
+		this.setRush(true);
 	}
 
 	@Override

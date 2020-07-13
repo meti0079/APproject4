@@ -11,6 +11,7 @@ public class SwampKingDred extends Minion  implements Acceptable{
 		this.Set_Class("Hunter");
 		this.Set_Rarity("legendary");
 		this.Set_Mana(7);
+		this.setRush(true);
 		this.setHp(9);
 		this.setAttack(9);	
 		this.setDescription("After your opponent playes a minion ,attack it");

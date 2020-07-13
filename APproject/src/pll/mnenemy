@@ -1,11 +1,14 @@
 {
   "enemyDeck": {
     "heroDeck": {
-      "HP": 23,
-      "Hero_power": " Spend 2 mana lesser than others for spells",
+      "HP": 30,
+      "Hero_power": {
+        "maxUse": 1,
+        "descriptoin": "deal 1 damage",
+        "used": false,
+        "mana": 2
+      },
       "specialPower": "Spend 2 mana and damage 1 any enemy",
-      "useHeropower": 1,
-      "HeroPowerMana": 2,
       "name": "Mage"
     },
     "deck": [
@@ -30,27 +33,7 @@
         }
       },
       {
-        "type": "Cardspackage.Spells.PharaohBlessing",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": true,
-          "divineShield": true,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 6,
-          "name": "Pharaoh\u0027s Blessing",
-          "use": 0,
-          "rarity": "Rare",
-          "cardClass": "Neutral",
-          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
-          "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Spells.BookofSpecters",
+        "type": "Cardspackage.Spells.Polymorph",
         "data": {
           "usedToAttack": false,
           "windfury": false,
@@ -60,56 +43,104 @@
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 2,
-          "name": "Book of Specters",
+          "mana": 4,
+          "name": "Polymorph",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Mage",
+          "description": "Transform a minion into a 1/1 Sheep.",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Weapons.BattleAxe",
+        "data": {
+          "durability": 2,
+          "attack": 2,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Battle Axe",
+          "use": 0,
+          "rarity": "Common",
+          "cardClass": "Mage",
+          "type": "Weapon",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.MurlocWarleader",
+        "data": {
+          "HP": 3,
+          "attack": 3,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 3,
+          "name": "Murloc Warleader",
           "use": 0,
           "rarity": "epic",
           "cardClass": "Neutral",
-          "description": "Draw 3 cards. Discard any spells drawn.",
-          "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.Gruul",
-        "data": {
-          "HP": 7,
-          "attack": 7,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 8,
-          "name": "Gruul",
-          "use": 0,
-          "rarity": "legendary",
-          "cardClass": "Neutral",
-          "description": "At the end of each turn, gain +1/+1 .",
+          "description": "Your other Murlocs have +2 Attack.",
           "type": "Minion",
           "needTarget": true
         }
       },
       {
-        "type": "Cardspackage.Spells.PharaohBlessing",
+        "type": "Cardspackage.Minions.TheBlackKnight",
         "data": {
+          "HP": 5,
+          "attack": 4,
           "usedToAttack": false,
           "windfury": false,
           "taunt": true,
-          "divineShield": true,
+          "divineShield": false,
           "deathrattle": false,
-          "battlecry": false,
+          "battlecry": true,
           "rush": false,
           "quest": false,
           "mana": 6,
-          "name": "Pharaoh\u0027s Blessing",
+          "name": "The Black Knight",
           "use": 0,
-          "rarity": "Rare",
+          "rarity": "legendary",
           "cardClass": "Neutral",
-          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
-          "needTarget": false
+          "description": "Battlecry: Destroy an enemy minion with Taunt.",
+          "type": "Minion",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.LeperGnome",
+        "data": {
+          "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": true,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 1,
+          "name": "Leper Gnome",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
+          "type": "Minion",
+          "needTarget": true
         }
       },
       {
@@ -131,52 +162,6 @@
           "rarity": "common",
           "cardClass": "Neutral",
           "description": "Taunt . Battlecry: Summon a copy of this minion",
-          "type": "Minion",
-          "needTarget": true
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.Sathrovarr",
-        "data": {
-          "HP": 5,
-          "attack": 5,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": true,
-          "rush": false,
-          "quest": false,
-          "mana": 9,
-          "name": "Sathrovarr",
-          "use": 0,
-          "rarity": "legendary",
-          "cardClass": "Neutral",
-          "description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
-          "type": "Minion",
-          "needTarget": true
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.SeaGiant",
-        "data": {
-          "HP": 8,
-          "attack": 8,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 10,
-          "name": "Sea Giant",
-          "use": 0,
-          "rarity": "epic",
-          "cardClass": "Neutral",
-          "description": "Costs (1) less for each other minion on the battlefield.",
           "type": "Minion",
           "needTarget": true
         }
@@ -205,8 +190,117 @@
         }
       },
       {
-        "type": "Cardspackage.Spells.Polymorph",
+        "type": "Cardspackage.Spells.PharaohBlessing",
         "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": true,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "Pharaoh\u0027s Blessing",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
+          "needTarget": false
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.Swarmoflocusts",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 6,
+          "name": "Swarm of locusts",
+          "use": 0,
+          "rarity": "Rare",
+          "cardClass": "Neutral",
+          "description": "summon seven 1/1 Locusts with Rush.",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.BigGameHunter",
+        "data": {
+          "HP": 2,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 5,
+          "name": "Big Game Hunter",
+          "use": 0,
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
+          "type": "Minion",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.Locust",
+        "data": {
+          "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 1,
+          "name": "Locust",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "type": "Minion",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.Locust",
+        "data": {
+          "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 1,
+          "name": "Locust",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "type": "Minion",
+          "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.MurlocWarleader",
+        "data": {
+          "HP": 3,
+          "attack": 3,
           "usedToAttack": false,
           "windfury": false,
           "taunt": false,
@@ -215,113 +309,37 @@
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 4,
-          "name": "Polymorph",
+          "mana": 3,
+          "name": "Murloc Warleader",
           "use": 0,
-          "rarity": "rare",
-          "cardClass": "Mage",
-          "description": "Transform a minion into a 1/1 Sheep.",
+          "rarity": "epic",
+          "cardClass": "Neutral",
+          "description": "Your other Murlocs have +2 Attack.",
+          "type": "Minion",
           "needTarget": true
         }
       },
       {
-        "type": "Cardspackage.Spells.Polymorph",
+        "type": "Cardspackage.Minions.TheBlackKnight",
         "data": {
+          "HP": 5,
+          "attack": 4,
           "usedToAttack": false,
           "windfury": false,
-          "taunt": false,
+          "taunt": true,
           "divineShield": false,
           "deathrattle": false,
-          "battlecry": false,
+          "battlecry": true,
           "rush": false,
           "quest": false,
-          "mana": 4,
-          "name": "Polymorph",
+          "mana": 6,
+          "name": "The Black Knight",
           "use": 0,
-          "rarity": "rare",
-          "cardClass": "Mage",
-          "description": "Transform a minion into a 1/1 Sheep.",
+          "rarity": "legendary",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy an enemy minion with Taunt.",
+          "type": "Minion",
           "needTarget": true
-        }
-      },
-      {
-        "type": "Cardspackage.Spells.LearnDraconic",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": true,
-          "mana": 1,
-          "name": "Learn Draconic",
-          "use": 0,
-          "rarity": "Common",
-          "cardClass": "Neutral",
-          "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
-          "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Spells.LearnDraconic",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": true,
-          "mana": 1,
-          "name": "Learn Draconic",
-          "use": 0,
-          "rarity": "Common",
-          "cardClass": "Neutral",
-          "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
-          "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Spells.StrengthinNumbers",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": true,
-          "mana": 1,
-          "name": "Strength in Numbers",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
-          "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Spells.StrengthinNumbers",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": true,
-          "mana": 1,
-          "name": "Strength in Numbers",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
-          "needTarget": false
         }
       }
     ],

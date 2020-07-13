@@ -1,22 +1,19 @@
+/CArds/
+/LOGFILE/
+/PLAYERSNAME/
+/all cards/
+/backgrund image/
 /button image/
 /card image/
+/main/
 /passiva image/
-/passive/
+/passives/
 /play image/
-/pll/
 /Cardspackage/
 /GAME/
 /grapic/
 /hero/
-/main/
-/myListeners/
-/LOGFILE/
-/backgrund image/
-/PLAYERSNAME/
-/all cards/
 /interfaces/
+/myListeners/
 /playModel/
-/CArds/
-/Spells/
-/passives/
-/passiveFile/
+/pll/

@@ -137,7 +137,9 @@ public class ExportVisitor implements Visitor{
 			m.setHp(m.getHp()-((Minion) taeget).getAttack());	
 			attackerP.checkCard(targetP,this);
 			targetP.checkCard(attackerP, this);
-		}	
+		}
+		if(attackerP.getHand().contains(m))
+			m.setUsedToAttack(false);
 	}
 	@Override
 	public void visitKronxDragonhoof(KronxDragonhoof m, Object taeget, Player attackerP, Player targetP) {

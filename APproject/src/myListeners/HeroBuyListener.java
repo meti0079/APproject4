@@ -35,7 +35,7 @@ public class HeroBuyListener implements MouseListener {
 		int j=JOptionPane.showConfirmDialog(null, "Do you want buy this hero??\n"+
 				"name : "+s.getname()+"\n"
 				+ "you give 25 gem t. \n "+" hero power : "+s.get_SpecialPower() +"\n"
-				+"HeroPowerMana : "+s.getHeroPowerMana()+"\n"
+				+"HeroPowerMana : "+s.getHero_power().getMana()+"\n"
 				+"SpecialPower : "+s.get_SpecialPower()+"\n"
 				, "Confirm", JOptionPane.OK_CANCEL_OPTION);
 		if(j==JOptionPane.OK_OPTION) {	

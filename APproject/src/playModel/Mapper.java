@@ -22,12 +22,26 @@ import Cardspackage.Weapon;
 import GAME.AbstractAdapter;
 import GAME.DeckReader;
 import GAME.Decks;
+import GAME.ExportHeroVisitor;
 import GAME.ExportPassives;
 import GAME.Gamestate;
 import GAME.Logger;
 import grapic.HeroShow;
 import grapic.PlayPanel;
 import hero.Heros;
+import hero.Hunter;
+import hero.Mage;
+import hero.Priest;
+import hero.Rouge;
+import hero.Warlock;
+import hero.heroPower.HeroPower;
+import hero.heroPower.HunterPower;
+import hero.heroPower.MagePower;
+import hero.heroPower.PriestPower;
+import hero.heroPower.RougePower;
+import hero.heroPower.WarlockPower;
+import interfaces.HeroPowerVisitor;
+import interfaces.HeroVisitor;
 import interfaces.PassiveVisitor;
 import interfaces.Visitor;
 import myListeners.PassiveListener;
@@ -37,10 +51,10 @@ public class Mapper {
 
 	private ExportPassives pas=new ExportPassives();
 	private ArrayList<Passive> allPassives;
-	private int previousGem=0;
 	private DeckReader deckReader;
 	private static Mapper map;
 	private Gamestate game;
+	private ExportHeroVisitor heroV=new ExportHeroVisitor();
 	private Mapper() throws Exception {
 		game=Gamestate.getinsist();
 		allPassives=new ArrayList<>();
@@ -62,10 +76,8 @@ public class Mapper {
 			}
 		}			
 	}
-
-
-
 	public void nextTurn(Player p, Player enemy, Visitor v) {
+		handleHeroSpecialPower(p, enemy, heroV, 0, 0, 1);
 		checkPassive( p, enemy, null);
 		setBackGroundCard(p);
 		p.checkCard(enemy, v);
@@ -84,6 +96,7 @@ public class Mapper {
 				p.getBattleGroundCard().add(x+1,s.copy());
 				checkPassive(p, enemy, p.getBattleGroundCard().get(x+1));
 				checkPassive( enemy, p,p.getBattleGroundCard().get(x+1));
+				handleHeroSpecialPower(p, enemy, heroV, 0, 0, 2);
 				p.getBattleGroundCard().get(x+1).setUsedToAttack(true);
 				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
@@ -98,6 +111,7 @@ public class Mapper {
 				p.getBattleGroundCard().add(x,s.copy());
 				checkPassive(p, enemy, p.getBattleGroundCard().get(x));
 				checkPassive( enemy, p,p.getBattleGroundCard().get(x));
+				handleHeroSpecialPower(p, enemy, heroV, 0, 0, 2);
 				p.getBattleGroundCard().get(x).setUsedToAttack(true);
 				String se=game.getPlayer().get_name()+"  summon  "+ s.get_Name()+"\n";
 				textArea.append(se);
@@ -135,6 +149,7 @@ public class Mapper {
 						checkPassive( me, enemy, me.getBattleGroundCard().get((x-200)/160));
 						checkPassive( enemy, me, me.getBattleGroundCard().get((x-200)/160));
 						checkQuestDone(me.getBattleGroundCard().get((x-200)/160), me);
+						handleHeroSpecialPower(me, enemy, heroV, x, y, 2);
 						me.getHand().remove(s);
 						me.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
 						String se=me.getName()+"  summon  "+ s.get_Name()+"\n";
@@ -175,14 +190,14 @@ public class Mapper {
 			return false;
 		}
 	}
-private void checkQuestDone(Card x, Player p) {
+	private void checkQuestDone(Card x, Player p) {
 
-	if(p.getQuest()!= null) {
-		if(p.getQuest().getType().equalsIgnoreCase(x.getType())) {
-			p.getQuest().setHave(p.getQuest().getHave()+x.get_Mana());
-		}		
+		if(p.getQuest()!= null) {
+			if(p.getQuest().getType().equalsIgnoreCase(x.getType())) {
+				p.getQuest().setHave(p.getQuest().getHave()+x.get_Mana());
+			}		
+		}
 	}
-}
 
 	private Object findTarget(int x, int y, Player me, Player enemy) {
 
@@ -265,6 +280,7 @@ private void checkQuestDone(Card x, Player p) {
 				p.AddToHand(p.getDeck().get(Math.abs(x)));
 				checkPassive( p, enemy, p.getDeck().get(Math.abs(x)));
 				checkPassive(enemy, p, p.getDeck().get(Math.abs(x)));
+				handleHeroSpecialPower(p, enemy, heroV,  0, 0, 1);
 				p.getDeck().remove(Math.abs(x));
 			}else {
 				p.getDeck().remove(Math.abs(x));	
@@ -311,14 +327,6 @@ private void checkQuestDone(Card x, Player p) {
 		}else {
 		}
 	}
-
-	public int getPreviousGem() {
-		return previousGem;
-	}
-
-	public void setPreviousGem(int previousGem) {
-		this.previousGem = previousGem;
-	}
 	public Player readMe() throws Exception {
 		if(game.getState().equals("enemy")) {
 			Player x=new Player(game.getPlayer().getMyDeck(), 0, game.getPlayer().get_name());
@@ -346,12 +354,14 @@ private void checkQuestDone(Card x, Player p) {
 	public Player readEnemy() throws Exception {
 		if(game.getState().equals("enemy")) {
 			Player x=new Player(game.getEnemy().getEnemyDeck(), 1,"enemy");
+			x.setPreviosgem(0);
 			return x;
 		}else if(game.getState().equals("Deck")) {
 			Decks s=new  Decks();
 			s.setHeroDeck("mage");
 			s.setDeck(deckReader.cardFactory("enemy"));
 			Player x= new Player(s, 1, "enemy");
+			x.setPreviosgem(0);
 			return x;
 		}else {
 			return null;
@@ -435,15 +445,57 @@ private void checkQuestDone(Card x, Player p) {
 		return false;
 	}
 	public boolean checkQuest(Player p) {
-	 if(p.getQuest()==null) {
-		 return false;
-	 }else if(p.getQuest().getHave()>=p.getQuest().getMission()) {
+		if(p.getQuest()==null) {
+			return false;
+		}else if(p.getQuest().getHave()>=p.getQuest().getMission()) {
 			p.getHand().add(p.getQuest().getReward());
 			p.setQuest(null); 
-		 return false;	
+			return false;	
 		}else {
 			return true;
 		}
+	}
+	public boolean handleHeroPower(Player me, Player enemy, HeroPowerVisitor v, int x, int y, HeroPower heropower) {
+//		if(me.getHero() instanceof Mage) {
+//			((MagePower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
+//			heropower.setUsed(true);
+//			return true;
+//		}else if(me.getHero() instanceof Rouge) {
+//			((RougePower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
+//			heropower.setUsed(true);
+//			return true;
+//		}else if(me.getHero() instanceof Priest) {
+//			((PriestPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
+//			heropower.setUsed(true);
+//			return true;
+//		}else if(me.getHero() instanceof Hunter) {
+//			((HunterPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
+//			heropower.setUsed(true);
+//			return true;
+//		}else {
+//			((WarlockPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
+//			heropower.setUsed(true);
+			return true;
+		}
+//	}
+	public boolean handleHeroSpecialPower(Player me, Player enemy, ExportHeroVisitor v, int x, int y, int d) {
+//		if(me.getHero() instanceof Mage) {
+//			((Mage)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+//			return true;
+//		}else if(me.getHero() instanceof Rouge) {
+//			((Rouge)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+//			return true;
+//		}else if(me.getHero() instanceof Priest) {
+//			((Priest)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+//			return true;
+//		}else if(me.getHero() instanceof Hunter) {
+//			((Hunter)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+//			return true;
+//		}else {
+//			((Warlock)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+//			return true;
+//		}
+		return false;
 	}
 }
 

@@ -9,7 +9,7 @@
     "divineShield": false,
     "deathrattle": false,
     "battlecry": false,
-    "rush": false,
+    "rush": true,
     "quest": false,
     "mana": 7,
     "name": "Swamp King Dred",

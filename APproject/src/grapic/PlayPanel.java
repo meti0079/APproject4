@@ -15,12 +15,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import Cardspackage.Card;
+import GAME.ExportHeroPower;
 import GAME.ExportPassives;
 import GAME.ExportVisitor;
 import GAME.Gamestate;
 import GAME.Logger;
 import myListeners.BattlegrounCardListener;
 import myListeners.HandCardListener;
+import myListeners.HeroPowerListener;
 import playModel.Mapper;
 import playModel.Player;
 
@@ -50,6 +52,10 @@ public class PlayPanel extends JPanel{
 	private ArrayList<HeroShow> heros=new ArrayList<>(); 
 	private JProgressBar[] progres=new JProgressBar[2];
 	private ExportVisitor visitor=new ExportVisitor();
+	private ExportHeroPower heroVisitor=new ExportHeroPower();
+	private ArrayList<HeroPowerShow> heroPowers=new ArrayList<>();
+	
+	
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		initial();
 		initialPlayers();
@@ -57,6 +63,7 @@ public class PlayPanel extends JPanel{
 		this.f=f;
 		initialNextTurnBtutton();
 		initialLables();
+		drawHeroPower();
 		startGame();
 	}
 	private void initialPlayers() throws Exception {
@@ -226,6 +233,8 @@ public class PlayPanel extends JPanel{
 	private void setCard() {
 		updateProgres(me);
 		updateProgres(enemy);
+		removeHeroPowers();
+		drawHeroPower();
 		removeLables();
 		removeHeros();
 		setWeaons();
@@ -237,6 +246,21 @@ public class PlayPanel extends JPanel{
 		player1HandRemind.setText(me.getHand().size()+"");
 		player2HandRemind.setText(enemy.getHand().size()+"");
 	}
+	
+	private void drawHeroPower() {
+		HeroPowerShow x= new HeroPowerShow(me.getHero());
+		x.setBounds(828, 700, 150, 150);
+		x.addMouseListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor));
+		x.addMouseMotionListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor));
+		add(x);
+		heroPowers.add(x);
+		HeroPowerShow x1= new HeroPowerShow(enemy.getHero());
+		x1.addMouseListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor));
+		x1.addMouseMotionListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor));
+		x1.setBounds(828, 140, 150, 150);
+		add(x1);
+		heroPowers.add(x1);
+	}
 	private void drawHero() {
 		HeroShow x1= new HeroShow(me.getHero());
 		x1.setBounds(658, 660, 190, 200);
@@ -246,6 +270,11 @@ public class PlayPanel extends JPanel{
 		x2.setBounds(658, 100, 190, 200);
 		add(x2);
 		heros.add(x2);
+	}
+	private void removeHeroPowers() {
+		for(int i=0;i<2;i++)
+			remove(heroPowers.get(i));
+		heroPowers.removeAll(heroPowers);
 	}
 	private void removeHeros() {
 		for(int i=0;i<2;i++)
@@ -276,14 +305,14 @@ public class PlayPanel extends JPanel{
 		if(roundGame%2==me.getTurn()) {
 			g.setColor(Color.RED);
 			g.setFont(new Font("Tahoma", Font.BOLD, 20));
-			g.drawString(map.getPreviousGem() +"/"+me.getCurrentgem(), 1030, 933);
+			g.drawString(me.getPreviosgem() +"/"+me.getCurrentgem(), 1030, 933);
 			for(int i=0;i<me.getCurrentgem();i++) {
 				g.drawImage(new ImageIcon("src\\button image\\gem"+(i+1)+".png").getImage(), 1090+33*i, 910, null);
 			}
 		}else {
 			g.setColor(Color.RED);
 			g.setFont(new Font("Tahoma", Font.BOLD, 20));
-			g.drawString(map.getPreviousGem()+"/"+enemy.getCurrentgem(), 995, 70);
+			g.drawString(enemy.getPreviosgem()+"/"+enemy.getCurrentgem(), 995, 70);
 			for(int i=0;i<enemy.getCurrentgem();i++) {
 				g.drawImage(new ImageIcon("src\\button image\\gem"+(i+1)+".png").getImage(), 1070+33*i, 40, null);
 			}			
