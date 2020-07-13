@@ -1,0 +1,23 @@
+{
+  "type": "Cardspackage.Minions.MechanicalYeti",
+  "data": {
+    "HP": 4,
+    "attack": 2,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": false,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 4,
+    "name": "Mechanical Yeti",
+    "use": 0,
+    "rarity": "epic",
+    "cardClass": "Neutral",
+    "description": "",
+    "type": "Minion",
+    "needTarget": true
+  }
+}

@@ -34,8 +34,8 @@ public class PassivePanel extends JPanel {
 	private void drawLables() throws Exception {
 		ArrayList<Integer > a=new ArrayList<>();
 		while (a.size()!=3) {
-			int x=(new Random().nextInt(7));
-			if(!a.contains(x)&&x>=0&&x<=7)
+			int x=(new Random().nextInt(9));
+			if(!a.contains(x)&&x>=0&&x<=9)
 				a.add(x);
 		}
 		for(int i=0 ;i<3 ; i++) {

@@ -43,18 +43,14 @@ public abstract  class Minion extends Card{
 			return false;
 		
 		try {
-			
 			if(taeget instanceof Heros) {
 				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
-					System.out.println("called hero");
 					((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
-					System.out.println(((Heros) taeget).get_HP());
 					return true;
 				}	
 			}else {	
 				if(Mapper.getinsist().checkTount(targetP)&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
 					if(taeget instanceof Minion &&((Minion) taeget).isTaunt()) {
-						System.out.println("called tunt");
 						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 						this.setHp(this.getHp()-((Minion) taeget).getAttack());
 						if(taeget instanceof SecurityRover)
@@ -66,7 +62,6 @@ public abstract  class Minion extends Card{
 						return false;
 				}
 				if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
-					System.out.println("called secend");
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 					this.setHp(this.getHp()-((Minion) taeget).getAttack());	
 					attackerP.checkCard(targetP,v);
@@ -74,7 +69,6 @@ public abstract  class Minion extends Card{
 					return true;
 				}
 			}
-			System.out.println("bad new");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

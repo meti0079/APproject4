@@ -33,7 +33,7 @@ public class PassiveListener implements MouseListener{
 			p.setPassive(index);
 			JOptionPane.showMessageDialog(null,  p.getName()+"  passive chosed");
 		} catch (Exception e1) {e1.printStackTrace();}
-	pas.setVisible(false);
+		pas.setVisible(false);
 	}
 
 	@Override

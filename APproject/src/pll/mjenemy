@@ -1,7 +1,7 @@
 {
   "enemyDeck": {
     "heroDeck": {
-      "HP": 30,
+      "HP": 23,
       "Hero_power": " Spend 2 mana lesser than others for spells",
       "specialPower": "Spend 2 mana and damage 1 any enemy",
       "useHeropower": 1,
@@ -30,29 +30,6 @@
         }
       },
       {
-        "type": "Cardspackage.Minions.LeperGnome",
-        "data": {
-          "HP": 1,
-          "attack": 1,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": true,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 1,
-          "name": "Leper Gnome",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-          "type": "Minion",
-          "needTarget": true
-        }
-      },
-      {
         "type": "Cardspackage.Spells.PharaohBlessing",
         "data": {
           "usedToAttack": false,
@@ -70,29 +47,6 @@
           "cardClass": "Neutral",
           "description": "Give a minion +4/+4, Divine Shield, and Taunt.",
           "needTarget": false
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.LeperGnome",
-        "data": {
-          "HP": 1,
-          "attack": 1,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": true,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 1,
-          "name": "Leper Gnome",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Deathrattle: Deal 2 damage to the enemy hero.",
-          "type": "Minion",
-          "needTarget": true
         }
       },
       {
@@ -177,52 +131,6 @@
           "rarity": "common",
           "cardClass": "Neutral",
           "description": "Taunt . Battlecry: Summon a copy of this minion",
-          "type": "Minion",
-          "needTarget": true
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.TombWarden",
-        "data": {
-          "HP": 6,
-          "attack": 3,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": true,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": true,
-          "rush": false,
-          "quest": false,
-          "mana": 8,
-          "name": "Tomb Warden",
-          "use": 0,
-          "rarity": "common",
-          "cardClass": "Neutral",
-          "description": "Taunt . Battlecry: Summon a copy of this minion",
-          "type": "Minion",
-          "needTarget": true
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.Sathrovarr",
-        "data": {
-          "HP": 5,
-          "attack": 5,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": true,
-          "rush": false,
-          "quest": false,
-          "mana": 9,
-          "name": "Sathrovarr",
-          "use": 0,
-          "rarity": "legendary",
-          "cardClass": "Neutral",
-          "description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
           "type": "Minion",
           "needTarget": true
         }
@@ -334,6 +242,86 @@
           "cardClass": "Mage",
           "description": "Transform a minion into a 1/1 Sheep.",
           "needTarget": true
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.LearnDraconic",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Learn Draconic",
+          "use": 0,
+          "rarity": "Common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
+          "needTarget": false
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.LearnDraconic",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Learn Draconic",
+          "use": 0,
+          "rarity": "Common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.",
+          "needTarget": false
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.StrengthinNumbers",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Strength in Numbers",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+          "needTarget": false
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.StrengthinNumbers",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": true,
+          "mana": 1,
+          "name": "Strength in Numbers",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
+          "description": "Sidequest: Spend 10 Mana on minions Reward: Summon a minion from your ",
+          "needTarget": false
         }
       }
     ],

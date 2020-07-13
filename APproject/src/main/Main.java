@@ -3,6 +3,10 @@ package main;
 
 import javax.swing.SwingUtilities;
 import grapic.MainFrame;
+import passives.ManaJump;
+import passives.OffCards;
+import passives.Passive;
+
 //import passives.AlchemistsStone;
 //import passives.BandofScarabs;
 //import passives.Caltrops;
@@ -66,6 +70,7 @@ import Cardspackage.Card;
 //import Cardspackage.Card;
 //import Cardspackage.Spells.AstralRift;
 import Cardspackage.Minions.Locust;
+import Cardspackage.Minions.MechanicalYeti;
 import Cardspackage.Minions.Sheep;
 import Cardspackage.Minions.SleepyDragon;
 import Cardspackage.Minions.WaxElemental;
@@ -150,17 +155,21 @@ public class Main {
 //		all.add(to);
 ////		
 //		GsonBuilder gsonBilder=new GsonBuilder();
-//		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+//		gsonBilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
 //		gsonBilder.setPrettyPrinting();
 //		Gson gson=gsonBilder.create();
-//		Card x= new SleepyDragon();
-////		
+////		Card x= new MechanicalYeti();
+//////		
 //		for (Card  cards : all) {
-//			
-//			FileWriter fileWriter = new FileWriter("E:\\2\\"+x.get_Name()+".json");
-//			gson.toJson(x, new TypeToken<Card>(){}.getType(), fileWriter);
+//Passive x= new ManaJump();
+//Passive y=new OffCards();
+//		FileWriter fileWriter = new FileWriter("E:\\2\\"+x.getName()+".json");
+//			gson.toJson(x, new TypeToken<Passive>(){}.getType(), fileWriter);
 //			fileWriter.flush();
-////			
+//			FileWriter fileWriter1 = new FileWriter("E:\\2\\"+y.getName()+".json");
+//			gson.toJson(y, new TypeToken<Passive>(){}.getType(), fileWriter1);
+//			fileWriter1.flush();
+//////			
 //		}
 //		Passive p=new AlchemistsStone();
 //		Passive s=new BandofScarabs();

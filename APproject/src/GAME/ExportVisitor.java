@@ -16,6 +16,7 @@ import Cardspackage.Minions.HighPriestAmet;
 import Cardspackage.Minions.KronxDragonhoof;
 import Cardspackage.Minions.LeperGnome;
 import Cardspackage.Minions.Locust;
+import Cardspackage.Minions.MechanicalYeti;
 import Cardspackage.Minions.MurlocRaider;
 import Cardspackage.Minions.MurlocWarleader;
 import Cardspackage.Minions.OasisSnapjaw;
@@ -51,6 +52,7 @@ import hero.Heros;
 import interfaces.Visitor;
 import playModel.Mapper;
 import playModel.Player;
+import playModel.Quest;
 
 public class ExportVisitor implements Visitor{
 
@@ -59,51 +61,26 @@ public class ExportVisitor implements Visitor{
 	public ExportVisitor() {
 		d= new DeckReader();
 	}
-
-
-
 	@Override
 	public void visitLearnDraconic(LearnDraconic m, Object taeget, Player attackerP, Player targetP) {
+		if(attackerP.getHand().contains(m)) {
+			attackerP.setQuest(new Quest(new SleepyDragon(), 8, "spell"));			
+		}
 	}
-
-	@Override
-	public void visitSecurityRover(SecurityRover m, Object taeget, Player attackerP, Player targetP) {
-		if(taeget==null)
-			if(PlayPanel.getRoundGame()%2!=attackerP.getTurn())
-				for(int i=0;i<7;i++) {
-					if(targetP.getBattleGroundCard().get(i)==null) {
-						targetP.getBattleGroundCard().remove(i);
-//						targetP.getBattleGroundCard().add(i,new )
-					}
-				}
-	
-	}
-
-	
-
-
 	@Override
 	public void visitStrengthinNumbers(StrengthinNumbers m, Object taeget, Player attackerP, Player targetP) {
-
+		if(attackerP.getHand().contains(m)) {
+			for(int i=0;i<attackerP.getDecksize();i++) {
+				if(attackerP.getDeck().get(i) instanceof Minion) {
+					attackerP.setQuest(new Quest(attackerP.getDeck().get(i), 10, "minion"));
+					return;					
+				}
+			}
+		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public void visitSecurityRover(SecurityRover m, Object taeget, Player attackerP, Player targetP) {
+	}	
 	@Override
 	public void visitShieldbearer(Shieldbearer m, Object taeget, Player attackerP, Player targetP) {
 	}
@@ -114,6 +91,7 @@ public class ExportVisitor implements Visitor{
 				if(targetP.getBattleGroundCard().get(i)!= null &&targetP.getBattleGroundCard().get(i).isTaunt()) {
 					targetP.getBattleGroundCard().remove(i);
 					targetP.getBattleGroundCard().add(i,null);
+					return;
 				}
 			}
 	}
@@ -246,6 +224,7 @@ public class ExportVisitor implements Visitor{
 			if(targetP.getBattleGroundCard().get(i)!=null) {
 				targetP.getBattleGroundCard().remove(i);
 				targetP.getBattleGroundCard().add(i, d.find("Sheep"));
+				return;
 			}
 		}	
 	}
@@ -303,7 +282,7 @@ public class ExportVisitor implements Visitor{
 	@Override
 	public void visitLocust(Locust m, Object taeget, Player attackerP, Player targetP) {
 		if(m.getHp()>0)
-			m.setUsedToAttack(true);
+			m.setUsedToAttack(false);
 	}
 	@Override
 	public void visitTombWarden(TombWarden m, Object taeget, Player attackerP, Player targetP) {
@@ -379,9 +358,15 @@ public class ExportVisitor implements Visitor{
 	@Override
 	public void visitAstralRift(AstralRift m, Object taeget, Player attackerP, Player targetP) {
 		try {
-			for(int i=0; i<2;i++) {
+			int x=0;
+			for(int i=0; attackerP.getDeck().size()>i;i++) {
 				handledeck(attackerP, targetP);
-				Mapper.getinsist().addToHand(attackerP, targetP, this);
+				if(attackerP.getDeck().get(i) instanceof Minion && x<2) {
+					attackerP.getHand().add(attackerP.getDeck().get(i));
+					attackerP.getDeck().remove(i);
+					i--;
+					x++;
+				}
 			}
 		} catch (Exception e) {	e.printStackTrace();}
 	}

@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import Cardspackage.Card;
+import GAME.ExportPassives;
 import GAME.ExportVisitor;
 import GAME.Gamestate;
 import GAME.Logger;
@@ -47,8 +48,8 @@ public class PlayPanel extends JPanel{
 	private ArrayList<CardShow> CurrentHand=new ArrayList<>();
 	private ArrayList<CardShow> weapons=new ArrayList<>();
 	private ArrayList<HeroShow> heros=new ArrayList<>(); 
+	private JProgressBar[] progres=new JProgressBar[2];
 	private ExportVisitor visitor=new ExportVisitor();
-
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
 		initial();
 		initialPlayers();
@@ -63,6 +64,7 @@ public class PlayPanel extends JPanel{
 		enemy=map.readEnemy();
 	}
 	private void startGame() throws Exception {
+		initialPassive(me);
 		addToHand(1);
 		addToHand(1);
 		addToHand(1);
@@ -78,7 +80,6 @@ public class PlayPanel extends JPanel{
 		Clock timer =new Clock(jp, this);
 		add(jp);
 		timer.start();		
-	initialPassive(me);
 	}
 	private void  initialPassive(Player pp) throws Exception {
 		PassivePanel p=new PassivePanel(pp);
@@ -101,6 +102,26 @@ public class PlayPanel extends JPanel{
 		});
 		add(manabut);
 	}
+	private void setQuest(Player p) {
+		if(progres[p.getTurn()]==null) {
+			JProgressBar jp=new JProgressBar(0, p.getQuest().getMission());
+			jp.setBounds(10, 240+((p.getTurn()+1)%2)*400, 150, 40);
+			jp.setValue(0);
+			add(jp);
+			progres[p.getTurn()]=jp;			
+		}else {
+			progres[p.getTurn()].setValue(p.getQuest().getHave());
+		}
+	}
+	private void updateProgres(Player p) {
+		if(map.checkQuest(p)) {
+			setQuest(p);			
+		}else {
+			if(progres[p.getTurn()]!=null)
+			remove(progres[p.getTurn()]);
+			progres[p.getTurn()]=null;
+		}
+	}
 	private void initial() throws Exception {
 		map=Mapper.getinsist();
 		log=Logger.getinsist();
@@ -108,6 +129,7 @@ public class PlayPanel extends JPanel{
 		setPreferredSize(new Dimension(1800, 1000));
 		setLayout(null);
 	}
+
 	private void initialLables() {
 		drawHero();
 		player1DeckRemind = new JLabel(me.getDecksize()+"");
@@ -202,6 +224,8 @@ public class PlayPanel extends JPanel{
 		}
 	}
 	private void setCard() {
+		updateProgres(me);
+		updateProgres(enemy);
 		removeLables();
 		removeHeros();
 		setWeaons();
@@ -309,9 +333,9 @@ public class PlayPanel extends JPanel{
 	private void drawPlaces(Graphics g) {
 		for(int i=0 ;i<8;i++)
 			g.drawLine(200+i*160, 260, 200+i*160, 700);
-	g.drawLine(200, 260, 1160, 260);
-	g.drawLine(200, 480, 1160, 480);
-	g.drawLine(200, 700, 1160, 700);
+	g.drawLine(200, 260, 1320, 260);
+	g.drawLine(200, 480, 1320, 480);
+	g.drawLine(200, 700, 1320, 700);
 	}
 	
 	

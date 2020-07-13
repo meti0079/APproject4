@@ -12,4 +12,7 @@ public void visitEntrenchment(Player me, Player enemy , Card x);
 public void visitGlyphofWarding(Player me, Player enemy , Card x);
 public void visitGrommashsArmguards(Player me, Player enemy , Card x);
 public void visitStargazing(Player me, Player enemy , Card x);
+public void visitOffCard(Player me, Player enemy , Card x);
+public void visitManaJump(Player me, Player enemy , Card x);
 }
+

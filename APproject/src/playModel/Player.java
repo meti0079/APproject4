@@ -16,6 +16,10 @@ public class Player {
 	private String name;
 	private Heros Hero;
 	private int currentgem=1;
+	private int previosgem=1;
+	private Quest quest;
+	
+
 	private int Changes=0;
 	private Weapon Weapon;
 	private ArrayList<Card> Hand;
@@ -119,15 +123,18 @@ public class Player {
 					getBattleGroundCard().add(i, null);									
 				}
 			}
-		}
-//			for (int i = this.getHand().size()-1; i>=0; i--) {
-//				if(Hand.get(i) instanceof Minion)	
-//					if(Hand.get(i).getHp()<=0) {
-//						Hand.get(i).accept(v, null,this, enemy);
-//						Hand.remove(i);
-//						Hand.add(i, null);									
-//					}
-//				}
-			
+		}			
+	}
+	public Quest getQuest() {
+		return quest;
+	}
+	public void setQuest(Quest quest) {
+		this.quest = quest;
+	}
+	public int getPreviosgem() {
+		return previosgem;
+	}
+	public void setPreviosgem(int previosgem) {
+		this.previosgem = previosgem;
 	}
 }

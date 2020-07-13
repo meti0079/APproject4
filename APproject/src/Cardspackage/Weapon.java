@@ -42,10 +42,10 @@ public abstract  class Weapon extends Card{
 		if(taeget == null)
 			return false;
 		try {
-			
 			if(taeget instanceof Heros) {
 				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
 					((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
+					this.setHp(this.getHp()-1);
 					return true;
 				}	
 			}else {	
@@ -67,7 +67,6 @@ public abstract  class Weapon extends Card{
 					return true;
 				}
 			}
-			System.out.println("bad new");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
