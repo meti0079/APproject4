@@ -3,7 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class BookofSpecters extends Spell implements Acceptable{
 	public BookofSpecters() {
@@ -12,11 +12,10 @@ public class BookofSpecters extends Spell implements Acceptable{
 		this.Set_Mana(2);
 		this.Set_Rarity("epic");
 		this.setDescription("Draw 3 cards. Discard any spells drawn.");
-		this.setNeedTarget(false);
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		v.visitBookofSpecters(this, taeget, attackerP, targetP);
 		return true;}
 }

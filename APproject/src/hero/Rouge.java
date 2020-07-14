@@ -6,7 +6,7 @@ import Cardspackage.Card;
 import hero.heroPower.RougePower;
 import interfaces.AcceptHero;
 import interfaces.HeroVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 
 public class Rouge  extends Heros  implements AcceptHero{
@@ -18,8 +18,18 @@ public class Rouge  extends Heros  implements AcceptHero{
 	}
 
 	@Override
-	public void accept(HeroVisitor v, Player p, int d, Card x) {
+	public void accept(HeroVisitor v, PlayerModel p, int d, Card x) {
 		v.visitRouge(p, d,x);	
+	}
+
+	@Override
+	public Heros clone() {
+		Heros s= new Rouge();
+		s.setname(this.getname());
+		s.set_SpecialPower(this.get_SpecialPower());
+		s.setHero_power(this.getHero_power());
+		s.setHP(this.get_HP());		
+		return s;
 	}
 
 

@@ -1,13 +1,20 @@
 package hero;
 
+import Cardspackage.Card;
 import hero.heroPower.HeroPower;
+import interfaces.HeroVisitor;
+import playModel.PlayerModel;
 
-public class Heros {
+public  abstract class Heros {
 
 	private int HP=30;
 	private HeroPower Hero_power;
 	private String specialPower;
 	private String name;
+	
+	
+	
+	public abstract void accept(HeroVisitor v, PlayerModel p, int d, Card x);
 	public String getname() {
 		return name;
 	}
@@ -38,12 +45,5 @@ public class Heros {
 	public int get_HP() {
 		return	HP;
 	}
-	public Heros clone() {
-		Heros s= new Heros();
-		s.setname(this.name);
-		s.set_SpecialPower(this.specialPower);
-		s.setHero_power(this.Hero_power);
-		s.setHP(this.HP);
-		return s;
+	public  abstract Heros clone();
 	}
-}

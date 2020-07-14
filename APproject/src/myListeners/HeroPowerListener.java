@@ -14,17 +14,17 @@ import hero.heroPower.HeroPower;
 import interfaces.HeroPowerVisitor;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	private PlayPanel panel;
 	private HeroPower heropower;
 	private HeroPowerShow x;
-	private Player me;
-	private Player enemy;
+	private PlayerModel me;
+	private PlayerModel enemy;
 	private HeroPowerVisitor v;
-
-	public HeroPowerListener(PlayPanel panel, HeroPower heroPower,HeroPowerShow shpw , Player me, Player enemy, HeroPowerVisitor v) {
+	private Visitor cardVisitor;
+	public HeroPowerListener(PlayPanel panel, HeroPower heroPower,HeroPowerShow shpw , PlayerModel me, PlayerModel enemy, HeroPowerVisitor v, Visitor cv) {
 		super();
 		this.panel = panel;
 		this.heropower = heroPower;
@@ -32,6 +32,7 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 		this.me = me;
 		this.enemy = enemy;
 		this.v = v;
+		this.cardVisitor=cv;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -48,9 +49,8 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 		if(heropower.isUsed()==false && PlayPanel.getRoundGame()%2==me.getTurn()) {
 			if(me.getCurrentgem()>=heropower.getMana())
 			try {
-				if(Mapper.getinsist().handleHeroPower(me, enemy, v, x.getX(), x.getY(), heropower)) {
+				if(Mapper.getinsist().handleHeroPower(me, enemy, v, x.getX(), x.getY(), heropower,cardVisitor)) {
 					String 	ss=me.getName()+"     played    hero power\n";
-					heropower.setUsed(true);
 					panel.getTextArea().append(ss);	
 				}
 			} catch (Exception e1) {

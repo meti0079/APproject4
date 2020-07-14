@@ -1,14 +1,14 @@
 package GAME;
 
 public class Enemy {
-	private Decks enemyDeck;
+	private Deck enemyDeck;
 	public Enemy() {
 
 	}
-	public Decks getEnemyDeck() {
+	public Deck getEnemyDeck() {
 		return enemyDeck;
 	}
-	public void setEnemyDeck(Decks enemyDeck) {
+	public void setEnemyDeck(Deck enemyDeck) {
 		this.enemyDeck = enemyDeck;
 	}
 

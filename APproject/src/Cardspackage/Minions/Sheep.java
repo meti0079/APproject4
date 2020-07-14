@@ -2,7 +2,7 @@ package Cardspackage.Minions;
 
 import Cardspackage.Minion;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class Sheep extends Minion {
 	public Sheep() {
@@ -16,10 +16,9 @@ public class Sheep extends Minion {
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		super.accept(v, taeget, attackerP, targetP);
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		v.visitSheep(this, taeget, attackerP, targetP);
-		return true;
+		return super.accept(v, taeget, attackerP, targetP);
 
 	}
 

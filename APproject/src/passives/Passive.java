@@ -2,12 +2,12 @@ package passives;
 
 import Cardspackage.Card;
 import interfaces.PassiveVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public abstract class Passive {
 	private String description;
 	private String name;
-	public abstract void accept(PassiveVisitor v,Player me, Player enemy , Card x);
+	public abstract void accept(PassiveVisitor v,PlayerModel me, PlayerModel enemy , Card x);
 
 	public String getDescription() {
 		return description;

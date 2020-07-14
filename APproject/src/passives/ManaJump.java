@@ -2,7 +2,7 @@ package passives;
 
 import Cardspackage.Card;
 import interfaces.PassiveVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 public class ManaJump extends Passive{
 public ManaJump() {
 	
@@ -12,7 +12,7 @@ public ManaJump() {
 		
 
 		@Override
-		public void accept(PassiveVisitor v, Player me, Player enemy, Card x) {
+		public void accept(PassiveVisitor v, PlayerModel me, PlayerModel enemy, Card x) {
 			v.visitManaJump(me, enemy, x);
 		}
 

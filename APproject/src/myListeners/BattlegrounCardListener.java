@@ -3,52 +3,70 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JOptionPane;
+
 import Cardspackage.Card;
+import Cardspackage.Minion;
 import GAME.Gamestate;
 import grapic.CardShow;
 import grapic.PlayPanel;
+import grapic.ShowCardBigger;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class BattlegrounCardListener implements MouseListener,MouseMotionListener{
 
 	private PlayPanel panel;
 	private Card card;
 	private CardShow x;
-	private Player me;
-	private Player enemy;
+	private PlayerModel me;
+	private PlayerModel enemy;
 	private Visitor v;
-	public  BattlegrounCardListener(PlayPanel panel,Card card, CardShow x, Player me, Player enemy, Visitor v) {
+	ShowCardBigger sho;
+	public  BattlegrounCardListener(PlayPanel panel,Card card, CardShow x, PlayerModel me, PlayerModel enemy, Visitor v) {
 		this.panel=panel;
 		this.card=card;
 		this.x=x;
 		this.me=me;
 		this.enemy=enemy;
 		this.v=v;
+		sho =new ShowCardBigger(card);
+		sho.setBounds(650, 350, 200, 300);
+		panel.add(sho);
+		sho.setVisible(false);
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+		sho.setVisible(true);
+	}
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		sho.setVisible(false);
+	}
 	@Override
 	public void mousePressed(MouseEvent e) {
+		sho.setVisible(false);
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(card.getUsedToAttack() ==false) {
+		sho.setVisible(false);
+		if(card.getUsedToAttack() ==false || (card).isRush()) {
 		try {
 			if(Mapper.getinsist().handleAttack(me, enemy, v, x.getX(), x.getY(), card)) {
 				String 	ss=me.getName()+"     played   "+card.get_Name()+"\n";
 				card.setUsedToAttack(true);
 				panel.getTextArea().append(ss);	
-			}
+			}else
+				JOptionPane.showMessageDialog(panel, "target is not valid");
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
+		}else {
+			JOptionPane.showMessageDialog(panel, "cant attack with this card");
 		}
 		panel.updatePanel();	
 	}

@@ -16,11 +16,12 @@ import hero.Mage;
 import hero.Priest;
 import hero.Rouge;
 import hero.Warlock;
+import hero.heroPower.HeroPower;
 
 public class Login  {
 	Gson gson;
 
-	public Login(Players player, Enemy enem) throws Exception {
+	public Login(Player player, Enemy enem) throws Exception {
 		initialGson();
 		makeHero(player);
 		makeDeck(player, player.get_myheros().get(0));
@@ -32,10 +33,12 @@ public class Login  {
 	private void initialGson() {
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 	}
-	private void makeWeapon(Players player) throws FileNotFoundException {
+	private void makeWeapon(Player player) throws FileNotFoundException {
 		File fa=new File(System.getProperty("user.dir")+"\\src\\CArds\\weapons");
 		File[] dirr=fa.listFiles();
 		if(dirr!=null) {
@@ -50,7 +53,7 @@ public class Login  {
 		}		
 	}
 
-	private void makeMinion(Players player) throws FileNotFoundException {
+	private void makeMinion(Player player) throws FileNotFoundException {
 		Random ran=new Random();
 		File f2=new File(System.getProperty("user.dir")+"\\src\\CArds\\minions");
 		File[] dirr2=f2.listFiles();
@@ -80,7 +83,7 @@ public class Login  {
 		}		
 	}
 
-	private void makeHero(Players player) {
+	private void makeHero(Player player) {
 		Heros first=new Mage();
 		Heros s1=new Rouge();
 		Heros s2=new Warlock();
@@ -92,7 +95,7 @@ public class Login  {
 		player.getMyStore().getBuyHero().add(s2);
 		player.addHero(first);
 	}
-	private void makeSpells(Players player) throws FileNotFoundException {	
+	private void makeSpells(Player player) throws FileNotFoundException {	
 		File fe=new File(System.getProperty("user.dir")+"\\src\\CArds\\spells");
 		File[] dir=fe.listFiles();
 		if(dir!=null) {
@@ -108,20 +111,20 @@ public class Login  {
 			}
 		}
 	}
-	private void makeDeck(Players player, Heros first) throws Exception {
-		Decks dec=new Decks();
+	private void makeDeck(Player player, Heros first) throws Exception {
+		Deck dec=new Deck();
 		dec.setName("first deck");
 		dec.setHeroDeck(first.getname());
 		player.adddeck(dec);
 		player.setMyDeck(0);
 	}
 	private void makeEnemyDeck(Enemy en) throws Exception {
-		Decks enemy=new Decks();
+		Deck enemy=new Deck();
 		enemy.setHeroDeck("mage");
 		enemy.setName("enemy deck");
 		en.setEnemyDeck(enemy);
 	}
-	private void addToDeck(Card m, Players player) {
+	private void addToDeck(Card m, Player player) {
 		player.get_mydeck().add(m);
 		player.add_card(m);	
 	}

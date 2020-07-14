@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import Cardspackage.Card;
-import GAME.Decks;
+import GAME.Deck;
 import GAME.Gamestate;
 
 public class Statos extends JPanel{
@@ -54,7 +54,7 @@ public class Statos extends JPanel{
 		g.setFont(new Font("Tahoma", Font.BOLD, 20));
 		g.setColor(Color.WHITE);
 		int sum=0;
-		for(Decks s : game.getPlayer().sortDecks()) {
+		for(Deck s : game.getPlayer().sortDecks()) {
 			if(sum<10) {
 				g.drawString("deck name :"+s.getName(), co, first);
 				g.drawString((sum+1)+"", co+800, first);

@@ -2,7 +2,7 @@ package passives;
 
 import Cardspackage.Card;
 import interfaces.PassiveVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class Entrenchment extends Passive{
 public Entrenchment() {
@@ -12,7 +12,7 @@ setDescription("Your minions have +2 Health.");
 }
 
 @Override
-public void accept(PassiveVisitor v, Player me, Player enemy, Card x) {
+public void accept(PassiveVisitor v, PlayerModel me, PlayerModel enemy, Card x) {
 	v.visitEntrenchment(me, enemy, x);
 }
 

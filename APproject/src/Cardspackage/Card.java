@@ -28,16 +28,6 @@ public abstract  class Card implements Acceptable {
 	private String cardClass;
 	private String description;
 	private String type;
-	private boolean needTarget=true;
-
-
-	
-	public boolean isNeedTarget() {
-		return needTarget;
-	}
-	public void setNeedTarget(boolean needTarget) {
-		this.needTarget = needTarget;
-	}
 	public abstract int getAttack();
 	public abstract void setAttack(int x);
 	public abstract int getHp();

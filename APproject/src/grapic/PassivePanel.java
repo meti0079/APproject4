@@ -13,15 +13,15 @@ import javax.swing.JPanel;
 
 import myListeners.PassiveListener;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 
 public class PassivePanel extends JPanel {
 
 
 	private static final long serialVersionUID = 1L;
-	private Player p;
-	public PassivePanel(Player p) throws Exception {
+	private PlayerModel p;
+	public PassivePanel(PlayerModel p) throws Exception {
 		this.p=p;
 		Initial();
 		drawLables();

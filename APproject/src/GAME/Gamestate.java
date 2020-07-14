@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import Cardspackage.Card;
+import hero.Heros;
+import hero.heroPower.HeroPower;
 import passives.Passive;
 
 
@@ -20,7 +22,7 @@ import passives.Passive;
 public class Gamestate {
 	Scanner sca=new Scanner(System.in);
 	private String state; 
-	private	Players player;
+	private	Player player;
 	private Store store;
 	private	Gson gson;
 	public static Gamestate game;
@@ -36,10 +38,10 @@ public class Gamestate {
 		}
 		return game;
 	}
-	public Players getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
-	public void setPlayer(Players player) {	
+	public void setPlayer(Player player) {	
 		this.player = player;
 	}
 	public Store getStor() {
@@ -104,7 +106,7 @@ public class Gamestate {
 		while(s.hasNext()) {
 			se+=s.nextLine(); 
 		}
-		player=gson.fromJson(se, Players.class);	
+		player=gson.fromJson(se, Player.class);	
 	}
 	public void readEnemy(String name) throws FileNotFoundException {
 		File f=new File(System.getProperty("user.dir")+"\\src\\pll\\"+name+"enemy");
@@ -171,6 +173,8 @@ public class Gamestate {
 	private void initialGson() {
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 	}

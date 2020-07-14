@@ -1,11 +1,11 @@
 package interfaces;
 
-import playModel.Player;
+import playModel.PlayerModel;
 
 public interface HeroPowerVisitor {
-public void visitMagePower(Object target, Player me, Player enemy);
-public void visitRougePower(Object target, Player me, Player enemy);
-public void visitHunterPower(Object target, Player me, Player enemy);
-public void visitPriestPower(Object target, Player me, Player enemy);
-public void visitWarlockPower(Object target, Player me, Player enemy);
+public boolean visitMagePower(Object target, PlayerModel me, PlayerModel enemy);
+public boolean visitRougePower(Object target, PlayerModel me, PlayerModel enemy);
+public boolean visitHunterPower(Object target, PlayerModel me, PlayerModel enemy);
+public boolean visitPriestPower(Object target, PlayerModel me, PlayerModel enemy);
+public boolean visitWarlockPower(Object target, PlayerModel me, PlayerModel enemy);
 }

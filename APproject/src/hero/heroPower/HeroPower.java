@@ -1,18 +1,41 @@
 package hero.heroPower;
 
+import Cardspackage.Minion;
 import interfaces.HeroPowerVisitor;
-import playModel.Player;
+import playModel.Mapper;
+import playModel.PlayerModel;
 
-public  class HeroPower {
+public abstract  class HeroPower {
 
 	private int maxUse=1;
 	private String descriptoin;
 	private boolean used=false;
 	private int mana;
+	private int use=0;
 
+	public int getUse() {
+		return use;
+	}
+	public void setUse(int use) {
+		this.use = use;
+	}
 	public HeroPower() {
 
 	}
+	public  boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy) {
+		try {
+			if(Mapper.getinsist().checkTount(enemy)) {
+				if(target.equals(enemy.getHero()) )
+					return false;
+			if(((Minion)target).isTaunt())
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+			return true;	
+	}
+
 	public int getMaxUse() {
 		return maxUse;
 	}

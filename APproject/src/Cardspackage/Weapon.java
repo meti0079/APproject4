@@ -3,7 +3,7 @@ package Cardspackage;
 import hero.Heros;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public abstract  class Weapon extends Card{
 
@@ -38,7 +38,7 @@ public abstract  class Weapon extends Card{
 		return "Weapon";
 	}
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget == null)
 			return false;
 		try {

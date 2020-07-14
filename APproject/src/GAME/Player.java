@@ -4,18 +4,18 @@ import javax.swing.JOptionPane;
 import Cardspackage.Card;
 import hero.Heros;
 
-public class Players {
+public class Player {
 	private String name;
 	private String password;
 	public  int gem;
 	private Store myStore;
-	private ArrayList<Decks> my_Decks=new ArrayList<>();
+	private ArrayList<Deck> my_Decks=new ArrayList<>();
 	private  ArrayList<Card> my_Cards =new ArrayList<>();
 	private ArrayList<Heros> my_Heros=new ArrayList<>();
 	private int plays;
 	private int currentDeck;
 
-	public Players(String name,String pass,int g) {
+	public Player(String name,String pass,int g) {
 		this.name=name;
 		password=pass;
 		gem=g;
@@ -71,7 +71,7 @@ public class Players {
 		myStore.getBuyCard().remove(s);		
 	}
 	public boolean sellaCard(Card s) {
-		for(Decks q: my_Decks) {
+		for(Deck q: my_Decks) {
 			for(Card w : q.getDeck())
 				if(w.get_Name().equals(s.get_Name())) {
 					JOptionPane.showConfirmDialog(null, "cant sell because this card used in deck   :  "+q.getName()
@@ -89,15 +89,15 @@ public class Players {
 	public void addPlays() {
 		this.plays++;
 	}
-	public void adddeck(Decks a) {
+	public void adddeck(Deck a) {
 		this.my_Decks.add(a);
 	}
-	public ArrayList<Decks> getalldeck() {
+	public ArrayList<Deck> getalldeck() {
 		return my_Decks;
 	}
 
 
-	public Decks getMyDeck() {
+	public Deck getMyDeck() {
 		return my_Decks.get(currentDeck);
 	}
 
@@ -131,24 +131,24 @@ public class Players {
 		}
 		return sum;
 	}
-	public ArrayList<Decks> sortDecks() {
-		Decks [] allDeck=new Decks[my_Decks.size()];
+	public ArrayList<Deck> sortDecks() {
+		Deck [] allDeck=new Deck[my_Decks.size()];
 		int x=0;
-		for(Decks s : getalldeck()) {
+		for(Deck s : getalldeck()) {
 			allDeck[x]=s;
 			x++;
 		}
 		for(int i=0;i<my_Decks.size()-1;i++) {
 			for(int j=my_Decks.size()-i-1;j>0;j--) {
 				if(allDeck[j].getWin()>=allDeck[j-1].getWin()) {	
-					Decks y=allDeck[j-1];
+					Deck y=allDeck[j-1];
 					allDeck[j-1]=allDeck[j];
 					allDeck[j]=y;
 				}
 			}
 		}
-		ArrayList<Decks> su=new ArrayList<>();
-		for(Decks s : allDeck) {
+		ArrayList<Deck> su=new ArrayList<>();
+		for(Deck s : allDeck) {
 			su.add(s);
 		}
 		return su;

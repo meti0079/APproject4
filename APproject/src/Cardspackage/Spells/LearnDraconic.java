@@ -3,7 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class LearnDraconic extends Spell implements Acceptable{
 
@@ -14,11 +14,10 @@ public class LearnDraconic extends Spell implements Acceptable{
 		this.Set_Rarity("Common");
 		this.setDescription("Sidequest: Spend 8 Mana on spells. Reward: Summon a 6/6 Dragon.");
 		this.setQuest(true);
-		this.setNeedTarget(false);
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		v.visitLearnDraconic(this, taeget, attackerP, targetP);
 		return true;}
 

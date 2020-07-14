@@ -2,9 +2,13 @@ package grapic;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Panel;
 
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
+
+import GAME.Gamestate;
+import playModel.ComputerPlayer;
 
 public class Clock  extends Thread{
 
@@ -16,8 +20,10 @@ public class Clock  extends Thread{
 	private JProgressBar jp;
 	private PlayPanel playPanel;
 	private JLabel alarm;
-	public Clock(JProgressBar jp, PlayPanel playPanel) throws InterruptedException {
+	ComputerPlayer computer;
+	public Clock(JProgressBar jp, PlayPanel playPanel, ComputerPlayer pla) throws InterruptedException {
 		movepessecond=1.0f;
+		this.computer=pla;
 		reset();
 		this.jp=jp;
 		this.playPanel=playPanel;
@@ -56,6 +62,22 @@ public class Clock  extends Thread{
 	@Override
 	public  void run() {
 		while(true) {
+			try {
+			if(Gamestate.getinsist().getState().equalsIgnoreCase("computer")) {
+				if(playPanel.getRoundGame()%2==1) {
+					if(playPanel.i==5) {
+						computer.addToBattlefield();
+						playPanel.updatePanel();
+					}
+					if(playPanel.i==20) {
+						computer.attack();
+						playPanel.updatePanel();
+					}
+					if(playPanel.i==30) {
+						playPanel.nextTurn();
+					}	
+				}		
+			}			
 			long s=System.nanoTime();
 			update();
 			if(hascycle()) {
@@ -69,21 +91,20 @@ public class Clock  extends Thread{
 			}else if(playPanel.i==42)
 				alarm.setVisible(false);
 			if(e<Frametime) {
-				try {
 					this.sleep(1000);
-				} catch (InterruptedException e1) {
-					System.out.println(255);			
-					e1.printStackTrace();
-				}
 			}
 			if (PlayPanel.i==60) {
+				alarm.setVisible(false);
 				PlayPanel.i=0;
 				try {
 					playPanel.nextTurn();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+			} catch (Exception e1) {
+				System.out.println(255);			
+				e1.printStackTrace();
 			}
 		}
 	}

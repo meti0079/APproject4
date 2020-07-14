@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import Cardspackage.Card;
 import Cardspackage.Minion;
 import Cardspackage.Weapon;
-import GAME.Decks;
+import GAME.Deck;
 import GAME.ExportVisitor;
 import hero.Heros;
 import interfaces.Acceptable;
 import interfaces.Visitor;
 import passives.Passive;
 
-public class Player {
+public class PlayerModel {
 	private String name;
 	private Heros Hero;
 	private int currentgem=1;
@@ -48,7 +48,7 @@ public class Player {
 		}
 		Hand=new ArrayList<>();
 	}
-	public Player(Decks deck, int tu, String name) {
+	public PlayerModel(Deck deck, int tu, String name) {
 		initial();
 		turn=tu;
 		this.name=name;
@@ -114,7 +114,7 @@ public class Player {
 	public void setBattleGroundCard(LinkedList<Card> battleGroundCard) {
 		this.battleGroundCard = battleGroundCard;
 	}
-	public void checkCard(Player enemy, Visitor v) {
+	public void checkCard(PlayerModel enemy, Visitor v) {
 			for (int i = 0; i < 7; i++) {
 			if(battleGroundCard.get(i)!= null) {
 				if(battleGroundCard.get(i).getHp()<=0) {

@@ -3,7 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class Polymorph extends Spell implements Acceptable{
 public Polymorph() {
@@ -15,7 +15,7 @@ public Polymorph() {
 }
 
 @Override
-public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {	
+public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {	
 	v.visitPolymorph(this, taeget, attackerP, targetP);
 	return true;
 	}

@@ -4,7 +4,7 @@ import Cardspackage.Card;
 import hero.heroPower.WarlockPower;
 import interfaces.AcceptHero;
 import interfaces.HeroVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class Warlock  extends Heros implements AcceptHero{
 	public Warlock() {
@@ -14,8 +14,17 @@ public class Warlock  extends Heros implements AcceptHero{
 		this.setHero_power(new  WarlockPower());
 	}
 	@Override
-	public void accept(HeroVisitor v, Player p, int d, Card x) {
+	public void accept(HeroVisitor v, PlayerModel p, int d, Card x) {
 		v.visitWarlock(p, d,x);
+	}
+	@Override
+	public Heros clone() {
+		Heros s= new Warlock();
+		s.setname(this.getname());
+		s.set_SpecialPower(this.get_SpecialPower());
+		s.setHero_power(this.getHero_power());
+		s.setHP(this.get_HP());		
+		return s;
 	}
 
 

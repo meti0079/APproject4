@@ -35,13 +35,18 @@ public class CardShow extends JPanel  {
 	}
 	private void manaLable() {
 		JLabel manaJLabel=new JLabel(card.get_Mana()+"");	
-		manaJLabel.setBounds(9, 8, 20, 20);
+		manaJLabel.setBounds(10, 7, 20, 20);
 		manaJLabel.setForeground(Color.WHITE);
 		manaJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(manaJLabel);
 	}
 	private void readImage() {
-		File input_file = new File("src\\play image\\"+card.get_Name()+".png"); 
+		File input_file ;
+		if(!card.getUsedToAttack() || card.isRush()) {
+			input_file = new File("src\\play image\\"+card.get_Name()+".png"); 
+		}else {
+			input_file = new File("src\\play image\\"+card.get_Name()+"1.png"); 			
+		}
 		image = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
 		} catch (IOException e) {e.printStackTrace();}
@@ -50,7 +55,7 @@ public class CardShow extends JPanel  {
 		setPreferredSize(new Dimension(100, 150));
 		setSize(new Dimension(100, 150));
 		setLayout(null);
-		setBackground(new Color(0, 0, 0, 0));
+		setBackground(new Color(0, 0, 0,0));
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -59,14 +64,14 @@ public class CardShow extends JPanel  {
 	}
 	private void setAtackLable(Card x) {
 		JLabel attackJLabel=new JLabel(x.getAttack()+"");
-		attackJLabel.setBounds(10, 121, 20, 20);
+		attackJLabel.setBounds(10, 125, 20, 20);
 		attackJLabel.setForeground(Color.WHITE);
 		attackJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(attackJLabel);
 	}
 	private void setHpLable(Card x) {
 		JLabel hpJLabel=new JLabel(x.getHp()+"");
-		hpJLabel.setBounds((this.getWidth()*4)/5, 126, 20, 20);
+		hpJLabel.setBounds((this.getWidth()*4)/5, 125, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);
 		hpJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(hpJLabel);
@@ -74,14 +79,14 @@ public class CardShow extends JPanel  {
 	}
 	private void setAtackLable1(Card x) {
 		JLabel attackJLabel=new JLabel(x.getAttack()+"");
-		attackJLabel.setBounds(10, 121, 20, 20);
+		attackJLabel.setBounds(10, 125, 20, 20);
 		attackJLabel.setForeground(Color.WHITE);
 		attackJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(attackJLabel);
 	}
 	private void setDuribalityLable(Card x) {
 		JLabel hpJLabel=new JLabel(x.getHp()+"");
-		hpJLabel.setBounds(81, 126, 20, 20);
+		hpJLabel.setBounds(81, 125, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);
 		hpJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(hpJLabel);

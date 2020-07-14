@@ -1,8 +1,8 @@
 package interfaces;
 
 import Cardspackage.Card;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public interface AcceptHero {
-public void accept(HeroVisitor v, Player p, int d, Card x);
+public void accept(HeroVisitor v, PlayerModel p, int d, Card x);
 }

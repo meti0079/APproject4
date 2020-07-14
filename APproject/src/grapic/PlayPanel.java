@@ -23,8 +23,9 @@ import GAME.Logger;
 import myListeners.BattlegrounCardListener;
 import myListeners.HandCardListener;
 import myListeners.HeroPowerListener;
+import playModel.ComputerPlayer;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 
 public class PlayPanel extends JPanel{
@@ -39,8 +40,8 @@ public class PlayPanel extends JPanel{
 	private Logger log;
 	private JLabel turnPlayed;
 	private static int roundGame=60;
-	private Player me;
-	private Player enemy;
+	private PlayerModel me;
+	private PlayerModel enemy;
 	private Mapper map;
 	private JLabel player2DeckRemind;
 	private JLabel player1DeckRemind;
@@ -84,11 +85,18 @@ public class PlayPanel extends JPanel{
 		jp.setValue(0);
 		jp.setString(0+"");
 		jp.setStringPainted(true);
-		Clock timer =new Clock(jp, this);
+		ComputerPlayer computerPlayer=new ComputerPlayer(me, enemy, visitor, textArea);
+		Clock timer =new Clock(jp, this,computerPlayer);
 		add(jp);
 		timer.start();		
 	}
-	private void  initialPassive(Player pp) throws Exception {
+	private void  initialPassive(PlayerModel pp) throws Exception {
+		if(Gamestate.getinsist().getState().equalsIgnoreCase("computer")) {
+			if(getRoundGame()%2==1) {
+				pp.setPassive(map.getAllPassives().get(0));
+				return ;
+			}
+		}
 		PassivePanel p=new PassivePanel(pp);
 		p.setBounds(200, 300, 1000, 500);
 		this.add(p);
@@ -109,7 +117,7 @@ public class PlayPanel extends JPanel{
 		});
 		add(manabut);
 	}
-	private void setQuest(Player p) {
+	private void setQuest(PlayerModel p) {
 		if(progres[p.getTurn()]==null) {
 			JProgressBar jp=new JProgressBar(0, p.getQuest().getMission());
 			jp.setBounds(10, 240+((p.getTurn()+1)%2)*400, 150, 40);
@@ -120,7 +128,7 @@ public class PlayPanel extends JPanel{
 			progres[p.getTurn()].setValue(p.getQuest().getHave());
 		}
 	}
-	private void updateProgres(Player p) {
+	private void updateProgres(PlayerModel p) {
 		if(map.checkQuest(p)) {
 			setQuest(p);			
 		}else {
@@ -198,8 +206,8 @@ public class PlayPanel extends JPanel{
 		int	j=-1;
 		for(Card s : me.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new HandCardListener(this, s, x, me, enemy, visitor)); 
-			x.addMouseMotionListener(new HandCardListener(this, s, x, me, enemy, visitor));
+			x.addMouseListener(new HandCardListener(this, s, x, me)); 
+			x.addMouseMotionListener(new HandCardListener(this, s, x, me));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
@@ -210,8 +218,8 @@ public class PlayPanel extends JPanel{
 		int	j1=-1;
 		for(Card s : enemy.getHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new HandCardListener(this, s, x, enemy, me, visitor));
-			x.addMouseMotionListener(new HandCardListener(this, s, x, enemy, me, visitor));
+			x.addMouseListener(new HandCardListener(this, s, x, enemy));
+			x.addMouseMotionListener(new HandCardListener(this, s, x, enemy));
 			CurrentHand.add(x);
 			x.setBounds(1000+(j1*100), 5, 100, 150);
 			add(x);
@@ -250,13 +258,13 @@ public class PlayPanel extends JPanel{
 	private void drawHeroPower() {
 		HeroPowerShow x= new HeroPowerShow(me.getHero());
 		x.setBounds(828, 700, 150, 150);
-		x.addMouseListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor));
-		x.addMouseMotionListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor));
+		x.addMouseListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor,visitor));
+		x.addMouseMotionListener(new HeroPowerListener(this, me.getHero().getHero_power(), x, me, enemy, heroVisitor,visitor));
 		add(x);
 		heroPowers.add(x);
 		HeroPowerShow x1= new HeroPowerShow(enemy.getHero());
-		x1.addMouseListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor));
-		x1.addMouseMotionListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor));
+		x1.addMouseListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor,visitor));
+		x1.addMouseMotionListener(new HeroPowerListener(this, enemy.getHero().getHero_power(), x1, enemy, me, heroVisitor, visitor));
 		x1.setBounds(828, 140, 150, 150);
 		add(x1);
 		heroPowers.add(x1);
@@ -368,7 +376,7 @@ public class PlayPanel extends JPanel{
 	}
 	
 	
-	private void addPlayerWeapon(Player p , Player enemy) {
+	private void addPlayerWeapon(PlayerModel p , PlayerModel enemy) {
 		CardShow x=new CardShow(p.getWeapon());
 		x.setBounds(560, 690-(520*p.getTurn()), 100, 150);
 		x.addMouseListener(new  BattlegrounCardListener(this, p.getWeapon(), x, p, enemy, visitor));

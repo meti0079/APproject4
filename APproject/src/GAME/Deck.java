@@ -9,14 +9,14 @@ import Cardspackage.Card;
 import hero.Heros;
 
 
-public class Decks {
+public class Deck {
 	private  Heros heroDeck;
 	private ArrayList<Card> deck;
 	private String name;
 	private int win;
 	private int useThisDeck;
 
-	public Decks() throws Exception {
+	public Deck() throws Exception {
 		this.deck=new ArrayList<>();
 		win=0;
 		useThisDeck=0;
@@ -38,7 +38,7 @@ public class Decks {
 		Gamestate game=Gamestate.getinsist();
 		for(Heros s:game.getPlayer().get_myheros())
 			if(s.getname().equalsIgnoreCase(name)) {
-				this.heroDeck =s ;
+				this.heroDeck =s.clone() ;
 			}
 		for(Card a:deck) {
 			if(!a.get_Class().equalsIgnoreCase("Neutral"))

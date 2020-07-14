@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import GAME.Decks;
+import GAME.Deck;
 import GAME.Gamestate;
 import GAME.Logger;
 
@@ -68,11 +68,11 @@ public class Collection_deck extends JPanel{
 		add(b);
 	}
 	private void makeNewDeck() throws Exception {
-		Decks s = new Decks();
+		Deck s = new Deck();
 		while(true ) {
 			Boolean flag=false;
 			String name=JOptionPane.showInputDialog("enter your deck name")+"";
-			for(Decks a : game.getPlayer().getalldeck()) {
+			for(Deck a : game.getPlayer().getalldeck()) {
 				if(a.getName().equalsIgnoreCase(name)) {
 					flag=true;
 				}
@@ -136,7 +136,7 @@ public class Collection_deck extends JPanel{
 					while(true ) {
 						Boolean flag=false;
 						String name=JOptionPane.showInputDialog("enter your deck name")+"";
-						for(Decks a : game.getPlayer().getalldeck()) {
+						for(Deck a : game.getPlayer().getalldeck()) {
 							if(a.getName().equalsIgnoreCase(name)) {
 								flag=true;
 							}
@@ -195,12 +195,12 @@ public class Collection_deck extends JPanel{
 		}
 		allBut.removeAll(allBut);
 		int i=1;
-		for(Decks s: game.getPlayer().getalldeck()) {
+		for(Deck s: game.getPlayer().getalldeck()) {
 			makeDeck(s, i);
 			i++;
 		}
 	}
-	public void makeDeck(Decks s , int i) {
+	public void makeDeck(Deck s , int i) {
 		JButton b= new JButton(s.getName()+"       "+s.getHeroDeck().getname()+ "   size :"+ s.getDeck().size());
 		b.setFont(new Font("tahoma", Font.BOLD, 15));
 		b.setBackground(new Color(165, 42, 42));

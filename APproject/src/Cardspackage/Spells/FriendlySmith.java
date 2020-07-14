@@ -3,7 +3,7 @@ package Cardspackage.Spells;
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class FriendlySmith extends Spell implements Acceptable{
 	public FriendlySmith() {
@@ -14,11 +14,10 @@ public class FriendlySmith extends Spell implements Acceptable{
 		setDescription("Discover a weapon from any class."
 				+ " Add it to your Adventure Deck "
 				+ "with +2/+2.");
-		this.setNeedTarget(false);
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		v.visitFriendlySmith(this, taeget, attackerP, targetP);
 		return true;
 		}

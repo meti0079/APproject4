@@ -51,7 +51,7 @@ import grapic.PlayPanel;
 import hero.Heros;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 import playModel.Quest;
 
 public class ExportVisitor implements Visitor{
@@ -61,31 +61,144 @@ public class ExportVisitor implements Visitor{
 	public ExportVisitor() {
 		d= new DeckReader();
 	}
+
+
+	///////////// spells
 	@Override
-	public void visitLearnDraconic(LearnDraconic m, Object taeget, Player attackerP, Player targetP) {
+	public void visitLearnDraconic(LearnDraconic m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(attackerP.getHand().contains(m)) {
 			attackerP.setQuest(new Quest(new SleepyDragon(), 8, "spell"));			
 		}
 	}
 	@Override
-	public void visitStrengthinNumbers(StrengthinNumbers m, Object taeget, Player attackerP, Player targetP) {
-		if(attackerP.getHand().contains(m)) {
-			for(int i=0;i<attackerP.getDecksize();i++) {
-				if(attackerP.getDeck().get(i) instanceof Minion) {
-					attackerP.setQuest(new Quest(attackerP.getDeck().get(i), 10, "minion"));
+	public void visitStrengthinNumbers(StrengthinNumbers m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		try {
+			if(attackerP.getHand().contains(m)) {
+				if(Gamestate.getinsist().getState().equalsIgnoreCase("enemy")) {
+					for(int i=0;i<attackerP.getDecksize();i++) {
+						if(attackerP.getDeck().get(i) instanceof Minion) {
+							attackerP.setQuest(new Quest(attackerP.getDeck().get(i), 10, "minion"));						
+							return;					
+						}
+					}
+				}else {
+					attackerP.setQuest(new Quest(d.find("Security Rover"), 10, "minion"));
 					return;					
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	@Override
-	public void visitSecurityRover(SecurityRover m, Object taeget, Player attackerP, Player targetP) {
-	}	
-	@Override
-	public void visitShieldbearer(Shieldbearer m, Object taeget, Player attackerP, Player targetP) {
+	public void visitPolymorph(Polymorph m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		for(int i=0 ;i<7;i++) {  
+			if(targetP.getBattleGroundCard().get(i)!=null) {
+				targetP.getBattleGroundCard().remove(i);
+				targetP.getBattleGroundCard().add(i, d.find("Sheep"));
+				return;
+			}
+		}	
 	}
 	@Override
-	public void visitTheBlackKnight(TheBlackKnight m, Object taeget, Player attackerP, Player targetP) {
+	public void visitHolySmite(HolySmite m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		((Card)taeget).setHp(((Card)taeget).getHp()-3);
+	}
+	@Override
+	public void visitgift(gift m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		attackerP.getHero().setHP(attackerP.getHero().get_HP()+2);
+	}
+	@Override
+	public void visitFriendlySmith(FriendlySmith m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {	
+		ArrayList<String > name=new ArrayList<>();
+		name.add("Battle Axe");	name.add("Heavy Axe");name.add("Blood Fury");
+		int x= new Random().nextInt(3);
+		Card xx=d.find(name.get(Math.abs(x)));
+		xx.setHp(xx.getHp()+2);
+		xx.setAttack(xx.getAttack()+2);
+		attackerP.getDeck().add(xx);
+	}
+	@Override
+	public void visitBookofSpecters(BookofSpecters m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		try {
+			for(int i=0;i<3;i++) {
+				handledeck(attackerP, targetP);
+				Mapper.getinsist().addToHand(attackerP, targetP, this);
+				if(attackerP.getHand().get(attackerP.getHand().size()-1) instanceof Spell)
+					attackerP.getHand().remove(attackerP.getHand().size()-1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}			
+	}
+	@Override
+	public void visitBackstab(Backstab m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		targetP.getHero().setHP(targetP.getHero().get_HP()-2);
+	}
+	@Override
+	public void visitPharaohBlessing(PharaohBlessing m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		((Card )taeget).setTaunt(true);
+		((Card )taeget).setDivineShield(true);
+		((Card )taeget).setAttack(((Card )taeget).getAttack()+4);
+		((Card )taeget).setHp(((Card )taeget).getHp()+4);
+	}
+	@Override
+	public void visitSwarmoflocusts(Swarmoflocusts m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		for(int i =0 ;i<7 ;i++) {
+			if(attackerP.getBattleGroundCard().get(i)== null) {
+				attackerP.getBattleGroundCard().remove(i);
+				attackerP.getBattleGroundCard().add(i, new Locust());
+			}	
+		}		
+	}
+	@Override
+	public void visitSprint(Sprint m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		try {
+			for (int i = 0; i < 4; i++) {
+				handledeck(attackerP, targetP);
+				Mapper.getinsist().addToHand(attackerP, targetP, this);				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void handledeck(PlayerModel attackerP , PlayerModel targetP) throws Exception {
+		if(attackerP.getDeck().size()==0) {
+			if(PlayPanel.getRoundGame()%2==0)
+				if(attackerP.getTurn()==0) {
+					Mapper.getinsist().readDeck(attackerP, targetP);
+				}else {
+					Mapper.getinsist().readDeck(targetP,attackerP);
+				}
+		}
+	}
+	@Override
+	public void visitArcaneShot(ArcaneShot m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		if(targetP.getBattleGroundCard().contains(taeget)) {
+			((Card)taeget).setHp(((Card) taeget).getHp()-2);
+		}else if (targetP.getHero().equals(taeget)) {
+			((Heros)taeget).setHP(((Heros)taeget).get_HP()-2);
+		}
+	}
+	@Override
+	public void visitAstralRift(AstralRift m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		try {
+			int x=0;
+			for(int i=0; attackerP.getDeck().size()>i;i++) {
+				handledeck(attackerP, targetP);
+				if(attackerP.getDeck().get(i) instanceof Minion && x<2) {
+					attackerP.getHand().add(attackerP.getDeck().get(i));
+					attackerP.getDeck().remove(i);
+					i--;
+					x++;
+				}
+			}
+		} catch (Exception e) {	e.printStackTrace();}
+	}
+
+	//////////////////// minions
+	@Override
+	public void visitTheBlackKnight(TheBlackKnight m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(attackerP.getHand().contains(m))
 			for (int i = 0; i < 7; i++) {
 				if(targetP.getBattleGroundCard().get(i)!= null &&targetP.getBattleGroundCard().get(i).isTaunt()) {
@@ -96,27 +209,19 @@ public class ExportVisitor implements Visitor{
 			}
 	}
 	@Override
-	public void visitSandbinder(Sandbinder m, Object taeget, Player attackerP, Player targetP) {
+	public void visitSandbinder(Sandbinder m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(attackerP.getHand().contains(m))
 			attackerP.getHand().add(new WaxElemental());	
 	}	
 	@Override
-	public void visitOasisSnapjaw(OasisSnapjaw m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("OasisSnapjaw");
-	}
-	@Override
-	public void visitSeaGiant(SeaGiant m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("SeaGiant");		
-	}
-	@Override
-	public void visitLeperGnome(LeperGnome m, Object taeget, Player attackerP, Player targetP) {
+	public void visitLeperGnome(LeperGnome m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget == null)
 			if(m.getHp()<=0) {
 				targetP.getHero().setHP(targetP.getHero().get_HP()-2);
 			}
 	}
 	@Override
-	public void visitMurlocWarleader(MurlocWarleader m, Object taeget, Player attackerP, Player targetP) {
+	public void visitMurlocWarleader(MurlocWarleader m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		try {
 			if(taeget== null)
 				if(Mapper.getinsist().validCard(attackerP, m)) {
@@ -131,7 +236,7 @@ public class ExportVisitor implements Visitor{
 		}
 	}
 	@Override
-	public void visitSwampKingDred(SwampKingDred m, Object taeget, Player attackerP, Player targetP) {
+	public void visitSwampKingDred(SwampKingDred m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(targetP.getBattleGroundCard().contains(m) && attackerP.getHand().contains(taeget)) {
 			((Minion) taeget).setHp(((Minion) taeget).getHp()-m.getAttack());
 			m.setHp(m.getHp()-((Minion) taeget).getAttack());	
@@ -142,11 +247,7 @@ public class ExportVisitor implements Visitor{
 			m.setUsedToAttack(false);
 	}
 	@Override
-	public void visitKronxDragonhoof(KronxDragonhoof m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("Kronx Dragonhoof");
-	}
-	@Override
-	public void visitHighPriestAmet(HighPriestAmet m, Object taeget, Player attackerP, Player targetP) {
+	public void visitHighPriestAmet(HighPriestAmet m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget!= null)
 			if(attackerP.getBattleGroundCard().contains(m)) {
 				if(attackerP.getHand().contains(taeget)) {
@@ -155,7 +256,7 @@ public class ExportVisitor implements Visitor{
 			}		
 	}
 	@Override
-	public void visitGruul(Gruul m, Object taeget, Player attackerP, Player targetP) {
+	public void visitGruul(Gruul m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget==null)
 			if(m.getHp()>0)
 				if(targetP.getBattleGroundCard().contains(m)) {
@@ -164,16 +265,13 @@ public class ExportVisitor implements Visitor{
 				}
 	}
 	@Override
-	public void visitBluegillWarrior(BluegillWarrior m, Object taeget, Player attackerP, Player targetP) {
-		if(attackerP.getHand().contains(m))
-			m.setUsedToAttack(false);
+	public void visitBluegillWarrior(BluegillWarrior m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		if(taeget!= null)
+			if(taeget.equals(targetP.getHero()) || targetP.getBattleGroundCard().contains(taeget))
+				m.setRush(false);
 	}
 	@Override
-	public void visitChillwindYeti(ChillwindYeti m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("chiliwendyeti");
-	}
-	@Override
-	public void visitDreadscale(Dreadscale m, Object taeget, Player attackerP, Player targetP) {
+	public void visitDreadscale(Dreadscale m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget ==null)
 			if(m.getHp()>0)
 				if(targetP.getBattleGroundCard().contains(m)) {
@@ -188,11 +286,7 @@ public class ExportVisitor implements Visitor{
 				}
 	}
 	@Override
-	public void visitMurlocRaider(MurlocRaider m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("pale murlockRider");
-	}
-	@Override
-	public void visitBigGameHunter(BigGameHunter m, Object taeget, Player attackerP, Player targetP) {
+	public void visitBigGameHunter(BigGameHunter m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		try {
 			if(attackerP.getHand().contains(m) ) {
 				for (int i = 0; i < 7; i++) {
@@ -210,84 +304,13 @@ public class ExportVisitor implements Visitor{
 		}
 	}
 	@Override
-	public void visitHeavyAxe(HeavyAxe m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("use weapon");
-	}	@Override
-	public void visitBattleAxe(BattleAxe m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("use weapon");
-	}@Override
-	public void visitBloodFury(BloodFury m, Object taeget, Player attackerP, Player targetP) {
-		System.out.println("use weapon");
-	}
-
-	@Override
-	public void visitPolymorph(Polymorph m, Object taeget, Player attackerP, Player targetP) {
-		for(int i=0 ;i<7;i++) {  
-			if(targetP.getBattleGroundCard().get(i)!=null) {
-				targetP.getBattleGroundCard().remove(i);
-				targetP.getBattleGroundCard().add(i, d.find("Sheep"));
-				return;
-			}
-		}	
+	public void visitLocust(Locust m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		if(taeget !=null)
+			if(m.getHp()>0)
+				m.setRush(false);
 	}
 	@Override
-	public void visitHolySmite(HolySmite m, Object taeget, Player attackerP, Player targetP) {
-		((Card)taeget).setHp(((Card)taeget).getHp()-3);
-	}
-	@Override
-	public void visitgift(gift m, Object taeget, Player attackerP, Player targetP) {
-		attackerP.getHero().setHP(attackerP.getHero().get_HP()+2);
-	}
-	@Override
-	public void visitFriendlySmith(FriendlySmith m, Object taeget, Player attackerP, Player targetP) {	
-		ArrayList<String > name=new ArrayList<>();
-		name.add("Battle Axe");	name.add("Heavy Axe");name.add("Blood Fury");
-		int x= new Random().nextInt(3);
-		Card xx=d.find(name.get(Math.abs(x)));
-		xx.setHp(xx.getHp()+2);
-		xx.setAttack(xx.getAttack()+2);
-		attackerP.getDeck().add(xx);
-	}
-	@Override
-	public void visitBookofSpecters(BookofSpecters m, Object taeget, Player attackerP, Player targetP) {
-		try {
-			for(int i=0;i<3;i++) {
-				handledeck(attackerP, targetP);
-				Mapper.getinsist().addToHand(attackerP, targetP, this);
-				if(attackerP.getHand().get(attackerP.getHand().size()-1) instanceof Spell)
-					attackerP.getHand().remove(attackerP.getHand().size()-1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}			
-	}
-	@Override
-	public void visitBackstab(Backstab m, Object taeget, Player attackerP, Player targetP) {
-		targetP.getHero().setHP(targetP.getHero().get_HP()-2);
-	}
-	@Override
-	public void visitPharaohBlessing(PharaohBlessing m, Object taeget, Player attackerP, Player targetP) {
-		((Card )taeget).setTaunt(true);
-		((Card )taeget).setDivineShield(true);
-		((Card )taeget).setAttack(((Card )taeget).getAttack()+4);
-		((Card )taeget).setHp(((Card )taeget).getHp()+4);
-	}
-	@Override
-	public void visitSwarmoflocusts(Swarmoflocusts m, Object taeget, Player attackerP, Player targetP) {
-		for(int i =0 ;i<7 ;i++) {
-			if(attackerP.getBattleGroundCard().get(i)== null) {
-				attackerP.getBattleGroundCard().remove(i);
-				attackerP.getBattleGroundCard().add(i, new Locust());
-			}	
-		}		
-	}
-	@Override
-	public void visitLocust(Locust m, Object taeget, Player attackerP, Player targetP) {
-		if(m.getHp()>0)
-			m.setUsedToAttack(false);
-	}
-	@Override
-	public void visitTombWarden(TombWarden m, Object taeget, Player attackerP, Player targetP) {
+	public void visitTombWarden(TombWarden m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget==null)   
 			if(attackerP.getHand().contains(m)) {
 				for (int i = 0; i < 7; i++) {
@@ -300,7 +323,7 @@ public class ExportVisitor implements Visitor{
 			}	
 	}
 	@Override
-	public void visitSathrovarr(Sathrovarr m, Object taeget, Player attackerP, Player targetP) {
+	public void visitSathrovarr(Sathrovarr m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget!=null)
 			try {
 				if(attackerP.getHand().contains(m)   && Mapper.getinsist().validCard(attackerP, (Card) taeget)) {
@@ -319,7 +342,7 @@ public class ExportVisitor implements Visitor{
 			}
 	}
 	@Override
-	public void visitCurioCollector(CurioCollector m, Object taeget, Player attackerP, Player targetP) {
+	public void visitCurioCollector(CurioCollector m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(attackerP.getBattleGroundCard().contains(m))
 			if(m.getHp()>0)
 				if(taeget==null) {
@@ -328,57 +351,40 @@ public class ExportVisitor implements Visitor{
 				}
 	}
 	@Override
-	public void visitSprint(Sprint m, Object taeget, Player attackerP, Player targetP) {
-		try {
-			for (int i = 0; i < 4; i++) {
-				handledeck(attackerP, targetP);
-				Mapper.getinsist().addToHand(attackerP, targetP, this);				
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	private void handledeck(Player attackerP , Player targetP) throws Exception {
-		if(attackerP.getDeck().size()==0) {
-			if(PlayPanel.getRoundGame()%2==0)
-				if(attackerP.getTurn()==0) {
-					Mapper.getinsist().readDeck(attackerP, targetP);
-				}else {
-					Mapper.getinsist().readDeck(targetP,attackerP);
-
-				}
-		}
+	public void visitChillwindYeti(ChillwindYeti m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 	@Override
-	public void visitArcaneShot(ArcaneShot m, Object taeget, Player attackerP, Player targetP) {
-		if(targetP.getBattleGroundCard().contains(taeget)) {
-			((Card)taeget).setHp(((Card) taeget).getHp()-2);
-		}else if (targetP.getHero().equals(taeget)) {
-			((Heros)taeget).setHP(((Heros)taeget).get_HP()-2);
-		}
+	public void visitMurlocRaider(MurlocRaider m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 	@Override
-	public void visitAstralRift(AstralRift m, Object taeget, Player attackerP, Player targetP) {
-		try {
-			int x=0;
-			for(int i=0; attackerP.getDeck().size()>i;i++) {
-				handledeck(attackerP, targetP);
-				if(attackerP.getDeck().get(i) instanceof Minion && x<2) {
-					attackerP.getHand().add(attackerP.getDeck().get(i));
-					attackerP.getDeck().remove(i);
-					i--;
-					x++;
-				}
-			}
-		} catch (Exception e) {	e.printStackTrace();}
+	public void visitKronxDragonhoof(KronxDragonhoof m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}	
+	@Override
+	public void visitSheep(Sheep m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 	@Override
-	public void visitSheep(Sheep m, Object taeget, Player attackerP, Player targetP) {
+	public void visitWaxElemental(WaxElemental m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 	@Override
-	public void visitWaxElemental(WaxElemental m, Object taeget, Player attackerP, Player targetP) {
+	public void visitSleepyDragon(SleepyDragon m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {		
+	}@Override
+	public void visitOasisSnapjaw(OasisSnapjaw m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 	@Override
-	public void visitSleepyDragon(SleepyDragon m, Object taeget, Player attackerP, Player targetP) {		
+	public void visitSeaGiant(SeaGiant m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}
+	@Override
+	public void visitSecurityRover(SecurityRover m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}	
+	@Override
+	public void visitShieldbearer(Shieldbearer m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}
+	///////////////////////////weapons
+	@Override
+	public void visitHeavyAxe(HeavyAxe m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}	@Override
+	public void visitBattleAxe(BattleAxe m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	}@Override
+	public void visitBloodFury(BloodFury m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 	}
 }

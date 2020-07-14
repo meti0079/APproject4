@@ -10,7 +10,7 @@ import grapic.CardShow;
 import grapic.PlayPanel;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class MyBattlegroundCardListener implements MouseListener,MouseMotionListener {
 
@@ -18,10 +18,10 @@ public class MyBattlegroundCardListener implements MouseListener,MouseMotionList
 	private Card card;
 	private CardShow x;
 	private Visitor v;
-	private Player me;
-	private Player enemy;
+	private PlayerModel me;
+	private PlayerModel enemy;
 
-	public  MyBattlegroundCardListener(PlayPanel panel,Card card ,CardShow x, Player me, Player enemy, Visitor v) {
+	public  MyBattlegroundCardListener(PlayPanel panel,Card card ,CardShow x, PlayerModel me, PlayerModel enemy, Visitor v) {
 		this.panel=panel;
 		this.card=card;
 		this.x=x;

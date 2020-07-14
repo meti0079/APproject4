@@ -1,5 +1,7 @@
 {
+"reward":"Security Rover",
   "enemy": [
+	"Strength in Numbers",
     "Dreadscale",
     "Heavy Axe",
     "Swarm of locusts",
@@ -35,4 +37,5 @@
     "Chillwind Yeti",
     "Curio Collector"
   ]
+
 }

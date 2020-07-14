@@ -3,7 +3,7 @@ package Cardspackage.Weapons;
 import Cardspackage.Weapon;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class BloodFury extends Weapon implements Acceptable{
 
@@ -18,7 +18,7 @@ public class BloodFury extends Weapon implements Acceptable{
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		super.accept(v, taeget, attackerP, targetP);
 		v.visitBloodFury(this, taeget, attackerP, targetP);
 		return true;}

@@ -29,7 +29,7 @@ public class HeroPowerShow extends JPanel {
 	}
 	private void manaLable() {
 		JLabel manaJLabel=new JLabel(heroPower.getHero_power().getMana()+"");	
-		manaJLabel.setBounds(65,0, 30, 30);
+		manaJLabel.setBounds(65,10, 30, 30);
 		manaJLabel.setForeground(Color.WHITE);
 		manaJLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		add(manaJLabel);

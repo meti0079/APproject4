@@ -1,9 +1,11 @@
 package Cardspackage.Spells;
 
+import javax.swing.JOptionPane;
+
 import Cardspackage.Spell;
 import interfaces.Acceptable;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class ArcaneShot extends Spell implements Acceptable{
 
@@ -17,9 +19,11 @@ public class ArcaneShot extends Spell implements Acceptable{
 	}
 
 	@Override
-	public boolean  accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		if(taeget == null ||attackerP.getBattleGroundCard().contains(taeget) || attackerP.getHero().equals(taeget))
-			return false;
+	public boolean  accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		if(taeget == null ||attackerP.getBattleGroundCard().contains(taeget) || attackerP.getHero().equals(taeget)) {
+			JOptionPane.showMessageDialog(null, "chose a valid target");
+			return false;			
+		}
 		v.visitArcaneShot(this, taeget,  attackerP, targetP);		
 		return true;
 	}

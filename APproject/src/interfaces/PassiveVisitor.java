@@ -1,18 +1,18 @@
 package interfaces;
 
 import Cardspackage.Card;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public interface PassiveVisitor {
-public void visitAlchemistsStone(Player me, Player enemy , Card x);
-public void visitBandofScarabs(Player me, Player enemy , Card x);
-public void visitCaltrops(Player me, Player enemy , Card x);
-public void visitCapturedFlag(Player me, Player enemy , Card x);
-public void visitEntrenchment(Player me, Player enemy , Card x);
-public void visitGlyphofWarding(Player me, Player enemy , Card x);
-public void visitGrommashsArmguards(Player me, Player enemy , Card x);
-public void visitStargazing(Player me, Player enemy , Card x);
-public void visitOffCard(Player me, Player enemy , Card x);
-public void visitManaJump(Player me, Player enemy , Card x);
+public void visitAlchemistsStone(PlayerModel me, PlayerModel enemy , Card x);
+public void visitBandofScarabs(PlayerModel me, PlayerModel enemy , Card x);
+public void visitCaltrops(PlayerModel me, PlayerModel enemy , Card x);
+public void visitCapturedFlag(PlayerModel me, PlayerModel enemy , Card x);
+public void visitEntrenchment(PlayerModel me, PlayerModel enemy , Card x);
+public void visitGlyphofWarding(PlayerModel me, PlayerModel enemy , Card x);
+public void visitGrommashsArmguards(PlayerModel me, PlayerModel enemy , Card x);
+public void visitStargazing(PlayerModel me, PlayerModel enemy , Card x);
+public void visitOffCard(PlayerModel me, PlayerModel enemy , Card x);
+public void visitManaJump(PlayerModel me, PlayerModel enemy , Card x);
 }
 

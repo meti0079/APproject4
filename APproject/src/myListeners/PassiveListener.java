@@ -7,14 +7,15 @@ import javax.swing.JOptionPane;
 
 import GAME.Gamestate;
 import grapic.PassivePanel;
+import grapic.PlayPanel;
 import passives.Passive;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class PassiveListener implements MouseListener{
 	private Passive index;
-	private Player p;
+	private PlayerModel p;
 	PassivePanel pas;
-	public PassiveListener(Passive index, Player p,PassivePanel pas) {
+	public PassiveListener(Passive index, PlayerModel p,PassivePanel pas) {
 		this.index = index;
 		this.p=p;
 		this.pas=pas;

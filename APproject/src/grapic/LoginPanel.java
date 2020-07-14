@@ -27,7 +27,7 @@ import GAME.Gamestate;
 import GAME.Logger;
 import GAME.Login;
 import GAME.Store;
-import GAME.Players;
+import GAME.Player;
 
 public class LoginPanel extends JPanel {
 
@@ -129,7 +129,7 @@ public class LoginPanel extends JPanel {
 						File loog=new File(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+name);
 						loog.getParentFile().mkdir();
 						loog.createNewFile();
-						game.setPlayer(new Players(name, pass, 50));
+						game.setPlayer(new Player(name, pass, 50));
 						game.setEnemy(new Enemy());
 						log.makeLog(game.getPlayer().get_name(), game.getPlayer().get_pass());
 						log.log(game.getPlayer().get_name(), "sign up ", " ");

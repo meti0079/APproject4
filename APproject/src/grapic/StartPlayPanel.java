@@ -89,13 +89,11 @@ public class StartPlayPanel extends JPanel{
 	private void setComputerBut() {
 		JButton b= new JButton("Play with computer");
 		b.setBounds(700, 600, 300,100);
-		b.setEnabled(false);
 		b.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setState("computer");
-				go.setVisible(true);
-			}
+				go.setEnabled(true);			}
 		});
 		add(b);
 	}

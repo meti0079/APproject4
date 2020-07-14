@@ -1,12 +1,12 @@
 package interfaces;
 
 import Cardspackage.Card;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public interface HeroVisitor {
-	public void visitMage(Player p, int d, Card x);
-	public void visitRouge(Player p, int d, Card x);
-	public void visitHunter(Player p, int d, Card x);
-	public void visitWarlock(Player p, int d, Card x);
-	public void visitPriest(Player p, int d, Card x);
+	public void visitMage(PlayerModel p, int d, Card x);
+	public void visitRouge(PlayerModel p, int d, Card x);
+	public void visitHunter(PlayerModel p, int d, Card x);
+	public void visitWarlock(PlayerModel p, int d, Card x);
+	public void visitPriest(PlayerModel p, int d, Card x);
 }

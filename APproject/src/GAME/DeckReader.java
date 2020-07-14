@@ -12,11 +12,19 @@ import Cardspackage.Card;
 import Cardspackage.Minion;
 import Cardspackage.Spell;
 import Cardspackage.Weapon;
+import hero.Heros;
+import hero.heroPower.HeroPower;
 
 public class DeckReader {
 	private ArrayList< String> enemy;
 	private ArrayList< String> friend;
-
+	private String reward;
+	public String getReward() {
+		return reward;
+	}
+	public void setReward(String reward) {
+		this.reward = reward;
+	}
 	private Gson gson;
 
 
@@ -25,6 +33,8 @@ public class DeckReader {
 		ArrayList< Card> friendDe=new ArrayList<>();
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 		if(name.equalsIgnoreCase("enemy")) {
@@ -47,8 +57,9 @@ public class DeckReader {
 	}
 	public  Card find(String name) {
 		GsonBuilder gsonBilder=new GsonBuilder();
-
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 		try {
@@ -59,7 +70,6 @@ public class DeckReader {
 			se+=s.nextLine(); 
 		}
 		Card x= gson.fromJson(se, Card.class);
-		System.out.println(x.get_Name());
 		return x;	
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

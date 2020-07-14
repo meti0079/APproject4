@@ -9,31 +9,35 @@ import Cardspackage.Card;
 import Cardspackage.Spell;
 import GAME.Gamestate;
 import GAME.Logger;
-import GAME.Players;
+import GAME.Player;
 import grapic.CardShow;
 import grapic.PlayPanel;
+import grapic.ShowCardBigger;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class HandCardListener implements MouseListener,MouseMotionListener {
 	private Card card;
 	private PlayPanel panel;
 	private CardShow x;
-	private Player me;
-	private Player enemy;
-	private Visitor v;
-	public HandCardListener(PlayPanel panel,Card card, CardShow x, Player p, Player enemy, Visitor v) {
+	private PlayerModel me;
+	ShowCardBigger sho;
+
+	public HandCardListener(PlayPanel panel,Card card, CardShow x, PlayerModel p) {
 		this.card=card;
 		this.panel=panel;
 		this.x=x;
 		this.me=p;
-		this.enemy=enemy;
-		this.v=v;
+		sho =new ShowCardBigger(card);
+		sho.setBounds(650, 350, 200, 300);
+		panel.add(sho);		
+		sho.setVisible(false);
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		sho.setVisible(false);
 		if(PlayPanel.getRoundGame()%2==me.getTurn()) {	
 				try {
 				if(panel.addTobattleground(card,x.getX(), x.getY())) {
@@ -49,6 +53,7 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
+		sho.setVisible(false);
 		try {
 		if(panel.getRoundGame()==60-me.getTurn() && me.getChanges()<3) {
 				Mapper.getinsist().changeCartAtFirst(me, card);
@@ -57,9 +62,13 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 		} catch (Exception e1) {e1.printStackTrace();}
 		}
 	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {
+		sho.setVisible(false);	
+	}
 	@Override
-	public void mouseEntered(MouseEvent e) {}
+	public void mouseEntered(MouseEvent e) {
+	sho.setVisible(true);
+	}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 	@Override

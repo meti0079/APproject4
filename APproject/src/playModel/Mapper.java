@@ -21,7 +21,7 @@ import Cardspackage.Spell;
 import Cardspackage.Weapon;
 import GAME.AbstractAdapter;
 import GAME.DeckReader;
-import GAME.Decks;
+import GAME.Deck;
 import GAME.ExportHeroVisitor;
 import GAME.ExportPassives;
 import GAME.Gamestate;
@@ -69,14 +69,14 @@ public class Mapper {
 	}
 
 
-	public void setBackGroundCard(Player p) {
+	public void setBackGroundCard(PlayerModel p) {
 		for (int i=0;i<7;i++) { 
 			if(p.getBattleGroundCard().get(i) != null) {
 				p.getBattleGroundCard().get(i).setUsedToAttack(false);
 			}
 		}			
 	}
-	public void nextTurn(Player p, Player enemy, Visitor v) {
+	public void nextTurn(PlayerModel p, PlayerModel enemy, Visitor v) {
 		handleHeroSpecialPower(p, enemy, heroV, 0, 0, 1);
 		checkPassive( p, enemy, null);
 		setBackGroundCard(p);
@@ -84,11 +84,12 @@ public class Mapper {
 		enemy.checkCard(p, v);
 		for (Card cards : p.getHand()) 
 			cards.setUsedToAttack(false);
+		p.getHero().getHero_power().setUsed(false);
 		if(p.getWeapon()!=null)
 			p.getWeapon().setUsedToAttack(false);
 		PlayPanel.i=0;
 	}
-	public boolean betweencards(Player p,int x, Card s, TextArea textArea , Player enemy) throws Exception {
+	public boolean betweencards(PlayerModel p,int x, Card s, TextArea textArea , PlayerModel enemy) throws Exception {
 		for(int i=x+1;i<7;i++) {
 			if(p.getBattleGroundCard().get(i)==null) {
 				p.getBattleGroundCard().remove(i);
@@ -122,7 +123,7 @@ public class Mapper {
 		return false;
 	}
 
-	public void changeCartAtFirst(Player p, Card card) {
+	public void changeCartAtFirst(PlayerModel p, Card card) {
 		if(card.getUsedToAttack())
 			return ;
 		p.getDeck().add(card);
@@ -132,11 +133,11 @@ public class Mapper {
 		p.getDeck().remove(0);
 		p.setChanges(p.getChanges()+1);
 	}
-	private void checkPassive(Player me , Player enemy, Card x) {
+	private void checkPassive(PlayerModel me , PlayerModel enemy, Card x) {
 		if(me.getPassive()!= null)
 			me.getPassive().accept(pas, me, enemy, x);
 	}
-	public boolean addTobattleground(Card s,int x,int y, Player me, Player enemy, Visitor v, TextArea textArea) throws Exception {
+	public boolean addTobattleground(Card s,int x,int y, PlayerModel me, PlayerModel enemy, Visitor v, TextArea textArea) throws Exception {
 
 		if(s.get_Mana()<=me.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
@@ -190,7 +191,7 @@ public class Mapper {
 			return false;
 		}
 	}
-	private void checkQuestDone(Card x, Player p) {
+	private void checkQuestDone(Card x, PlayerModel p) {
 
 		if(p.getQuest()!= null) {
 			if(p.getQuest().getType().equalsIgnoreCase(x.getType())) {
@@ -199,7 +200,7 @@ public class Mapper {
 		}
 	}
 
-	private Object findTarget(int x, int y, Player me, Player enemy) {
+	private Object findTarget(int x, int y, PlayerModel me, PlayerModel enemy) {
 
 		if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
 			return me.getBattleGroundCard().get((x-200)/160);
@@ -213,7 +214,7 @@ public class Mapper {
 		return null;		
 	}
 
-	public void manaSet(Player me, Player enemy) {
+	public void manaSet(PlayerModel me, PlayerModel enemy) {
 		if(PlayPanel.getRoundGame()%2==me.getTurn()) {
 			if(me.getPreviosgem()==10) {
 				me.setCurrentgem(10);
@@ -230,7 +231,7 @@ public class Mapper {
 			enemy.setCurrentgem(enemy.getPreviosgem());
 		}
 	}
-	public boolean useWeapon(Weapon weapon, Player p) {
+	public boolean useWeapon(Weapon weapon, PlayerModel p) {
 		if(!weapon.getUsedToAttack() || weapon.isBattlecry()) {
 			weapon.setDurability(weapon.getDurability()-1);
 			try {
@@ -246,7 +247,7 @@ public class Mapper {
 		}
 		return false;
 	}
-	private void calleBattleAccept(Player p , Player enemy, Visitor v, Card x) {
+	private void calleBattleAccept(PlayerModel p , PlayerModel enemy, Visitor v, Card x) {
 		for (int i = 0; i < 7; i++) {
 			if(p.getBattleGroundCard().get(i) != null)
 				p.getBattleGroundCard().get(i).accept(v, x, p, enemy);
@@ -256,7 +257,7 @@ public class Mapper {
 				enemy.getBattleGroundCard().get(i).accept(v, x, p, enemy);
 		}
 	}
-	private void calleHandAccept(Player p , Player enemy, Visitor v) {
+	private void calleHandAccept(PlayerModel p , PlayerModel enemy, Visitor v) {
 		for (int i = 0; i < 7; i++) {
 			if(p.getBattleGroundCard().get(i) != null)
 				p.getBattleGroundCard().get(i).accept(v, null, p, enemy);
@@ -266,7 +267,7 @@ public class Mapper {
 				enemy.getBattleGroundCard().get(i).accept(v, null, p, enemy);
 		}
 	}
-	public void addToHand(Player p, Player enemy, Visitor v) {
+	public void addToHand(PlayerModel p, PlayerModel enemy, Visitor v) {
 		int x=0;
 		calleHandAccept(p, enemy, v);
 		if(game.getState().equalsIgnoreCase("enemy") ||game.getState().equalsIgnoreCase("computer")  ) {			
@@ -301,7 +302,7 @@ public class Mapper {
 
 
 
-	public void readDeck(Player me,Player enemy) {
+	public void readDeck(PlayerModel me,PlayerModel enemy) {
 		if (game.getState().equalsIgnoreCase("enemy")) {
 			if(me.getDecksize()==0 ) {
 				me.setDeck((ArrayList<Card>) game.getPlayer().get_mydeck().clone());
@@ -327,15 +328,15 @@ public class Mapper {
 		}else {
 		}
 	}
-	public Player readMe() throws Exception {
-		if(game.getState().equals("enemy")) {
-			Player x=new Player(game.getPlayer().getMyDeck(), 0, game.getPlayer().get_name());
+	public PlayerModel readMe() throws Exception {
+		if(game.getState().equals("enemy") ||game.getState().equals("computer")) {
+			PlayerModel x=new PlayerModel(game.getPlayer().getMyDeck(), 0, game.getPlayer().get_name());
 			return x;
 		}else if(game.getState().equals("Deck")) {
-			Decks s=new  Decks();
+			Deck s=new  Deck();
 			s.setHeroDeck("mage");
 			s.setDeck(deckReader.cardFactory("friend"));
-			Player x= new Player(s, 0,game.getPlayer().get_name());
+			PlayerModel x= new PlayerModel(s, 0,game.getPlayer().get_name());
 			return x;
 		}else {
 			return null;
@@ -351,16 +352,16 @@ public class Mapper {
 		Gson gson=new GsonBuilder().setPrettyPrinting().create();
 		deckReader=gson.fromJson(se, DeckReader.class);	
 	}
-	public Player readEnemy() throws Exception {
-		if(game.getState().equals("enemy")) {
-			Player x=new Player(game.getEnemy().getEnemyDeck(), 1,"enemy");
+	public PlayerModel readEnemy() throws Exception {
+		if(game.getState().equals("enemy")||game.getState().equals("computer")) {
+			PlayerModel x=new PlayerModel(game.getEnemy().getEnemyDeck(), 1,"enemy");
 			x.setPreviosgem(0);
 			return x;
 		}else if(game.getState().equals("Deck")) {
-			Decks s=new  Decks();
+			Deck s=new  Deck();
 			s.setHeroDeck("mage");
 			s.setDeck(deckReader.cardFactory("enemy"));
-			Player x= new Player(s, 1, "enemy");
+			PlayerModel x= new PlayerModel(s, 1, "enemy");
 			x.setPreviosgem(0);
 			return x;
 		}else {
@@ -371,7 +372,7 @@ public class Mapper {
 		if(game.getState().equalsIgnoreCase("enemy"))
 			game.getPlayer().SpecialCard(s.get_Name()).addUse();
 	}
-	public boolean isFinished(Player me, Player enemy, TextArea textArea) {
+	public boolean isFinished(PlayerModel me, PlayerModel enemy, TextArea textArea) {
 		try {
 			if(enemy.getHero().get_HP()<=0  || me.getHero().get_HP()<=0||PlayPanel.getRoundGame()==1) {
 				if(enemy.getHero().get_HP()> me.getHero().get_HP()) {
@@ -425,10 +426,10 @@ public class Mapper {
 	public void setAllPassives(ArrayList<Passive> allPassives) {
 		this.allPassives = allPassives;
 	}
-	public boolean handleAttack(Player me , Player enemy, Visitor v, int x, int y, Card card) {
+	public boolean handleAttack(PlayerModel me , PlayerModel enemy, Visitor v, int x, int y, Card card) {
 		return card.accept(v, findTarget(x, y, me, enemy), me, enemy);
 	}
-	public boolean checkTount(Player targetP) {
+	public boolean checkTount(PlayerModel targetP) {
 		for(Card card : targetP.getBattleGroundCard()) {
 			if(card !=null)
 				if(card.isTaunt())
@@ -436,7 +437,7 @@ public class Mapper {
 		}
 		return false;
 	}
-	public boolean validCard(Player targetP , Card ca) {
+	public boolean validCard(PlayerModel targetP , Card ca) {
 		for(Card card : targetP.getBattleGroundCard()) {
 			if(card !=null)
 				if(card.equals(ca))
@@ -444,7 +445,7 @@ public class Mapper {
 		}
 		return false;
 	}
-	public boolean checkQuest(Player p) {
+	public boolean checkQuest(PlayerModel p) {
 		if(p.getQuest()==null) {
 			return false;
 		}else if(p.getQuest().getHave()>=p.getQuest().getMission()) {
@@ -455,47 +456,21 @@ public class Mapper {
 			return true;
 		}
 	}
-	public boolean handleHeroPower(Player me, Player enemy, HeroPowerVisitor v, int x, int y, HeroPower heropower) {
-//		if(me.getHero() instanceof Mage) {
-//			((MagePower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
-//			heropower.setUsed(true);
-//			return true;
-//		}else if(me.getHero() instanceof Rouge) {
-//			((RougePower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
-//			heropower.setUsed(true);
-//			return true;
-//		}else if(me.getHero() instanceof Priest) {
-//			((PriestPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
-//			heropower.setUsed(true);
-//			return true;
-//		}else if(me.getHero() instanceof Hunter) {
-//			((HunterPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
-//			heropower.setUsed(true);
-//			return true;
-//		}else {
-//			((WarlockPower)heropower).accept(v, findTarget(x, y, me, enemy), me, enemy);
-//			heropower.setUsed(true);
+	public boolean handleHeroPower(PlayerModel me, PlayerModel enemy, HeroPowerVisitor v, int x, int y, HeroPower heropower, Visitor visitor) {
+		if(heropower.accept(v, findTarget(x, y, me, enemy), me, enemy)) {
+			heropower.setUse(heropower.getUse()+1);			
+			if(heropower.getMaxUse()==heropower.getUse()) {
+				heropower.setUsed(true);				
+			}
+			me.setCurrentgem(me.getCurrentgem()-heropower.getMana());
+			me.checkCard(enemy, visitor);
 			return true;
 		}
-//	}
-	public boolean handleHeroSpecialPower(Player me, Player enemy, ExportHeroVisitor v, int x, int y, int d) {
-//		if(me.getHero() instanceof Mage) {
-//			((Mage)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
-//			return true;
-//		}else if(me.getHero() instanceof Rouge) {
-//			((Rouge)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
-//			return true;
-//		}else if(me.getHero() instanceof Priest) {
-//			((Priest)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
-//			return true;
-//		}else if(me.getHero() instanceof Hunter) {
-//			((Hunter)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
-//			return true;
-//		}else {
-//			((Warlock)me.getHero()).accept(v, me, d, (Card) findTarget(x, y, me, enemy));
-//			return true;
-//		}
 		return false;
+	}
+	public boolean handleHeroSpecialPower(PlayerModel me, PlayerModel enemy, ExportHeroVisitor v, int x, int y, int d) {
+			me.getHero().accept(v, me, d, (Card) findTarget(x, y, me, enemy));
+			return true;
 	}
 }
 

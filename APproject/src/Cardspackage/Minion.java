@@ -1,10 +1,12 @@
 package Cardspackage;
 
+import javax.swing.JOptionPane;
+
 import Cardspackage.Minions.SecurityRover;
 import hero.Heros;
 import interfaces.Visitor;
 import playModel.Mapper;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public abstract  class Minion extends Card{
 	private int HP;
@@ -38,10 +40,11 @@ public abstract  class Minion extends Card{
 		return "Minion" ;
 	}
 	@Override
-	public boolean accept(Visitor v, Object taeget, Player attackerP, Player targetP) {
-		if(taeget == null)
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+		if(taeget == null) {
 			return false;
-		
+		}
+
 		try {
 			if(taeget instanceof Heros) {
 				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
@@ -58,8 +61,10 @@ public abstract  class Minion extends Card{
 						attackerP.checkCard(targetP,v);
 						targetP.checkCard(attackerP, v);
 						return true;
-					}else
+					}else {
+						JOptionPane.showMessageDialog(null, "chose a tount target");						
 						return false;
+					}
 				}
 				if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());

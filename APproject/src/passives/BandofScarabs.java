@@ -2,7 +2,7 @@ package passives;
 
 import Cardspackage.Card;
 import interfaces.PassiveVisitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class BandofScarabs extends Passive{
 public BandofScarabs() {
@@ -13,7 +13,7 @@ setName( "Band of Scarabs");
 }
 
 @Override
-public void accept(PassiveVisitor v, Player me, Player enemy, Card x) {
+public void accept(PassiveVisitor v, PlayerModel me, PlayerModel enemy, Card x) {
 	v.visitBandofScarabs(me, enemy, x);
 }
 

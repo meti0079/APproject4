@@ -7,18 +7,18 @@ import Cardspackage.Spell;
 import GAME.Gamestate;
 import grapic.PlayPanel;
 import interfaces.Visitor;
-import playModel.Player;
+import playModel.PlayerModel;
 
 public class HeroListener implements MouseListener{
-private Player me;
-private Player enemy;
+private PlayerModel me;
+private PlayerModel enemy;
 private Visitor v;
 
 	
 	
 	
 	
-	public HeroListener(Player me, Player enemy, Visitor v) {
+	public HeroListener(PlayerModel me, PlayerModel enemy, Visitor v) {
 	this.me = me;
 	this.enemy = enemy;
 	this.v = v;
