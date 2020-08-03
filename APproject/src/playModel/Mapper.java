@@ -3,6 +3,7 @@ package playModel;
 import java.awt.TextArea;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.spec.PSSParameterSpec;
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,15 +20,16 @@ import Cardspackage.Card;
 import Cardspackage.Minion;
 import Cardspackage.Spell;
 import Cardspackage.Weapon;
-import GAME.AbstractAdapter;
-import GAME.DeckReader;
-import GAME.Deck;
-import GAME.ExportHeroVisitor;
-import GAME.ExportPassives;
-import GAME.Gamestate;
-import GAME.Logger;
-import grapic.HeroShow;
-import grapic.PlayPanel;
+import client.grapic.HeroShow;
+import client.grapic.PlayPanel;
+import client.listeners.PassiveListener;
+import game.AbstractAdapter;
+import game.Deck;
+import game.DeckReader;
+import game.ExportHeroVisitor;
+import game.ExportPassives;
+import game.Gamestate;
+import game.Logger;
 import hero.Heros;
 import hero.Hunter;
 import hero.Mage;
@@ -44,7 +46,6 @@ import interfaces.HeroPowerVisitor;
 import interfaces.HeroVisitor;
 import interfaces.PassiveVisitor;
 import interfaces.Visitor;
-import myListeners.PassiveListener;
 import passives.Passive;
 
 public class Mapper {
@@ -132,6 +133,11 @@ public class Mapper {
 		p.getHand().get(p.getHand().size()-1).setUsedToAttack(true);
 		p.getDeck().remove(0);
 		p.setChanges(p.getChanges()+1);
+		try {
+			Logger.getinsist().log(game.getPlayer().get_name(), p.getName(), "change card"+card.get_Name()+"---> "+p.getHand().get(p.getHand().size()-1));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	private void checkPassive(PlayerModel me , PlayerModel enemy, Card x) {
 		if(me.getPassive()!= null)
@@ -343,7 +349,7 @@ public class Mapper {
 		}
 	}
 	private void readFromFile() throws FileNotFoundException {
-		File f1=new File("C:\\Users\\MohammadMehdi\\git\\repository2\\APproject\\src\\main\\deckreader.json");
+		File f1=new File("C:\\Users\\MohammadMehdi\\git\\ApProject3\\ApProject3\\APproject\\src\\main\\deckreader.json");
 		Scanner s=new Scanner(f1);
 		String se="";
 		while(s.hasNext()) {

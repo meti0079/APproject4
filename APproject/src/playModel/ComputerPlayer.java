@@ -3,7 +3,7 @@ package playModel;
 import java.awt.TextArea;
 import java.util.Random;
 
-import GAME.ExportHeroPower;
+import game.ExportHeroPower;
 import interfaces.Visitor;
 
 public class ComputerPlayer {
@@ -49,9 +49,8 @@ public class ComputerPlayer {
 		if(enemy.getWeapon()!=null && !enemy.getWeapon().getUsedToAttack())
 			Mapper.getinsist().handleAttack(enemy, me, v, 750, 760, enemy.getWeapon());
 		
-		if(enemy.getHero().getHero_power().getMana()>=enemy.getCurrentgem() ) {
-			enemy.getHero().getHero_power().accept(new ExportHeroPower(), me.getHero()	,enemy, me);
-			enemy.setCurrentgem(enemy.getCurrentgem()-enemy.getHero().getHero_power().getMana());
+		if(enemy.getHero().getHero_power().getMana()<=enemy.getCurrentgem() ) {
+			Mapper.getinsist().handleHeroPower(enemy, me, new ExportHeroPower(), 750, 760, enemy.getHero().getHero_power(), v);
 		}
 		} catch (Exception e) {
 			e.printStackTrace();

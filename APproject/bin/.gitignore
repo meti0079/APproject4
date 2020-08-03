@@ -10,10 +10,12 @@
 /passives/
 /play image/
 /Cardspackage/
-/GAME/
+/game/
 /grapic/
 /hero/
 /interfaces/
 /myListeners/
 /playModel/
 /pll/
+/server/
+/client/

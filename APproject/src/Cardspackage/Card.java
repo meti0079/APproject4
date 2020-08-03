@@ -8,7 +8,7 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import GAME.AbstractAdapter;
+import game.AbstractAdapter;
 import interfaces.Acceptable;
 import interfaces.Visitor;
 

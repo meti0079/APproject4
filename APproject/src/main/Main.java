@@ -2,7 +2,7 @@
 package main;
 
 import javax.swing.SwingUtilities;
-import grapic.MainFrame;
+
 import passives.ManaJump;
 import passives.OffCards;
 import passives.Passive;
@@ -74,7 +74,8 @@ import Cardspackage.Minions.MechanicalYeti;
 import Cardspackage.Minions.Sheep;
 import Cardspackage.Minions.SleepyDragon;
 import Cardspackage.Minions.WaxElemental;
-import GAME.AbstractAdapter;
+import client.grapic.MainFrame;
+import game.AbstractAdapter;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
