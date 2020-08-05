@@ -1,21 +1,20 @@
 /CArds/
+/Cardspackage/
 /LOGFILE/
 /PLAYERSNAME/
 /all cards/
 /backgrund image/
 /button image/
 /card image/
+/client/
+/game/
+/gameModel/
+/hero/
+/interfaces/
 /main/
 /passiva image/
 /passives/
 /play image/
-/Cardspackage/
-/game/
-/grapic/
-/hero/
-/interfaces/
-/myListeners/
 /playModel/
 /pll/
 /server/
-/client/

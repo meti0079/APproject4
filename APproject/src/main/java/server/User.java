@@ -1,0 +1,74 @@
+package server;
+import java.net.SocketAddress;
+
+import game.Enemy;
+import game.Player;
+
+public class User {
+	private	Player player;
+	private String backCard="ca.png";
+	private String backBattleGround="nattle1.jpg";
+	private Enemy enemy;
+	private int potr;
+	private SocketAddress address;
+	public User(Player player, Enemy enemy, int potr, SocketAddress address) {
+
+		this.player = player;
+		this.enemy = enemy;
+		this.potr = potr;
+		this.address = address;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	public String getBackCard() {
+		return backCard;
+	}
+
+	public void setBackCard(String backCard) {
+		this.backCard = backCard;
+	}
+
+	public String getBackBattleGround() {
+		return backBattleGround;
+	}
+
+	public void setBackBattleGround(String backBattleGround) {
+		this.backBattleGround = backBattleGround;
+	}
+
+	public Enemy getEnemy() {
+		return enemy;
+	}
+
+	public void setEnemy(Enemy enemy) {
+		this.enemy = enemy;
+	}
+
+	public int getPotr() {
+		return potr;
+	}
+
+	public void setPotr(int potr) {
+		this.potr = potr;
+	}
+
+	public SocketAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(SocketAddress address) {
+		this.address = address;
+	}
+	
+	
+	
+	
+	
+	
+}
