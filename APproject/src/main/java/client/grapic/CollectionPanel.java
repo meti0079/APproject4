@@ -2,13 +2,9 @@ package client.grapic;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -17,6 +13,8 @@ import client.listeners.LockCardListener;
 import client.listeners.MyDeckListener;
 import client.listeners.UnlockListener;
 import client.model.Card;
+import client.model.DeckInfo;
+import hero.Heros;
 
 
 public class CollectionPanel extends JPanel {
@@ -34,13 +32,30 @@ public class CollectionPanel extends JPanel {
 	private ArrayList<JLabel > current = new ArrayList<>();
 	private ArrayList<JLabel > enemyCurrent = new ArrayList<>();
 	private Collection_search serchPanel;
-	
-	ArrayList<Card> have;
-	ArrayList<Card> dontHave;
-	
-	
-	
-	
+
+	ArrayList<Card> have= new ArrayList<>();
+	ArrayList<Card> dontHave= new ArrayList<>();
+	ArrayList<Card> deck= new ArrayList<>();
+	ArrayList<Card> enemyDeck= new ArrayList<>();
+	ArrayList<DeckInfo> deckinfo= new ArrayList<>();
+	String enemyHero="";
+	ArrayList< Heros> heros=new ArrayList<>();
+
+
+	public ArrayList<Heros> getHeros() {
+		return heros;
+	}
+	public void setHeros(ArrayList<Heros> heros) {
+		this.heros = heros;
+	}
+
+	public String getEnemyHero() {
+		return enemyHero;
+	}
+
+	public void setEnemyHero(String enemyHero) {
+		this.enemyHero = enemyHero;
+	}
 	public CollectionPanel() throws Exception {
 		initial();
 		initialPanels();
@@ -82,8 +97,7 @@ public class CollectionPanel extends JPanel {
 		setEnemyDeck();
 		enemyDeckPanel.setPreferredSize(new Dimension(1500, 2500));
 		JScrollPane ed=new JScrollPane(enemyDeckPanel);
-		setEnemyDeck();
-		serchPanel=new Collection_search( deckbord, this);
+		serchPanel=new Collection_search( this);
 		serchPanel.setPreferredSize(new Dimension(1500, 2000));
 		JScrollPane ser=new JScrollPane(serchPanel);
 		/////add to tabpane
@@ -98,15 +112,30 @@ public class CollectionPanel extends JPanel {
 		tp.add(ed, "enemy deck");
 		tp.setPreferredSize(new Dimension(1500, 790));
 	}	
+	public void updatePanel() {
+		setCardToHeroPanel("Neutral", netural);
+		setCardToHeroPanel("Rouge", rouge);
+		setCardToHeroPanel("Warlock", warlock);
+		setCardToHeroPanel("Mage", mage);
+		setCardToHeroPanel("Hunter", hunter);
+		setCardToHeroPanel("Priest", priest);
+		setdeck();
+		setEnemyDeck();
+		deckbord.update();
+		repaint();
+		revalidate();
+	}
+
 	private void setCardToHeroPanel(String name,JPanel p) {
+		p.removeAll();
 		for(Card s : findHeroCard(name, have)) {
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-			lp.addMouseListener(new UnlockListener(s, this, deckbord));
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener(new UnlockListener(s, this));
 			p.add(lp);
 		}
 		for(Card s2 : findHeroCard(name, dontHave)) {
-			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s2.get_Name()+"1.png"));
-			lp1.addMouseListener(new LockCardListener(s2));
+			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s2.getName()+"1.png"));
+			lp1.addMouseListener(new LockCardListener());
 			p.add(lp1);
 		}
 	}
@@ -120,42 +149,22 @@ public class CollectionPanel extends JPanel {
 	}	
 	public void setdeck() {
 		removeDeckLablesFromPanel();
-		for(Card s : game.getPlayer().get_mydeck()) {			
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-			lp.addMouseListener( new MyDeckListener(s, lp, this));
+		for(Card s : deck) {			
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener( new MyDeckListener(s));
 			myDeckPanel.add(lp);
 			current.add(lp);
 		}
 	}
 	public void setEnemyDeck(){
 		removeEnemyLablesFromPanel();
-		for(Card s : game.getEnemy().getEnemyDeck().getDeck()) {			
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-			lp.addMouseListener( new EnemyDeckListener(s, lp, this));
+		for(Card s : enemyDeck) {			
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener( new EnemyDeckListener(s));
 			enemyDeckPanel.add(lp);
 			enemyCurrent.add(lp);
 		}
 	}	
-	public void makeChangeInEnemyDeck(Card s, JLabel lp) {
-		try {
-			Logger.getinsist().log(game.getPlayer().get_name(), "remove card from enemy deck", s.get_Name());
-		} catch (IOException e1) {e1.printStackTrace();	}
-		game.getEnemy().getEnemyDeck().getDeck().remove(s);
-		enemyDeckPanel.remove(lp);
-		enemyDeckPanel.update();
-		deckbord.update();
-	}	
-	public void makeChangeInDeck(Card s, JLabel lp) {
-		try {
-			game.getPlayer().getMyDeck().addUsethisDeck(0);
-			game.getPlayer().getMyDeck().addWin(0);
-			Logger.getinsist().log(game.getPlayer().get_name(), "remove card from deck", s.get_Name());
-		} catch (IOException e1) {e1.printStackTrace();}
-		game.getPlayer().getMyDeck().getDeck().remove(s);	
-		myDeckPanel.remove(lp);
-		myDeckPanel.update();
-		deckbord.update();
-	}
 	private void removeEnemyLablesFromPanel() {
 		int sum= enemyCurrent.size();
 		for (int i = sum-1; i >=0; i--) {
@@ -171,7 +180,7 @@ public class CollectionPanel extends JPanel {
 		add(tp,BorderLayout.CENTER);
 		add(deckbord,BorderLayout.EAST);
 	}
-	
+
 	public ArrayList<Card> findHeroCard(String name, ArrayList<Card> cards){
 		ArrayList<Card> sum=new ArrayList<>();
 		for(Card s : cards) {
@@ -180,5 +189,35 @@ public class CollectionPanel extends JPanel {
 			}
 		}
 		return sum;
+	}
+	public ArrayList<DeckInfo> getDeckinfo() {
+		return deckinfo;
+	}
+	public void setDeckinfo(ArrayList<DeckInfo> deckinfo) {
+		this.deckinfo = deckinfo;
+	}
+	public ArrayList<Card> getHave() {
+		return have;
+	}
+	public void setHave(ArrayList<Card> have) {
+		this.have = have;
+	}
+	public ArrayList<Card> getDontHave() {
+		return dontHave;
+	}
+	public void setDontHave(ArrayList<Card> dontHave) {
+		this.dontHave = dontHave;
+	}
+	public ArrayList<Card> getDeck() {
+		return deck;
+	}
+	public void setDeck(ArrayList<Card> deck) {
+		this.deck = deck;
+	}
+	public ArrayList<Card> getEnemyDeck() {
+		return enemyDeck;
+	}
+	public void setEnemyDeck(ArrayList<Card> enemyDeck) {
+		this.enemyDeck = enemyDeck;
 	}
 }

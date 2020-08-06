@@ -2,22 +2,18 @@ package client.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.JLabel;
+import java.io.IOException;
 import javax.swing.JOptionPane;
-
-import Cardspackage.Card;
-import client.grapic.CollectionPanel;
+import com.google.gson.Gson;
+import client.Client;
+import client.Controller;
+import client.model.Card;
+import gameModel.requestAndREsponse.AddCardToDeck;
 
 public class MyDeckListener implements MouseListener{
 	Card s;
-	JLabel lp;
-	private CollectionPanel p;
-	public MyDeckListener(Card s, JLabel lp, CollectionPanel p) {
-		super();
+	public MyDeckListener(Card s) {
 		this.s = s;
-		this.lp = lp;
-		this.p = p;
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -27,7 +23,12 @@ public class MyDeckListener implements MouseListener{
 		int x=JOptionPane.showConfirmDialog(null, "do you want to remove this from your deck",
 				"remove from deck", JOptionPane.OK_CANCEL_OPTION);
 		if(x==JOptionPane.OK_OPTION) {
-			p.makeChangeInDeck(s, lp);
+			try {
+				String 	message= "REMOVEFROMDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(),s.getName()))+"#";
+				Client.WriteMessage(message);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 	@Override

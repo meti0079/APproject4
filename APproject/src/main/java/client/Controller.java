@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+
+import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
 import client.grapic.MenuPanel;
@@ -12,6 +14,8 @@ import client.grapic.SettingPanel;
 import client.grapic.Shop;
 import client.grapic.Statos;
 import client.model.User;
+import gameModel.requestAndREsponse.ChangInDeckResponse;
+import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StatosNeeds;
 public class Controller {
@@ -25,7 +29,7 @@ public class Controller {
 	private Shop shop;
 	private Statos statos;
 	private SettingPanel settingPanel;
-
+	private CollectionPanel collectionPanel;
 
 
 	private Controller() {
@@ -38,6 +42,8 @@ public class Controller {
 			shop=new Shop();
 			statos=new Statos();
 			settingPanel=new SettingPanel();
+			collectionPanel=new CollectionPanel();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,6 +62,9 @@ public class Controller {
 			break;
 		case "SETTING":
 			frame.ChangePanel(settingPanel);
+			break;
+		case "COLLECTION":
+			frame.ChangePanel(collectionPanel);
 			break;
 
 		default:
@@ -124,13 +133,13 @@ public class Controller {
 			shop.update();
 			break;
 		case "":
-			
+
 			break;
 
 		default:
 			break;
 		}
-		
+
 
 	}
 
@@ -141,5 +150,30 @@ public class Controller {
 	public void statosNeed(String message) {
 		StatosNeeds needs=gson.fromJson(message, StatosNeeds.class);
 		statos.setDecks(needs.getDeck());	
+	}
+
+	public void collectionNeed(String message) {
+		CollectionNeed need=gson.fromJson(message, CollectionNeed.class);
+		collectionPanel.setHave(need.getHave());
+		collectionPanel.setDeck(need.getDeck());
+		collectionPanel.setDontHave(need.getDontHave());
+		collectionPanel.setDeckinfo(need.getDeckInfo());
+		collectionPanel.setEnemyDeck(need.getEnemydeck());
+		collectionPanel.setEnemyHero(need.getEnemyHero());
+		collectionPanel.setHeros(need.getHero());
+		collectionPanel.updatePanel();
+	}
+
+	public void deckChange(String message) {
+		ChangInDeckResponse response=gson.fromJson(message, ChangInDeckResponse.class);
+		collectionPanel.setDeck(response.getDeck());
+		collectionPanel.setDeckinfo(response.getDeckInfo());
+		collectionPanel.setEnemyDeck(response.getEnemydeck());
+		collectionPanel.updatePanel();
+	}
+
+	public void collectioError(String message) {
+		JOptionPane.showMessageDialog(collectionPanel, message);
+
 	}
 }

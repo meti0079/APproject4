@@ -39,6 +39,19 @@ public class MessageHandler {
 		case "UPDATE":
 			controller.updatePanels(message);
 			break;
+		case "SETSTATOSNEED":
+			controller.statosNeed(message);
+			break;
+			
+		case "SETCOLLECTIONNEED":
+			controller.collectionNeed(message);
+			break;
+		case "DECKCHANGE":
+			controller.deckChange(message);
+			break;
+		case "COLLECTIONERROR":
+			controller.collectioError(message);
+			break;
 			
 			
 			

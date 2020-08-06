@@ -13,8 +13,13 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.google.gson.Gson;
+
+import client.Client;
+import client.Controller;
 import game.Gamestate;
 import game.Logger;
+import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class InfoPanel extends JPanel{
 
@@ -38,13 +43,13 @@ public class InfoPanel extends JPanel{
 		b1.setBorder(BorderFactory.createEmptyBorder());
 		b1.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {	
 				try {
-					log.log(game.getPlayer().get_name(), "clicked exit button ", "");
 					int j=JOptionPane.showConfirmDialog(null, "Do you want realy Exit", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
-						log.log(game.getPlayer().get_name(), "exit game", "");
-						System.exit(0);
+					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(Controller.getInsist().getUser().getTocken()))+"#";
+					Client.WriteMessage(message);
+					System.exit(0);
 					}
 				} catch (IOException e1) {
 					System.out.println("exit button");
@@ -64,11 +69,9 @@ public class InfoPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked  go menu button ", "");
-//					f.setContentPane(new MenuPanel());
-//					f.Update();
+					String 	message= "GOMENU>>"+new Gson().toJson(new SaveAndExitRequest(Controller.getInsist().getUser().getTocken()))+"#";
+					Client.WriteMessage(message);
 				} catch (Exception e1) {
-					System.out.println("cant come back");
 					e1.printStackTrace();
 				}
 			}
@@ -87,8 +90,9 @@ public class InfoPanel extends JPanel{
 	private void drawInfoInPanel(Graphics g) {
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));
 		g.setColor(Color.WHITE);
-		g.drawString("Name : "+game.getPlayer().get_name(), 50, 60);
-		g.drawString("Gem       : "+game.getPlayer().gem, 600, 60);
+		g.drawString("Name : "+Controller.getInsist().getUser().getName(), 50, 60);
+		g.drawString("Gem       : "+Controller.getInsist().getUser().getGem(), 400, 60);
+		g.drawString("Cup       : "+Controller.getInsist().getUser().getCup(), 600, 60);
 		g.drawImage(new ImageIcon("src\\button image\\gems.png").getImage(), 700, 20, null	);
 	}
 	private void initial() throws Exception {

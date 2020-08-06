@@ -106,33 +106,33 @@ public class Player {
 	public void setMyDeck(int x) {
 		this.currentDeck=x;
 	}
-	public ArrayList<Card> findHeroCard(String name){
-		ArrayList<Card> sum=new ArrayList<>();
-		for(Card s : my_Cards) {
-			if(s.get_Class().contains(name)) {
-				sum.add(s);		
-			}
-		}
-		return sum;
-	}
-	public ArrayList<Card> findManaCard(int x){
-		ArrayList<Card> sum=new ArrayList<>();
-		for(Card s : my_Cards) {
-			if(s.get_Mana()==x) {
-				sum.add(s);		
-			}
-		}
-		return sum;
-	}
-	public ArrayList<Card> findNameCard(String x){
-		ArrayList<Card> sum=new ArrayList<>();
-		for(Card s : my_Cards) {
-			if(s.get_Name().contains(x)) {
-				sum.add(s);		
-			}
-		}
-		return sum;
-	}
+//	public ArrayList<Card> findHeroCard(String name){
+//		ArrayList<Card> sum=new ArrayList<>();
+//		for(Card s : my_Cards) {
+//			if(s.get_Class().contains(name)) {
+//				sum.add(s);		
+//			}
+//		}
+//		return sum;
+//	}
+//	public ArrayList<Card> findManaCard(int x){
+//		ArrayList<Card> sum=new ArrayList<>();
+//		for(Card s : my_Cards) {
+//			if(s.get_Mana()==x) {
+//				sum.add(s);		
+//			}
+//		}
+//		return sum;
+//	}
+//	public ArrayList<Card> findNameCard(String x){
+//		ArrayList<Card> sum=new ArrayList<>();
+//		for(Card s : my_Cards) {
+//			if(s.get_Name().contains(x)) {
+//				sum.add(s);		
+//			}
+//		}
+//		return sum;
+//	}
 	public ArrayList<Deck> sortDecks() {
 		Deck [] allDeck=new Deck[my_Decks.size()];
 		int x=0;

@@ -14,15 +14,22 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.google.gson.Gson;
+
+import client.Client;
+import client.Controller;
+import client.model.DeckInfo;
 import game.Deck;
 import game.Gamestate;
 import game.Logger;
+import gameModel.requestAndREsponse.EditDeckRequest;
+import gameModel.requestAndREsponse.NewDeck;
+import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class Collection_deck extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	private Gamestate game;
-	private Logger log;
+
 	private ArrayList< JButton> allBut;
 	private JButton enemyBut;
 	private Collection_herospanel x;
@@ -32,15 +39,13 @@ public class Collection_deck extends JPanel{
 		this.x=x;
 		this.y=y;
 		allBut=new ArrayList<>();
-		log =Logger.getinsist();
-		game=Gamestate.getinsist();
 		initialAddDeckButton();
 		initialChangeNameButton();
 		initialSelectHeroButton();
 		initialEnemyButton();
 	}
 	private void initialEnemyButton() {
-		enemyBut=new JButton("enemy deck   "+ game.getEnemy().getEnemyDeck().getHeroDeck().getname()+"    size : "+game.getEnemy().getEnemyDeck().getDeck().size());
+		enemyBut=new JButton("enemy deck   "+ y.getEnemyHero()+"    size : "+y.getEnemyDeck().size());
 		enemyBut.setBounds(10, 60, 280, 40);
 		enemyBut.setFont(new Font("tahoma", Font.BOLD, 15));
 		enemyBut.setBackground(new Color(165, 62, 22));
@@ -56,44 +61,36 @@ public class Collection_deck extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked add deck ", "");
-					if(game.getPlayer().getalldeck().size()>16) {
-						JOptionPane.showConfirmDialog(null, "you have maximum deck!!! delet or edit some", "error", JOptionPane.YES_OPTION);
-						return;
-					}	
-					makeNewDeck();
-					update();
+					DeckInfo s = new DeckInfo();
+					while(true ) {
+						Boolean flag=false;
+						String name=JOptionPane.showInputDialog("enter your deck name")+"";
+						for(DeckInfo a : y.deckinfo) {
+							if(a.getName().equalsIgnoreCase(name)) {
+								flag=true;
+							}
+						}
+						if(flag==false) {
+							s.setName(name);
+							break;
+						}
+					}
+					String [] myhero=new String[y.getHeros().size()];
+					for(int i=0 ;i< y.getHeros().size();i++)
+						myhero[i]=y.getHeros().get(i).getname();
+					String n="";
+					n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
+							"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
+					s.setHeroName(n);
+
+
+					String message="NEWDECK>>"+new Gson().toJson(new NewDeck(s, Controller.getInsist().getUser().getTocken()))+"#";
+					Client.WriteMessage(message);
+
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
 		add(b);
-	}
-	private void makeNewDeck() throws Exception {
-		Deck s = new Deck();
-		while(true ) {
-			Boolean flag=false;
-			String name=JOptionPane.showInputDialog("enter your deck name")+"";
-			for(Deck a : game.getPlayer().getalldeck()) {
-				if(a.getName().equalsIgnoreCase(name)) {
-					flag=true;
-				}
-			}
-			if(flag==false) {
-				s.setName(name);
-				break;
-			}
-		}
-		String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
-		for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
-			myhero[i]=game.getPlayer().get_myheros().get(i).getname();
-		String n="";
-		n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
-				"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
-		s.setHeroDeck(n);
-		game.getPlayer().getalldeck().add(s);
-		game.getPlayer().setMyDeck(game.getPlayer().getalldeck().size()-1);
-		log.log(game.getPlayer().get_name(), "add deck ", s.getName());
-		update();
 	}
 	private void initialSelectHeroButton() {
 		JButton edit1=new JButton(new ImageIcon("src\\button image\\edit.png"));
@@ -104,25 +101,20 @@ public class Collection_deck extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked chang hero button ", "");
-					String [] myhero=new String[game.getPlayer().get_myheros().size()] ;
-					for(int i=0 ;i< game.getPlayer().get_myheros().size();i++)
-						myhero[i]=game.getPlayer().get_myheros().get(i).getname();
+					String [] myhero=new String[y.getHeros().size()];
+					for(int i=0 ;i< y.getHeros().size();i++)
+						myhero[i]=y.getHeros().get(i).getname();
 					String n="";
 					n = (String)JOptionPane.showInputDialog(null, "select deck hero ",
 							"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
 					if(n.equalsIgnoreCase("")) {
 					}else {
-						game.getPlayer().getMyDeck().addUsethisDeck(0);
-						game.getPlayer().getMyDeck().addWin(0);
-						game.getPlayer().getMyDeck().setHeroDeck(n);
-						log.log(game.getPlayer().get_name(), "change hero of deck  ", "to : " +n);
-					}
+						String message="EDITHERODECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), n, ""))+"#";
+						Client.WriteMessage(message);}
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
 		add(edit1);
-		updateBut(x,y);
 	}
 	private void initialChangeNameButton() {
 		JButton edit=new JButton(new ImageIcon("src\\button image\\edit2.png"));
@@ -133,22 +125,17 @@ public class Collection_deck extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked editName deck  button ", "");
-					while(true ) {
-						Boolean flag=false;
-						String name=JOptionPane.showInputDialog("enter your deck name")+"";
-						for(Deck a : game.getPlayer().getalldeck()) {
-							if(a.getName().equalsIgnoreCase(name)) {
-								flag=true;
-							}
-						}
-						if(flag==false) {
-							game.getPlayer().getMyDeck().setName(name);
-							update();
-							log.log(game.getPlayer().get_name(), "deck name edited ","new name of deck : "+name );
-							break;
+					Boolean flag=false;
+					String name=JOptionPane.showInputDialog("enter your deck name")+"";
+					for(DeckInfo a : y.deckinfo) {
+						if(a.getName().equalsIgnoreCase(name)) {
+							flag=true;
 						}
 					}
+					if(flag==false) {
+						String message="EDITNAMEDECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), "", name))+"#";
+						Client.WriteMessage(message);
+					}	
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -160,8 +147,7 @@ public class Collection_deck extends JPanel{
 		return enemyBut;
 	}
 	public void update() {
-		enemyBut.setText("enemy deck  "+ game.getEnemy().getEnemyDeck().getHeroDeck().getname()
-				+"   size : "+game.getEnemy().getEnemyDeck().getDeck().size());
+		enemyBut.setText("enemy deck  "+ y.getEnemyHero()+"   size : "+y.getEnemyDeck().size());
 		this.updateBut(x, y);
 		this.repaint();
 		this.revalidate();
@@ -196,26 +182,24 @@ public class Collection_deck extends JPanel{
 		}
 		allBut.removeAll(allBut);
 		int i=1;
-		for(Deck s: game.getPlayer().getalldeck()) {
+		for(DeckInfo s: y.getDeckinfo()) {
 			makeDeck(s, i);
 			i++;
 		}
 	}
-	public void makeDeck(Deck s , int i) {
-		JButton b= new JButton(s.getName()+"       "+s.getHeroDeck().getname()+ "   size :"+ s.getDeck().size());
+	public void makeDeck(DeckInfo s , int i) {
+		JButton b= new JButton(s.getName()+"       "+s.getHeroName()+ "   size :"+ s.getSize());
 		b.setFont(new Font("tahoma", Font.BOLD, 15));
 		b.setBackground(new Color(165, 42, 42));
 		b.setBounds(10, 45*i+60, 280, 40);
-		int tt=i-1;
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "change deck", "to " +s.getName());
-				} catch (IOException e1) {e1.printStackTrace();}
-				game.getPlayer().setMyDeck(tt);
-				y.setdeck();
-				x.update();}
+					String message="CHANGEDECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), s.getHeroName(), s.getName()))+"#";
+					Client.WriteMessage(message);
+				}catch (Exception e1) {}
+			}
 		});
 		add(b);
 		allBut.add(b);

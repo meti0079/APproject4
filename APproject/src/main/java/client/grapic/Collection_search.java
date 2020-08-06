@@ -13,11 +13,16 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import Cardspackage.Card;
+
+import com.google.gson.Gson;
+
+import client.Client;
+import client.Controller;
 import client.listeners.LockCardListener;
 import client.listeners.UnlockListener;
-import game.Gamestate;
-import game.Logger;
+import client.model.Card;
+import gameModel.requestAndREsponse.SearchRequest;
+
 
 public class Collection_search extends JPanel{
 
@@ -25,16 +30,12 @@ public class Collection_search extends JPanel{
 	private JTextField text;
 	private JButton ok,g1,g2,g3,g4,g5,g6,g7,g8,g9,g10,g0,all,have,notHave;
 	private ArrayList<JButton> but;
-	private Gamestate game;
 	private ArrayList<JLabel> current;
-	private Logger log;
-	private Collection_deck dec;
 	private CollectionPanel p;
 
 
-	public Collection_search( Collection_deck dec, CollectionPanel p) throws Exception {
+	public Collection_search(  CollectionPanel p) throws Exception {
 		this.p=p;
-		this.dec=dec;
 		initial();
 		initialButtons();
 		addButtonToList();
@@ -55,14 +56,14 @@ public class Collection_search extends JPanel{
 	}
 
 	private void initialCardLable(Card s) {
-		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+".png"));
-		lp.addMouseListener(new UnlockListener(s, p, dec));
+		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
+		lp.addMouseListener(new UnlockListener(s,p));
 		current.add(lp);
 		add(lp);
 	}
 	private void initialLockCardLable(Card s) {
-		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.get_Name()+"1.png"));
-		lp.addMouseListener(new LockCardListener( s));
+		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+"1.png"));
+		lp.addMouseListener(new LockCardListener());
 		current.add(lp);
 		add(lp);
 	}
@@ -71,10 +72,10 @@ public class Collection_search extends JPanel{
 			remove(current.get(i));
 			current.remove(current.get(i));
 		}
-		for(Card s : game.getPlayer().findManaCard(x)) {
+		for(Card s :findManaCard(x, p.have)) {
 			initialCardLable(s);
 		}
-		for(Card s2 : game.getPlayer().getMyStore().findManaCard(x)) {
+		for(Card s2 : findManaCard(x,p.dontHave)) {
 			initialLockCardLable(s2);		
 		}
 
@@ -84,36 +85,38 @@ public class Collection_search extends JPanel{
 			remove(current.get(i));
 			current.remove(current.get(i));
 		}
+		String message="";
 		if(text.equalsIgnoreCase("all")) {
-			log.log(game.getPlayer().get_name(), "clicked search button ", "show all cards");
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show all cards" ))+"#";
 			addHave();
 			addnothave();
 			this.setPreferredSize(new Dimension(1500, 3300));
 		}else if(text.equalsIgnoreCase("sum")) {
-			log.log(game.getPlayer().get_name(), "clicked search button ", "show cards that have");
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show cards that have" ))+"#";
 			addHave();
 		}else {
-			log.log(game.getPlayer().get_name(), "clicked search button ", "show cards that dont have");
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show cards that dont have" ))+"#";
 			addnothave();
 		}	
+		Client.WriteMessage(message);
 	}
 	private void addHave() {
-		for(Card s : game.getPlayer().get_myCards()) {
+		for(Card s : p.have) {
 			initialCardLable(s);
 		}
 	}
 	private void addnothave() {
-		for(Card s2 : game.getPlayer().getMyStore().getBuyCard()) {
+		for(Card s2 : p.dontHave) {
 			initialLockCardLable(s2);
 		}
 	}
 	private void nameFilter(String x) {
 		removeLables();
-		for(Card s : game.getPlayer().findNameCard(x)) {
-		initialCardLable(s);	
+		for(Card s : findNameCard(x, p.have)) {
+			initialCardLable(s);	
 		}
-		for(Card s2 : game.getPlayer().getMyStore().findNameCard(x)) {
-		initialLockCardLable(s2);	
+		for(Card s2 :findNameCard(x, p.dontHave)) {
+			initialLockCardLable(s2);	
 		}
 	}
 	@Override
@@ -150,8 +153,9 @@ public class Collection_search extends JPanel{
 				nameFilter(su);
 				initialAfterFilter();
 				try {
-					log.log(game.getPlayer().get_name(), "clicked search button ", "want to show cards with name filter!! searched : "+su);
-				} catch (IOException e1) {
+					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  want to show cards with name filter!! searched : "+su))+"#";
+					Client.WriteMessage(message);
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 			}
@@ -176,8 +180,6 @@ public class Collection_search extends JPanel{
 	}
 	private void initial() throws Exception{
 		setPreferredSize(new Dimension(1500, 2000));
-		game=Gamestate.getinsist();
-		log=Logger.getinsist();
 		text=new JTextField("search",50);
 		but=new ArrayList<>();
 		add(text);
@@ -191,7 +193,8 @@ public class Collection_search extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked search button ", gem+" gem");
+					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button "+ gem+"  gem"))+"#";
+					Client.WriteMessage(message);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -206,4 +209,24 @@ public class Collection_search extends JPanel{
 		revalidate();	
 		repaint();
 	}
+
+	public ArrayList<Card> findManaCard(int x, ArrayList<Card> cards){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : cards) {
+			if(s.getMana()==x) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+	public ArrayList<Card> findNameCard(String x, ArrayList<Card> cards){
+		ArrayList<Card> sum=new ArrayList<>();
+		for(Card s : cards) {
+			if(s.getName().contains(x)) {
+				sum.add(s);		
+			}
+		}
+		return sum;
+	}
+
 }

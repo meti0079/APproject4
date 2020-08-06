@@ -12,23 +12,24 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import Cardspackage.Card;
-import game.Gamestate;
-import game.Logger;
+
+import com.google.gson.Gson;
+
+import client.Client;
+import client.Controller;
+import client.model.Card;
+import gameModel.requestAndREsponse.AddCardToDeck;
+
 
 public class BiggerCard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
-	private Card card;
-	private  JButton addToMyDeck;
+	private JButton addToMyDeck;
 	private JButton addToEnemyDeck;
 	private JButton cancel;
-	private CollectionPanel panel;
-	private Collection_deck deckbord;
-	public BiggerCard(Card card, CollectionPanel pan, Collection_deck declbord) {
+	private Card card;
+	public BiggerCard(Card card) {
 		this.card=card;
-		this.panel=pan;
-		this.deckbord=declbord;
 		initial();
 		readImage();
 		initialButtonAddToDeck();
@@ -53,7 +54,7 @@ public class BiggerCard extends JPanel {
 		add(cancel);
 	}
 	private void readImage() {
-		File input_file = new File("src\\card image\\"+card.get_Name()+".png"); 
+		File input_file = new File("src\\card image\\"+card.getName()+".png"); 
 		image = new BufferedImage(100, 150, 
 				BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
@@ -66,10 +67,8 @@ public class BiggerCard extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if(Gamestate.getinsist().getEnemy().getEnemyDeck().addCardToDeck(card))
-						Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "add card to deck", card.get_Name());					
-					panel.setEnemyDeck();
-					deckbord.update();
+					String message="ADDTOENEMYDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(), card.getName()))+"#";
+					Client.WriteMessage(message);
 					setVisible(false);
 				} catch (Exception e) {e.printStackTrace();}
 			}
@@ -83,9 +82,9 @@ public class BiggerCard extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(Gamestate.getinsist().getPlayer().getMyDeck().addCardToDeck(card)) {
-						haveChangeInDeck();
-					}
+					String message="ADDTOMYDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(), card.getName()))+"#";
+					Client.WriteMessage(message);
+					setVisible(false);
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
@@ -101,25 +100,17 @@ public class BiggerCard extends JPanel {
 	}
 	private void renderDetails(Graphics g) {
 		g.setFont(new Font("Tahoma", Font.BOLD, 15));
-		g.drawString("name  :   " + card.get_Name(), 20, 670);
-		g.drawString("mana  :   " + card.get_Mana(), 20, 700);
-		g.drawString("class :   " + card.get_Class(), 20, 730);
-		g.drawString("rarity :   " + card.get_Rarity(), 20, 760);
+		g.drawString("name  :   " + card.getName(), 20, 670);
+		g.drawString("mana  :   " + card.getMana(), 20, 700);
+		g.drawString("class :   " + card.getCardClass(), 20, 730);
+		g.drawString("rarity :   " + card.getRarity(), 20, 760);
 		g.drawString("type :   " + card.getType(), 20, 790);
 		g.drawString("description :  " + card.getDescription(), 20,820);
 	}
 	private void renderDetailsMinion(Graphics g) {
 		if(card.getType().equalsIgnoreCase("minion") ||card.getType().equalsIgnoreCase("weapon")) {
 			g.drawString("attack  :   " + card.getAttack(), 20, 850);
-			g.drawString("HP  :  " + card.getHp(), 20, 880);			
+			g.drawString("HP  :  " + card.getHP(), 20, 880);			
 		}
 	}
-	private void haveChangeInDeck() throws Exception {
-		Gamestate.getinsist().getPlayer().getMyDeck().addUsethisDeck(0);
-		Gamestate.getinsist().getPlayer().getMyDeck().addWin(0);
-		Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "add card to deck", card.get_Name());					
-		setVisible(false);
-		panel.setdeck();;
-		deckbord.update();
 	}
-}

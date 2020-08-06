@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.google.gson.Gson;
+
 import client.Client;
 import client.Controller;
 import game.Gamestate;
@@ -68,7 +70,7 @@ public class MenuPanel extends JPanel {
 				try {
 					int j=JOptionPane.showConfirmDialog(MenuPanel.this, "Do you want save game", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
-						String 	message= "SAVE>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
+						String 	message= "SAVE>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 						Client.WriteMessage(message);	
 					}
 				} catch (IOException e1) {
@@ -92,7 +94,7 @@ public class MenuPanel extends JPanel {
 				try {
 					int j=JOptionPane.showConfirmDialog(MenuPanel.this, "Do you want realy Exit", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
-					String 	message= "EXIT>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
+					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 					System.exit(0);
 					}
@@ -114,7 +116,7 @@ public class MenuPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String 	message= "GOSHOP>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
+					String 	message= "GOSHOP>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -133,7 +135,7 @@ public class MenuPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String 	message= "GOSTATOS>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
+					String 	message= "GOSTATOS>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -149,11 +151,10 @@ public class MenuPanel extends JPanel {
 		setting.setBackground(Color.orange);
 		setting.setBounds(765, 595, 270, 60);
 		setting.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String 	message= "GOSETTING>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
+					String 	message= "GOSETTING>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -203,10 +204,8 @@ public class MenuPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					log.log(game.getPlayer().get_name(), "clicked collection button ", "");				
-//					CollectionPanel c=new CollectionPanel((MainFrame)frame);
-//					frame.ChangePanel(c);
-					log.log(game.getPlayer().get_name(), "go to collection ", "");
+					String 	message= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
+					Client.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

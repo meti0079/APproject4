@@ -54,28 +54,16 @@ public class Deck {
 			if(ss.get_Name().equalsIgnoreCase(e.get_Name()))
 				sum++;
 		}
-		if(sum<2) {
-			if(e.get_Class().equalsIgnoreCase(heroDeck.getname()) || e.get_Class().equalsIgnoreCase("Neutral")) {
-				if(deck.size()<15) {
+		if(sum<2)
+			if(e.get_Class().equalsIgnoreCase(heroDeck.getname()) || e.get_Class().equalsIgnoreCase("Neutral"))
+				if(deck.size()<15) { 
 					this.deck.add(e);
 					return true;
-				}else {
-					JOptionPane.showConfirmDialog(null, "Cant add because this card is full  , \n remove a card from deck"
-							, "error", JOptionPane.OK_CANCEL_OPTION);
 				}
-			}else {
-				JOptionPane.showConfirmDialog(null, "Cant add because this card is for a diffrent hero , \n remove a card from deck"
-						, "error", JOptionPane.OK_CANCEL_OPTION);
-			}
-		}else {
-			JOptionPane.showConfirmDialog(null, "Cant add because you have this in your deck , \n remove a card from deck"
-					, "error", JOptionPane.OK_CANCEL_OPTION);
-		}
+
 		return false;
 	}
-	/**
-	 * @param deck the deck to set
-	 */
+
 	public void setDeck(ArrayList<Card> deck) {
 		this.deck = deck;
 	}

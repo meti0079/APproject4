@@ -7,18 +7,36 @@ public class Card {
 	private String cardClass;
 	private String description;
 	private String type;
-	
-	
-	public Card(int mana, String name, String rarity, String cardClass, String description, String type) {
+	private int attack;
+	private int HP;
+
+
+	public Card(int mana, String name, String rarity, String cardClass, String description, String type, int attack,
+			int hP) {
+		super();
 		this.mana = mana;
 		this.name = name;
 		this.rarity = rarity;
 		this.cardClass = cardClass;
 		this.description = description;
 		this.type = type;
+		this.attack = attack;
+		HP = hP;
+	}
+	public int getAttack() {
+		return attack;
+	}
+	public void setAttack(int attack) {
+		this.attack = attack;
+	}
+	public int getHP() {
+		return HP;
+	}
+	public void setHP(int hP) {
+		HP = hP;
 	}
 	public Card() {
-		}
+	}
 	public int getMana() {
 		return mana;
 	}
@@ -66,6 +84,6 @@ public class Card {
 			return 1;
 		return 1;
 	}
-	
-	
+
+
 }

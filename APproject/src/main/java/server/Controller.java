@@ -1,7 +1,5 @@
 package server;
 
-import static java.awt.Container.log;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +7,7 @@ import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import client.model.Card;
@@ -20,9 +19,15 @@ import game.Logger;
 import game.Login;
 import game.Player;
 import game.Store;
+import gameModel.requestAndREsponse.AddCardToDeck;
+import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.ChangeBattlegroundThem;
+import gameModel.requestAndREsponse.CollectionNeed;
+import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.LoginAndSingUpRequest;
+import gameModel.requestAndREsponse.NewDeck;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
+import gameModel.requestAndREsponse.SearchRequest;
 import gameModel.requestAndREsponse.SellAndBuy;
 import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StatosNeeds;
@@ -98,6 +103,9 @@ public class Controller {
 		case "GOSTATOS":
 			statos(message, packet);
 			break;
+		case "GOMENU":
+			goMenu(message, packet);
+			break;
 		case "GOSETTING":
 			setting(message, packet);
 			break;			
@@ -110,10 +118,33 @@ public class Controller {
 		case "GOCOLLECTION":
 			collection(message, packet);
 			break;
-			
-
-
-
+		case "ADDTOENEMYDECK":
+			addCardToEnemyDeck(message, packet);
+			break;
+		case "ADDTOMYDECK":
+			addCardToMyDeck(message, packet);
+			break;
+		case "REMOVEFROMDECK":
+			removeCardFromMyDeck(message, packet);
+			break;
+		case "REMOVEFROMENEMYDECK":
+			removeCardFromEnemyDeck(message, packet);
+			break;
+		case "NEWDECK":
+			makeNewDeck(message, packet);
+			break;
+		case "EDITHERODECK":
+			editHeroDeck(message,packet);
+			break;
+		case "EDITNAMEDECK":
+			editNameDeck(message,packet);
+			break;
+		case "CHANGEDECK":
+			changeDeck(message,packet);
+			break;
+		case "SEARCH":
+			serch(message, packet);
+			break;
 
 
 
@@ -127,57 +158,228 @@ public class Controller {
 		}
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+	private void goMenu(String message, DatagramPacket packet) {
+		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		try {
+			User x=online.get(request.getTocken());
+			if(x!=null) {
+				log.log(x.getPlayer().get_name(), "go to menu", "");
+				String message1="SETPLAYER>>"+gson.toJson(new client.model.User(x.getPlayer().get_name(), x.getPlayer().getTocken(), x.getPlayer().gem, x.getPlayer().getCup()))+"#";
+				String message3="CHANGEPANEL>>MENU#";
+				ServerMain.WriteMessage(message1, x.getAddress());
+				ServerMain.WriteMessage(message3, x.getAddress());			
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void serch(String message, DatagramPacket packet) {
+		SearchRequest request =gson.fromJson(message, SearchRequest.class);
+		User x =online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				log.log(x.getPlayer().get_name(), "",request.getMessage());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+
+
+	}
+
+	private void changeDeck(String message, DatagramPacket packet) {
+		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		User x =online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				log.log(x.getPlayer().get_name(), "change deck", "to " +request.getDeckName());
+				for (int i = 0; i < x.getPlayer().getalldeck().size(); i++) {
+					if(x.getPlayer().getalldeck().get(i).getName().equals(request.getDeckName())  && x.getPlayer().getalldeck().get(i).getHeroDeck().getname().equals(request.getHeroName())) {
+						x.getPlayer().setMyDeck(i);
+						String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().getMyDeck().getDeck()),makeClientCards(x.getEnemy().getEnemyDeck().getDeck()), findDeckInfo(x.getPlayer())))+"#";
+						ServerMain.WriteMessage(message1, packet.getSocketAddress());
+						break;						
+					}		
+				}		
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	private void editNameDeck(String message, DatagramPacket packet) {
+		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		User x =online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				x.getPlayer().getMyDeck().setName(request.getDeckName());
+				log.log(x.getPlayer().get_name(), "deck name edited ","new name of deck : "+request.getDeckName() );
+				String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().getMyDeck().getDeck()),makeClientCards(x.getEnemy().getEnemyDeck().getDeck()), findDeckInfo(x.getPlayer())))+"#";
+				ServerMain.WriteMessage(message1, packet.getSocketAddress());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void editHeroDeck(String message, DatagramPacket packet) {
+		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		User x =online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				x.getPlayer().getMyDeck().addUsethisDeck(0);
+				x.getPlayer().getMyDeck().addWin(0);
+				x.getPlayer().getMyDeck().setHeroDeck(findHero(request.getHeroName(), x.getPlayer().get_myheros()));
+				log.log(x.getPlayer().get_name(), "change hero of deck  ", "to : " +request.getHeroName());
+				String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().getMyDeck().getDeck()),makeClientCards(x.getEnemy().getEnemyDeck().getDeck()), findDeckInfo(x.getPlayer())))+"#";
+				ServerMain.WriteMessage(message1, packet.getSocketAddress());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void makeNewDeck(String message, DatagramPacket packet){
+		NewDeck newDeck=gson.fromJson(message, NewDeck.class);
+		User x=online.get(newDeck.getTocken());
+		try {
+			if(x!=null) {
+				if(x.getPlayer().getalldeck().size()<16) {
+					Deck s= new Deck();
+					s.setName(newDeck.getDeckInfo().getName());
+					s.setHeroDeck(x.getPlayer(), newDeck.getDeckInfo().getHeroName());
+					x.getPlayer().getalldeck().add(s);
+					x.getPlayer().setMyDeck(x.getPlayer().getalldeck().size()-1);
+					log.log(x.getPlayer().get_name(), "add deck ", s.getName());
+					String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(s.getDeck()),makeClientCards(x.getEnemy().getEnemyDeck().getDeck()), findDeckInfo(x.getPlayer())))+"#";
+					ServerMain.WriteMessage(message1, packet.getSocketAddress());
+				}else {
+					String message4="COLLECTIONERROR>>you have maximum deck!!! delet or edit some!!!#";
+					ServerMain.WriteMessage(message4, packet.getSocketAddress());
+					JOptionPane.showConfirmDialog(null, "you have maximum deck!!! delet or edit some", "error", JOptionPane.YES_OPTION);			
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+	private void removeCardFromEnemyDeck(String message, DatagramPacket packet) {
+		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		User x=online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				x.getEnemy().getEnemyDeck().getDeck().remove(findCard(request.getCardName(), x.getEnemy().getEnemyDeck().getDeck()));
+				log.log(x.getPlayer().get_name(), "remove card from enemy deck", request.getCardName());
+				String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().get_mydeck()),
+						makeClientCards(x.getEnemy().getEnemyDeck().getDeck()),
+						findDeckInfo(x.getPlayer())))+"#";
+				ServerMain.WriteMessage(message1, packet.getSocketAddress());
+			}
+		} catch (Exception e) {e.printStackTrace();}		
+	}
+
+	private void removeCardFromMyDeck(String message, DatagramPacket packet) {
+		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		User x=online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				x.getPlayer().getMyDeck().getDeck().remove(findCard(request.getCardName(), x.getPlayer().get_mydeck()));
+				haveChangeInDeck(x.getPlayer());
+				log.log(x.getPlayer().get_name(), "remove card from deck", request.getCardName());					
+				String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().get_mydeck()),
+						makeClientCards(x.getEnemy().getEnemyDeck().getDeck()),
+						findDeckInfo(x.getPlayer())))+"#";
+				ServerMain.WriteMessage(message1, packet.getSocketAddress());
+			}
+		} catch (Exception e) {e.printStackTrace();}		
+	}
+
+	private void haveChangeInDeck(Player player) throws Exception {
+		player.getMyDeck().addUsethisDeck(0);
+		player.getMyDeck().addWin(0);
+	}
+	private void addCardToMyDeck(String message, DatagramPacket packet) {
+		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		User x=online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				if(x.getPlayer().getMyDeck().addCardToDeck(findCard(request.getCardName(), x.getPlayer().get_myCards()))) {
+					haveChangeInDeck(x.getPlayer());
+					log.log(x.getPlayer().get_name(), "add card to deck", request.getCardName());					
+					String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().get_mydeck()),
+							makeClientCards(x.getEnemy().getEnemyDeck().getDeck()),
+							findDeckInfo(x.getPlayer())))+"#";
+					ServerMain.WriteMessage(message1, packet.getSocketAddress());
+				}else {
+					String message4="COLLECTIONERROR>>Cant add because this deck is full or \n "
+							+ "this card is for a diffrent hero \n"
+							+ "you have this in your deck !!!#";
+					ServerMain.WriteMessage(message4, packet.getSocketAddress());
+				}
+			}
+		} catch (Exception e) {e.printStackTrace();}		
+	}
+
+	private void addCardToEnemyDeck(String message, DatagramPacket packet) {
+		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		User x=online.get(request.getTocken());
+		try {
+			if(x!=null) {
+				if(x.getEnemy().getEnemyDeck().addCardToDeck(findCard(request.getCardName(), x.getPlayer().get_myCards()))) {
+					log.log(x.getPlayer().get_name(), "add card to deck", findCard(request.getCardName(), x.getPlayer().get_myCards()).get_Name());					
+					String message1="DECKCHANGE>>"+gson.toJson(new ChangInDeckResponse(makeClientCards(x.getPlayer().get_mydeck()),
+							makeClientCards(x.getEnemy().getEnemyDeck().getDeck()),
+							findDeckInfo(x.getPlayer())))+"#";
+					ServerMain.WriteMessage(message1, packet.getSocketAddress());
+				}else {
+					String message4="COLLECTIONERROR>>Cant add because this deck is full or \n "
+							+ "this card is for a diffrent hero \n"
+							+ "you have this in your deck !!!#";
+					ServerMain.WriteMessage(message4, packet.getSocketAddress());
+				}
+
+			}
+		} catch (Exception e) {e.printStackTrace();}
+	}
+
 	private void collection(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		User x=online.get(request.getTocken());
 		try {
-		if(x!=null) {
-			log.log(x.getPlayer().get_name(), "go to collection ", "");
-			
-		}
-		
-
-		
-		
-		
-		
-		
-		
-		String message1="CHANGEPANEL>>COLLECTION#";
-			ServerMain.WriteMessage(message1, packet.getSocketAddress());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
-		
-		
-		
+			if(x!=null) {
+				log.log(x.getPlayer().get_name(), "go to collection ", "");
+				String message1="SETCOLLECTIONNEED>>"+gson.toJson(new CollectionNeed(makeClientCards(x.getPlayer().get_myCards()),
+						makeClientCards(x.getPlayer().getMyStore().getBuyCard()), 
+						makeClientCards(x.getPlayer().get_mydeck()),
+						makeClientCards(x.getEnemy().getEnemyDeck().getDeck()),
+						findDeckInfo(x.getPlayer()),x.getPlayer().get_myheros(),x.getEnemy().getEnemyDeck().getHeroDeck().getname()))+"#";
+				String message2="CHANGEPANEL>>COLLECTION#";
+				ServerMain.WriteMessage(message1, packet.getSocketAddress());
+				ServerMain.WriteMessage(message2, packet.getSocketAddress());	
+			}
+		} catch (Exception e) {e.printStackTrace();}
 	}
 
 	public void setBattlebackGround(String message, DatagramPacket  packet){
@@ -231,9 +433,9 @@ public class Controller {
 		ArrayList<DeckInfo> decks=new ArrayList<>();
 		for (Deck deck : player.sortDecks()) {
 			if(deck.bestCard()!=null) {
-				decks.add(new DeckInfo(deck.getName(),((float)deck.getWin())/((float)player.getPlays()), deck.getWin()	, deck.getUsethisDeck(), deck.GetAverage(), deck.getHeroDeck().getname(), deck.bestCard().get_Name()));
+				decks.add(new DeckInfo(deck.getName(),((float)deck.getWin())/((float)player.getPlays()), deck.getWin()	, deck.getUsethisDeck(), deck.GetAverage(), deck.getHeroDeck().getname(), deck.bestCard().get_Name(),deck.getDeck().size()));
 			}else {
-				decks.add(new DeckInfo(deck.getName(),((float)deck.getWin())/((float)player.getPlays()), deck.getWin()	, deck.getUsethisDeck(), deck.GetAverage(), deck.getHeroDeck().getname(), ""));				
+				decks.add(new DeckInfo(deck.getName(),((float)deck.getWin())/((float)player.getPlays()), deck.getWin()	, deck.getUsethisDeck(), deck.GetAverage(), deck.getHeroDeck().getname(), "",deck.getDeck().size()));				
 			}
 		}
 		return decks;
@@ -329,21 +531,15 @@ public class Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
-
-
 	}
 
 	private ArrayList<Card> makeClientCards(ArrayList<Cardspackage.Card> cards){
 		ArrayList<Card> c=new ArrayList<>();
 		for (Cardspackage.Card card : cards) {
-			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType()));
+			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp()));
 		}
 		return c;
 	}
-
-
 
 	private void exit(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
@@ -390,7 +586,7 @@ public class Controller {
 				log.makeLog(user.getPlayer().get_name(), user.getPlayer().get_pass());
 				log.log(user.getPlayer().get_name(), "sign up ", " ");
 				user.getPlayer().setMyStore(new Store());
-				Login log=new Login(user.getPlayer(),user.getEnemy());
+				new Login(user.getPlayer(),user.getEnemy());
 				online.put(user.getPlayer().getTocken(), user);
 				clients.add(user);
 				String message1="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
@@ -423,6 +619,7 @@ public class Controller {
 						del=true;
 					}
 				}
+				see.close();
 				if(!del) {
 					User user =new User(game.readPlayer(re.getName()),  game.readEnemy(re.getName()), packet.getPort(), packet.getSocketAddress());
 					online.put(user.getPlayer().getTocken(), user);
