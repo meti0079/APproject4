@@ -5,33 +5,20 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
 import java.util.Scanner;
-
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import Cardspackage.Card;
 import hero.Heros;
 import hero.heroPower.HeroPower;
-import passives.Passive;
-
-
 
 public class Gamestate {
-	private String state; 
 	private	Gson gson;
-	public static Gamestate game;
 
-	public static Gamestate getinsist() throws Exception {
-		if(game==null) {
-			game=new Gamestate();
-		}
-		return game;
+	public Gamestate() throws Exception{
+		initialGson();
 	}
-
 	public String toString(Player player) {
 		String na=System.getProperty("user.dir")+"\\src\\pll\\"+player.get_name();
 		return na;
@@ -123,17 +110,7 @@ public class Gamestate {
 			}
 		}else
 			JOptionPane.showMessageDialog(null, "the password incorrect");
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	
-	private Gamestate() throws Exception{
-		initialGson();
-	}
+	}	
 	private void initialGson() {
 		GsonBuilder gsonBilder=new GsonBuilder();
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());

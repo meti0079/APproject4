@@ -1,6 +1,7 @@
 package hero.heroPower;
 
 import interfaces.HeroPowerVisitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class MagePower extends HeroPower{
@@ -11,8 +12,8 @@ public class MagePower extends HeroPower{
 		this.setUsed(false);
 	}
 
-	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy) {
-		if(super.accept(v, target, me, enemy))
+	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy, Mapper mapper) {
+		if(super.accept(v, target, me, enemy,mapper))
 			return v.visitMagePower(target, me, enemy);
 		return false;
 	}

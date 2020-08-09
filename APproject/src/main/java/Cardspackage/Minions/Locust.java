@@ -2,6 +2,7 @@ package Cardspackage.Minions;
 
 import Cardspackage.Minion;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class Locust extends Minion{
@@ -18,9 +19,9 @@ public class Locust extends Minion{
 	
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
-			v.visitLocust(this, taeget, attackerP, targetP);
-			return super.accept(v, taeget, attackerP, targetP);
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
+		v.visitLocust(this, taeget, attackerP, targetP);
+		return super.accept(v, taeget, attackerP, targetP,mapper );
 	}
 
 }

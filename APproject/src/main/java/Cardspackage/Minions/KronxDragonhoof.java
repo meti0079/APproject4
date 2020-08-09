@@ -3,6 +3,7 @@ package Cardspackage.Minions;
 import Cardspackage.Minion;
 import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class KronxDragonhoof extends Minion implements Acceptable{
@@ -17,8 +18,8 @@ public class KronxDragonhoof extends Minion implements Acceptable{
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
-			v.visitKronxDragonhoof(this, taeget, attackerP, targetP);
-			return super.accept(v, taeget, attackerP, targetP);
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
+		v.visitKronxDragonhoof(this, taeget, attackerP, targetP);
+		return super.accept(v, taeget, attackerP, targetP,mapper );
 	}
 }

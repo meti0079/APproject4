@@ -5,13 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.TextArea;
-
 import javax.swing.JPanel;
 
 public class PlayShow extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-TextArea text;
+	TextArea text;
 	public PlayShow(MainFrame f) throws Exception {
 	initial();
 	setTextArea();

@@ -9,10 +9,11 @@ public class Card {
 	private String type;
 	private int attack;
 	private int HP;
-
+	private boolean rush;
+	private boolean usedToAttack;
 
 	public Card(int mana, String name, String rarity, String cardClass, String description, String type, int attack,
-			int hP) {
+			int hP, boolean rush, boolean usedToAttack) {
 		super();
 		this.mana = mana;
 		this.name = name;
@@ -22,7 +23,22 @@ public class Card {
 		this.type = type;
 		this.attack = attack;
 		HP = hP;
+		this.rush = rush;
+		this.usedToAttack = usedToAttack;
 	}
+	public boolean isRush() {
+		return rush;
+	}
+	public void setRush(boolean rush) {
+		this.rush = rush;
+	}
+	public boolean isUsedToAttack() {
+		return usedToAttack;
+	}
+	public void setUsedToAttack(boolean usedToAttack) {
+		this.usedToAttack = usedToAttack;
+	}
+
 	public int getAttack() {
 		return attack;
 	}

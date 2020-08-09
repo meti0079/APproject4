@@ -15,15 +15,21 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import Cardspackage.Card;
+
+import com.google.gson.Gson;
+
+import client.Client;
+import client.Controller;
 import client.listeners.BattlegrounCardListener;
 import client.listeners.HandCardListener;
 import client.listeners.HeroPowerListener;
+import client.model.Card;
 import game.ExportHeroPower;
 import game.ExportPassives;
 import game.ExportVisitor;
 import game.Gamestate;
 import game.Logger;
+import gameModel.requestAndREsponse.NextTurnRequest;
 import playModel.ComputerPlayer;
 import playModel.Mapper;
 import playModel.PlayerModel;
@@ -36,14 +42,8 @@ public class PlayPanel extends JPanel{
 	private MainFrame f;	
 	private JButton manabut;	
 	private JLabel next;
-	private Gamestate game;	
 	private TextArea textArea;
-	private Logger log;
 	private JLabel turnPlayed;
-	private static int roundGame=60;
-	private PlayerModel me;
-	private PlayerModel enemy;
-	private Mapper map;
 	private JLabel player2DeckRemind;
 	private JLabel player1DeckRemind;
 	private JLabel player1HandRemind;
@@ -53,24 +53,19 @@ public class PlayPanel extends JPanel{
 	private ArrayList<CardShow> weapons=new ArrayList<>();
 	private ArrayList<HeroShow> heros=new ArrayList<>(); 
 	private JProgressBar[] progres=new JProgressBar[2];
-	private ExportVisitor visitor=new ExportVisitor();
-	private ExportHeroPower heroVisitor=new ExportHeroPower();
 	private ArrayList<HeroPowerShow> heroPowers=new ArrayList<>();
-
-
+	private Gson gson;
+	private int tocken;
 	public PlayPanel(MainFrame f, TextArea t) throws Exception {
+		tocken=Controller.getInsist().getUser().getTocken();
 		initial();
-		initialPlayers();
+		gson=new Gson();
 		textArea=t;
 		this.f=f;
 		initialNextTurnBtutton();
 		initialLables();
 		drawHeroPower();
 		startGame();
-	}
-	private void initialPlayers() throws Exception {
-		me=map.readMe();
-		enemy=map.readEnemy();
 	}
 	private void startGame() throws Exception {
 		initialPassive(me);
@@ -112,7 +107,8 @@ public class PlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					nextTurn();
+					String message="NEXTTURN>>"+gson.toJson(new NextTurnRequest(tocken));
+					Client.WriteMessage(message);
 				} catch (Exception e) {e.printStackTrace();	}
 			}
 		});
@@ -139,12 +135,8 @@ public class PlayPanel extends JPanel{
 		}
 	}
 	private void initial() throws Exception {
-		map=Mapper.getinsist();
-		log=Logger.getinsist();
-		game=Gamestate.getinsist();
 		setPreferredSize(new Dimension(1800, 1000));
 		setLayout(null);
-		log.log(game.getPlayer().get_name(), "", "player choosed to play "+game.getState()+"  state");
 	}
 
 	private void initialLables() {
@@ -291,22 +283,10 @@ public class PlayPanel extends JPanel{
 			remove(heros.get(i));
 		heros.removeAll(heros);
 	}
-	private  void finish() throws Exception {
-		if(map.isFinished(me, enemy, textArea)) {
-			MenuPanel m=new MenuPanel();
-			f.ChangePanel(m);			
-		}
-	}
 	public void updatePanel() {
 		setCard();
 		repaint();
 		revalidate();
-	}
-	public  static int getRoundGame() {
-		return roundGame;
-	}
-	public static void setRoundGame(int rondGame) {
-		roundGame = rondGame;
 	}
 	public TextArea getTextArea() {
 		return textArea;
@@ -328,40 +308,11 @@ public class PlayPanel extends JPanel{
 			}			
 		}
 	}
-	private void firstRound() {
-		roundGame--;
-		manaSet();
-		repaint();
-	}
-	protected void nextTurn() throws Exception {
-		if(roundGame==60) {
-			initialPassive(enemy);
-			firstRound();
-			return;
-		}
-		try {
-			log.log(game.getPlayer().get_name(), "clicked end turn ", "");
-			finish();
-		} catch (Exception e) {}
-		map.readDeck(me, enemy);
-		if(roundGame%2==1) {
-			player1Turn();
-		}else {
-			player2Turn();
-		}
-		roundGame--;
-		manaSet();
-		if(next!=null)
-			next.setVisible(false);
 
-		updatePanel();
-	}
-	private void player1Turn() {
-		turnPlayed.setText(((roundGame/2))+"");
-		map.nextTurn(me, enemy, visitor);
-		addToHand(me.getTurn()+1);
-		setCard();
-	}	@Override
+	
+	
+	
+	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(new ImageIcon("src\\play image\\"+game.getBackBattleground()).getImage(), 0, 0, null);
@@ -402,28 +353,6 @@ public class PlayPanel extends JPanel{
 			remove(cardShow);
 		}	
 	}
-	private void player2Turn() {
-		map.nextTurn(enemy, me, visitor);
-		turnPlayed.setText(roundGame/2+"");			
-		addToHand(enemy.getTurn()+1);
-		setCard();
-	}
-	private void addToHand(int turn) {	
-		try {
-			map.readDeck(me, enemy);
-			if(turn==1) {
-				map.addToHand(me, enemy ,visitor);
-				log.log(game.getPlayer().get_name(), me.getName(), "summon card : "+me.getHand().get(me.getHand().size()-1).get_Name());
-				player1DeckRemind.setText(me.getDecksize()+"");
-			}else {
-				map.addToHand(enemy, me, visitor);
-				log.log(game.getPlayer().get_name(), enemy.getName(), "sdraw card : "+enemy.getHand().get(enemy.getHand().size()-1).get_Name());
-				player2DeckRemind.setText(enemy.getDecksize()+"");	
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	public boolean addTobattleground(Card s,int x,int y) throws Exception {
 		if(roundGame%2==0) {
 			if(map.addTobattleground(s, x, y, me, enemy, visitor, textArea)) {
@@ -442,9 +371,5 @@ public class PlayPanel extends JPanel{
 				return false;
 			}			
 		}
-	}
-
-	public void manaSet() {
-		map.manaSet(me, enemy);
 	}
 }

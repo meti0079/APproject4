@@ -1,8 +1,8 @@
 package Cardspackage.Minions;
 
 import Cardspackage.Minion;
-import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class BigGameHunter extends Minion {
@@ -18,8 +18,9 @@ public class BigGameHunter extends Minion {
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
 			v.visitBigGameHunter(this, taeget, attackerP, targetP);
-			return super.accept(v, taeget, attackerP, targetP);
+			return super.accept(v, taeget, attackerP, targetP,mapper );
 	}
+
 }

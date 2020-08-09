@@ -22,9 +22,9 @@ public abstract  class HeroPower {
 	public HeroPower() {
 
 	}
-	public  boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy) {
+	public  boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy, Mapper mapper) {
 		try {
-			if(Mapper.getinsist().checkTount(enemy)) {
+			if(mapper.checkTount(enemy)) {
 				if(target.equals(enemy.getHero()) )
 					return false;
 			if(((Minion)target).isTaunt())

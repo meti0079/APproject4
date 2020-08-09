@@ -40,19 +40,19 @@ public abstract  class Minion extends Card{
 		return "Minion" ;
 	}
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
 		if(taeget == null) {
 			return false;
 		}
 
 		try {
 			if(taeget instanceof Heros) {
-				if(!Mapper.getinsist().checkTount(targetP)&& taeget.equals(targetP.getHero())) {
+				if(!mapper.checkTount(targetP)&& taeget.equals(targetP.getHero())) {
 					((Heros) taeget).setHP(((Heros) taeget).get_HP()-this.getAttack());
 					return true;
 				}	
 			}else {	
-				if(Mapper.getinsist().checkTount(targetP)&&Mapper.getinsist().validCard(targetP, (Card) taeget)) {
+				if(mapper.checkTount(targetP)&&mapper.validCard(targetP, (Card) taeget)) {
 					if(taeget instanceof Minion &&((Minion) taeget).isTaunt()) {
 						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 						this.setHp(this.getHp()-((Minion) taeget).getAttack());
@@ -66,7 +66,7 @@ public abstract  class Minion extends Card{
 						return false;
 					}
 				}
-				if (taeget instanceof Minion &&Mapper.getinsist().validCard(targetP, (Card) taeget)){
+				if (taeget instanceof Minion && mapper.validCard(targetP, (Card) taeget)){
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 					this.setHp(this.getHp()-((Minion) taeget).getAttack());	
 					attackerP.checkCard(targetP,v);

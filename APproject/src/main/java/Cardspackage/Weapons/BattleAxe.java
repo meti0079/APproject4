@@ -3,6 +3,7 @@ package Cardspackage.Weapons;
 import Cardspackage.Weapon;
 import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class BattleAxe extends Weapon implements Acceptable{
@@ -17,8 +18,8 @@ public class BattleAxe extends Weapon implements Acceptable{
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
-		super.accept(v, taeget, attackerP, targetP);
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
+		super.accept(v, taeget, attackerP, targetP,mapper);
 		v.visitBattleAxe(this, taeget, attackerP, targetP);
 		return true;
 		

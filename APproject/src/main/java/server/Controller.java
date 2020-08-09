@@ -7,7 +7,6 @@ import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import client.model.Card;
@@ -26,42 +25,36 @@ import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.LoginAndSingUpRequest;
 import gameModel.requestAndREsponse.NewDeck;
+import gameModel.requestAndREsponse.NextTurnRequest;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 import gameModel.requestAndREsponse.SearchRequest;
 import gameModel.requestAndREsponse.SellAndBuy;
 import gameModel.requestAndREsponse.ShopNeeds;
+import gameModel.requestAndREsponse.StartMatchRequest;
 import gameModel.requestAndREsponse.StatosNeeds;
 import hero.Heros;
+
 
 public class Controller {
 	public static ArrayList<User> clients= new ArrayList<User>();
 	public static HashMap<Integer, User> online=new HashMap<>();
-	public static ArrayList<User> waiting= new ArrayList<User>();
-	//	public static ArrayList<Game> games=new  ArrayList<>();
-
-
-
-
-
+	public static ArrayList<User> deckReaderWaiting= new ArrayList<User>();
+	public static ArrayList<User> onlineWaiting= new ArrayList<User>();
+	public static ArrayList<Game> games=new  ArrayList<>();
 
 	private Logger log;
 	Gson gson;
 	private Gamestate game;
-
-
-
-
 	public Controller() {
 		try {
 			log= Logger.getinsist();
-			game=Gamestate.getinsist();
+			game=new Gamestate();
 			gson= new GsonBuilder().setLenient().create();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 	public void whatWant(String message, DatagramPacket packet) {
 		String what="";
 		for(int i=0 ;i<message.length();i++) {
@@ -145,7 +138,15 @@ public class Controller {
 		case "SEARCH":
 			serch(message, packet);
 			break;
-
+		case "GOPLAY":
+			startPlay(message , packet);
+			break;
+		case "STARTMATCH":
+			startmatch(message , packet);
+			break;
+		case "NEXTTURN":
+			nextTurn(message , packet);
+			break;
 
 
 
@@ -162,9 +163,79 @@ public class Controller {
 
 
 
+	private void nextTurn(String message, DatagramPacket packet) {
+		NextTurnRequest request=gson.fromJson(message, NextTurnRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.nextTurn(0);
+					}else if(game.getUser2()==x) {
+						game.nextTurn(1);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	private void startmatch(String message, DatagramPacket packet) {
+		StartMatchRequest request=gson.fromJson(message, StartMatchRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			x.setGameState(request.getState());
+			try {
+				if(request.getState().equals("Training")||request.getState().equals("computer")) {
+					games.add(new Game(x));
+				}else if(request.getState().equals("deckredear")) {
+					deckReaderWaiting.add(x);
+					if(deckReaderWaiting.size()>=2) {
+						games.add(new Game(deckReaderWaiting.get(0), deckReaderWaiting.get(1)));
+						deckReaderWaiting.remove(0);
+						deckReaderWaiting.remove(0);
+					}
+				}else if(request.getState().equals("online")) {
+					onlineWaiting.add(x);
+					if(onlineWaiting.size()>=2) {
+						games.add(new Game(onlineWaiting.get(0), onlineWaiting.get(1)));
+						onlineWaiting.remove(0);
+						onlineWaiting.remove(0);
+					}					
+				}else {
+					System.out.println("not valid state");
+				}
+				log.log(x.getPlayer().get_name(), "want to play game", request.getState());
+			} catch (IOException e) {	e.printStackTrace();}
+		}
+		//		PlayShow p= new PlayShow((MainFrame)f);
+		//		f.ChangePanel(p);
 
-
-
+	}
+	private void startPlay(String message, DatagramPacket packet) {
+		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		try {
+			User x=online.get(request.getTocken());
+			if(x!=null) {
+				if(canStart(x)){
+					log.log(x.getPlayer().get_name(), "go to  start a match", "");
+					String message1="CHANGEPANEL>>PLAYSTART#";
+					ServerMain.WriteMessage(message1, x.getAddress());
+				}else {
+					String message1="PLAYERROR>> you have to make a good deck for yourself and enemy!!! edit or change them"+"#";					
+					ServerMain.WriteMessage(message1, x.getAddress());			
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private boolean canStart(User x) {
+		if(x.getPlayer().get_mydeck().size()==15 && x.getEnemy().getEnemyDeck().getDeck().size()==15) {
+			return true;
+		}else
+			return false;		
+	}
 	private void goMenu(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
@@ -180,7 +251,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-
 	private void serch(String message, DatagramPacket packet) {
 		SearchRequest request =gson.fromJson(message, SearchRequest.class);
 		User x =online.get(request.getTocken());
@@ -191,12 +261,7 @@ public class Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
-
-
 	}
-
 	private void changeDeck(String message, DatagramPacket packet) {
 		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
 		User x =online.get(request.getTocken());
@@ -216,7 +281,6 @@ public class Controller {
 			e.printStackTrace();
 		}	
 	}
-
 	private void editNameDeck(String message, DatagramPacket packet) {
 		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
 		User x =online.get(request.getTocken());
@@ -231,7 +295,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-
 	private void editHeroDeck(String message, DatagramPacket packet) {
 		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
 		User x =online.get(request.getTocken());
@@ -248,7 +311,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-
 	private void makeNewDeck(String message, DatagramPacket packet){
 		NewDeck newDeck=gson.fromJson(message, NewDeck.class);
 		User x=online.get(newDeck.getTocken());
@@ -266,25 +328,10 @@ public class Controller {
 				}else {
 					String message4="COLLECTIONERROR>>you have maximum deck!!! delet or edit some!!!#";
 					ServerMain.WriteMessage(message4, packet.getSocketAddress());
-					JOptionPane.showConfirmDialog(null, "you have maximum deck!!! delet or edit some", "error", JOptionPane.YES_OPTION);			
 				}
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {e.printStackTrace();}
 	}
-
-
-
-
-
-
-
-
-
-
-
 	private void removeCardFromEnemyDeck(String message, DatagramPacket packet) {
 		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
 		User x=online.get(request.getTocken());
@@ -299,7 +346,6 @@ public class Controller {
 			}
 		} catch (Exception e) {e.printStackTrace();}		
 	}
-
 	private void removeCardFromMyDeck(String message, DatagramPacket packet) {
 		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
 		User x=online.get(request.getTocken());
@@ -315,7 +361,6 @@ public class Controller {
 			}
 		} catch (Exception e) {e.printStackTrace();}		
 	}
-
 	private void haveChangeInDeck(Player player) throws Exception {
 		player.getMyDeck().addUsethisDeck(0);
 		player.getMyDeck().addWin(0);
@@ -341,7 +386,6 @@ public class Controller {
 			}
 		} catch (Exception e) {e.printStackTrace();}		
 	}
-
 	private void addCardToEnemyDeck(String message, DatagramPacket packet) {
 		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
 		User x=online.get(request.getTocken());
@@ -363,7 +407,6 @@ public class Controller {
 			}
 		} catch (Exception e) {e.printStackTrace();}
 	}
-
 	private void collection(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		User x=online.get(request.getTocken());
@@ -381,7 +424,6 @@ public class Controller {
 			}
 		} catch (Exception e) {e.printStackTrace();}
 	}
-
 	public void setBattlebackGround(String message, DatagramPacket  packet){
 		ChangeBattlegroundThem them=gson.fromJson(message, ChangeBattlegroundThem.class);
 		try {
@@ -403,7 +445,6 @@ public class Controller {
 			}
 		} catch (IOException e) {e.printStackTrace();}	
 	}
-
 	private void setting(String message, DatagramPacket packet) {		
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
@@ -415,7 +456,6 @@ public class Controller {
 			}
 		} catch (IOException e) {e.printStackTrace();}
 	}
-
 	private void statos(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
@@ -465,7 +505,6 @@ public class Controller {
 			}	
 		} catch (Exception e) {}
 	}
-
 	private void buyHero(String message, DatagramPacket packet) {
 		SellAndBuy sellAndBuy=gson.fromJson(message, SellAndBuy.class);
 		User user=online.get(sellAndBuy.getTocken());
@@ -492,7 +531,6 @@ public class Controller {
 			}	
 		} catch (Exception e) {}
 	}
-
 	private void sellCard(String message, DatagramPacket packet) {
 		SellAndBuy sellAndBuy=gson.fromJson(message, SellAndBuy.class);
 		User user=online.get(sellAndBuy.getTocken());
@@ -516,7 +554,6 @@ public class Controller {
 			}
 		} catch (Exception e) {}
 	}
-
 	private void goShop(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
@@ -532,27 +569,25 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-
 	private ArrayList<Card> makeClientCards(ArrayList<Cardspackage.Card> cards){
 		ArrayList<Card> c=new ArrayList<>();
 		for (Cardspackage.Card card : cards) {
-			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp()));
+			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp(),card.isRush(),card.getUsedToAttack()));
 		}
 		return c;
 	}
-
 	private void exit(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
 			log.log(online.get(request.getTocken()).getPlayer().get_name(), "exit game", "");
 			clients.remove(online.get(request.getTocken()));
-			waiting.remove(online.get(request.getTocken()));
+			deckReaderWaiting.remove(online.get(request.getTocken()));
+			onlineWaiting.remove(online.get(request.getTocken()));
 			online.remove(request.getTocken());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
 	}
-
 	private void save(String message, DatagramPacket packet) {
 		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
 		try {
@@ -599,7 +634,6 @@ public class Controller {
 			System.exit(0);
 		}		
 	}
-
 	private void login(String message, DatagramPacket packet) {
 		try {
 			LoginAndSingUpRequest re=gson.fromJson(message, LoginAndSingUpRequest.class);
@@ -637,7 +671,6 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}	
-
 	public void recivePacket(DatagramPacket packet) {
 		ByteArrayInputStream arrayInputStream=new ByteArrayInputStream(packet.getData());
 		whatWant(read(arrayInputStream), packet);
@@ -651,7 +684,6 @@ public class Controller {
 		scan.close();
 		return message;
 	}
-
 	private Cardspackage.Card findCard(String name, ArrayList<Cardspackage.Card> cards) {
 		for (Cardspackage.Card card : cards) {
 			if(card.get_Name().equals(name))
@@ -666,8 +698,4 @@ public class Controller {
 		}
 		return null;
 	}
-
-
-
-
 }

@@ -1,6 +1,7 @@
 package hero.heroPower;
 
 import interfaces.HeroPowerVisitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class HunterPower extends HeroPower{
@@ -12,8 +13,8 @@ public class HunterPower extends HeroPower{
 	}
 
 
-	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy) {
-		if(super.accept(v, target, me, enemy))
+	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy, Mapper mapper) {
+		if(super.accept(v, target, me, enemy, mapper))
 			return v.visitHunterPower(target, me, enemy);
 		return false;
 	}

@@ -1,7 +1,8 @@
 package interfaces;
 
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public interface Acceptable {
-public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP);
+boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper);
 }

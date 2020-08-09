@@ -52,8 +52,9 @@ public class MessageHandler {
 		case "COLLECTIONERROR":
 			controller.collectioError(message);
 			break;
-			
-			
+		case "PLAYERROR":
+			controller.playError(message);
+			break;
 			
 			
 			

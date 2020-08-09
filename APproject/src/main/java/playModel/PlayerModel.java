@@ -3,12 +3,9 @@ package playModel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import Cardspackage.Card;
-import Cardspackage.Minion;
 import Cardspackage.Weapon;
 import game.Deck;
-import game.ExportVisitor;
 import hero.Heros;
-import interfaces.Acceptable;
 import interfaces.Visitor;
 import passives.Passive;
 
@@ -18,8 +15,6 @@ public class PlayerModel {
 	private int currentgem=1;
 	private int previosgem=1;
 	private Quest quest;
-	
-
 	private int Changes=0;
 	private Weapon Weapon;
 	private ArrayList<Card> Hand;
@@ -31,7 +26,6 @@ public class PlayerModel {
 	public Passive getPassive() {
 		return passive;
 	}
-
 	public void setPassive(Passive passive) {
 		this.passive = passive;
 	}
@@ -114,11 +108,11 @@ public class PlayerModel {
 	public void setBattleGroundCard(LinkedList<Card> battleGroundCard) {
 		this.battleGroundCard = battleGroundCard;
 	}
-	public void checkCard(PlayerModel enemy, Visitor v) {
+	public void checkCard(PlayerModel enemy, Visitor v, Mapper mapper) {
 			for (int i = 0; i < 7; i++) {
 			if(battleGroundCard.get(i)!= null) {
 				if(battleGroundCard.get(i).getHp()<=0) {
-					battleGroundCard.get(i).accept(v, null,this, enemy);
+					battleGroundCard.get(i).accept(v, null,this, enemy,mapper);
 					getBattleGroundCard().remove(i);
 					getBattleGroundCard().add(i, null);									
 				}

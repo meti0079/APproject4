@@ -10,14 +10,18 @@ import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
 import client.grapic.MenuPanel;
+import client.grapic.PlayShow;
 import client.grapic.SettingPanel;
 import client.grapic.Shop;
+import client.grapic.StartPlayShow;
 import client.grapic.Statos;
 import client.model.User;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.CollectionNeed;
+import gameModel.requestAndREsponse.SaveAndExitRequest;
 import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StatosNeeds;
+import gameModel.requestAndREsponse.gameNeed;
 public class Controller {
 
 	private static Controller controller;
@@ -30,8 +34,13 @@ public class Controller {
 	private Statos statos;
 	private SettingPanel settingPanel;
 	private CollectionPanel collectionPanel;
-
-
+	private StartPlayShow playShow;
+	private PlayShow playPanel;
+	private gameNeed gameNeed;
+	
+	
+	
+	
 	private Controller() {
 		try {
 			gson=new GsonBuilder().setLenient().create();
@@ -43,7 +52,7 @@ public class Controller {
 			statos=new Statos();
 			settingPanel=new SettingPanel();
 			collectionPanel=new CollectionPanel();
-
+			playShow=new StartPlayShow();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,7 +75,14 @@ public class Controller {
 		case "COLLECTION":
 			frame.ChangePanel(collectionPanel);
 			break;
+		case "PLAYSTART":
+			frame.ChangePanel(playShow);
+			break;
 
+			
+			
+			
+			
 		default:
 			break;
 		}	
@@ -119,7 +135,6 @@ public class Controller {
 		StringReader stringReader=new StringReader(message+" ");
 		user=gson.fromJson(new JsonReader(stringReader), User.class);
 	}
-
 	public void shopNeed(String message) {
 		ShopNeeds sh=gson.fromJson(message, ShopNeeds.class);
 		shop.setMyCards(sh.getCards());
@@ -139,19 +154,14 @@ public class Controller {
 		default:
 			break;
 		}
-
-
 	}
-
 	public void sellError(String message) {
 		JOptionPane.showMessageDialog(shop, message);
 	}
-
 	public void statosNeed(String message) {
 		StatosNeeds needs=gson.fromJson(message, StatosNeeds.class);
 		statos.setDecks(needs.getDeck());	
 	}
-
 	public void collectionNeed(String message) {
 		CollectionNeed need=gson.fromJson(message, CollectionNeed.class);
 		collectionPanel.setHave(need.getHave());
@@ -163,7 +173,6 @@ public class Controller {
 		collectionPanel.setHeros(need.getHero());
 		collectionPanel.updatePanel();
 	}
-
 	public void deckChange(String message) {
 		ChangInDeckResponse response=gson.fromJson(message, ChangInDeckResponse.class);
 		collectionPanel.setDeck(response.getDeck());
@@ -171,9 +180,18 @@ public class Controller {
 		collectionPanel.setEnemyDeck(response.getEnemydeck());
 		collectionPanel.updatePanel();
 	}
-
 	public void collectioError(String message) {
 		JOptionPane.showMessageDialog(collectionPanel, message);
-
+	}
+	public void playError(String message) {
+	int x=	JOptionPane.showConfirmDialog(menuPanel, message);
+		if(x==JOptionPane.OK_OPTION) {
+			try {
+				String 	message1= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
+				Client.WriteMessage(message1);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 }

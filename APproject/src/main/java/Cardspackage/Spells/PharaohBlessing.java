@@ -6,6 +6,7 @@ import Cardspackage.Spell;
 import hero.Heros;
 import interfaces.Acceptable;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class PharaohBlessing extends Spell implements Acceptable{
@@ -21,7 +22,7 @@ public class PharaohBlessing extends Spell implements Acceptable{
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
 		if(taeget==null || taeget instanceof Heros || targetP.getBattleGroundCard().contains(taeget) ) {
 			JOptionPane.showMessageDialog(null, "chose a valid target");			
 			return false;

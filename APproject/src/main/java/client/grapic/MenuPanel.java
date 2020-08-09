@@ -173,19 +173,8 @@ public class MenuPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {				
-					if(game.getPlayer().getMyDeck().getDeck().size()==15) {
-						log.log(game.getPlayer().get_name(), "go to play", "");
-//						StartPlayShow p = new StartPlayShow((MainFrame)frame);
-//						p.setPreferredSize(new Dimension(1800,1000));
-//						frame.ChangePanel(p);
-					}else {
-						int j=JOptionPane.showConfirmDialog(null, "you dont have a good deck!!! edit or change this.", "deck not full", JOptionPane.ERROR_MESSAGE);
-						log.log(game.getPlayer().get_name(), "error", "deck has problem");
-						if(j==JOptionPane.OK_OPTION) {
-//							CollectionPanel c=new CollectionPanel((MainFrame)frame);
-//							frame.ChangePanel(c);
-						}
-					}
+				String 	message= "GOPLAY>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
+				Client.WriteMessage(message);
 				} catch (Exception e1) {
 					System.out.println("cant go play");
 					e1.printStackTrace();

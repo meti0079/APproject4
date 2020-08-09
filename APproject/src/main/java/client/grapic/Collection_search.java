@@ -13,9 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import com.google.gson.Gson;
-
 import client.Client;
 import client.Controller;
 import client.listeners.LockCardListener;
@@ -33,8 +31,7 @@ public class Collection_search extends JPanel{
 	private ArrayList<JLabel> current;
 	private CollectionPanel p;
 
-
-	public Collection_search(  CollectionPanel p) throws Exception {
+	public Collection_search(CollectionPanel p) throws Exception {
 		this.p=p;
 		initial();
 		initialButtons();
@@ -78,7 +75,6 @@ public class Collection_search extends JPanel{
 		for(Card s2 : findManaCard(x,p.dontHave)) {
 			initialLockCardLable(s2);		
 		}
-
 	}
 	private void setCard(String text) throws IOException {
 		for(int i=current.size()-1;i>=0;i--) {

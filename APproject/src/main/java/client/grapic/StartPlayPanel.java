@@ -9,22 +9,19 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import game.Gamestate;
-import game.Logger;
-
+import com.google.gson.Gson;
+import client.Client;
+import client.Controller;
+import gameModel.requestAndREsponse.StartMatchRequest;
 
 public class StartPlayPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	private Gamestate game;
 	private JButton go;
-	private Logger log;
+	String state;
 	private void initial() throws Exception {
 		setLayout(null);
 		setPreferredSize(new Dimension(1800, 900));
-		game=Gamestate.getinsist();
-		log=Logger.getinsist();	
 	}
 	public StartPlayPanel() throws Exception {
 		initial();
@@ -51,12 +48,11 @@ public class StartPlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-						log.log(game.getPlayer().get_name(), "go to play game", "");
-//						PlayShow p= new PlayShow((MainFrame)f);
-//						f.ChangePanel(p);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}	
+					String message="STARTMATCH>>"+new Gson().toJson(new StartMatchRequest(Controller.getInsist().getUser().getTocken(),state))+"#";
+					Client.WriteMessage(message);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}	
 			}
 		});
 		go.setEnabled(false);
@@ -69,8 +65,8 @@ public class StartPlayPanel extends JPanel{
 		b.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.setState("enemy");
-				go.setEnabled(true);
+				state="training";
+				go.setEnabled(true);	
 			}
 		});
 		add(b);
@@ -81,8 +77,8 @@ public class StartPlayPanel extends JPanel{
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.setState("Deck");
-				go.setEnabled(true);	
+				state="deckreader";
+				go.setEnabled(true);
 			}
 		});
 		add(b);
@@ -93,10 +89,10 @@ public class StartPlayPanel extends JPanel{
 		b.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				game.setState("computer");
-				go.setEnabled(true);			}
+				state="computer";
+				go.setEnabled(true);			
+			}
 		});
 		add(b);
 	}
-
 }

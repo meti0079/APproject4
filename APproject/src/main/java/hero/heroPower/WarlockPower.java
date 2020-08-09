@@ -1,6 +1,7 @@
 package hero.heroPower;
 
 import interfaces.HeroPowerVisitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class WarlockPower extends HeroPower{
@@ -11,9 +12,9 @@ public class WarlockPower extends HeroPower{
 		this.setUsed(false);
 	}
 
-	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy) {
+	public boolean accept(HeroPowerVisitor v, Object target, PlayerModel me, PlayerModel enemy, Mapper mapper) {
 
-		if(super.accept(v, target, me, enemy))
+		if(super.accept(v, target, me, enemy, mapper))
 			return v.visitWarlockPower(target, me, enemy);
 		return false;
 	}

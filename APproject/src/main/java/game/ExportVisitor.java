@@ -53,13 +53,22 @@ import interfaces.Visitor;
 import playModel.Mapper;
 import playModel.PlayerModel;
 import playModel.Quest;
+import server.User;
 
 public class ExportVisitor implements Visitor{
 
 
 	private DeckReader d;
-	public ExportVisitor() {
+	Mapper mapper;
+	String state;
+	User user1;
+	User user2;
+	public ExportVisitor(Mapper mapper, String state, User user1, User user2) {
 		d= new DeckReader();
+		this.mapper=mapper;
+		this.state=state;
+		this.user1=user1;
+		this.user2=user2;
 	}
 
 
@@ -74,17 +83,12 @@ public class ExportVisitor implements Visitor{
 	public void visitStrengthinNumbers(StrengthinNumbers m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		try {
 			if(attackerP.getHand().contains(m)) {
-				if(Gamestate.getinsist().getState().equalsIgnoreCase("enemy")) {
 					for(int i=0;i<attackerP.getDecksize();i++) {
 						if(attackerP.getDeck().get(i) instanceof Minion) {
 							attackerP.setQuest(new Quest(attackerP.getDeck().get(i), 10, "minion"));						
 							return;					
 						}
 					}
-				}else {
-					attackerP.setQuest(new Quest(d.find("Security Rover"), 10, "minion"));
-					return;					
-				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,7 +127,7 @@ public class ExportVisitor implements Visitor{
 		try {
 			for(int i=0;i<3;i++) {
 				handledeck(attackerP, targetP);
-				Mapper.getinsist().addToHand(attackerP, targetP, this);
+				mapper.addToHand(attackerP, targetP,state);
 				if(attackerP.getHand().get(attackerP.getHand().size()-1) instanceof Spell)
 					attackerP.getHand().remove(attackerP.getHand().size()-1);
 			}
@@ -156,7 +160,7 @@ public class ExportVisitor implements Visitor{
 		try {
 			for (int i = 0; i < 4; i++) {
 				handledeck(attackerP, targetP);
-				Mapper.getinsist().addToHand(attackerP, targetP, this);				
+				mapper.addToHand(attackerP, targetP, state);				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -166,9 +170,9 @@ public class ExportVisitor implements Visitor{
 		if(attackerP.getDeck().size()==0) {
 			if(PlayPanel.getRoundGame()%2==0)
 				if(attackerP.getTurn()==0) {
-					Mapper.getinsist().readDeck(attackerP, targetP);
+					mapper.readDeck(attackerP, targetP,state,user1,user2);
 				}else {
-					Mapper.getinsist().readDeck(targetP,attackerP);
+					mapper.readDeck(targetP,attackerP,state, user1, user2);
 				}
 		}
 	}
@@ -224,7 +228,7 @@ public class ExportVisitor implements Visitor{
 	public void visitMurlocWarleader(MurlocWarleader m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		try {
 			if(taeget== null)
-				if(Mapper.getinsist().validCard(attackerP, m)) {
+				if(mapper.validCard(attackerP, m)) {
 					for(int i=0;i<7;i++) {
 						if(attackerP.getBattleGroundCard().get(i) instanceof MurlocRaider)
 							attackerP.getBattleGroundCard().get(i).setAttack(attackerP.getBattleGroundCard().get(i).getAttack()+2);
@@ -326,7 +330,7 @@ public class ExportVisitor implements Visitor{
 	public void visitSathrovarr(Sathrovarr m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
 		if(taeget!=null)
 			try {
-				if(attackerP.getHand().contains(m)   && Mapper.getinsist().validCard(attackerP, (Card) taeget)) {
+				if(attackerP.getHand().contains(m)   && mapper.validCard(attackerP, (Card) taeget)) {
 					attackerP.getDeck().add(((Card) taeget).copy());
 					attackerP.getHand().add(((Card) taeget).copy());
 					for (int i = 0; i < 7; i++) {

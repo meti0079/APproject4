@@ -4,16 +4,13 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import Cardspackage.Card;
+import client.model.Card;
 
 public class CardShow extends JPanel  {
 
@@ -34,7 +31,7 @@ public class CardShow extends JPanel  {
 		manaLable();			
 	}
 	private void manaLable() {
-		JLabel manaJLabel=new JLabel(card.get_Mana()+"");	
+		JLabel manaJLabel=new JLabel(card.getMana()+"");	
 		manaJLabel.setBounds(10, 7, 20, 20);
 		manaJLabel.setForeground(Color.WHITE);
 		manaJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -42,10 +39,10 @@ public class CardShow extends JPanel  {
 	}
 	private void readImage() {
 		File input_file ;
-		if(!card.getUsedToAttack() || card.isRush()) {
-			input_file = new File("src\\play image\\"+card.get_Name()+".png"); 
+		if(!card.isUsedToAttack() || card.isRush()) {
+			input_file = new File("src\\play image\\"+card.getName()+".png"); 
 		}else {
-			input_file = new File("src\\play image\\"+card.get_Name()+"1.png"); 			
+			input_file = new File("src\\play image\\"+card.getName()+"1.png"); 			
 		}
 		image = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
@@ -70,7 +67,7 @@ public class CardShow extends JPanel  {
 		add(attackJLabel);
 	}
 	private void setHpLable(Card x) {
-		JLabel hpJLabel=new JLabel(x.getHp()+"");
+		JLabel hpJLabel=new JLabel(x.getHP()+"");
 		hpJLabel.setBounds((this.getWidth()*4)/5, 125, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);
 		hpJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
@@ -85,7 +82,7 @@ public class CardShow extends JPanel  {
 		add(attackJLabel);
 	}
 	private void setDuribalityLable(Card x) {
-		JLabel hpJLabel=new JLabel(x.getHp()+"");
+		JLabel hpJLabel=new JLabel(x.getHP()+"");
 		hpJLabel.setBounds(81, 125, 20, 20);
 		hpJLabel.setForeground(Color.WHITE);
 		hpJLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
