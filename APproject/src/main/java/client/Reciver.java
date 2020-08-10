@@ -26,8 +26,8 @@ public class Reciver extends Thread{
 	private String read(ByteArrayInputStream arrayInputStream) {
 		Scanner scan = new Scanner(arrayInputStream);
 		String message="";
-		while (scan.hasNext()) {
-			message+=scan.next();
+		while (scan.hasNextLine()) {
+			message+=scan.nextLine();
 		}
 		scan.close();
 		return message;

@@ -79,25 +79,6 @@
         }
       },
       {
-        "type": "Cardspackage.Spells.Polymorph",
-        "data": {
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 4,
-          "name": "Polymorph",
-          "use": 0,
-          "rarity": "rare",
-          "cardClass": "Mage",
-          "description": "Transform a minion into a 1/1 Sheep."
-        }
-      },
-      {
         "type": "Cardspackage.Weapons.BattleAxe",
         "data": {
           "durability": 2,
@@ -116,6 +97,25 @@
           "rarity": "Common",
           "cardClass": "Mage",
           "type": "Weapon"
+        }
+      },
+      {
+        "type": "Cardspackage.Spells.Polymorph",
+        "data": {
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": false,
+          "quest": false,
+          "mana": 4,
+          "name": "Polymorph",
+          "use": 0,
+          "rarity": "rare",
+          "cardClass": "Mage",
+          "description": "Transform a minion into a 1/1 Sheep."
         }
       },
       {
@@ -138,24 +138,24 @@
         }
       },
       {
-        "type": "Cardspackage.Minions.MechanicalYeti",
+        "type": "Cardspackage.Minions.Sathrovarr",
         "data": {
-          "HP": 4,
-          "attack": 2,
+          "HP": 5,
+          "attack": 5,
           "usedToAttack": false,
           "windfury": false,
           "taunt": false,
           "divineShield": false,
           "deathrattle": false,
-          "battlecry": false,
+          "battlecry": true,
           "rush": false,
           "quest": false,
-          "mana": 4,
-          "name": "Mechanical Yeti",
+          "mana": 9,
+          "name": "Sathrovarr",
           "use": 0,
-          "rarity": "epic",
+          "rarity": "legendary",
           "cardClass": "Neutral",
-          "description": "",
+          "description": "Battlecry:Choose a friendly minion. Add a copy of it to your hand, deck and battlefield.",
           "type": "Minion"
         }
       },
@@ -179,46 +179,24 @@
         }
       },
       {
-        "type": "Cardspackage.Minions.Gruul",
+        "type": "Cardspackage.Minions.SecurityRover",
         "data": {
-          "HP": 7,
-          "attack": 7,
+          "HP": 6,
+          "attack": 2,
           "usedToAttack": false,
           "windfury": false,
-          "taunt": false,
+          "taunt": true,
           "divineShield": false,
           "deathrattle": false,
           "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 8,
-          "name": "Gruul",
+          "mana": 6,
+          "name": "Security Rover",
           "use": 0,
-          "rarity": "legendary",
+          "rarity": "rare",
           "cardClass": "Neutral",
-          "description": "At the end of each turn, gain +1/+1 .",
-          "type": "Minion"
-        }
-      },
-      {
-        "type": "Cardspackage.Minions.Sandbinder",
-        "data": {
-          "HP": 4,
-          "attack": 2,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": false,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": true,
-          "rush": false,
-          "quest": false,
-          "mana": 4,
-          "name": "Sandbinder",
-          "use": 0,
-          "rarity": "epic",
-          "cardClass": "Neutral",
-          "description": "Battlecry: Draw an Elemental from your deck.",
+          "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
           "type": "Minion"
         }
       },
@@ -244,24 +222,46 @@
         }
       },
       {
-        "type": "Cardspackage.Minions.BigGameHunter",
+        "type": "Cardspackage.Minions.SeaGiant",
         "data": {
-          "HP": 2,
-          "attack": 4,
+          "HP": 8,
+          "attack": 8,
           "usedToAttack": false,
           "windfury": false,
           "taunt": false,
           "divineShield": false,
           "deathrattle": false,
-          "battlecry": true,
+          "battlecry": false,
           "rush": false,
           "quest": false,
-          "mana": 5,
-          "name": "Big Game Hunter",
+          "mana": 10,
+          "name": "Sea Giant",
           "use": 0,
           "rarity": "epic",
           "cardClass": "Neutral",
-          "description": "Battlecry: Destroy a minion with 7 or more Attack.",
+          "description": "Costs (1) less for each other minion on the battlefield.",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.TheBlackKnight",
+        "data": {
+          "HP": 5,
+          "attack": 4,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": true,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": true,
+          "rush": false,
+          "quest": false,
+          "mana": 6,
+          "name": "The Black Knight",
+          "use": 0,
+          "rarity": "legendary",
+          "cardClass": "Neutral",
+          "description": "Battlecry: Destroy an enemy minion with Taunt.",
           "type": "Minion"
         }
       },
@@ -288,28 +288,6 @@
         }
       },
       {
-        "type": "Cardspackage.Minions.SecurityRover",
-        "data": {
-          "HP": 6,
-          "attack": 2,
-          "usedToAttack": false,
-          "windfury": false,
-          "taunt": true,
-          "divineShield": false,
-          "deathrattle": false,
-          "battlecry": false,
-          "rush": false,
-          "quest": false,
-          "mana": 6,
-          "name": "Security Rover",
-          "use": 0,
-          "rarity": "rare",
-          "cardClass": "Neutral",
-          "description": "Whenever this minion takes damage, summon a 2/3 Mech with Taunt.",
-          "type": "Minion"
-        }
-      },
-      {
         "type": "Cardspackage.Minions.TombWarden",
         "data": {
           "HP": 6,
@@ -328,6 +306,27 @@
           "rarity": "common",
           "cardClass": "Neutral",
           "description": "Taunt . Battlecry: Summon a copy of this minion",
+          "type": "Minion"
+        }
+      },
+      {
+        "type": "Cardspackage.Minions.Locust",
+        "data": {
+          "HP": 1,
+          "attack": 1,
+          "usedToAttack": false,
+          "windfury": false,
+          "taunt": false,
+          "divineShield": false,
+          "deathrattle": false,
+          "battlecry": false,
+          "rush": true,
+          "quest": false,
+          "mana": 1,
+          "name": "Locust",
+          "use": 0,
+          "rarity": "common",
+          "cardClass": "Neutral",
           "type": "Minion"
         }
       }

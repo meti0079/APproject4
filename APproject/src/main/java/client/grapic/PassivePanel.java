@@ -22,7 +22,8 @@ public class PassivePanel extends JPanel {
 		setBackground(new Color(0, 0, 0, 0));
 	}
 	private void drawLables(Controller controller) throws Exception {
-		for(int i=0 ;i<3 ; i++) {
+		System.out.println(controller.getGameNeed().getPassive());
+		for(int i=0 ;i<controller.getGameNeed().getPassive().size() ; i++) {
 			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\passiva image\\"+controller.getGameNeed().getPassive().get(i)+".png"));
 			lp1.setBounds(i*300, 0, 300, 400);
 			lp1.addMouseListener(new PassiveListener(this,controller.getGameNeed().getPassive().get(i),controller.getUser().getTocken()));

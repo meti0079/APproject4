@@ -15,7 +15,7 @@ import client.grapic.CardShow;
 import client.grapic.HeroPowerShow;
 import client.grapic.PlayPanel;
 import gameModel.requestAndREsponse.HeroPowerRequest;
-import gameModel.requestAndREsponse.gameNeed;
+import gameModel.requestAndREsponse.GameNeed;
 import hero.heroPower.HeroPower;
 import interfaces.HeroPowerVisitor;
 import interfaces.Visitor;

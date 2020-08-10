@@ -12,8 +12,6 @@ public  abstract class Heros {
 	private String specialPower;
 	private String name;
 	
-	
-	
 	public abstract void accept(HeroVisitor v, PlayerModel p, int d, Card x);
 	public String getname() {
 		return name;

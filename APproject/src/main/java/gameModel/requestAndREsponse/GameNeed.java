@@ -7,7 +7,7 @@ import client.model.Card;
 import hero.Heros;
 import playModel.Quest;
 
-public class gameNeed {
+public class GameNeed {
 	int myDeck;
 	int enemDeck;
 	ArrayList<Card> myHand;
@@ -30,7 +30,7 @@ public class gameNeed {
 	Quest enemyQuest;
 	String battleground;
 	String backCard;
-	public gameNeed(int myDeck, int enemDeck, ArrayList<Card> myHand, ArrayList<Card> enemyHand,
+	public GameNeed(int myDeck, int enemDeck, ArrayList<Card> myHand, ArrayList<Card> enemyHand,
 			LinkedList<Card> myBattlrground, LinkedList<Card> enemyBattleground, Card myWeapon, Card enemyWeapon,
 			Heros myHero, Heros enemyHero, int enemyHandsize, int turnremind, int myMana, int enemyMana, String text,
 			ArrayList<String> passive, String enemyName, int myturn,Quest my,Quest enem, String battleground, String backCard) {

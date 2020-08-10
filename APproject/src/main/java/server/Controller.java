@@ -14,6 +14,7 @@ import com.google.gson.stream.JsonReader;
 
 import client.model.Card;
 import client.model.DeckInfo;
+import game.AbstractAdapter;
 import game.Deck;
 import game.Enemy;
 import game.Gamestate;
@@ -40,6 +41,7 @@ import gameModel.requestAndREsponse.StartMatchRequest;
 import gameModel.requestAndREsponse.StatosNeeds;
 import gameModel.requestAndREsponse.changeCardRequest;
 import hero.Heros;
+import hero.heroPower.HeroPower;
 import playModel.Mapper;
 
 
@@ -57,7 +59,10 @@ public class Controller {
 		try {
 			log= Logger.getinsist();
 			game=new Gamestate();
-			gson= new GsonBuilder().serializeSpecialFloatingPointValues().create();
+			GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+			builder.serializeSpecialFloatingPointValues();
+			builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+			gson= builder.create();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -301,7 +306,7 @@ public class Controller {
 		if(x!=null) {
 			x.setGameState(request.getState());
 			try {
-				if(request.getState().equals("Training")||request.getState().equals("computer")) {
+				if(request.getState().equals("training")||request.getState().equals("computer")) {
 					games.add(new Game(x));
 				}else if(request.getState().equals("deckredear")) {
 					deckReaderWaiting.add(x);
@@ -624,10 +629,12 @@ public class Controller {
 						user.getPlayer().buyaCard(card);
 						log.log(user.getPlayer().get_name(), "buy card ", card.get_Name());
 						String message1="SETSHOPNEED>>"+gson.toJson(new ShopNeeds(makeClientCards(user.getPlayer().get_myCards()), user.getPlayer().getMyStore().getBuyHero(), makeClientCards(user.getPlayer().getMyStore().getBuyCard())))+"#";
-						String message2="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
-						String message3="UPDATE>>SHOP#";
+						String message3="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
+//						String message2="UPDATE>>SHOP#";
+						String message2="CHANGEPANEL>>SHOP#";
 						ServerMain.WriteMessage(message1, packet.getSocketAddress());
 						ServerMain.WriteMessage(message2, packet.getSocketAddress());
+//						ServerMain.WriteMessage(message2, packet.getSocketAddress());	
 						ServerMain.WriteMessage(message3, packet.getSocketAddress());	
 					}else {
 						ServerMain.WriteMessage("SELLERROR>> cant buy hero : "+card.get_Name()+" dont have enogh gem!!!!#", packet.getSocketAddress());
@@ -650,9 +657,10 @@ public class Controller {
 						user.getPlayer().get_myheros().add(x);
 						user.getPlayer().getMyStore().getBuyHero().remove(x);
 						log.log(user.getPlayer().get_name(), "buy hero ", x.getname());
-						String message1="SETSHOPNEED>>"+gson.toJson(new ShopNeeds(makeClientCards(user.getPlayer().get_myCards()), user.getPlayer().getMyStore().getBuyHero(), makeClientCards(user.getPlayer().getMyStore().getBuyCard())))+"#";
-						String message3="UPDATE>>SHOP#";
-						String message2="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
+						String message1="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
+						String message2="SETSHOPNEED>>"+gson.toJson(new ShopNeeds(makeClientCards(user.getPlayer().get_myCards()), user.getPlayer().getMyStore().getBuyHero(), makeClientCards(user.getPlayer().getMyStore().getBuyCard())))+"#";
+//						String message3="UPDATE>>SHOP#";
+						String message3="CHANGEPANEL>>SHOP#";
 						ServerMain.WriteMessage(message1, packet.getSocketAddress());
 						ServerMain.WriteMessage(message2, packet.getSocketAddress());
 						ServerMain.WriteMessage(message3, packet.getSocketAddress());	
@@ -674,9 +682,10 @@ public class Controller {
 				if(card!=null)
 					if(user.getPlayer().sellaCard(card)) {			
 						user.getPlayer().gem+=card.gemCost();
-						String message1="SETSHOPNEED>>"+gson.toJson(new ShopNeeds(makeClientCards(user.getPlayer().get_myCards()), user.getPlayer().getMyStore().getBuyHero(), makeClientCards(user.getPlayer().getMyStore().getBuyCard())))+"#";
-						String message3="UPDATE>>SHOP#";
-						String message2="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
+						String message2="SETSHOPNEED>>"+gson.toJson(new ShopNeeds(makeClientCards(user.getPlayer().get_myCards()), user.getPlayer().getMyStore().getBuyHero(), makeClientCards(user.getPlayer().getMyStore().getBuyCard())))+"#";
+//						String message3="UPDATE>>SHOP#";
+						String message3="CHANGEPANEL>>SHOP#";
+						String message1="SETPLAYER>>"+gson.toJson(new client.model.User(user.getPlayer().get_name(), user.getPlayer().getTocken(), user.getPlayer().gem, user.getPlayer().getCup()))+"#";
 						ServerMain.WriteMessage(message1, packet.getSocketAddress());
 						ServerMain.WriteMessage(message2, packet.getSocketAddress());
 						ServerMain.WriteMessage(message3, packet.getSocketAddress());

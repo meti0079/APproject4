@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import client.model.Card;
-import game.Gamestate;
+import game.AbstractAdapter;
 import game.Logger;
-import gameModel.requestAndREsponse.gameNeed;
+import gameModel.requestAndREsponse.GameNeed;
+import hero.Heros;
+import hero.heroPower.HeroPower;
 import passives.Passive;
 import playModel.Mapper;
 import playModel.PlayerModel;
@@ -22,12 +25,14 @@ public class Game {
 	int round=60;
 	private Logger log;
 	String text;
+	Gson gson;
 	public Game(User user) {
 		try {
+			initialGson();
 			log=Logger.getinsist();
-			mapper=new Mapper(user1.getGameState(),user,user);
 			user1=user;
 			user2=user;
+			mapper=new Mapper(user1.getGameState(),user,user);
 			me=mapper.readMe(user.getGameState(),user);
 			enemy=mapper.readEnemy(user.getGameState(), user);
 			addToHand(1);
@@ -43,10 +48,11 @@ public class Game {
 	}
 	public Game(User user1, User user2) {
 		try {
+			initialGson();
 			log=Logger.getinsist();
-			mapper=new Mapper(user1.getGameState(),user1,user2);
 			this.user1=user1;
 			this.user2=user2;
+			mapper=new Mapper(user1.getGameState(),user1,user2);
 			me=mapper.readMe(user1.getGameState(),user1);
 			enemy=mapper.readEnemy(user2.getGameState(), user2);
 			addToHand(1);
@@ -59,6 +65,12 @@ public class Game {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private void initialGson() {
+		GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		builder.serializeSpecialFloatingPointValues();
+		builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+		gson= builder.create();
 	}
 	public void attack(int i, String cardName, int x, int y) {
 		if(round%2==i) {
@@ -92,14 +104,6 @@ public class Game {
 		}
 	}
 
-
-
-
-
-
-
-
-
 	private void sendGameNeed() {
 		mapper.checkQuest(me);
 		mapper.checkQuest(enemy);
@@ -108,39 +112,40 @@ public class Game {
 		if(enemy.getWeapon()!=null && enemy.getWeapon().getDurability()==0)
 			enemy.setWeapon(null);
 		if(user1.getGameState().equals("online") || user1.getGameState().equals("deckreader")) {
-			gameNeed gameNeed1=new gameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),new ArrayList<>(),
+	
+			GameNeed gameNeed1=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),new ArrayList<>(),
 					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
-					new Card(me.getWeapon().get_Mana(), me.getWeapon().get_Name(), me.getWeapon().get_Rarity(), me.getWeapon().get_Class(), me.getWeapon().getDescription(), me.getWeapon().getType(), me.getWeapon().getAttack(), me.getWeapon().getHp(), me.getWeapon().isRush(), me.getWeapon().getUsedToAttack())
-					, new Card(enemy.getWeapon().get_Mana(), enemy.getWeapon().get_Name(), enemy.getWeapon().get_Rarity(), enemy.getWeapon().get_Class(), enemy.getWeapon().getDescription(), enemy.getWeapon().getType(), enemy.getWeapon().getAttack(), enemy.getWeapon().getHp(), enemy.getWeapon().isRush(), enemy.getWeapon().getUsedToAttack())
-					, me.getHero(),
+					mekeACard(me.getWeapon())
+					,mekeACard(enemy.getWeapon()),
+					me.getHero(),
 					enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
 					text, passives(), enemy.getName(),me.getTurn(),me.getQuest(),enemy.getQuest(), user1.getBackBattleGround(),user1.getBackCard());
 
-			gameNeed gameNeed2=new gameNeed(enemy.getDecksize(), me.getDecksize(),makeClientCards( enemy.getHand()),new ArrayList<>(),
+			GameNeed gameNeed2=new GameNeed(enemy.getDecksize(), me.getDecksize(),makeClientCards( enemy.getHand()),new ArrayList<>(),
 					makeClientCards(enemy.getBattleGroundCard()), makeClientCards(me.getBattleGroundCard()),
-					new Card(enemy.getWeapon().get_Mana(), enemy.getWeapon().get_Name(), enemy.getWeapon().get_Rarity(), enemy.getWeapon().get_Class(), enemy.getWeapon().getDescription(), enemy.getWeapon().getType(), enemy.getWeapon().getAttack(), enemy.getWeapon().getHp(), enemy.getWeapon().isRush(), enemy.getWeapon().getUsedToAttack())
-					, new Card(me.getWeapon().get_Mana(), me.getWeapon().get_Name(), me.getWeapon().get_Rarity(), me.getWeapon().get_Class(),me.getWeapon().getDescription(), me.getWeapon().getType(), me.getWeapon().getAttack(), me.getWeapon().getHp(), me.getWeapon().isRush(), me.getWeapon().getUsedToAttack())
+					mekeACard(enemy.getWeapon()),
+					mekeACard(me.getWeapon())
 					, enemy.getHero(),
 					me.getHero(), me.getHand().size(), round, enemy.getCurrentgem(), me.getCurrentgem(),
 					text, passives(), me.getName(),enemy.getTurn(),enemy.getQuest(),me.getQuest(),user2.getBackBattleGround(),user2.getBackCard());
 
-			String message1="SETGAMENEED>>"+new Gson().toJson(gameNeed1)+"#";
-			String message2="SETGAMENEED>>"+new Gson().toJson(gameNeed2)+"#";
+			String message1="SETGAMENEED>>"+gson.toJson(gameNeed1)+"#";
+			String message2="SETGAMENEED>>"+gson.toJson(gameNeed2)+"#";
 			try {
 				ServerMain.WriteMessage(message1, user1.getAddress());
-				ServerMain.WriteMessage(message2, user1.getAddress());
+				ServerMain.WriteMessage(message2, user2.getAddress());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 		}else {
-			gameNeed gameNeed=new gameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),makeClientCards( enemy.getHand()),
+			GameNeed gameNeed=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),makeClientCards( enemy.getHand()),
 					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
-					new Card(me.getWeapon().get_Mana(), me.getWeapon().get_Name(), me.getWeapon().get_Rarity(), me.getWeapon().get_Class(), me.getWeapon().getDescription(), me.getWeapon().getType(), me.getWeapon().getAttack(), me.getWeapon().getHp(), me.getWeapon().isRush(), me.getWeapon().getUsedToAttack())
-					, new Card(enemy.getWeapon().get_Mana(), enemy.getWeapon().get_Name(), enemy.getWeapon().get_Rarity(), enemy.getWeapon().get_Class(), enemy.getWeapon().getDescription(), enemy.getWeapon().getType(), enemy.getWeapon().getAttack(), enemy.getWeapon().getHp(), enemy.getWeapon().isRush(), enemy.getWeapon().getUsedToAttack())
-					, me.getHero(),	enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
+					mekeACard(me.getWeapon())
+					,mekeACard(enemy.getWeapon()), me.getHero(),	enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
 					text, passives(), enemy.getName(),me.getTurn(),me.getQuest(),enemy.getQuest(),user1.getBackBattleGround(),user1.getBackCard());
-			String message1="SETGAMENEED>>"+new Gson().toJson(gameNeed)+"#";
+			String message1="SETGAMENEED>>"+gson.toJson(gameNeed)+"#";
+			me.setTurn((me.getTurn()+1)%2);
 			try {
 				ServerMain.WriteMessage(message1, user1.getAddress());
 			} catch (IOException e) {	e.printStackTrace();
@@ -151,7 +156,7 @@ public class Game {
 		ArrayList<String> passives=new ArrayList<>(); 
 		ArrayList<Integer > a=new ArrayList<>();
 		if(round==60  || round==59)
-			while (a.size()!=3) {
+			while (a.size()<4) {
 				int x=(new Random().nextInt(9));
 				if(!a.contains(x)&&x>=0&&x<=9)
 					passives.add(mapper.getAllPassives().get(x).getName());
@@ -160,6 +165,8 @@ public class Game {
 		return passives;
 	}
 	protected void nextTurn(int turn) throws Exception {
+		System.out.println(turn);
+		System.out.println(round);
 		if(round%2==turn) {
 			if(round==60) {
 				firstRound();
@@ -178,6 +185,7 @@ public class Game {
 			}
 			round--;
 			mapper.manaSet(round,me, enemy);
+			System.out.println(round);
 			sendGameNeed();
 		}
 	}
@@ -209,46 +217,6 @@ public class Game {
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	public void handleHeroPower(int i, int x, int y) {
@@ -307,6 +275,14 @@ public class Game {
 		}
 		return c;
 	}
+	private Card mekeACard(Cardspackage.Card card) {
+		if(card ==null) {
+			return null;
+		}else {
+			return new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp(),card.isRush(),card.getUsedToAttack());
+
+		}
+	}
 	private LinkedList<Card> makeClientCards(LinkedList<Cardspackage.Card> cards){
 		LinkedList<Card> c=new LinkedList<>();
 		for (int i=0;i<7;i++) {
@@ -351,7 +327,6 @@ public class Game {
 	}
 	public void changCard(int i, String cardName) {
 		if(round%2==i) {
-
 			if (i==0 && me.getChanges()<3) {
 				mapper.changeCartAtFirst(me, findCard(cardName, me.getHand()));
 				sendGameNeed();

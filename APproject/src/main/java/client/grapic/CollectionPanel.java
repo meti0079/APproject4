@@ -154,7 +154,7 @@ Controller controller;
 	}	
 	public void setdeck() {
 		removeDeckLablesFromPanel();
-		for(Card s : deck) {			
+		for(Card s : deck) {
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
 			lp.addMouseListener( new MyDeckListener(s, controller.getUser().getTocken()));
 			myDeckPanel.add(lp);
@@ -163,7 +163,7 @@ Controller controller;
 	}
 	public void setEnemyDeck(){
 		removeEnemyLablesFromPanel();
-		for(Card s : enemyDeck) {			
+		for(Card s : enemyDeck) {
 			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
 			lp.addMouseListener( new EnemyDeckListener(s, controller.getUser().getTocken()));
 			enemyDeckPanel.add(lp);

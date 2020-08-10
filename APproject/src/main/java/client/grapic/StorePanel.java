@@ -16,7 +16,7 @@ public class StorePanel  extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<JLabel> current=new ArrayList<>();
-	private ArrayList<Card> buyCard;
+//	private ArrayList<Card> buyCard;
 	
 	Controller controller;
 	public StorePanel(Controller controller) throws Exception {
@@ -31,7 +31,7 @@ public class StorePanel  extends JPanel{
 	private void setBackGround(Graphics g) {
 		g.drawImage(new ImageIcon("8.jpg").getImage(), 0, 0, null);		
 	}
-	public void updatePanel() {
+	public void updatePanel(ArrayList<Card> buyCard) {
 		removeLables();
 		for(Card s:buyCard) {
 			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png");
@@ -40,31 +40,30 @@ public class StorePanel  extends JPanel{
 			add(lb1);
 			current.add(lb1);
 		}
+		repaint();
+		revalidate();
 	}
 	private void initial() throws Exception {
 		setPreferredSize(new Dimension(1800, 2000));
 		setBackground(Color.BLUE);
 	}
 	private void removeLables() {
-		int sum= current.size();
-		for (int i = sum-1; i >=0; i--) {
-			remove(current.get(i));
-			current.remove(i);
-		}
+		this.removeAll();
+		current.removeAll(current);
 		repaint();
 		revalidate();
 	}
-	public void update() {
-		updatePanel();
+	public void update(ArrayList<Card> buyCard) {
+		updatePanel(buyCard);
 		repaint();
 		revalidate();
 	}
 
-	public ArrayList<Card> getBuyCard() {
-		return buyCard;
-	}
-
-	public void setBuyCard(ArrayList<Card> buyCard) {
-		this.buyCard = buyCard;
-	}
+//	public ArrayList<Card> getBuyCard() {
+//		return buyCard;
+//	}
+//
+//	public void setBuyCard(ArrayList<Card> buyCard) {
+//		this.buyCard = buyCard;
+//	}
 }

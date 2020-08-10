@@ -1,6 +1,5 @@
 package playModel;
 
-import java.awt.TextArea;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,7 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import Cardspackage.Card;
 import Cardspackage.Weapon;
-import client.grapic.PlayPanel;
 import game.AbstractAdapter;
 import game.Deck;
 import game.DeckReader;
@@ -322,18 +320,20 @@ public class Mapper {
 		if(state.equals("training") ||state.equals("computer")) {
 			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 0, user.getPlayer().get_name());
 			return x;
-		}else if(state.equals("deckreader")) {
+		}else if(state.equals("deckreader") ) {
 			Deck s=new  Deck();
 			s.setHeroDeck(new Mage());
 			s.setDeck(deckReader.cardFactory("friend"));
 			PlayerModel x= new PlayerModel(s, 0,user.getPlayer().get_name());
 			return x;
-		}else {
-			return null;
-		}
+		}else if( state.equalsIgnoreCase("online")){
+			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 0, user.getPlayer().get_name());
+			return x;
+		}else
+		return null;
 	}
 	private void readFromFile() throws FileNotFoundException {
-		File f1=new File("C:\\Users\\MohammadMehdi\\git\\ApProject3\\ApProject3\\APproject\\src\\main\\deckreader.json");
+		File f1=new File("C:\\Users\\MohammadMehdi\\git\\ApProject3\\ApProject3\\APproject\\src\\main\\java\\main\\deckreader.json");
 		Scanner s=new Scanner(f1);
 		String se="";
 		while(s.hasNext()) {
@@ -355,9 +355,11 @@ public class Mapper {
 			PlayerModel x= new PlayerModel(s, 1, "enemy");
 			x.setPreviosgem(0);
 			return x;
-		}else {
-			return null;
-		}	
+		}else if( state.equalsIgnoreCase("online")){
+			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 0, user.getPlayer().get_name());
+			return x;
+		}else	
+		return null;
 	}
 	public void addUse(Card s, String state, User user) {
 		if(state.equalsIgnoreCase("deckreader") ||state.equalsIgnoreCase("online") )
@@ -399,7 +401,7 @@ public class Mapper {
 		gsonBilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
 		gsonBilder.setPrettyPrinting();
 		Gson gson=gsonBilder.create();		
-		File f3=new File(System.getProperty("user.dir")+"\\src\\passives\\passiveFiles");
+		File f3=new File(System.getProperty("user.dir")+"\\src\\main\\java\\passives\\passiveFiles");
 		File[] dirr3=f3.listFiles();
 		if(dirr3!=null) {
 			for(File ch:dirr3) {

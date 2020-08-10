@@ -31,6 +31,7 @@ public class StartPlayPanel extends JPanel{
 		setEnemyBut();
 		setDeckReaderBut();
 		setComputerBut();
+		setOnlineBut();
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -62,12 +63,25 @@ public class StartPlayPanel extends JPanel{
 	}
 
 	private void setEnemyBut() {
-		JButton b= new JButton("Play with enemy");
+		JButton b= new JButton("training");
 		b.setBounds(280, 200, 300, 100);
 		b.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				state="training";
+				controller.setState(state);
+				go.setEnabled(true);	
+			}
+		});
+		add(b);
+	}
+	private void setOnlineBut() {
+		JButton b= new JButton("online");
+		b.setBounds(280, 400, 300, 100);
+		b.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				state="online";
 				controller.setState(state);
 				go.setEnabled(true);	
 			}

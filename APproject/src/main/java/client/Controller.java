@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 
+import Cardspackage.Card;
 import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
@@ -16,12 +17,15 @@ import client.grapic.Shop;
 import client.grapic.StartPlayShow;
 import client.grapic.Statos;
 import client.model.User;
+import game.AbstractAdapter;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StatosNeeds;
-import gameModel.requestAndREsponse.gameNeed;
+import gameModel.requestAndREsponse.GameNeed;
+import hero.Heros;
+import hero.heroPower.HeroPower;
 public class Controller {
 
 	private MainFrame frame;
@@ -35,7 +39,7 @@ public class Controller {
 	private CollectionPanel collectionPanel;
 	private StartPlayShow playShow;
 	private PlayShow playPanel;
-	private gameNeed gameNeed;
+	private GameNeed gameNeed;
 	private String state;
 
 
@@ -44,7 +48,11 @@ public class Controller {
 
 	public Controller() {
 		try {
-			gson=new GsonBuilder().setLenient().create();
+		GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+		builder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+		builder.setLenient();
+			gson=builder.create();
 			frame=new MainFrame();
 			loginPanel=new LoginPanel();
 			frame.ChangePanel(loginPanel);
@@ -143,21 +151,25 @@ public class Controller {
 		StringReader reader=new StringReader(message);
 		System.out.println(message);
 		ShopNeeds sh=gson.fromJson(new JsonReader(reader), ShopNeeds.class);
-		shop.setMyCards(sh.getCards());
-		shop.setHeros(sh.getBuyHeros());
-		shop.getStorePanel().setBuyCard(sh.getHavenot());
+//		shop.setMyCards(sh.getCards());
+//		shop.setHeros(sh.getBuyHeros());
+//		shop.getStorePanel().setBuyCard(sh.getHavenot());
+		shop.update(sh.getCards(),sh.getBuyHeros(),sh.getHavenot());
+		frame.repaint();
+		frame.revalidate();
 	}
 
 	public void updatePanels(String message) {
 		switch (message) {
-		case "SHOP":
-			shop.update();
-			break;
+//		case "SHOP":
+//			shop.update();
+//			break;
 		case "":
 
 			break;
 
 		default:
+			System.out.println(message);
 			break;
 		}
 	}
@@ -201,13 +213,14 @@ public class Controller {
 		}
 	}
 	public void setGameNeed(String message) {
-		gameNeed=gson.fromJson(message, gameNeed.getClass());
+		gameNeed=gson.fromJson(message, GameNeed.class);
 		playPanel.update(gameNeed.getText());
+		frame.ChangePanel(playPanel);
 	}
 	public void attackError(String message) {
 		JOptionPane.showMessageDialog(playPanel, message);	
 	}
-	public gameNeed getGameNeed() {
+	public GameNeed getGameNeed() {
 		return gameNeed;
 	}	
 	public String getState() {

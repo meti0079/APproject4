@@ -20,12 +20,14 @@ public class Shop extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private InfoPanel inf;
 	private ArrayList<JLabel> current=new ArrayList<>();
-	private ArrayList<Card> myCards;
-	private ArrayList<Heros> heros;
+//	private ArrayList<Card> myCards;
+//	private ArrayList<Heros> heros;
 	StorePanel storePanel;
 	Collection_herospanel hero;
 	Collection_herospanel sell;
 	Controller controller;
+	
+	JScrollPane sellPanel;
 	public StorePanel getStorePanel() {
 		return storePanel;
 	}
@@ -34,13 +36,13 @@ public class Shop extends JPanel{
 		this.storePanel = storePanel;
 	}
 
-	public void setHeros(ArrayList<Heros> heros) {
-		this.heros = heros;
-	}
-
-	public void setMyCards(ArrayList<Card> myCards) {
-		this.myCards = myCards;
-	}
+//	public void setHeros(ArrayList<Heros> heros) {
+//		this.heros = heros;
+//	}
+//
+//	public void setMyCards(ArrayList<Card> myCards) {
+//		this.myCards = myCards;
+//	}
 
 	private void initial() {
 		setLayout(null);
@@ -50,7 +52,7 @@ public class Shop extends JPanel{
 	private void makePanels() throws Exception {
 		sell= new Collection_herospanel("sell");
 		sell.setPreferredSize(new Dimension(1800, 2000));
-		JScrollPane sellPanel=new JScrollPane(sell);
+		 sellPanel=new JScrollPane(sell);
 		storePanel=new StorePanel(controller);
 		storePanel.setBounds(0, 100, 1800, 900);
 		JScrollPane buyPanel=new JScrollPane(storePanel);
@@ -71,28 +73,28 @@ public class Shop extends JPanel{
 		makePanels();
 	}
 	private void removeLables(JPanel x) {
-		int sum= current.size();
-		for (int i = sum-1; i >=0; i--) {
-			x.remove(current.get(i));
-			current.remove(i);
-			x.repaint();
-			x.revalidate();
-		}
+		x.removeAll();
+		current.removeAll(current);
+//		int sum= current.size();
+//		for (int i = sum-1; i >=0; i--) {
+//			x.remove(current.get(i));
+//			current.remove(i);
+//		}
+//		x.repaint();
+//		x.revalidate();
 	}
-	public void setCard() {
+	public void setCard(ArrayList<Card> myCards) {
 		removeLables(sell);
 		for(Card s:myCards) {
-			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\main\\java\\card image\\"+s.getName()+".png");
+			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png");
 			final	JLabel lb1=new JLabel(icon);
 			lb1.addMouseListener(new SellCardListener(s, controller.getUser().getTocken()));		 
 			sell.add(lb1);	
 			current.add(lb1);
 		}
-		sell.repaint();
-		sell.revalidate();
 	}
 
-	public void setHero() {
+	public void setHero(ArrayList<Heros> heros) {
 		hero.removeAll();
 		for(Heros s:heros) {
 			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\play image\\"+s.getname()+".png");
@@ -100,15 +102,15 @@ public class Shop extends JPanel{
 			lb1.addMouseListener(new HeroBuyListener(s, controller.getUser().getTocken()));		
 			hero.add(lb1);
 		}
-		hero.repaint();
-		hero.revalidate();
 	}
-	public void update() {
+	public void update(ArrayList<Card > myCards, ArrayList<Heros > heros, ArrayList<Card> buyCard) {
 		inf.repaint();
-		setCard();
-		setHero();
-		storePanel.update();
+		inf.revalidate();
+		setCard(myCards);
+		setHero(heros);
+		storePanel.update(buyCard);
 		repaint();
 		revalidate();
+
 	}
 }

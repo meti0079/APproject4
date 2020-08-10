@@ -83,10 +83,10 @@ public class PlayPanel extends JPanel{
 	}
 	private void setCard() {
 		setQuest();
-		removeHeroPowers();
+//		removeHeroPowers();
 		drawHeroPower();
 		removeLables();
-		removeHeros();
+//		removeHeros();
 		addPlayerWeapon();
 		setMyHandCard();
 		setMyBattleGroundCard();
@@ -98,6 +98,10 @@ public class PlayPanel extends JPanel{
 	}
 
 	private void drawHeroPower() {
+		for (int i = 0; i < heroPowers.size(); i++) {
+			remove(heroPowers.get(i));
+		}
+		heroPowers.removeAll(heroPowers);
 		HeroPowerShow x= new HeroPowerShow(controller.getGameNeed().getMyHero());
 		x.setBounds(828, 700, 150, 150);
 		x.addMouseListener(new HeroPowerListener (controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken()));
@@ -112,6 +116,10 @@ public class PlayPanel extends JPanel{
 		heroPowers.add(x1);
 	}
 	private void drawHero() {
+		for (int i = 0; i < heros.size(); i++) {
+			remove(heros.get(i));
+		}
+		heros.removeAll(heros);
 		HeroShow x1= new HeroShow(controller.getGameNeed().getMyHero());
 		x1.setBounds(658, 660, 190, 200);
 		add(x1);
@@ -121,16 +129,16 @@ public class PlayPanel extends JPanel{
 		add(x2);
 		heros.add(x2);
 	}
-	private void removeHeroPowers() {
-		for(int i=0;i<2;i++)
-			remove(heroPowers.get(i));
-		heroPowers.removeAll(heroPowers);
-	}
-	private void removeHeros() {
-		for(int i=0;i<2;i++)
-			remove(heros.get(i));
-		heros.removeAll(heros);
-	}
+//	private void removeHeroPowers() {
+//		for(int i=0;i<2;i++)
+//			remove(heroPowers.get(i));
+//		heroPowers.removeAll(heroPowers);
+//	}
+//	private void removeHeros() {
+//		for(int i=0;i<2;i++)
+//			remove(heros.get(i));
+//		heros.removeAll(heros);
+//	}
 
 	public void updatePanel() {
 		try {
@@ -138,8 +146,6 @@ public class PlayPanel extends JPanel{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		drawHero();
-		drawHeroPower();
 		setCard();
 		repaint();
 		revalidate();
