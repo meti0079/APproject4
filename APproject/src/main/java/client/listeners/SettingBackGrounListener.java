@@ -11,7 +11,10 @@ import gameModel.requestAndREsponse.ChangeBattlegroundThem;
 
 public class SettingBackGrounListener implements MouseListener {
 	private int s;
-	public SettingBackGrounListener(int s) {
+	int tocken;
+
+	public SettingBackGrounListener(int s, int tocken) {
+		this.tocken=tocken;
 		this.s = s;
 	}
 	@Override
@@ -19,7 +22,7 @@ public class SettingBackGrounListener implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		try {
-			String message="CHANGEBATTLEGROUND>>"+new Gson().toJson(new ChangeBattlegroundThem(Controller.getInsist().getUser().getTocken(), "nattle"+s+".jpg"))+"#";
+			String message="CHANGEBATTLEGROUND>>"+new Gson().toJson(new ChangeBattlegroundThem(tocken, "nattle"+s+".jpg"))+"#";
 			Client.WriteMessage(message);
 		} catch (Exception e) {e.printStackTrace();}
 		JOptionPane.showMessageDialog(null, "choosed");

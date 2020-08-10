@@ -19,13 +19,15 @@ public class StartPlayPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JButton go;
 	String state;
+	Controller controller;
 	private void initial() throws Exception {
 		setLayout(null);
 		setPreferredSize(new Dimension(1800, 900));
 	}
-	public StartPlayPanel() throws Exception {
+	public StartPlayPanel(Controller controller) throws Exception {
 		initial();
 		setGoButton();
+		this.controller=controller;
 		setEnemyBut();
 		setDeckReaderBut();
 		setComputerBut();
@@ -38,7 +40,7 @@ public class StartPlayPanel extends JPanel{
 		g.drawString("Choose a play type !!	", 600, 100);
 	}
 	private void draWBackGround(Graphics g) {
-		ImageIcon image = new ImageIcon("src\\passiva image\\passiva.png"); 
+		ImageIcon image = new ImageIcon("src\\main\\java\\passiva image\\passiva.png"); 
 		g.drawImage(image.getImage(),0,0,null);
 	}
 	private void setGoButton() {
@@ -48,7 +50,7 @@ public class StartPlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					String message="STARTMATCH>>"+new Gson().toJson(new StartMatchRequest(Controller.getInsist().getUser().getTocken(),state))+"#";
+					String message="STARTMATCH>>"+new Gson().toJson(new StartMatchRequest(controller.getUser().getTocken(),state))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,6 +68,7 @@ public class StartPlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				state="training";
+				controller.setState(state);
 				go.setEnabled(true);	
 			}
 		});
@@ -78,6 +81,7 @@ public class StartPlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				state="deckreader";
+				controller.setState(state);
 				go.setEnabled(true);
 			}
 		});
@@ -90,6 +94,7 @@ public class StartPlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				state="computer";
+				controller.setState(state);
 				go.setEnabled(true);			
 			}
 		});

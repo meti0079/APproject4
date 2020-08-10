@@ -168,7 +168,7 @@ public class ExportVisitor implements Visitor{
 	}
 	private void handledeck(PlayerModel attackerP , PlayerModel targetP) throws Exception {
 		if(attackerP.getDeck().size()==0) {
-			if(PlayPanel.getRoundGame()%2==0)
+//			if(PlayPanel.getRoundGame()%2==0)
 				if(attackerP.getTurn()==0) {
 					mapper.readDeck(attackerP, targetP,state,user1,user2);
 				}else {
@@ -244,8 +244,8 @@ public class ExportVisitor implements Visitor{
 		if(targetP.getBattleGroundCard().contains(m) && attackerP.getHand().contains(taeget)) {
 			((Minion) taeget).setHp(((Minion) taeget).getHp()-m.getAttack());
 			m.setHp(m.getHp()-((Minion) taeget).getAttack());	
-			attackerP.checkCard(targetP,this);
-			targetP.checkCard(attackerP, this);
+			attackerP.checkCard(targetP,this,mapper);
+			targetP.checkCard(attackerP, this, mapper);
 		}
 		if(attackerP.getHand().contains(m))
 			m.setUsedToAttack(false);
@@ -285,8 +285,8 @@ public class ExportVisitor implements Visitor{
 					for(int i =0 ;i<7;i++)
 						if(targetP.getBattleGroundCard().get(i)!=null)
 							targetP.getBattleGroundCard().get(i).setHp(targetP.getBattleGroundCard().get(i).getHp()-1);			
-					attackerP.checkCard(targetP,this);
-					targetP.checkCard(attackerP, this);
+					attackerP.checkCard(targetP,this, mapper);
+					targetP.checkCard(attackerP, this, mapper);
 				}
 	}
 	@Override

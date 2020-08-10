@@ -2,6 +2,7 @@ package Cardspackage.Minions;
 
 import Cardspackage.Minion;
 import interfaces.Visitor;
+import playModel.Mapper;
 import playModel.PlayerModel;
 public class SleepyDragon extends Minion{
 	public SleepyDragon() {
@@ -14,8 +15,8 @@ public class SleepyDragon extends Minion{
 	}
 
 	@Override
-	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
+	public boolean accept(Visitor v, Object taeget, PlayerModel attackerP, PlayerModel targetP, Mapper mapper) {
 		v.visitSleepyDragon(this, taeget, attackerP, targetP);
-		return super.accept(v, taeget, attackerP, targetP);
-	}
+		return super.accept(v, taeget, attackerP, targetP,mapper );
+		}
 }

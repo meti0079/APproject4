@@ -2,46 +2,30 @@ package client.grapic;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Panel;
-import java.util.ArrayList;
-import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import client.Controller;
 import client.listeners.PassiveListener;
-import playModel.Mapper;
-import playModel.PlayerModel;
-
 
 public class PassivePanel extends JPanel {
 
 
 	private static final long serialVersionUID = 1L;
-	private PlayerModel p;
-	public PassivePanel(PlayerModel p) throws Exception {
-		this.p=p;
+	public PassivePanel(Controller controller) throws Exception {
 		Initial();
-		drawLables();
+		drawLables(controller);
 	}
 	private void Initial(){
 		setPreferredSize(new Dimension(1000, 500));
 		setLayout(null);
 		setBackground(new Color(0, 0, 0, 0));
 	}
-	private void drawLables() throws Exception {
-		ArrayList<Integer > a=new ArrayList<>();
-		while (a.size()!=3) {
-			int x=(new Random().nextInt(9));
-			if(!a.contains(x)&&x>=0&&x<=9)
-				a.add(x);
-		}
+	private void drawLables(Controller controller) throws Exception {
 		for(int i=0 ;i<3 ; i++) {
-			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\passiva image\\"+Mapper.getinsist().getAllPassives().get(a.get(i)).getName()+".png"));
+			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\passiva image\\"+controller.getGameNeed().getPassive().get(i)+".png"));
 			lp1.setBounds(i*300, 0, 300, 400);
-			lp1.addMouseListener(new PassiveListener(Mapper.getinsist().getAllPassives().get(a.get(i)),p,this));
+			lp1.addMouseListener(new PassiveListener(this,controller.getGameNeed().getPassive().get(i),controller.getUser().getTocken()));
 			add(lp1);
 		}
 	}

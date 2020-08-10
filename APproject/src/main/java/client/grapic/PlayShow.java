@@ -7,14 +7,19 @@ import java.awt.Font;
 import java.awt.TextArea;
 import javax.swing.JPanel;
 
+import client.Controller;
+
 public class PlayShow extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	TextArea text;
-	public PlayShow(MainFrame f) throws Exception {
+	PlayPanel p;
+	Controller controller;
+	public PlayShow(Controller controller) throws Exception {
 	initial();
+	this.controller=controller;
 	setTextArea();
-	setPlayPanel(f);
+	setPlayPanel();
 	}
 	private void initial() {
 		setLayout(new BorderLayout());
@@ -28,8 +33,12 @@ public class PlayShow extends JPanel{
 		text.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(text,BorderLayout.WEST);
 	}
-	private void setPlayPanel(MainFrame f) throws Exception {
-		PlayPanel p=new PlayPanel(f, text);
+	private void setPlayPanel() throws Exception {
+		 p=new PlayPanel( text, controller);
 		add(p,BorderLayout.CENTER);
+	}
+	public void update(String text1) {
+		text.setText(text1);
+		p.updatePanel();
 	}
 }

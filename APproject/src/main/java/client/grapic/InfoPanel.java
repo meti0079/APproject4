@@ -24,21 +24,17 @@ import gameModel.requestAndREsponse.SaveAndExitRequest;
 public class InfoPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	public static InfoPanel inf;
-	private InfoPanel() throws Exception {
+	Controller controller;
+	public InfoPanel(Controller controller) throws Exception {
 		initial();
+		this.controller=controller;
 		setBackButton();
 		setExitButton();
 	}
-	public static InfoPanel getinsist() throws Exception {
-		if(inf==null)
-			inf=new InfoPanel();
-		return inf;
-	}	
 	private void setExitButton() {
 		JButton b1= new JButton();
 		b1.setBounds(1700, 15, 70, 70);
-		b1.setIcon(new ImageIcon("src\\button image\\exit.jpg") );
+		b1.setIcon(new ImageIcon("src\\main\\java\\button image\\exit.jpg") );
 		b1.setContentAreaFilled(false);
 		b1.setBorder(BorderFactory.createEmptyBorder());
 		b1.addActionListener(new ActionListener() {
@@ -47,7 +43,7 @@ public class InfoPanel extends JPanel{
 				try {
 					int j=JOptionPane.showConfirmDialog(null, "Do you want realy Exit", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
-					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(Controller.getInsist().getUser().getTocken()))+"#";
+					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 					System.exit(0);
 					}
@@ -69,7 +65,7 @@ public class InfoPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String 	message= "GOMENU>>"+new Gson().toJson(new SaveAndExitRequest(Controller.getInsist().getUser().getTocken()))+"#";
+					String 	message= "GOMENU>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -90,9 +86,9 @@ public class InfoPanel extends JPanel{
 	private void drawInfoInPanel(Graphics g) {
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));
 		g.setColor(Color.WHITE);
-		g.drawString("Name : "+Controller.getInsist().getUser().getName(), 50, 60);
-		g.drawString("Gem       : "+Controller.getInsist().getUser().getGem(), 400, 60);
-		g.drawString("Cup       : "+Controller.getInsist().getUser().getCup(), 600, 60);
+		g.drawString("Name : "+  controller.getUser().getName(), 50, 60);
+		g.drawString("Gem       : "+controller.getUser().getGem(), 400, 60);
+		g.drawString("Cup       : "+controller.getUser().getCup(), 1000, 60);
 		g.drawImage(new ImageIcon("src\\button image\\gems.png").getImage(), 700, 20, null	);
 	}
 	private void initial() throws Exception {

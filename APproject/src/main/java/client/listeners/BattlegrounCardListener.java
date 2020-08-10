@@ -1,40 +1,39 @@
 package client.listeners;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
 import javax.swing.JOptionPane;
 
-import Cardspackage.Card;
+import com.google.gson.Gson;
+
 import Cardspackage.Minion;
+import client.Client;
+import client.Controller;
 import client.grapic.CardShow;
 import client.grapic.PlayPanel;
 import client.grapic.ShowCardBigger;
-import game.Gamestate;
-import game.Logger;
+import client.model.Card;
+import gameModel.requestAndREsponse.AttackRequest;
 import interfaces.Visitor;
 import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class BattlegrounCardListener implements MouseListener,MouseMotionListener{
-
-	private PlayPanel panel;
 	private Card card;
 	private CardShow x;
-	private PlayerModel me;
-	private PlayerModel enemy;
-	private Visitor v;
 	ShowCardBigger sho;
-	public  BattlegrounCardListener(PlayPanel panel,Card card, CardShow x, PlayerModel me, PlayerModel enemy, Visitor v) {
-		this.panel=panel;
+	int round;
+	int turn;
+	int tocken;
+	public  BattlegrounCardListener(Card card, CardShow x, int round, int turn,int tocken) {
+		this.tocken=tocken;
 		this.card=card;
 		this.x=x;
-		this.me=me;
-		this.enemy=enemy;
-		this.v=v;
+		this.round=round;
+		this.turn=turn;
 		sho =new ShowCardBigger(card);
 		sho.setBounds(650, 350, 200, 300);
-		panel.add(sho);
 		sho.setVisible(false);
 	}
 	@Override
@@ -55,26 +54,18 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		sho.setVisible(false);
-		if(card.getUsedToAttack() ==false || (card).isRush()) {
-		try {
-			if(Mapper.getinsist().handleAttack(me, enemy, v, x.getX(), x.getY(), card)) {
-				String 	ss=me.getName()+"     played   "+card.get_Name()+"\n";
-				Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), "", ss);
-				card.setUsedToAttack(true);
-				panel.getTextArea().append(ss);	
-			}else
-				JOptionPane.showMessageDialog(panel, "target is not valid");
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		if(card.isUsedToAttack() ==false || (card).isRush()) {
+			try {
+			String message="ATTACK>>"+new Gson().toJson(new AttackRequest(tocken, x.getX(), x.getY(),card.getName()))+"#";
+			Client.WriteMessage(message);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		}
-		}else {
-			JOptionPane.showMessageDialog(panel, "cant attack with this card");
-		}
-		panel.updatePanel();	
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(panel.getRoundGame()%2==me.getTurn()) {
+		if(round%2==turn) {
 			int newX = e.getX() + x.getX();
 			int newY = e.getY() + x.getY();
 			x.setBounds(newX, newY, 100	, 150);	

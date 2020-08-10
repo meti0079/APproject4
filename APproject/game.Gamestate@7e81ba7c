@@ -1,0 +1,133 @@
+{
+  "name": "mkmk",
+  "password": "mkmk",
+  "gem": 50,
+  "myStore": {
+    "buyCard": [],
+    "buyHero": [
+      {
+        "type": "hero.Rouge",
+        "data": {
+          "HP": 30,
+          "Hero_power": {
+            "type": "hero.heroPower.RougePower",
+            "data": {
+              "maxUse": 1,
+              "descriptoin": "Stil 1 card from enemy",
+              "used": false,
+              "mana": 3,
+              "use": 0
+            }
+          },
+          "specialPower": "Spend 2 mana less other hero cards",
+          "name": "Rouge"
+        }
+      },
+      {
+        "type": "hero.Priest",
+        "data": {
+          "HP": 30,
+          "Hero_power": {
+            "type": "hero.heroPower.PriestPower",
+            "data": {
+              "maxUse": 1,
+              "descriptoin": "restore 4 health",
+              "used": false,
+              "mana": 2,
+              "use": 0
+            }
+          },
+          "specialPower": "give 4 Hp to a minion or  a hero",
+          "name": "Priest"
+        }
+      },
+      {
+        "type": "hero.Hunter",
+        "data": {
+          "HP": 30,
+          "Hero_power": {
+            "type": "hero.heroPower.HunterPower",
+            "data": {
+              "maxUse": 1,
+              "descriptoin": "after ypr opponent play a card 1 dame to it",
+              "used": false,
+              "mana": 2,
+              "use": 0
+            }
+          },
+          "specialPower": "attack 1 damage to each enemy when played whitout ane mana",
+          "name": "Hunter"
+        }
+      },
+      {
+        "type": "hero.Warlock",
+        "data": {
+          "HP": 35,
+          "Hero_power": {
+            "type": "hero.heroPower.WarlockPower",
+            "data": {
+              "maxUse": 1,
+              "descriptoin": "spend 2 mana and do: 1.increase 1 attack and hp to a card  2,add 1 card to player cards",
+              "used": false,
+              "mana": 2,
+              "use": 0
+            }
+          },
+          "specialPower": " have 35 HP",
+          "name": "Warlock"
+        }
+      }
+    ]
+  },
+  "my_Decks": [
+    {
+      "heroDeck": {
+        "type": "hero.Mage",
+        "data": {
+          "HP": 30,
+          "Hero_power": {
+            "type": "hero.heroPower.MagePower",
+            "data": {
+              "maxUse": 1,
+              "descriptoin": "deal 1 damage",
+              "used": false,
+              "mana": 2,
+              "use": 0
+            }
+          },
+          "specialPower": "Spend 2 mana and damage 1 any enemy",
+          "name": "Mage"
+        }
+      },
+      "deck": [],
+      "name": "first deck",
+      "win": 0,
+      "useThisDeck": 0
+    }
+  ],
+  "my_Cards": [],
+  "my_Heros": [
+    {
+      "type": "hero.Mage",
+      "data": {
+        "HP": 30,
+        "Hero_power": {
+          "type": "hero.heroPower.MagePower",
+          "data": {
+            "maxUse": 1,
+            "descriptoin": "deal 1 damage",
+            "used": false,
+            "mana": 2,
+            "use": 0
+          }
+        },
+        "specialPower": "Spend 2 mana and damage 1 any enemy",
+        "name": "Mage"
+      }
+    }
+  ],
+  "plays": 0,
+  "currentDeck": 0,
+  "cup": 0,
+  "tocken": 0
+}

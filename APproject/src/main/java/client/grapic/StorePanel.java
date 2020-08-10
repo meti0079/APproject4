@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import client.Controller;
 import client.listeners.BuyCardListener;
 import client.model.Card;
 
@@ -16,9 +18,10 @@ public class StorePanel  extends JPanel{
 	private ArrayList<JLabel> current=new ArrayList<>();
 	private ArrayList<Card> buyCard;
 	
-	
-	public StorePanel() throws Exception {
+	Controller controller;
+	public StorePanel(Controller controller) throws Exception {
 		initial();
+		this.controller=controller;
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -31,9 +34,9 @@ public class StorePanel  extends JPanel{
 	public void updatePanel() {
 		removeLables();
 		for(Card s:buyCard) {
-			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png");
+			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png");
 			final	JLabel lb1=new JLabel(icon);
-			lb1.addMouseListener(new BuyCardListener(s)); 
+			lb1.addMouseListener(new BuyCardListener(s,controller.getUser().getTocken())); 
 			add(lb1);
 			current.add(lb1);
 		}

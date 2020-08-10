@@ -21,8 +21,9 @@ import gameModel.requestAndREsponse.SellAndBuy;
 public class SellCardListener implements MouseListener {
 
 	private Card card;
-
-	public SellCardListener(Card card) {
+	int tocken;
+	public SellCardListener(Card card, int tocken) {
+		this.tocken=tocken;
 		this.card = card;
 	}
 
@@ -43,7 +44,7 @@ public class SellCardListener implements MouseListener {
 				+"and rarity is : "+card.getRarity(), "Confirm", JOptionPane.OK_CANCEL_OPTION);
 		if(j==JOptionPane.OK_OPTION) {
 			try {
-				String message="SELL>>"+new Gson().toJson(new SellAndBuy(card.getName(), Controller.getInsist().getUser().getTocken()))+"#";
+				String message="SELL>>"+new Gson().toJson(new SellAndBuy(card.getName(), tocken))+"#";
 				Client.WriteMessage(message);
 			} catch (Exception e1) {e1.printStackTrace();}
 		}

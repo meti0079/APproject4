@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,7 +42,7 @@ public class HeroShow extends JPanel {
 		setBackground(new Color(0, 0, 0, 0));
 	}
 	private void drawHeroMage(Graphics g) {
-		File input_file = new File("src\\play image\\"+hero.getname()+".png"); 
+		File input_file = new File("src\\main\\java\\play image\\"+hero.getname()+".png"); 
 		BufferedImage image = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
 		} catch (IOException e) {e.printStackTrace();} 

@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import client.Controller;
 import client.listeners.HeroBuyListener;
 import client.listeners.SellCardListener;
 import client.model.Card;
@@ -23,7 +25,7 @@ public class Shop extends JPanel{
 	StorePanel storePanel;
 	Collection_herospanel hero;
 	Collection_herospanel sell;
-
+	Controller controller;
 	public StorePanel getStorePanel() {
 		return storePanel;
 	}
@@ -49,22 +51,21 @@ public class Shop extends JPanel{
 		sell= new Collection_herospanel("sell");
 		sell.setPreferredSize(new Dimension(1800, 2000));
 		JScrollPane sellPanel=new JScrollPane(sell);
-		storePanel=new StorePanel();
+		storePanel=new StorePanel(controller);
 		storePanel.setBounds(0, 100, 1800, 900);
 		JScrollPane buyPanel=new JScrollPane(storePanel);
 		JTabbedPane tp =new JTabbedPane();
 		hero=new Collection_herospanel("deck1");
-		setHero();
 		tp.add(buyPanel,"buy");
 		tp.add(sellPanel, "sell");
 		tp.add(hero,"hero");
-		setCard();
 		tp.setBounds(0, 100, 1800, 900);
 		add(tp);
 	}
-	public Shop() throws Exception {
+	public Shop(Controller controller) throws Exception {
 		initial();
-		inf = InfoPanel.getinsist();
+		this.controller=controller;
+		inf = new InfoPanel(controller);
 		inf.setBounds(0, 0, 1800, 100);
 		add(inf);
 		makePanels();
@@ -81,9 +82,9 @@ public class Shop extends JPanel{
 	public void setCard() {
 		removeLables(sell);
 		for(Card s:myCards) {
-			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png");
+			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\main\\java\\card image\\"+s.getName()+".png");
 			final	JLabel lb1=new JLabel(icon);
-			lb1.addMouseListener(new SellCardListener(s));		 
+			lb1.addMouseListener(new SellCardListener(s, controller.getUser().getTocken()));		 
 			sell.add(lb1);	
 			current.add(lb1);
 		}
@@ -94,9 +95,9 @@ public class Shop extends JPanel{
 	public void setHero() {
 		hero.removeAll();
 		for(Heros s:heros) {
-			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\play image\\"+s.getname()+".png");
+			ImageIcon icon=new ImageIcon(System.getProperty("user.dir")+"\\src\\main\\java\\play image\\"+s.getname()+".png");
 			final	JLabel lb1=new JLabel(icon);
-			lb1.addMouseListener(new HeroBuyListener(s));		
+			lb1.addMouseListener(new HeroBuyListener(s, controller.getUser().getTocken()));		
 			hero.add(lb1);
 		}
 		hero.repaint();

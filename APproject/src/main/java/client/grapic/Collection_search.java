@@ -30,20 +30,21 @@ public class Collection_search extends JPanel{
 	private ArrayList<JButton> but;
 	private ArrayList<JLabel> current;
 	private CollectionPanel p;
-
-	public Collection_search(CollectionPanel p) throws Exception {
+	Controller controller;
+	public Collection_search(CollectionPanel p, Controller controller) throws Exception {
 		this.p=p;
+		this.controller=controller;
 		initial();
 		initialButtons();
 		addButtonToList();
 		for(int i=0;i<11;i++) {
-			initialGemButton(i, but.get(i));
+			initialGemButton(i, but.get(i), controller);
 		}
 		//////// button filter
-		initialSearchButton( all, "all");
-		initialSearchButton( notHave, "not");
-		initialSearchButton( have, "sum");
-		setOkButton();
+		initialSearchButton( all, "all",controller);
+		initialSearchButton( notHave, "not", controller);
+		initialSearchButton( have, "sum", controller);
+		setOkButton(controller);
 	}
 	private void removeLables() {
 		for(int i=current.size()-1;i>=0;i--) {
@@ -53,14 +54,14 @@ public class Collection_search extends JPanel{
 	}
 
 	private void initialCardLable(Card s) {
-		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
-		lp.addMouseListener(new UnlockListener(s,p));
+		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
+		lp.addMouseListener(new UnlockListener(s,p, controller));
 		current.add(lp);
 		add(lp);
 	}
 	private void initialLockCardLable(Card s) {
-		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+"1.png"));
-		lp.addMouseListener(new LockCardListener());
+		final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+"1.png"));
+		lp.addMouseListener(new LockCardListener(controller.getUser().getTocken()));
 		current.add(lp);
 		add(lp);
 	}
@@ -76,22 +77,22 @@ public class Collection_search extends JPanel{
 			initialLockCardLable(s2);		
 		}
 	}
-	private void setCard(String text) throws IOException {
+	private void setCard(String text, Controller controller) throws IOException {
 		for(int i=current.size()-1;i>=0;i--) {
 			remove(current.get(i));
 			current.remove(current.get(i));
 		}
 		String message="";
 		if(text.equalsIgnoreCase("all")) {
-			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show all cards" ))+"#";
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  show all cards" ))+"#";
 			addHave();
 			addnothave();
 			this.setPreferredSize(new Dimension(1500, 3300));
 		}else if(text.equalsIgnoreCase("sum")) {
-			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show cards that have" ))+"#";
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  show cards that have" ))+"#";
 			addHave();
 		}else {
-			message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  show cards that dont have" ))+"#";
+			message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  show cards that dont have" ))+"#";
 			addnothave();
 		}	
 		Client.WriteMessage(message);
@@ -121,27 +122,27 @@ public class Collection_search extends JPanel{
 		drawBackGround(g);
 	}
 	private void drawBackGround(Graphics g) {
-		ImageIcon icon =new ImageIcon("src\\backgrund image\\search.jpg");
+		ImageIcon icon =new ImageIcon("src\\main\\java\\backgrund image\\search.jpg");
 		g.drawImage(icon.getImage(), 0, 0, null);
 	}
 	private void initialButtons() {
 		ok=new JButton("Ok");
-		g0=new JButton(new ImageIcon("src\\button image\\gem0.png"));	
-		g1=new JButton(new ImageIcon("src\\button image\\gem1.png"));	
-		g2=new JButton(new ImageIcon("src\\button image\\gem2.png"));	
-		g3=new JButton(new ImageIcon("src\\button image\\gem3.png"));	
-		g4=new JButton(new ImageIcon("src\\button image\\gem4.png"));	
-		g5=new JButton(new ImageIcon("src\\button image\\gem5.png"));	
-		g6=new JButton(new ImageIcon("src\\button image\\gem6.png"));	
-		g7=new JButton(new ImageIcon("src\\button image\\gem7.png"));	
-		g8=new JButton(new ImageIcon("src\\button image\\gem8.png"));	
-		g9=new JButton(new ImageIcon("src\\button image\\gem9.png"));	
-		g10=new JButton(new ImageIcon("src\\button image\\gem10.png"));	
+		g0=new JButton(new ImageIcon("src\\main\\java\\button image\\gem0.png"));	
+		g1=new JButton(new ImageIcon("src\\main\\java\\button image\\gem1.png"));	
+		g2=new JButton(new ImageIcon("src\\main\\java\\button image\\gem2.png"));	
+		g3=new JButton(new ImageIcon("src\\main\\java\\button image\\gem3.png"));	
+		g4=new JButton(new ImageIcon("src\\main\\java\\button image\\gem4.png"));	
+		g5=new JButton(new ImageIcon("src\\main\\java\\button image\\gem5.png"));	
+		g6=new JButton(new ImageIcon("src\\main\\java\\button image\\gem6.png"));	
+		g7=new JButton(new ImageIcon("src\\main\\java\\button image\\gem7.png"));	
+		g8=new JButton(new ImageIcon("src\\main\\java\\button image\\gem8.png"));	
+		g9=new JButton(new ImageIcon("src\\main\\java\\button image\\gem9.png"));	
+		g10=new JButton(new ImageIcon("src\\main\\java\\button image\\gem10.png"));	
 		all=new JButton("All");	
 		have=new JButton("i have");	
 		notHave=new JButton("i  dont have");	
 	}
-	private void setOkButton() {
+	private void setOkButton(Controller controller) {
 		ok.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,7 +150,7 @@ public class Collection_search extends JPanel{
 				nameFilter(su);
 				initialAfterFilter();
 				try {
-					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button  want to show cards with name filter!! searched : "+su))+"#";
+					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  want to show cards with name filter!! searched : "+su))+"#";
 					Client.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -162,13 +163,13 @@ public class Collection_search extends JPanel{
 		but.add(g0);but.add(g1);but.add(g2);but.add(g3);but.add(g4);but.add(g5);
 		but.add(g6);but.add(g7);but.add(g8);but.add(g9);but.add(g10);
 	}
-	private void initialSearchButton( JButton b, String string) {
+	private void initialSearchButton( JButton b, String string , Controller controller) {
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				initialAfterFilter();
 				try {
-					setCard( string);
+					setCard( string, controller);
 				} catch (IOException e1) {e1.printStackTrace();}
 			}
 		});
@@ -182,14 +183,14 @@ public class Collection_search extends JPanel{
 		current=new ArrayList<>();
 		setBackground(new Color(10, 10, 10));
 	}
-	private void initialGemButton(int gem,JButton b) {
+	private void initialGemButton(int gem,JButton b, Controller controller) {
 		b.setContentAreaFilled(false);
 		b.setBorder(BorderFactory.createEmptyBorder());
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(Controller.getInsist().getUser().getTocken(),"clicked search button "+ gem+"  gem"))+"#";
+					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button "+ gem+"  gem"))+"#";
 					Client.WriteMessage(message);
 				} catch (IOException e1) {
 					e1.printStackTrace();

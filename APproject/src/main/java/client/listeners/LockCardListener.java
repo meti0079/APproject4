@@ -9,8 +9,10 @@ import client.Controller;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class LockCardListener implements MouseListener {
-	public LockCardListener() {
+	int tocken;
 
+	public LockCardListener(int tocken) {
+		this.tocken=tocken;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
@@ -24,7 +26,7 @@ public class LockCardListener implements MouseListener {
 				"confirm", JOptionPane.OK_CANCEL_OPTION);
 		if(x==JOptionPane.OK_OPTION) {
 			try {
-				String 	message= "GOSHOP>>"+new Gson().toJson(new SaveAndExitRequest(Controller.getInsist().getUser().getTocken()))+"#";
+				String 	message= "GOSHOP>>"+new Gson().toJson(new SaveAndExitRequest(tocken))+"#";
 				Client.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();

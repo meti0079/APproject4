@@ -6,7 +6,7 @@ import game.Player;
 public class User {
 	private String gameState;
 	private	Player player;
-	private String backCard="ca.png";
+	private String backCard="ca1.png";
 	private String backBattleGround="nattle1.jpg";
 	private Enemy enemy;
 	private int potr;

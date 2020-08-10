@@ -66,9 +66,8 @@ public class Mapper {
 		p.getHero().getHero_power().setUsed(false);
 		if(p.getWeapon()!=null)
 			p.getWeapon().setUsedToAttack(false);
-		PlayPanel.i=0;
 	}
-	public boolean betweencards(PlayerModel p,int x, Card s, TextArea textArea , PlayerModel enemy) throws Exception {
+	public boolean betweencards(PlayerModel p,int x, Card s, String text , PlayerModel enemy) throws Exception {
 		for(int i=x+1;i<7;i++) {
 			if(p.getBattleGroundCard().get(i)==null) {
 				p.getBattleGroundCard().remove(i);
@@ -79,7 +78,7 @@ public class Mapper {
 				handleHeroSpecialPower(p, enemy, 0, 0, 2);
 				p.getBattleGroundCard().get(x+1).setUsedToAttack(true);
 				String se=p.getName()+"  summon  "+ s.get_Name()+"\n";
-				textArea.append(se);
+				text+=se;
 				p.setCurrentgem(p.getCurrentgem()-s.get_Mana());
 				return true;
 			}
@@ -94,7 +93,7 @@ public class Mapper {
 				handleHeroSpecialPower(p, enemy, 0, 0, 2);
 				p.getBattleGroundCard().get(x).setUsedToAttack(true);
 				String se=p.getName()+"  summon  "+ s.get_Name()+"\n";
-				textArea.append(se);
+				text+=se;
 				p.setCurrentgem(p.getCurrentgem()-s.get_Mana());
 				return true;
 			}
@@ -121,8 +120,7 @@ public class Mapper {
 		if(me.getPassive()!= null)
 			me.getPassive().accept(pas, me, enemy, x);
 	}
-	public boolean addTobattleground(Card s,int x,int y, PlayerModel me, PlayerModel enemy, TextArea textArea) throws Exception {
-
+	public boolean addTobattleground(Card s,int x,int y, PlayerModel me, PlayerModel enemy, String text) throws Exception {
 		if(s.get_Mana()<=me.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
 				if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
@@ -138,17 +136,16 @@ public class Mapper {
 						me.getHand().remove(s);
 						me.getBattleGroundCard().get((x-200)/160).setUsedToAttack(true);
 						String se=me.getName()+"  summon  "+ s.get_Name()+"\n";
-						textArea.append(se);
+						text+=se;
 						me.setCurrentgem(me.getCurrentgem()-s.get_Mana());
 						me.checkCard(enemy, visitor, this);
 						return true;
-					}else if(betweencards(me,((x-200)/160) , s, textArea, enemy)) {
+					}else if(betweencards(me,((x-200)/160) , s, text, enemy)) {
 						me.checkCard(enemy, visitor, this);
 						checkQuestDone(s, me);
 						return true;
 					}else {						
-						JOptionPane.showConfirmDialog(null, "your battleground if full play a card or click next turn","cant plan",JOptionPane.CLOSED_OPTION);
-						return false;							
+					return false;							
 					}
 				}else {
 					return false;
@@ -157,14 +154,14 @@ public class Mapper {
 				if(s.accept(visitor, findTarget(x, y, me, enemy), me, enemy, this)) {
 					checkQuestDone(s, me);
 					String se=me.getName()+"  played  "+ s.get_Name()+"\n";
-					textArea.append(se);
+					text+=se;
 					me.getHand().remove(s);	
 					me.setCurrentgem(me.getCurrentgem()-s.get_Mana());;
 				}
 			}else {
 				checkQuestDone(s, me);
 				String se=me.getName()+"  Summon  "+ s.get_Name()+"\n";
-				textArea.append(se);
+				text+=se;
 				me.setWeapon( (Weapon) s.copy());
 				me.getWeapon().setUsedToAttack(true);
 				me.getHand().remove(s);
@@ -176,7 +173,6 @@ public class Mapper {
 		}
 	}
 	private void checkQuestDone(Card x, PlayerModel p) {
-
 		if(p.getQuest()!= null) {
 			if(p.getQuest().getType().equalsIgnoreCase(x.getType())) {
 				p.getQuest().setHave(p.getQuest().getHave()+x.get_Mana());
@@ -198,8 +194,8 @@ public class Mapper {
 		return null;		
 	}
 
-	public void manaSet(PlayerModel me, PlayerModel enemy) {
-		if(PlayPanel.getRoundGame()%2==me.getTurn()) {
+	public void manaSet(int round,PlayerModel me, PlayerModel enemy) {
+		if(round%2==me.getTurn()) {
 			if(me.getPreviosgem()==10) {
 				me.setCurrentgem(10);
 				return;
@@ -287,7 +283,7 @@ public class Mapper {
 
 
 	public void readDeck(PlayerModel me,PlayerModel enemy,String state, User user1,User user2) {
-		if (state.equalsIgnoreCase("enemy")) {
+		if (state.equalsIgnoreCase("training")) {
 			if(me.getDecksize()==0 ) {
 				me.setDeck((ArrayList<Card>) user1.getPlayer().get_mydeck().clone());
 				me.setDecksize(me.getDeck().size());

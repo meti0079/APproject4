@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import client.Controller;
 import client.listeners.EnemyDeckListener;
 import client.listeners.LockCardListener;
 import client.listeners.MyDeckListener;
@@ -28,7 +30,7 @@ public class CollectionPanel extends JPanel {
 	private Collection_herospanel netural;
 	private Collection_herospanel myDeckPanel=new Collection_herospanel("deck");
 	private Collection_herospanel enemyDeckPanel;	
-	private Collection_deck deckbord=new Collection_deck(myDeckPanel,this);
+	private Collection_deck deckbord;
 	private ArrayList<JLabel > current = new ArrayList<>();
 	private ArrayList<JLabel > enemyCurrent = new ArrayList<>();
 	private Collection_search serchPanel;
@@ -56,15 +58,18 @@ public class CollectionPanel extends JPanel {
 	public void setEnemyHero(String enemyHero) {
 		this.enemyHero = enemyHero;
 	}
-	public CollectionPanel() throws Exception {
+Controller controller;
+	public CollectionPanel(Controller controller) throws Exception {
+		 deckbord=new Collection_deck(myDeckPanel,this, controller);
 		initial();
-		initialPanels();
-		setpanel();
+		this.controller=controller;
+		initialPanels(controller);
+		setpanel(controller);
 	}
 	private void initial() throws Exception {
 		setPreferredSize(new Dimension(1800,990));
 	}
-	private void initialPanels() throws Exception {
+	private void initialPanels(Controller controller) throws Exception {
 		tp=new JTabbedPane();
 		mage=new Collection_herospanel("mage");
 		setCardToHeroPanel("Mage", mage);
@@ -97,7 +102,7 @@ public class CollectionPanel extends JPanel {
 		setEnemyDeck();
 		enemyDeckPanel.setPreferredSize(new Dimension(1500, 2500));
 		JScrollPane ed=new JScrollPane(enemyDeckPanel);
-		serchPanel=new Collection_search( this);
+		serchPanel=new Collection_search( this, controller);
 		serchPanel.setPreferredSize(new Dimension(1500, 2000));
 		JScrollPane ser=new JScrollPane(serchPanel);
 		/////add to tabpane
@@ -112,7 +117,7 @@ public class CollectionPanel extends JPanel {
 		tp.add(ed, "enemy deck");
 		tp.setPreferredSize(new Dimension(1500, 790));
 	}	
-	public void updatePanel() {
+	public void updatePanel(Controller controller) {
 		setCardToHeroPanel("Neutral", netural);
 		setCardToHeroPanel("Rouge", rouge);
 		setCardToHeroPanel("Warlock", warlock);
@@ -121,7 +126,7 @@ public class CollectionPanel extends JPanel {
 		setCardToHeroPanel("Priest", priest);
 		setdeck();
 		setEnemyDeck();
-		deckbord.update();
+		deckbord.update(controller);
 		repaint();
 		revalidate();
 	}
@@ -129,13 +134,13 @@ public class CollectionPanel extends JPanel {
 	private void setCardToHeroPanel(String name,JPanel p) {
 		p.removeAll();
 		for(Card s : findHeroCard(name, have)) {
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
-			lp.addMouseListener(new UnlockListener(s, this));
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener(new UnlockListener(s, this, controller));
 			p.add(lp);
 		}
 		for(Card s2 : findHeroCard(name, dontHave)) {
-			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s2.getName()+"1.png"));
-			lp1.addMouseListener(new LockCardListener());
+			final JLabel lp1 =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s2.getName()+"1.png"));
+			lp1.addMouseListener(new LockCardListener(controller.getUser().getTocken()));
 			p.add(lp1);
 		}
 	}
@@ -150,8 +155,8 @@ public class CollectionPanel extends JPanel {
 	public void setdeck() {
 		removeDeckLablesFromPanel();
 		for(Card s : deck) {			
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
-			lp.addMouseListener( new MyDeckListener(s));
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener( new MyDeckListener(s, controller.getUser().getTocken()));
 			myDeckPanel.add(lp);
 			current.add(lp);
 		}
@@ -159,8 +164,8 @@ public class CollectionPanel extends JPanel {
 	public void setEnemyDeck(){
 		removeEnemyLablesFromPanel();
 		for(Card s : enemyDeck) {			
-			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\card image\\"+s.getName()+".png"));
-			lp.addMouseListener( new EnemyDeckListener(s));
+			final JLabel lp =new JLabel(new ImageIcon( System.getProperty("user.dir")+"\\src\\main\\java\\card image\\"+s.getName()+".png"));
+			lp.addMouseListener( new EnemyDeckListener(s, controller.getUser().getTocken()));
 			enemyDeckPanel.add(lp);
 			enemyCurrent.add(lp);
 		}
@@ -173,9 +178,9 @@ public class CollectionPanel extends JPanel {
 			enemyDeckPanel.update();
 		}
 	}
-	private void setpanel() throws Exception {
+	private void setpanel(Controller controller) throws Exception {
 		setLayout(new BorderLayout());
-		InfoPanel inf=InfoPanel.getinsist();
+		InfoPanel inf=new InfoPanel(controller);
 		add(inf,BorderLayout.NORTH);
 		add(tp,BorderLayout.CENTER);
 		add(deckbord,BorderLayout.EAST);

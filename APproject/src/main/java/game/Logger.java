@@ -20,19 +20,19 @@ public class Logger {
 		return logger;
 	}
 	public void makeLog(String name , String pass) throws IOException{	
-		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+name,true);
+		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\LOGFILE\\"+name,true);
 		file.write("USERNAME : "+name+"\n");
 		file.write("CREATED_AT: "+dtf.format(now)+"\n");
 		file.write("PASSWORD : "+pass+"\n\n");
 		file.close();
 	}
 	public void log(String name, String wr,String gd) throws IOException {
-		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+name,true);
+		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\LOGFILE\\"+name,true);
 		file.write(wr +" "+dtf.format(now)+" " +gd+"\n");
 		file.close();
 	}
 	public void deletAccount(String name) throws IOException {
-		File f=new File(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+name);
+		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\LOGFILE\\"+name);
 		Scanner sca=new Scanner(f);  
 		String sum="";
 		while (sca.hasNextLine()) {
@@ -42,7 +42,7 @@ public class Logger {
 				sum=sum+"\n"+"DELETED_AT: "+dtf.format(now)+"\n";
 			}
 		}
-		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+name);
+		FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\LOGFILE\\"+name);
 		file.write(sum);
 		file.close();
 	}

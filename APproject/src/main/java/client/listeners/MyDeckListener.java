@@ -12,7 +12,10 @@ import gameModel.requestAndREsponse.AddCardToDeck;
 
 public class MyDeckListener implements MouseListener{
 	Card s;
-	public MyDeckListener(Card s) {
+	int tocken;
+
+	public MyDeckListener(Card s, int tocken) {
+		this.tocken=tocken;
 		this.s = s;
 	}
 	@Override
@@ -24,7 +27,7 @@ public class MyDeckListener implements MouseListener{
 				"remove from deck", JOptionPane.OK_CANCEL_OPTION);
 		if(x==JOptionPane.OK_OPTION) {
 			try {
-				String 	message= "REMOVEFROMDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(),s.getName()))+"#";
+				String 	message= "REMOVEFROMDECK>>"+new Gson().toJson(new AddCardToDeck(tocken,s.getName()))+"#";
 				Client.WriteMessage(message);
 			} catch (IOException e1) {
 				e1.printStackTrace();

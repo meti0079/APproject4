@@ -63,7 +63,7 @@ public class DeckReader {
 		gsonBilder.setPrettyPrinting();
 		gson=gsonBilder.create();
 		try {
-		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
+		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\all cards\\"+name+".json");
 		Scanner s = new Scanner(f);
 		String se="";
 		while(s.hasNext()) {

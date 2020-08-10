@@ -33,12 +33,12 @@ public class MenuPanel extends JPanel {
 	private JButton setting;
 	private Controller controller;
 	private void initial() throws Exception {
-		controller=Controller.getInsist();
 		setPreferredSize(new  Dimension(1800, 1000));
 		setLayout(null);
 	}
-	public MenuPanel() throws Exception {
+	public MenuPanel(Controller cont) throws Exception {
 		super();
+		controller=cont;
 		initial();
 		//////set buttons
 		setPlayButton();

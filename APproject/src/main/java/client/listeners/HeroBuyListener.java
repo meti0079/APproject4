@@ -12,8 +12,11 @@ import hero.Heros;
 
 public class HeroBuyListener implements MouseListener {
 	private Heros s;
-	public HeroBuyListener(Heros s) {
+	int tocken;
+
+	public HeroBuyListener(Heros s, int tocken) {
 		this.s = s;
+		this.tocken=tocken;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
@@ -30,7 +33,7 @@ public class HeroBuyListener implements MouseListener {
 				+"SpecialPower : "+s.get_SpecialPower()+"\n"
 				, "Confirm", JOptionPane.OK_CANCEL_OPTION);
 		if(j==JOptionPane.OK_OPTION) {	
-			String message="BUYHERO>>"+new Gson().toJson(new SellAndBuy(s.getname(), Controller.getInsist().getUser().getTocken()))+"#";
+			String message="BUYHERO>>"+new Gson().toJson(new SellAndBuy(s.getname(), tocken))+"#";
 			try {
 				Client.WriteMessage(message);
 			} catch (IOException e1) {

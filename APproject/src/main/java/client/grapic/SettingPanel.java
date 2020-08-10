@@ -27,10 +27,11 @@ public class SettingPanel extends JPanel{
 	private JLabel background3;
 	private JLabel background4;
 	private InfoPanel inf;
-
-	public SettingPanel() throws Exception {
+	private Controller controller;
+	public SettingPanel(Controller controller) throws Exception {
 		initial();
-		inf=InfoPanel.getinsist();
+		this.controller=controller;
+		inf=new InfoPanel(controller);
 		inf.setBounds(0, 0, 1800, 100);
 		add(inf);
 		setDeleteAccountButton();
@@ -48,7 +49,7 @@ public class SettingPanel extends JPanel{
 				int x=JOptionPane.showConfirmDialog(null, "do you really want to delete account","confirm", JOptionPane.OK_CANCEL_OPTION);
 				if(x==JOptionPane.OK_OPTION)
 					try {
-						String 	message= "DELETACCOUNT>>"+new SaveAndExitRequest(Controller.getInsist().getUser().getTocken())+"#";
+						String 	message= "DELETACCOUNT>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
 						Client.WriteMessage(message);
 						System.exit(0);
 					} catch (IOException e) {e.printStackTrace();}
@@ -57,22 +58,22 @@ public class SettingPanel extends JPanel{
 		add(deletAcount);
 	}
 	private void setBackGroundButtons() {
-		background1=new JLabel(new ImageIcon("src\\play image\\nattle11.jpg"));
+		background1=new JLabel(new ImageIcon("src\\main\\java\\play image\\nattle11.jpg"));
 		background1.setBounds(840,260, 226, 158);
 		add(background1);
-		background2=new JLabel(new ImageIcon("src\\play image\\nattle21.jpg"));
+		background2=new JLabel(new ImageIcon("src\\main\\java\\play image\\nattle21.jpg"));
 		background2.setBounds(1100, 260, 226,158);
 		add(background2);
-		background3=new JLabel(new ImageIcon("src\\play image\\nattle31.jpg"));
+		background3=new JLabel(new ImageIcon("src\\main\\java\\play image\\nattle31.jpg"));
 		background3.setBounds(840, 460, 226,158);
 		add(background3);
-		background4=new JLabel(new ImageIcon("src\\play image\\nattle41.jpg"));
+		background4=new JLabel(new ImageIcon("src\\main\\java\\play image\\nattle41.jpg"));
 		background4.setBounds(1100,460, 226,158);
 		add(background4);
-		background1.addMouseListener(new SettingBackGrounListener(1));
-		background2.addMouseListener(new SettingBackGrounListener(2));
-		background3.addMouseListener(new SettingBackGrounListener(3));
-		background4.addMouseListener(new SettingBackGrounListener(4));
+		background1.addMouseListener(new SettingBackGrounListener(1, controller.getUser().getTocken()));
+		background2.addMouseListener(new SettingBackGrounListener(2, controller.getUser().getTocken()));
+		background3.addMouseListener(new SettingBackGrounListener(3, controller.getUser().getTocken()));
+		background4.addMouseListener(new SettingBackGrounListener(4, controller.getUser().getTocken()));
 	}
 	private void initial() {
 		setPreferredSize(new Dimension(1800, 1000));

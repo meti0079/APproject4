@@ -5,6 +5,8 @@ public class User {
 	int tocken;
 	int gem;
 	int cup;
+	int turn;
+
 	public User(String name, int tocken, int gem, int cup) {
 		super();
 		this.name = name;
@@ -13,6 +15,12 @@ public class User {
 		this.cup = cup;
 	}
 
+	public int getTurn() {
+		return turn;
+	}
+	public void setTurn(int turn) {
+		this.turn = turn;
+	}
 	public String getName() {
 		return name;
 	}

@@ -35,7 +35,7 @@ public class HeroPowerShow extends JPanel {
 		add(manaJLabel);
 	}
 	private void readImage() {
-		File input_file = new File("src\\play image\\"+heroPower.getname()+"power.png"); 
+		File input_file = new File("src\\main\\java\\play image\\"+heroPower.getname()+"power.png"); 
 		image = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
 		} catch (IOException e) {e.printStackTrace();}

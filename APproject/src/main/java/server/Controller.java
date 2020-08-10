@@ -3,12 +3,15 @@ package server;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
 import client.model.Card;
 import client.model.DeckInfo;
 import game.Deck;
@@ -19,20 +22,25 @@ import game.Login;
 import game.Player;
 import game.Store;
 import gameModel.requestAndREsponse.AddCardToDeck;
+import gameModel.requestAndREsponse.AttackRequest;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.ChangeBattlegroundThem;
 import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.EditDeckRequest;
+import gameModel.requestAndREsponse.HeroPowerRequest;
 import gameModel.requestAndREsponse.LoginAndSingUpRequest;
 import gameModel.requestAndREsponse.NewDeck;
 import gameModel.requestAndREsponse.NextTurnRequest;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 import gameModel.requestAndREsponse.SearchRequest;
 import gameModel.requestAndREsponse.SellAndBuy;
+import gameModel.requestAndREsponse.SetPassiveRequest;
 import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StartMatchRequest;
 import gameModel.requestAndREsponse.StatosNeeds;
+import gameModel.requestAndREsponse.changeCardRequest;
 import hero.Heros;
+import playModel.Mapper;
 
 
 public class Controller {
@@ -43,13 +51,13 @@ public class Controller {
 	public static ArrayList<Game> games=new  ArrayList<>();
 
 	private Logger log;
-	Gson gson;
+	Gson  gson;
 	private Gamestate game;
 	public Controller() {
 		try {
 			log= Logger.getinsist();
 			game=new Gamestate();
-			gson= new GsonBuilder().setLenient().create();
+			gson= new GsonBuilder().serializeSpecialFloatingPointValues().create();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,6 +155,21 @@ public class Controller {
 		case "NEXTTURN":
 			nextTurn(message , packet);
 			break;
+		case "HEROPOWER":
+			heroPower(message , packet);
+			break;
+		case "SETPASSIVE":
+			setPassive(message , packet);
+			break;
+		case "ATTACK":
+			attack(message , packet);
+			break;
+		case "CHANGCARD":
+			changCard(message , packet);
+			break;
+		case "ADDTOBATTLEGROUND":
+			addToBattleground(message , packet);
+			break;
 
 
 
@@ -163,8 +186,99 @@ public class Controller {
 
 
 
+	private void addToBattleground(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		AttackRequest request=gson.fromJson(new JsonReader(reader), AttackRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.addToBattleground(0,request.getCardName(),request.getX(),request.getY());
+					}else if(game.getUser2()==x) {
+						game.addToBattleground(1,request.getCardName(),request.getX(),request.getY());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+	private void changCard(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		changeCardRequest request=gson.fromJson(new JsonReader(reader), changeCardRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.changCard(0,request.getCardName());
+					}else if(game.getUser2()==x) {
+						game.changCard(1,request.getCardName());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+	}
+	private void attack(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		AttackRequest request=gson.fromJson(new JsonReader(reader), AttackRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.attack(0,request.getCardName(),request.getX(),request.getY());
+					}else if(game.getUser2()==x) {
+						game.attack(1,request.getCardName(),request.getX(),request.getY());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	private void setPassive(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		SetPassiveRequest request=gson.fromJson(new JsonReader(reader), SetPassiveRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.setPassive(0,request.getPassiveName());
+					}else if(game.getUser2()==x) {
+						game.setPassive(1,request.getPassiveName());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	private void heroPower(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		HeroPowerRequest request=gson.fromJson(new JsonReader(reader), HeroPowerRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.handleHeroPower(0,request.getX(), request.getY());
+					}else if(game.getUser2()==x) {
+						game.handleHeroPower(1,request.getX(), request.getY());
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}		
+	}
 	private void nextTurn(String message, DatagramPacket packet) {
-		NextTurnRequest request=gson.fromJson(message, NextTurnRequest.class);
+		StringReader reader=new StringReader(message);
+		NextTurnRequest request=gson.fromJson(new JsonReader(reader), NextTurnRequest.class);
 		User x=online.get(request.getTocken());
 		if(x!=null) {
 			try {
@@ -181,7 +295,8 @@ public class Controller {
 		}
 	}
 	private void startmatch(String message, DatagramPacket packet) {
-		StartMatchRequest request=gson.fromJson(message, StartMatchRequest.class);
+		StringReader reader=new StringReader(message);
+		StartMatchRequest request=gson.fromJson(new JsonReader(reader), StartMatchRequest.class);
 		User x=online.get(request.getTocken());
 		if(x!=null) {
 			x.setGameState(request.getState());
@@ -213,7 +328,8 @@ public class Controller {
 
 	}
 	private void startPlay(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
@@ -237,7 +353,8 @@ public class Controller {
 			return false;		
 	}
 	private void goMenu(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
@@ -252,7 +369,8 @@ public class Controller {
 		}
 	}
 	private void serch(String message, DatagramPacket packet) {
-		SearchRequest request =gson.fromJson(message, SearchRequest.class);
+		StringReader reader=new StringReader(message);
+		SearchRequest request =gson.fromJson(new JsonReader(reader), SearchRequest.class);
 		User x =online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -263,7 +381,8 @@ public class Controller {
 		}
 	}
 	private void changeDeck(String message, DatagramPacket packet) {
-		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		StringReader reader=new StringReader(message);
+		EditDeckRequest request = gson.fromJson(new JsonReader(reader), EditDeckRequest.class);
 		User x =online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -282,7 +401,8 @@ public class Controller {
 		}	
 	}
 	private void editNameDeck(String message, DatagramPacket packet) {
-		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		StringReader reader=new StringReader(message);
+		EditDeckRequest request = gson.fromJson(new JsonReader(reader), EditDeckRequest.class);
 		User x =online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -296,7 +416,8 @@ public class Controller {
 		}
 	}
 	private void editHeroDeck(String message, DatagramPacket packet) {
-		EditDeckRequest request = gson.fromJson(message, EditDeckRequest.class);
+		StringReader reader=new StringReader(message);
+		EditDeckRequest request = gson.fromJson(new JsonReader(reader), EditDeckRequest.class);
 		User x =online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -312,7 +433,8 @@ public class Controller {
 		}
 	}
 	private void makeNewDeck(String message, DatagramPacket packet){
-		NewDeck newDeck=gson.fromJson(message, NewDeck.class);
+		StringReader reader=new StringReader(message);
+		NewDeck newDeck=gson.fromJson(new JsonReader(reader), NewDeck.class);
 		User x=online.get(newDeck.getTocken());
 		try {
 			if(x!=null) {
@@ -333,7 +455,8 @@ public class Controller {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	private void removeCardFromEnemyDeck(String message, DatagramPacket packet) {
-		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		StringReader reader=new StringReader(message);
+		AddCardToDeck request=gson.fromJson(new JsonReader(reader), AddCardToDeck.class);
 		User x=online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -347,7 +470,8 @@ public class Controller {
 		} catch (Exception e) {e.printStackTrace();}		
 	}
 	private void removeCardFromMyDeck(String message, DatagramPacket packet) {
-		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		StringReader reader=new StringReader(message);
+		AddCardToDeck request=gson.fromJson(new JsonReader(reader), AddCardToDeck.class);
 		User x=online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -366,7 +490,8 @@ public class Controller {
 		player.getMyDeck().addWin(0);
 	}
 	private void addCardToMyDeck(String message, DatagramPacket packet) {
-		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		StringReader reader=new StringReader(message);
+		AddCardToDeck request=gson.fromJson(new JsonReader(reader), AddCardToDeck.class);
 		User x=online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -387,7 +512,8 @@ public class Controller {
 		} catch (Exception e) {e.printStackTrace();}		
 	}
 	private void addCardToEnemyDeck(String message, DatagramPacket packet) {
-		AddCardToDeck request=gson.fromJson(message, AddCardToDeck.class);
+		StringReader reader=new StringReader(message);
+		AddCardToDeck request=gson.fromJson(new JsonReader(reader), AddCardToDeck.class);
 		User x=online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -408,7 +534,8 @@ public class Controller {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	private void collection(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		User x=online.get(request.getTocken());
 		try {
 			if(x!=null) {
@@ -425,7 +552,8 @@ public class Controller {
 		} catch (Exception e) {e.printStackTrace();}
 	}
 	public void setBattlebackGround(String message, DatagramPacket  packet){
-		ChangeBattlegroundThem them=gson.fromJson(message, ChangeBattlegroundThem.class);
+		StringReader reader=new StringReader(message);
+		ChangeBattlegroundThem them=gson.fromJson(new JsonReader(reader), ChangeBattlegroundThem.class);
 		try {
 			User x=online.get(them.getTocken());
 			if(x!=null) {
@@ -435,7 +563,8 @@ public class Controller {
 		} catch (IOException e) {e.printStackTrace();}	
 	}
 	private void deleteAccount(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
@@ -446,7 +575,8 @@ public class Controller {
 		} catch (IOException e) {e.printStackTrace();}	
 	}
 	private void setting(String message, DatagramPacket packet) {		
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
@@ -457,7 +587,8 @@ public class Controller {
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	private void statos(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
@@ -481,7 +612,8 @@ public class Controller {
 		return decks;
 	}
 	private void buyCard(String message, DatagramPacket packet) {
-		SellAndBuy sellAndBuy=gson.fromJson(message, SellAndBuy.class);
+		StringReader reader=new StringReader(message);
+		SellAndBuy sellAndBuy=gson.fromJson(new JsonReader(reader), SellAndBuy.class);
 		User user=online.get(sellAndBuy.getTocken());
 		try {
 			if(user!=null) {
@@ -506,7 +638,8 @@ public class Controller {
 		} catch (Exception e) {}
 	}
 	private void buyHero(String message, DatagramPacket packet) {
-		SellAndBuy sellAndBuy=gson.fromJson(message, SellAndBuy.class);
+		StringReader reader=new StringReader(message);
+		SellAndBuy sellAndBuy=gson.fromJson(new JsonReader(reader), SellAndBuy.class);
 		User user=online.get(sellAndBuy.getTocken());
 		try {
 			if(user!=null) {
@@ -532,7 +665,8 @@ public class Controller {
 		} catch (Exception e) {}
 	}
 	private void sellCard(String message, DatagramPacket packet) {
-		SellAndBuy sellAndBuy=gson.fromJson(message, SellAndBuy.class);
+		StringReader reader=new StringReader(message);
+		SellAndBuy sellAndBuy=gson.fromJson(new JsonReader(reader), SellAndBuy.class);
 		User user=online.get(sellAndBuy.getTocken());
 		try {
 			if(user!=null) {
@@ -555,7 +689,8 @@ public class Controller {
 		} catch (Exception e) {}
 	}
 	private void goShop(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {	
@@ -577,7 +712,8 @@ public class Controller {
 		return c;
 	}
 	private void exit(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			log.log(online.get(request.getTocken()).getPlayer().get_name(), "exit game", "");
 			clients.remove(online.get(request.getTocken()));
@@ -589,7 +725,8 @@ public class Controller {
 		}		
 	}
 	private void save(String message, DatagramPacket packet) {
-		SaveAndExitRequest request=gson.fromJson(message, SaveAndExitRequest.class);
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {			
@@ -603,7 +740,8 @@ public class Controller {
 		}
 	}
 	private void singup(String message, DatagramPacket packet) {	
-		LoginAndSingUpRequest re=gson.fromJson(message, LoginAndSingUpRequest.class);
+		StringReader reader=new StringReader(message);
+		LoginAndSingUpRequest re=gson.fromJson(new JsonReader(reader), LoginAndSingUpRequest.class);
 		try {
 			for (User client : clients) {
 				if(re.getName().equals(client.getPlayer().get_name())) {
@@ -636,7 +774,8 @@ public class Controller {
 	}
 	private void login(String message, DatagramPacket packet) {
 		try {
-			LoginAndSingUpRequest re=gson.fromJson(message, LoginAndSingUpRequest.class);
+			StringReader reader=new StringReader(message);
+			LoginAndSingUpRequest re=gson.fromJson(new JsonReader(reader), LoginAndSingUpRequest.class);
 			for (User client : clients) {
 				if(re.getName().equals(client.getPlayer().get_name())) {
 					ServerMain.WriteMessage("LOGINERROR>> user alredy online!!!!!!#", packet.getSocketAddress());

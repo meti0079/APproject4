@@ -53,8 +53,8 @@ public abstract  class Weapon extends Card{
 					if(taeget instanceof Minion &&((Minion) taeget).isTaunt()) {
 						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 						this.setHp(this.getHp()-1);
-						attackerP.checkCard(targetP,v);
-						targetP.checkCard(attackerP, v);
+						attackerP.checkCard(targetP,v, mapper);
+						targetP.checkCard(attackerP, v, mapper);
 						return true;
 					}else
 						return false;
@@ -62,8 +62,8 @@ public abstract  class Weapon extends Card{
 				if (taeget instanceof Minion && mapper.validCard(targetP, (Card) taeget)){
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 					this.setHp(this.getHp()-1);	
-					attackerP.checkCard(targetP,v);
-					targetP.checkCard(attackerP, v);
+					attackerP.checkCard(targetP,v, mapper);
+					targetP.checkCard(attackerP, v, mapper);
 					return true;
 				}
 			}

@@ -20,7 +20,7 @@ public class Collection_herospanel extends JPanel {
 		drawBackGround(g);
 	}
 	private void drawBackGround(Graphics g) {
-		ImageIcon icon =new ImageIcon("src\\backgrund image\\"+name+".jpg");
+		ImageIcon icon =new ImageIcon("src\\main\\java\\backgrund image\\"+name+".jpg");
 		g.drawImage(icon.getImage(), 0, 0, null);		
 	}
 	public void update() {

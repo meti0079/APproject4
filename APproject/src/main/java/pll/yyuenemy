@@ -1,0 +1,26 @@
+{
+  "enemyDeck": {
+    "heroDeck": {
+      "type": "hero.Mage",
+      "data": {
+        "HP": 30,
+        "Hero_power": {
+          "type": "hero.heroPower.MagePower",
+          "data": {
+            "maxUse": 1,
+            "descriptoin": "deal 1 damage",
+            "used": false,
+            "mana": 2,
+            "use": 0
+          }
+        },
+        "specialPower": "Spend 2 mana and damage 1 any enemy",
+        "name": "Mage"
+      }
+    },
+    "deck": [],
+    "name": "enemy deck",
+    "win": 0,
+    "useThisDeck": 0
+  }
+}

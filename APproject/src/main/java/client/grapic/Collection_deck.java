@@ -34,14 +34,14 @@ public class Collection_deck extends JPanel{
 	private JButton enemyBut;
 	private Collection_herospanel x;
 	private CollectionPanel y;
-	public Collection_deck(Collection_herospanel x,CollectionPanel y) throws Exception {
+	public Collection_deck(Collection_herospanel x,CollectionPanel y, Controller  controller) throws Exception {
 		initial();
 		this.x=x;
 		this.y=y;
 		allBut=new ArrayList<>();
-		initialAddDeckButton();
-		initialChangeNameButton();
-		initialSelectHeroButton();
+		initialAddDeckButton(controller);
+		initialChangeNameButton(controller);
+		initialSelectHeroButton(controller);
 		initialEnemyButton();
 	}
 	private void initialEnemyButton() {
@@ -51,8 +51,8 @@ public class Collection_deck extends JPanel{
 		enemyBut.setBackground(new Color(165, 62, 22));
 		add(enemyBut);
 	}
-	private void initialAddDeckButton() {
-		JButton b= new JButton(new ImageIcon("src\\\\button image\\\\add.png"));
+	private void initialAddDeckButton(Controller controller) {
+		JButton b= new JButton(new ImageIcon("src\\main\\java\\button image\\add.png"));
 		b.setBounds(25,780, 200, 50);
 		b.setContentAreaFilled(false);
 		b.setBorder(BorderFactory.createEmptyBorder());
@@ -84,7 +84,7 @@ public class Collection_deck extends JPanel{
 					s.setHeroName(n);
 
 
-					String message="NEWDECK>>"+new Gson().toJson(new NewDeck(s, Controller.getInsist().getUser().getTocken()))+"#";
+					String message="NEWDECK>>"+new Gson().toJson(new NewDeck(s, controller.getUser().getTocken()))+"#";
 					Client.WriteMessage(message);
 
 				} catch (Exception e1) {e1.printStackTrace();}
@@ -92,8 +92,8 @@ public class Collection_deck extends JPanel{
 		});
 		add(b);
 	}
-	private void initialSelectHeroButton() {
-		JButton edit1=new JButton(new ImageIcon("src\\button image\\edit.png"));
+	private void initialSelectHeroButton(Controller controller) {
+		JButton edit1=new JButton(new ImageIcon("src\\main\\java\\button image\\edit.png"));
 		edit1.setContentAreaFilled(false);
 		edit1.setBorder(BorderFactory.createEmptyBorder());
 		edit1.setBounds(25, 830, 100, 50);
@@ -109,15 +109,15 @@ public class Collection_deck extends JPanel{
 							"select", JOptionPane.QUESTION_MESSAGE, null,myhero, myhero[0]);
 					if(n.equalsIgnoreCase("")) {
 					}else {
-						String message="EDITHERODECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), n, ""))+"#";
+						String message="EDITHERODECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), n, ""))+"#";
 						Client.WriteMessage(message);}
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
 		add(edit1);
 	}
-	private void initialChangeNameButton() {
-		JButton edit=new JButton(new ImageIcon("src\\button image\\edit2.png"));
+	private void initialChangeNameButton(Controller controller) {
+		JButton edit=new JButton(new ImageIcon("src\\main\\java\\button image\\edit2.png"));
 		edit.setContentAreaFilled(false);
 		edit.setBorder(BorderFactory.createEmptyBorder());
 		edit.setBounds(155, 830, 100, 50);
@@ -133,7 +133,7 @@ public class Collection_deck extends JPanel{
 						}
 					}
 					if(flag==false) {
-						String message="EDITNAMEDECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), "", name))+"#";
+						String message="EDITNAMEDECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), "", name))+"#";
 						Client.WriteMessage(message);
 					}	
 				} catch (IOException e) {
@@ -146,16 +146,16 @@ public class Collection_deck extends JPanel{
 	public JButton getEnemyBut() {
 		return enemyBut;
 	}
-	public void update() {
+	public void update(Controller controller) {
 		enemyBut.setText("enemy deck  "+ y.getEnemyHero()+"   size : "+y.getEnemyDeck().size());
-		this.updateBut(x, y);
+		this.updateBut(x, y, controller);
 		this.repaint();
 		this.revalidate();
 	}
 	@Override	
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		ImageIcon icon =new ImageIcon("src\\button image\\2.png");
+		ImageIcon icon =new ImageIcon("src\\main\\java\\button image\\2.png");
 		g.drawImage(icon.getImage(), 5, 0, null);
 		drawDeckPlace(g);
 	}
@@ -176,18 +176,18 @@ public class Collection_deck extends JPanel{
 		g.drawRoundRect(10, 690, 280, 40, 5, 5);
 		g.drawRoundRect(10, 735, 280, 40, 5, 5);
 	}
-	public void updateBut(Collection_herospanel x, CollectionPanel y) {
+	public void updateBut(Collection_herospanel x, CollectionPanel y, Controller controller) {
 		for (JButton jButton : allBut) {
 			remove(jButton);
 		}
 		allBut.removeAll(allBut);
 		int i=1;
 		for(DeckInfo s: y.getDeckinfo()) {
-			makeDeck(s, i);
+			makeDeck(s, i, controller);
 			i++;
 		}
 	}
-	public void makeDeck(DeckInfo s , int i) {
+	public void makeDeck(DeckInfo s , int i, Controller controller) {
 		JButton b= new JButton(s.getName()+"       "+s.getHeroName()+ "   size :"+ s.getSize());
 		b.setFont(new Font("tahoma", Font.BOLD, 15));
 		b.setBackground(new Color(165, 42, 42));
@@ -196,7 +196,7 @@ public class Collection_deck extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String message="CHANGEDECK>>"+new Gson().toJson(new EditDeckRequest(Controller.getInsist().getUser().getTocken(), s.getHeroName(), s.getName()))+"#";
+					String message="CHANGEDECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), s.getHeroName(), s.getName()))+"#";
 					Client.WriteMessage(message);
 				}catch (Exception e1) {}
 			}

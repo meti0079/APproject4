@@ -28,12 +28,12 @@ public class BiggerCard extends JPanel {
 	private JButton addToEnemyDeck;
 	private JButton cancel;
 	private Card card;
-	public BiggerCard(Card card) {
+	public BiggerCard(Card card, Controller controller) {
 		this.card=card;
 		initial();
 		readImage();
-		initialButtonAddToDeck();
-		initialButtonAddToEnemy();
+		initialButtonAddToDeck(controller);
+		initialButtonAddToEnemy(controller);
 		initialButtonCancel();
 	}
 	private void initial() {
@@ -54,20 +54,20 @@ public class BiggerCard extends JPanel {
 		add(cancel);
 	}
 	private void readImage() {
-		File input_file = new File("src\\card image\\"+card.getName()+".png"); 
+		File input_file = new File("src\\main\\java\\card image\\"+card.getName()+".png"); 
 		image = new BufferedImage(100, 150, 
 				BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);
 		} catch (IOException e) {e.printStackTrace();}
 	}
-	private void initialButtonAddToEnemy() {
+	private void initialButtonAddToEnemy(Controller controlle) {
 		addToEnemyDeck=new JButton("add to enemy deck");
 		addToEnemyDeck.setBounds(680 , 100, 200, 60);
 		addToEnemyDeck.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String message="ADDTOENEMYDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(), card.getName()))+"#";
+					String message="ADDTOENEMYDECK>>"+new Gson().toJson(new AddCardToDeck(controlle.getUser().getTocken(), card.getName()))+"#";
 					Client.WriteMessage(message);
 					setVisible(false);
 				} catch (Exception e) {e.printStackTrace();}
@@ -75,14 +75,14 @@ public class BiggerCard extends JPanel {
 		});
 		add(addToEnemyDeck);
 	}
-	private void initialButtonAddToDeck() {
+	private void initialButtonAddToDeck(Controller controller) {
 		addToMyDeck=new JButton("add to my deck");
 		addToMyDeck.setBounds(680 , 200, 200, 60);
 		addToMyDeck.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String message="ADDTOMYDECK>>"+new Gson().toJson(new AddCardToDeck(Controller.getInsist().getUser().getTocken(), card.getName()))+"#";
+					String message="ADDTOMYDECK>>"+new Gson().toJson(new AddCardToDeck(controller.getUser().getTocken(), card.getName()))+"#";
 					Client.WriteMessage(message);
 					setVisible(false);
 				} catch (Exception e1) {e1.printStackTrace();}

@@ -26,7 +26,7 @@ public class Client {
 	}
 	public static void main(String[] args) throws IOException {
 		datagramSocket= new DatagramSocket();
-		Controller.getInsist();
+//		Controller.getInsist();
 		address=new InetSocketAddress(serverIP, serverport);
 		Reciver re= new Reciver(datagramSocket);
 		re.start();

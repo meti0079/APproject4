@@ -7,14 +7,16 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import client.Controller;
 import client.model.DeckInfo;
 
 public class Statos extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	ArrayList<DeckInfo> decks=new ArrayList<>();
-	public Statos() throws Exception {
-		InfoPanel p=InfoPanel.getinsist();
+	public Statos(Controller controller) throws Exception {
+		InfoPanel p=new InfoPanel(controller);
 		add(p);
 		initial();
 	}
@@ -30,7 +32,7 @@ public class Statos extends JPanel{
 		drawDeckDetails(g);
 	}
 	private void setBackGround(Graphics g) {
-		g.drawImage(new ImageIcon("src\\passiva image\\astatos.jpg").getImage(), 0, 0, null);		
+		g.drawImage(new ImageIcon("src\\main\\java\\passiva image\\astatos.jpg").getImage(), 0, 0, null);		
 	}
 	private void writeTopic(Graphics g) {
 		g.setFont(new Font("Tahoma", Font.BOLD, 50));

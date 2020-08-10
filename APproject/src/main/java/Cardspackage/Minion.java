@@ -57,9 +57,9 @@ public abstract  class Minion extends Card{
 						((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 						this.setHp(this.getHp()-((Minion) taeget).getAttack());
 						if(taeget instanceof SecurityRover)
-							((SecurityRover)taeget).accept(v, null, targetP, attackerP);
-						attackerP.checkCard(targetP,v);
-						targetP.checkCard(attackerP, v);
+							((SecurityRover)taeget).accept(v, null, targetP, attackerP,mapper);
+						attackerP.checkCard(targetP,v, mapper);
+						targetP.checkCard(attackerP, v, mapper);
 						return true;
 					}else {
 						JOptionPane.showMessageDialog(null, "chose a tount target");						
@@ -69,8 +69,8 @@ public abstract  class Minion extends Card{
 				if (taeget instanceof Minion && mapper.validCard(targetP, (Card) taeget)){
 					((Minion) taeget).setHp(((Minion) taeget).getHp()-this.getAttack());
 					this.setHp(this.getHp()-((Minion) taeget).getAttack());	
-					attackerP.checkCard(targetP,v);
-					targetP.checkCard(attackerP, v);
+					attackerP.checkCard(targetP,v, mapper);
+					targetP.checkCard(attackerP, v,mapper);
 					return true;
 				}
 			}

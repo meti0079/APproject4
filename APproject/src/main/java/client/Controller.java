@@ -24,7 +24,6 @@ import gameModel.requestAndREsponse.StatosNeeds;
 import gameModel.requestAndREsponse.gameNeed;
 public class Controller {
 
-	private static Controller controller;
 	private MainFrame frame;
 	private LoginPanel loginPanel;
 	private MenuPanel menuPanel;
@@ -37,22 +36,19 @@ public class Controller {
 	private StartPlayShow playShow;
 	private PlayShow playPanel;
 	private gameNeed gameNeed;
-	
-	
-	
-	
-	private Controller() {
+	private String state;
+
+
+
+
+
+	public Controller() {
 		try {
 			gson=new GsonBuilder().setLenient().create();
 			frame=new MainFrame();
 			loginPanel=new LoginPanel();
 			frame.ChangePanel(loginPanel);
-			menuPanel=new MenuPanel();
-			shop=new Shop();
-			statos=new Statos();
-			settingPanel=new SettingPanel();
-			collectionPanel=new CollectionPanel();
-			playShow=new StartPlayShow();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -119,11 +115,7 @@ public class Controller {
 	public User getUser() {
 		return user;
 	}
-	public static Controller getInsist() {
-		if(controller==null)
-			controller=new  Controller();
-		return controller;
-	}
+
 	public void loginError(String message) {
 		for(int i=0;i<message.length();i++)
 			if(message.charAt(i)=='}') {
@@ -134,9 +126,23 @@ public class Controller {
 	public void setPlayer(String message) {
 		StringReader stringReader=new StringReader(message+" ");
 		user=gson.fromJson(new JsonReader(stringReader), User.class);
+		try {
+			menuPanel=new MenuPanel(this);
+		shop=new Shop(this);
+		statos=new Statos(this);
+		settingPanel=new SettingPanel(this);
+		collectionPanel=new CollectionPanel(this);
+		playShow=new StartPlayShow(this);
+		playPanel=new PlayShow(this);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void shopNeed(String message) {
-		ShopNeeds sh=gson.fromJson(message, ShopNeeds.class);
+		StringReader reader=new StringReader(message);
+		System.out.println(message);
+		ShopNeeds sh=gson.fromJson(new JsonReader(reader), ShopNeeds.class);
 		shop.setMyCards(sh.getCards());
 		shop.setHeros(sh.getBuyHeros());
 		shop.getStorePanel().setBuyCard(sh.getHavenot());
@@ -171,14 +177,14 @@ public class Controller {
 		collectionPanel.setEnemyDeck(need.getEnemydeck());
 		collectionPanel.setEnemyHero(need.getEnemyHero());
 		collectionPanel.setHeros(need.getHero());
-		collectionPanel.updatePanel();
+		collectionPanel.updatePanel(this);
 	}
 	public void deckChange(String message) {
 		ChangInDeckResponse response=gson.fromJson(message, ChangInDeckResponse.class);
 		collectionPanel.setDeck(response.getDeck());
 		collectionPanel.setDeckinfo(response.getDeckInfo());
 		collectionPanel.setEnemyDeck(response.getEnemydeck());
-		collectionPanel.updatePanel();
+		collectionPanel.updatePanel(this);
 	}
 	public void collectioError(String message) {
 		JOptionPane.showMessageDialog(collectionPanel, message);
@@ -187,11 +193,28 @@ public class Controller {
 	int x=	JOptionPane.showConfirmDialog(menuPanel, message);
 		if(x==JOptionPane.OK_OPTION) {
 			try {
-				String 	message1= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
+				String 	message1= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(getUser().getTocken()))+"#";
 				Client.WriteMessage(message1);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
+	public void setGameNeed(String message) {
+		gameNeed=gson.fromJson(message, gameNeed.getClass());
+		playPanel.update(gameNeed.getText());
+	}
+	public void attackError(String message) {
+		JOptionPane.showMessageDialog(playPanel, message);	
+	}
+	public gameNeed getGameNeed() {
+		return gameNeed;
+	}	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+
 }

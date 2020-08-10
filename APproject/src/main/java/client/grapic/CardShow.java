@@ -40,9 +40,9 @@ public class CardShow extends JPanel  {
 	private void readImage() {
 		File input_file ;
 		if(!card.isUsedToAttack() || card.isRush()) {
-			input_file = new File("src\\play image\\"+card.getName()+".png"); 
+			input_file = new File("src\\main\\java\\play image\\"+card.getName()+".png"); 
 		}else {
-			input_file = new File("src\\play image\\"+card.getName()+"1.png"); 			
+			input_file = new File("src\\main\\java\\play image\\"+card.getName()+"1.png"); 			
 		}
 		image = new BufferedImage(100, 150, BufferedImage.TYPE_INT_ARGB);
 		try {image = ImageIO.read(input_file);

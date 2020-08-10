@@ -20,22 +20,22 @@ public class Gamestate {
 		initialGson();
 	}
 	public String toString(Player player) {
-		String na=System.getProperty("user.dir")+"\\src\\pll\\"+player.get_name();
+		String na=System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+player.get_name();
 		return na;
 	}
 	public void makeProfile(Player player , Enemy enemy) throws IOException {
 		player.setTocken(0);
-		FileWriter f=new FileWriter(toString());
+		FileWriter f=new FileWriter(toString(player));
 		String se=gson.toJson(player);
 		f.write(se);
 		f.close();
-		FileWriter ff=new FileWriter(System.getProperty("user.dir")+"\\src\\pll\\"+player.get_name()+"enemy");
+		FileWriter ff=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+player.get_name()+"enemy");
 		String ss=gson.toJson(enemy);
 		ff.write(ss);
 		ff.close();
 	}
 	public Boolean checkName(String name ,String pass) throws IOException {
-		File file=new File(System.getProperty("user.dir")+"\\src\\PLAYERSNAME\\playersname.txt");
+		File file=new File(System.getProperty("user.dir")+"\\src\\main\\java\\PLAYERSNAME\\playersname.txt");
 		Scanner s=new Scanner(file);
 		boolean isther=false;
 		while (s.hasNext()) {
@@ -51,7 +51,7 @@ public class Gamestate {
 	}
 	public boolean checkValid(String s) throws IOException {
 		boolean  re=false;
-		File file=new File(System.getProperty("user.dir")+"\\src\\PLAYERSNAME\\playersname.txt");
+		File file=new File(System.getProperty("user.dir")+"\\src\\main\\java\\PLAYERSNAME\\playersname.txt");
 		Scanner ss=new Scanner(file);
 		while (ss.hasNext()) {
 			String line=ss.nextLine();
@@ -64,14 +64,14 @@ public class Gamestate {
 	}
 	public void writeName(String name ,String pass) throws IOException {
 		if( !checkValid(name)) {
-			FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\PLAYERSNAME\\playersname.txt",true);
+			FileWriter file=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\PLAYERSNAME\\playersname.txt",true);
 			file.write(name+"\n");
 			file.write(pass+"\n");
 			file.close();			
 		}
 	}
 	public Player readPlayer(String name) throws IOException {
-		File f=new File(System.getProperty("user.dir")+"\\src\\pll\\"+name);
+		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+name);
 		Scanner s=new Scanner(f);
 		String se="";
 		while(s.hasNext()) {
@@ -82,7 +82,7 @@ public class Gamestate {
 		return player;
 	}
 	public Enemy readEnemy(String name) throws FileNotFoundException {
-		File f=new File(System.getProperty("user.dir")+"\\src\\pll\\"+name+"enemy");
+		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+name+"enemy");
 		Scanner s=new Scanner(f);
 		String se="";
 		while(s.hasNext()) {

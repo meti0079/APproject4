@@ -3,22 +3,21 @@ package client.listeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JOptionPane;
+import com.google.gson.Gson;
 
+import client.Client;
+import client.Controller;
 import client.grapic.PassivePanel;
-import client.grapic.PlayPanel;
-import game.Gamestate;
-import game.Logger;
-import passives.Passive;
-import playModel.PlayerModel;
+import gameModel.requestAndREsponse.SetPassiveRequest;
+
 
 public class PassiveListener implements MouseListener{
-	private Passive index;
-	private PlayerModel p;
+	private String name;
 	PassivePanel pas;
-	public PassiveListener(Passive index, PlayerModel p,PassivePanel pas) {
-		this.index = index;
-		this.p=p;
+	int tocken;
+	public PassiveListener(PassivePanel pas, String name, int tocken) {
+		this.tocken=tocken;
+		this.name=name;
 		this.pas=pas;
 	}
 	@Override
@@ -32,13 +31,11 @@ public class PassiveListener implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		try {
-			p.setPassive(index);
-			Logger.getinsist().log(Gamestate.getinsist().getPlayer().get_name(), p.getName(), "choosed Passive"+p.getPassive().getName());
-			JOptionPane.showMessageDialog(null,  p.getName()+"  passive chosed");
+			String message="SETPASSIVE>>"+new Gson().toJson(new SetPassiveRequest(name, tocken))+"#";
+			Client.WriteMessage(message);
 		} catch (Exception e1) {e1.printStackTrace();}
 		pas.setVisible(false);
 	}
-
 	@Override
 	public void mouseReleased(MouseEvent e) {}
 

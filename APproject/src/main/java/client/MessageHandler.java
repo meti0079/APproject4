@@ -1,9 +1,10 @@
 package client;
 
+
 public class MessageHandler {
 	Controller controller;
 	public MessageHandler() {
-	controller=Controller.getInsist();
+	controller=new Controller();
 	}
 
 	
@@ -42,7 +43,6 @@ public class MessageHandler {
 		case "SETSTATOSNEED":
 			controller.statosNeed(message);
 			break;
-			
 		case "SETCOLLECTIONNEED":
 			controller.collectionNeed(message);
 			break;
@@ -54,6 +54,12 @@ public class MessageHandler {
 			break;
 		case "PLAYERROR":
 			controller.playError(message);
+			break;
+		case "SETGAMENEED":
+			controller.setGameNeed(message);
+			break;
+		case "ATTACKERROR":
+			controller.attackError(message);
 			break;
 			
 			

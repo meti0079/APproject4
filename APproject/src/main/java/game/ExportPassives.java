@@ -24,9 +24,9 @@ public class ExportPassives implements PassiveVisitor{
 	}
 	@Override
 	public void visitManaJump(PlayerModel me, PlayerModel enemy, Card x) {
-		if(PlayPanel.getRoundGame()>57 && PlayPanel.getRoundGame()%2==me.getTurn()) {
-			me.setPreviosgem(me.getPreviosgem()+1);
-		}
+//		if(PlayPanel.getRoundGame()>57 && PlayPanel.getRoundGame()%2==me.getTurn()) {
+//			me.setPreviosgem(me.getPreviosgem()+1);
+//		}
 	}	
 	@Override
 	public void visitAlchemistsStone(PlayerModel me, PlayerModel enemy, Card x) {

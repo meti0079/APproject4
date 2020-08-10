@@ -6,10 +6,16 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JEditorPane;
 
+import com.google.gson.Gson;
+
 import Cardspackage.Card;
+import client.Client;
+import client.Controller;
 import client.grapic.CardShow;
 import client.grapic.HeroPowerShow;
 import client.grapic.PlayPanel;
+import gameModel.requestAndREsponse.HeroPowerRequest;
+import gameModel.requestAndREsponse.gameNeed;
 import hero.heroPower.HeroPower;
 import interfaces.HeroPowerVisitor;
 import interfaces.Visitor;
@@ -17,22 +23,18 @@ import playModel.Mapper;
 import playModel.PlayerModel;
 
 public class HeroPowerListener implements MouseListener,MouseMotionListener{
-	private PlayPanel panel;
 	private HeroPower heropower;
+	private int round ;
+	private int turn;
+	int tocken;
 	private HeroPowerShow x;
-	private PlayerModel me;
-	private PlayerModel enemy;
-	private HeroPowerVisitor v;
-	private Visitor cardVisitor;
-	public HeroPowerListener(PlayPanel panel, HeroPower heroPower,HeroPowerShow shpw , PlayerModel me, PlayerModel enemy, HeroPowerVisitor v, Visitor cv) {
-		super();
-		this.panel = panel;
+	public HeroPowerListener( HeroPower heroPower,int round, int turn, HeroPowerShow x, int tocken) {
+		this.tocken=tocken;
+		this.round=round;
+		this.turn=turn;
 		this.heropower = heroPower;
-		this.x = shpw;
-		this.me = me;
-		this.enemy = enemy;
-		this.v = v;
-		this.cardVisitor=cv;
+		this.x=x;
+
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -46,22 +48,18 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(heropower.isUsed()==false && PlayPanel.getRoundGame()%2==me.getTurn()) {
-			if(me.getCurrentgem()>=heropower.getMana())
+		if(heropower.isUsed()==false && round%2==turn) {
 			try {
-				if(Mapper.getinsist().handleHeroPower(me, enemy, v, x.getX(), x.getY(), heropower,cardVisitor)) {
-					String 	ss=me.getName()+"     played    hero power\n";
-					panel.getTextArea().append(ss);	
-				}
+				String message="HeroPower>>"+new Gson().toJson(new HeroPowerRequest(tocken, x.getX(), x.getY()))+"#";
+				Client.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
-		panel.updatePanel();	
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(panel.getRoundGame()%2==me.getTurn()) {
+		if(round%2==turn) {
 			int newX = e.getX() + x.getX();
 			int newY = e.getY() + x.getY();
 			x.setBounds(newX, newY, 100	, 150);	

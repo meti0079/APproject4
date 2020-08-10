@@ -38,7 +38,7 @@ public class Login  {
 		gson=gsonBilder.create();
 	}
 	private void makeWeapon(Player player) throws FileNotFoundException {
-		File fa=new File(System.getProperty("user.dir")+"\\src\\CArds\\weapons");
+		File fa=new File(System.getProperty("user.dir")+"\\src\\main\\java\\CArds\\weapons");
 		File[] dirr=fa.listFiles();
 		if(dirr!=null) {
 			for(File ch:dirr) {
@@ -54,7 +54,7 @@ public class Login  {
 
 	private void makeMinion(Player player) throws FileNotFoundException {
 		Random ran=new Random();
-		File f2=new File(System.getProperty("user.dir")+"\\src\\CArds\\minions");
+		File f2=new File(System.getProperty("user.dir")+"\\src\\main\\java\\CArds\\minions");
 		File[] dirr2=f2.listFiles();
 		if(dirr2!=null) {
 			for(File ch:dirr2) {
@@ -95,7 +95,7 @@ public class Login  {
 		player.addHero(first);
 	}
 	private void makeSpells(Player player) throws FileNotFoundException {	
-		File fe=new File(System.getProperty("user.dir")+"\\src\\CArds\\spells");
+		File fe=new File(System.getProperty("user.dir")+"\\src\\main\\java\\CArds\\spells");
 		File[] dir=fe.listFiles();
 		if(dir!=null) {
 			int i=0;
