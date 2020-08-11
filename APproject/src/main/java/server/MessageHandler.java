@@ -139,6 +139,9 @@ public class MessageHandler {
 		case "SENDMESSAGE":
 			controller.sendMessage(message,packet);
 			break;
+		case "SEEMATCH":
+			controller.seeMatch(message,packet);
+			break;
 		default:
 			break;
 		}

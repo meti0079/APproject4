@@ -59,14 +59,14 @@ public class PlayPanel extends JPanel{
 		initialBtutton();
 		startGame();
 	}
-		private void startGame(){
-			jp=new JProgressBar(0, 60);
-			jp.setBounds(10, 440, 150, 40);
-			jp.setValue(0);
-			jp.setString(0+"");
-			jp.setStringPainted(true);
-			add(jp);
-		}
+	private void startGame(){
+		jp=new JProgressBar(0, 60);
+		jp.setBounds(10, 440, 150, 40);
+		jp.setValue(0);
+		jp.setString(0+"");
+		jp.setStringPainted(true);
+		add(jp);
+	}
 
 	private void  initialPassive() throws Exception {
 		if(controller.getGameNeed().getTurnremind()==60) {
@@ -101,8 +101,10 @@ public class PlayPanel extends JPanel{
 		heroPowers.removeAll(heroPowers);
 		HeroPowerShow x= new HeroPowerShow(controller.getGameNeed().getMyHero());
 		x.setBounds(828, 700, 150, 150);
-		x.addMouseListener(new HeroPowerListener (controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
-		x.addMouseMotionListener(new HeroPowerListener(controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
+		if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {					
+			x.addMouseListener(new HeroPowerListener (controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
+			x.addMouseMotionListener(new HeroPowerListener(controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
+		}
 		add(x);
 		heroPowers.add(x);
 		HeroPowerShow x1= new HeroPowerShow(controller.getGameNeed().getEnemyHero());
@@ -129,6 +131,9 @@ public class PlayPanel extends JPanel{
 			manabut.setEnabled(false);				
 		}else {
 			manabut.setEnabled(true);
+		}
+		if(controller.getGameNeed().getEnemyName().equals("&&&&")) {
+			manabut.setEnabled(false);							
 		}
 		try {
 			initialPassive();
@@ -255,7 +260,7 @@ public class PlayPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String message="EXITGAME>>"+gson.toJson(new SaveAndExitRequest(tocken));
+					String message="EXITWATCH>>"+gson.toJson(new SaveAndExitRequest(tocken));
 					Client.WriteMessage(message);
 				} catch (IOException e) {e.printStackTrace();}
 			}
@@ -296,9 +301,11 @@ public class PlayPanel extends JPanel{
 	private void addPlayerWeapon() {
 		if(controller.getGameNeed().getMyWeapon()!=null) {
 			CardShow x=new CardShow(controller.getGameNeed().getMyWeapon());
+			if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {				
+				x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+				x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+			}
 			x.setBounds(560, 690, 100, 150);
-			x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
-			x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
 			add(x);
 			weapons.add(x);				
 		}
@@ -314,8 +321,10 @@ public class PlayPanel extends JPanel{
 			if(controller.getGameNeed().getMyBattlrground().get(i) !=null) {
 				CardShow x=new CardShow(controller.getGameNeed().getMyBattlrground().get(i));
 				x.setBounds(200+160*i,500, 100, 150);
-				x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
-				x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+				if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {
+					x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+					x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));					
+				}
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -335,8 +344,10 @@ public class PlayPanel extends JPanel{
 		int	j=-1;
 		for(Card s :controller.getGameNeed().getMyHand()) {
 			final CardShow x=new CardShow(s);
-			x.addMouseListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken())); 
-			x.addMouseMotionListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
+			if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {
+				x.addMouseListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken())); 
+				x.addMouseMotionListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
+			}
 			CurrentHand.add(x);
 			x.setBounds(1000+(j*100), 850, 100, 150);
 			add(x);
@@ -344,25 +355,30 @@ public class PlayPanel extends JPanel{
 		}
 	}
 	private void setenemyHandCard() {
-		int	j1=-1;
-		for (int i = 0; i < controller.getGameNeed().getEnemyHandsize(); i++) {
-			JLabel x=new JLabel(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBackCard()));
-			x.setBounds(1000+(j1*100), 5, 100, 150);
-			add(x);
-			enemyHand.add(x);
-			j1--;
+		if(controller.getGameNeed().getEnemyName().equals("&&&&")) {
+			int	j=-1;
+			for(Card s :controller.getGameNeed().getEnemyHand()) {
+				final CardShow sh=new CardShow(s);
+				CurrentHand.add(sh);
+				sh.setBounds(1000+(j*100), 5, 100, 150);
+				add(sh);
+				j--;
+			}	
+		}else {	
+			int	j1=-1;
+			for (int i = 0; i < controller.getGameNeed().getEnemyHandsize(); i++) {
+				JLabel x=new JLabel(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBackCard()));
+				x.setBounds(1000+(j1*100), 5, 100, 150);
+				add(x);
+				enemyHand.add(x);
+				j1--;
+			}
 		}
 	}
-	/**
-	 * @return the jp
-	 */
 	public JProgressBar getJp() {
 		return jp;
 	}
-
 	public void setJp(JProgressBar jp) {
 		this.jp = jp;
 	}
-	
-	
 }

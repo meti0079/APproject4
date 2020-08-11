@@ -750,4 +750,20 @@ public class Controller {
 				}
 			}
 	}
+	public void seeMatch(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		ChatRequest request=gson.fromJson(new JsonReader(reader), ChatRequest.class);
+		User x=online.get(request.getTocken());
+			if(x!=null) {
+				try {
+					for (Game game : games) {
+						if(game.getUser1().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ||game.getUser2().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ) {
+							game.addWatcher(x);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+	}
 }

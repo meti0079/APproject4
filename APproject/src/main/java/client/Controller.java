@@ -194,20 +194,16 @@ public class Controller {
 		}
 		if(	message.equals("59") && gameNeed.getTurnremind()%2==gameNeed.getMyturn()) {		
 			try {
-
 				String message1="NEXTTURN>>"+gson.toJson(new NextTurnRequest(user.getTocken()));
 				Client.WriteMessage(message1);
 			} catch (Exception e) {e.printStackTrace();
 			}
 		}
 	}
-
 	public void yes(String message) {
 		clock.setConnection(System.nanoTime());	
 	}
-
 	public void message(String message) {
 		playPanel.getChat().getTextArea().setText(message);
 	}
-
 }

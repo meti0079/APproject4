@@ -29,6 +29,7 @@ public class Game {
 	Gson gson;
 	boolean showPassive=true;
 	Clock clock;
+	ArrayList<User > watcher=new ArrayList<>();
 	public Game(User user) {
 		try {
 
@@ -224,6 +225,20 @@ public class Game {
 					ServerMain.WriteMessage(message1, user1.getAddress());	
 				}
 			} catch (IOException e) {	e.printStackTrace();
+			}
+		}
+		for (User user : watcher) {
+			GameNeed gameNeed=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),makeClientCards(enemy.getHand()),
+					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
+					mekeACard(me.getWeapon())
+					,mekeACard(enemy.getWeapon()), me.getHero(),	enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
+					text, passives(), "&&&&",me.getTurn(),mapper.checkQuest(me),	mapper.checkQuest(me)?me.getQuest().getHave():0,mapper.checkQuest(me)?me.getQuest().getMission():0,
+							mapper.checkQuest(enemy),mapper.checkQuest(enemy)?enemy.getQuest().getHave():0,mapper.checkQuest(enemy)?enemy.getQuest().getMission():0,user1.getBackBattleGround(),user1.getBackCard());
+			String message1="SETGAMENEED>>"+gson.toJson(gameNeed)+"#";				
+			try {
+				ServerMain.WriteMessage(message1, user.getAddress());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -512,5 +527,15 @@ public class Game {
 			ServerMain.WriteMessage(message1, user2.getAddress());
 			Logger.getinsist().log(user1.getPlayer().get_name(), user1.getPlayer().get_name()+"  left the match", "");
 		} catch (IOException e) {e.printStackTrace();}
+	}
+	public void addWatcher(User x) {
+		watcher.add(x);
+		String messString="CHANGEPANEL>>PLAYEPANEL#";
+		try {
+			ServerMain.WriteMessage(messString, x.getAddress());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

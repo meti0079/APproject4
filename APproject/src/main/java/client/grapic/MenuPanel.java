@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import com.google.gson.Gson;
 import client.Client;
 import client.Controller;
+import gameModel.requestAndREsponse.ChatRequest;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class MenuPanel extends JPanel {
@@ -26,6 +27,7 @@ public class MenuPanel extends JPanel {
 	private JButton save;
 	private JButton setting;
 	private Controller controller;
+	private JButton watch;
 	private void initial() throws Exception {
 		setPreferredSize(new  Dimension(1800, 1000));
 		setLayout(null);
@@ -42,6 +44,28 @@ public class MenuPanel extends JPanel {
 		setStoreButton();
 		setExitButton();
 		setSaveButton();
+		setWatchButton();
+	}
+	private void setWatchButton() {
+		watch=new JButton("watch");
+		watch.setFont(new Font("Tahoma", Font.BOLD, 30));
+		watch.setForeground(Color.BLACK);
+		watch.setBackground(Color.orange);
+		watch.setBounds(20, 20, 330, 60);
+		watch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String j=JOptionPane.showInputDialog( "enter player name you want watch her/his match","");				
+						String 	message= "SEEMATCH>>"+new Gson().toJson(new ChatRequest(j, controller.getUser().getTocken()))+"#";
+						Client.WriteMessage(message);			
+				} catch (IOException e1) {
+					System.out.println("save button");
+					e1.printStackTrace();
+				}
+			}
+		});	
+		add(watch);		
 	}
 	@Override
 	protected void paintComponent(Graphics g) {
