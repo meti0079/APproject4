@@ -133,6 +133,12 @@ public class MessageHandler {
 		case "EXITGAME":
 			controller.exitMatch(message,packet);
 			break;
+		case "IAM":
+			controller.isAlive(message,packet);
+			break;
+		case "SENDMESSAGE":
+			controller.sendMessage(message,packet);
+			break;
 		default:
 			break;
 		}

@@ -3,9 +3,7 @@ package client;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-
 
 public class Client {
 	public static SocketAddress address;
@@ -13,7 +11,6 @@ public class Client {
 	public static String serverIP="";
 	public static int serverport;
 	public static int maxLenght=100000;
-
 	public static DatagramPacket readPacket(DatagramSocket datagramSocket) throws IOException {
 		DatagramPacket datagramPacket = new DatagramPacket(new byte[maxLenght]	,maxLenght);
 		datagramSocket.receive(datagramPacket);
@@ -24,9 +21,8 @@ public class Client {
 		DatagramPacket datagramPacket= new DatagramPacket(data, data.length, address);
 		datagramSocket.send(datagramPacket);
 	}
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		datagramSocket= new DatagramSocket();
-//		new InetSocketAddress(serverIP, serverport);
 		Reciver re= new Reciver(datagramSocket);
 		re.start();
 	}

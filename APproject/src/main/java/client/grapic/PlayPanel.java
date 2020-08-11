@@ -28,7 +28,7 @@ import gameModel.requestAndREsponse.SaveAndExitRequest;
 public class PlayPanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	public static int i=0;
+	JProgressBar jp;
 	private JButton manabut;	
 	private JLabel next;
 	private JButton exitGame;
@@ -57,18 +57,16 @@ public class PlayPanel extends JPanel{
 		textArea=t;
 		initialLables();
 		initialBtutton();
+		startGame();
 	}
-	//	private void startGame() throws Exception {
-	//		JProgressBar jp=new JProgressBar(0, 60);
-	//		jp.setBounds(10, 440, 150, 40);
-	//		jp.setValue(0);
-	//		jp.setString(0+"");
-	//		jp.setStringPainted(true);
-	//		ComputerPlayer computerPlayer=new ComputerPlayer(me, enemy, visitor, textArea);
-	//		Clock timer =new Clock(jp, this,computerPlayer);
-	//		add(jp);
-	//		timer.start();		
-	//	}
+		private void startGame(){
+			jp=new JProgressBar(0, 60);
+			jp.setBounds(10, 440, 150, 40);
+			jp.setValue(0);
+			jp.setString(0+"");
+			jp.setStringPainted(true);
+			add(jp);
+		}
 
 	private void  initialPassive() throws Exception {
 		if(controller.getGameNeed().getTurnremind()==60) {
@@ -166,9 +164,10 @@ public class PlayPanel extends JPanel{
 		super.paintComponent(g);
 		if(controller.getGameNeed()==null) {
 			g.drawImage(new ImageIcon("src\\main\\java\\play image\\nattle1.jpg").getImage(), 0, 0, null);
-		}else
+		}else {
 			g.drawImage(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBattleground()).getImage(), 0, 0, null);
-		drawGem(g);
+			drawGem(g);			
+		}
 		drawPlaces(g);
 	}
 
@@ -354,4 +353,16 @@ public class PlayPanel extends JPanel{
 			j1--;
 		}
 	}
+	/**
+	 * @return the jp
+	 */
+	public JProgressBar getJp() {
+		return jp;
+	}
+
+	public void setJp(JProgressBar jp) {
+		this.jp = jp;
+	}
+	
+	
 }

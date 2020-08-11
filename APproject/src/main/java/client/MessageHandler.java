@@ -37,9 +37,6 @@ public class MessageHandler {
 		case "SETSHOPNEED":
 			controller.shopNeed(message);
 			break;
-		case "UPDATE":
-			controller.updatePanels(message);
-			break;
 		case "SETSTATOSNEED":
 			controller.statosNeed(message);
 			break;
@@ -61,10 +58,15 @@ public class MessageHandler {
 		case "ATTACKERROR":
 			controller.attackError(message);
 			break;
-			
-			
-			
-			
+		case "SETTIME":
+			controller.setTime(message);
+			break;
+		case "YES":
+			controller.yes(message);
+			break;	
+		case "MESSAGE":
+			controller.message(message);
+			break;	
 		default:
 			break;
 		}

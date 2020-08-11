@@ -1,7 +1,6 @@
 package client.grapic;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,16 +9,11 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import com.google.gson.Gson;
-
 import client.Client;
 import client.Controller;
-import game.Gamestate;
-import game.Logger;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class MenuPanel extends JPanel {

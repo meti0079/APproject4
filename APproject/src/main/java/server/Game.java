@@ -28,8 +28,10 @@ public class Game {
 	String text;
 	Gson gson;
 	boolean showPassive=true;
+	Clock clock;
 	public Game(User user) {
 		try {
+
 			initialGson();
 			log=Logger.getinsist();
 			user1=user;
@@ -37,6 +39,8 @@ public class Game {
 			mapper=new Mapper(user1.getGameState(),user,user);
 			me=mapper.readMe(user.getGameState(),user);
 			enemy=mapper.readEnemy(user.getGameState(), user);
+			clock=new Clock(this);
+			clock.start();
 			addToHand(1);
 			addToHand(1);
 			addToHand(1);
@@ -59,6 +63,8 @@ public class Game {
 			mapper=new Mapper(user1.getGameState(),user1,user2);
 			me=mapper.readMe(user1.getGameState(),user1);
 			enemy=mapper.readEnemy(user2.getGameState(), user2);
+			clock=new Clock(this);
+			clock.start();
 			addToHand(1);
 			addToHand(1);
 			addToHand(1);
@@ -69,13 +75,20 @@ public class Game {
 			ServerMain.WriteMessage(messString, user1.getAddress());
 			ServerMain.WriteMessage(messString, user2.getAddress());
 			sendGameNeed();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	private void chekConnection(int i) {
+		if(i==0) {
+			clock.setUser1LastConnection(System.nanoTime());
+		}else {
+			clock.setUser2LastConnection(System.nanoTime());
+		}
+	}
 
 	public void attack(int i, String cardName, int x, int y) {
+		chekConnection(i);
 		if(user1.getGameState().equals("training")) {
 			try {
 				if(round%2==0) {
@@ -229,6 +242,8 @@ public class Game {
 		return passives;
 	}
 	protected void nextTurn(int turn) throws Exception {
+		chekConnection(turn);
+		clock.setTime(0);
 		if(!user1.getGameState().equals("training")) {
 			if(round%2==turn) {
 				if(round==60) {
@@ -272,7 +287,8 @@ public class Game {
 		}
 	}
 
-	private void addToHand(int turn) {	
+	private void addToHand(int turn) {
+		chekConnection(turn);
 		try {
 			mapper.readDeck(me, enemy,user1.getGameState(),user1,user2);
 			if(turn==0) {
@@ -288,6 +304,7 @@ public class Game {
 	}
 
 	public void addToBattleground(int i, String cardName, int x, int y) {
+		chekConnection(i);
 		try {
 			if(user1.getGameState().equals("training")) {
 				if(round%2==0) {
@@ -336,6 +353,7 @@ public class Game {
 		}
 	}
 	public void handleHeroPower(int i, int x, int y) {
+		chekConnection(i);
 		if(user1.getGameState().equals("training")) {
 			if(i==me.getTurn()) {
 				if(me.getCurrentgem()>=me.getHero().getHero_power().getMana())
@@ -367,8 +385,8 @@ public class Game {
 	}
 
 	public void setPassive(int i, String passiveName) {
+		chekConnection(i);
 		if(round%2==i) {
-
 			if(i==0) {
 				for (Passive passive : mapper.getAllPassives()) {
 					if(passive.getName().equalsIgnoreCase(passiveName))
@@ -384,14 +402,13 @@ public class Game {
 		}
 	}
 	public void changCard(int i, String cardName) {
-		if(round%2==i) {
-			if (i==0 && me.getChanges()<3) {
-				mapper.changeCartAtFirst(me, findCard(cardName, me.getHand()));
-				sendGameNeed();
-			}else if(i==1&& enemy.getChanges()<3){
-				mapper.changeCartAtFirst(enemy, findCard(cardName, enemy.getHand()));
-				sendGameNeed();
-			}
+		chekConnection(i);
+		if (i==0 && me.getChanges()<3) {
+			mapper.changeCartAtFirst(me, findCard(cardName, me.getHand()));
+			sendGameNeed();
+		}else if(i==1&& enemy.getChanges()<3){
+			mapper.changeCartAtFirst(enemy, findCard(cardName, enemy.getHand()));
+			sendGameNeed();
 		}
 	}
 
@@ -491,7 +508,7 @@ public class Game {
 		String message1="PLAYERROR>>"+me.getName()+" left !!!! #";
 		try {
 			String message3="CHANGEPANEL>>MENU#";
-		ServerMain.WriteMessage(message3, user1.getAddress());
+			ServerMain.WriteMessage(message3, user1.getAddress());
 			ServerMain.WriteMessage(message1, user2.getAddress());
 			Logger.getinsist().log(user1.getPlayer().get_name(), user1.getPlayer().get_name()+"  left the match", "");
 		} catch (IOException e) {e.printStackTrace();}

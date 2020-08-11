@@ -49,8 +49,8 @@ public class LoginPanel extends JPanel {
 		this.passfield=new JPasswordField(15);
 		this.namefield2=new JTextField(15);
 		this.passfield2=new JPasswordField(15);
-		serverIp=new JTextField(15);
-		serverPort=new JTextField(15);
+		serverIp=new JTextField("localhost");
+		serverPort=new JTextField("8000");
 	}
 	private void setErrorLables(){
 		error=new JLabel("username or password is incoreect!!!!  try again");

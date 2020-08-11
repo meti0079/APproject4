@@ -24,6 +24,7 @@ import gameModel.requestAndREsponse.AddCardToDeck;
 import gameModel.requestAndREsponse.AttackRequest;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.ChangeBattlegroundThem;
+import gameModel.requestAndREsponse.ChatRequest;
 import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.HeroPowerRequest;
@@ -703,7 +704,7 @@ public class Controller {
 	public void exitMatch(String message, DatagramPacket packet) {
 		StringReader reader=new StringReader(message);
 		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
-			User x=online.get(request.getTocken());
+		User x=online.get(request.getTocken());
 			if(x!=null) {
 				try {
 					for (Game game : games) {
@@ -711,6 +712,37 @@ public class Controller {
 							game.exit(0);
 						}else if(game.getUser2()==x) {
 						game.exit(1);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+	}
+	public void isAlive(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			String messString="YES#";
+			try {
+				ServerMain.WriteMessage(messString, x.getAddress());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void sendMessage(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		ChatRequest request=gson.fromJson(new JsonReader(reader), ChatRequest.class);
+		User x=online.get(request.getTocken());
+			if(x!=null) {
+				try {
+					for (Game game : games) {
+						if(game.getUser1()==x) {
+							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser2().getAddress());
+						}else if(game.getUser2()==x) {
+							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser1().getAddress());						
 						}
 					}
 				} catch (Exception e) {

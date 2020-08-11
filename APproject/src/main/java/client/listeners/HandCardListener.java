@@ -22,6 +22,7 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 	int tocken;
 
 	public HandCardListener(PlayPanel panel,Card card, CardShow x,int round, int turn, int tocken) {
+		this.round=round;
 		this.tocken=tocken;
 		this.card=card;
 		this.x=x;
@@ -35,6 +36,7 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		sho.setVisible(false);
+		if(round!=60)
 		if(round%2==turn) {	
 			try {
 				String message="ADDTOBATTLEGROUND>>"+new Gson().toJson(new AttackRequest(tocken, x.getX(), x.getY(), card.getName()))+"#";
@@ -47,7 +49,7 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 	public void mousePressed(MouseEvent e) {
 		sho.setVisible(false);
 		try {
-			if(round==60-turn ) {
+			if(round==60) {
 				String message="CHANGCARD>>"+new Gson().toJson(new changeCardRequest(tocken,card.getName()))+"#";
 				Client.WriteMessage(message);
 			}

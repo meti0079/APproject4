@@ -15,7 +15,7 @@ public class ServerMain {
 		datagramSocket.receive(datagramPacket);
 		return datagramPacket;
 	}
-	public static synchronized void WriteMessage(String message, SocketAddress address) throws IOException {
+	public static  void WriteMessage(String message, SocketAddress address) throws IOException {
 		byte[] data=message.getBytes();
 		DatagramPacket datagramPacket= new DatagramPacket(data, data.length, address );
 		datagramSocket.send(datagramPacket);	
