@@ -193,7 +193,7 @@ public abstract  class Card implements Acceptable {
 		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
 		gsonBilder.setPrettyPrinting();
 		Gson gson=gsonBilder.create();
-		File f=new File(System.getProperty("user.dir")+"\\src\\all cards\\"+name+".json");
+		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\all cards\\"+name+".json");
 		Scanner s = null;
 		try {
 			s = new Scanner(f);

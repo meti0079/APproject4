@@ -7,8 +7,8 @@ import java.awt.Graphics;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -22,6 +22,7 @@ import client.listeners.HandCardListener;
 import client.listeners.HeroPowerListener;
 import client.model.Card;
 import gameModel.requestAndREsponse.NextTurnRequest;
+import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 
 public class PlayPanel extends JPanel{
@@ -30,6 +31,7 @@ public class PlayPanel extends JPanel{
 	public static int i=0;
 	private JButton manabut;	
 	private JLabel next;
+	private JButton exitGame;
 	private TextArea textArea;
 	private JLabel turnPlayed;
 	private JLabel player2DeckRemind;
@@ -46,14 +48,15 @@ public class PlayPanel extends JPanel{
 	private Gson gson;
 	private int tocken;
 	Controller controller;
+	private JLabel enemyName;
 	public PlayPanel( TextArea t, Controller controller) throws Exception {
 		tocken=controller.getUser().getTocken();
 		this.controller=controller;
 		initial();
 		gson=new Gson();
 		textArea=t;
-		initialNextTurnBtutton();
 		initialLables();
+		initialBtutton();
 	}
 	//	private void startGame() throws Exception {
 	//		JProgressBar jp=new JProgressBar(0, 60);
@@ -68,12 +71,6 @@ public class PlayPanel extends JPanel{
 	//	}
 
 	private void  initialPassive() throws Exception {
-		//		if(controller.get.getState().equalsIgnoreCase("computer")) {
-		//			if(getRoundGame()%2==1) {
-		//				pp.setPassive(map.getAllPassives().get(0));
-		//				return ;
-		//			}
-		//		}
 		if(controller.getGameNeed().getTurnremind()==60) {
 			PassivePanel p=new PassivePanel(controller);
 			p.setBounds(200, 300, 1000, 500);
@@ -83,10 +80,8 @@ public class PlayPanel extends JPanel{
 	}
 	private void setCard() {
 		setQuest();
-//		removeHeroPowers();
 		drawHeroPower();
 		removeLables();
-//		removeHeros();
 		addPlayerWeapon();
 		setMyHandCard();
 		setMyBattleGroundCard();
@@ -95,6 +90,10 @@ public class PlayPanel extends JPanel{
 		setenemyHandCard();
 		player1HandRemind.setText(controller.getGameNeed().getMyHand().size()+"");
 		player2HandRemind.setText(controller.getGameNeed().getEnemyHandsize()+"");
+		player1DeckRemind.setText(controller.getGameNeed().getMyDeck()+"");
+		player2DeckRemind.setText(controller.getGameNeed().getEnemDeck()+"");
+		turnPlayed.setText(""+(controller.getGameNeed().getTurnremind()/2));
+		enemyName.setText(controller.getGameNeed().getEnemyName());
 	}
 
 	private void drawHeroPower() {
@@ -104,13 +103,11 @@ public class PlayPanel extends JPanel{
 		heroPowers.removeAll(heroPowers);
 		HeroPowerShow x= new HeroPowerShow(controller.getGameNeed().getMyHero());
 		x.setBounds(828, 700, 150, 150);
-		x.addMouseListener(new HeroPowerListener (controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken()));
-		x.addMouseMotionListener(new HeroPowerListener(controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken()));
+		x.addMouseListener(new HeroPowerListener (controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
+		x.addMouseMotionListener(new HeroPowerListener(controller.getGameNeed().getMyHero().getHero_power(),controller.getGameNeed().getTurnremind() ,controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken(),this));
 		add(x);
 		heroPowers.add(x);
 		HeroPowerShow x1= new HeroPowerShow(controller.getGameNeed().getEnemyHero());
-		x1.addMouseListener(new HeroPowerListener(controller.getGameNeed().getEnemyHero().getHero_power(),controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken()));
-		x1.addMouseMotionListener(new HeroPowerListener(controller.getGameNeed().getEnemyHero().getHero_power(),controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(),x, controller.getUser().getTocken()));
 		x1.setBounds(828, 140, 150, 150);
 		add(x1);
 		heroPowers.add(x1);
@@ -129,18 +126,12 @@ public class PlayPanel extends JPanel{
 		add(x2);
 		heros.add(x2);
 	}
-//	private void removeHeroPowers() {
-//		for(int i=0;i<2;i++)
-//			remove(heroPowers.get(i));
-//		heroPowers.removeAll(heroPowers);
-//	}
-//	private void removeHeros() {
-//		for(int i=0;i<2;i++)
-//			remove(heros.get(i));
-//		heros.removeAll(heros);
-//	}
-
 	public void updatePanel() {
+		if(controller.getGameNeed().getTurnremind()%2!=controller.getGameNeed().getMyturn()) {
+			manabut.setEnabled(false);				
+		}else {
+			manabut.setEnabled(true);
+		}
 		try {
 			initialPassive();
 		} catch (Exception e) {
@@ -173,7 +164,10 @@ public class PlayPanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBattleground()).getImage(), 0, 0, null);
+		if(controller.getGameNeed()==null) {
+			g.drawImage(new ImageIcon("src\\main\\java\\play image\\nattle1.jpg").getImage(), 0, 0, null);
+		}else
+			g.drawImage(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBattleground()).getImage(), 0, 0, null);
 		drawGem(g);
 		drawPlaces(g);
 	}
@@ -197,13 +191,18 @@ public class PlayPanel extends JPanel{
 			remove(CurrentHand.get(i));
 			CurrentHand.remove(CurrentHand.get(i));
 		}
-		
+
 		for (CardShow cardShow : weapons) {
 			remove(cardShow);
 		}	
 	}
 	private void initialLables() {
 		player1DeckRemind = new JLabel("");
+		enemyName=new JLabel();
+		enemyName.setBounds(1050, 150, 100, 100);
+		add(enemyName);
+		enemyName.setFont(new Font("Tahoma", Font.BOLD, 20));
+		enemyName.setForeground(Color.RED);
 		player2DeckRemind=new JLabel("");
 		player2HandRemind=new JLabel("3");
 		player1HandRemind=new JLabel("3");
@@ -234,10 +233,9 @@ public class PlayPanel extends JPanel{
 		turnPlayed.setFont(new Font("Tahoma", Font.BOLD, 30));
 		add(turnPlayed);
 	}
-	private void initialNextTurnBtutton() {
+	private void initialBtutton() {
 		manabut= new JButton();
 		manabut.setBounds(1280, 400, 120, 80);
-		manabut.setBorder(BorderFactory.createEmptyBorder());
 		manabut.setContentAreaFilled(false);
 		manabut.addActionListener(new ActionListener() {
 			@Override
@@ -249,30 +247,44 @@ public class PlayPanel extends JPanel{
 			}
 		});
 		add(manabut);
+		exitGame =new JButton("EXIT");
+		exitGame.setBackground(Color.BLACK);
+		exitGame.setBounds(1300, 0, 100, 80);
+		add(exitGame);
+		exitGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String message="EXITGAME>>"+gson.toJson(new SaveAndExitRequest(tocken));
+					Client.WriteMessage(message);
+				} catch (IOException e) {e.printStackTrace();}
+			}
+		});	
 	}
 	private void setQuest() {
-		if(controller.getGameNeed().getMyquest()!=null) {
+		if(controller.getGameNeed().isMyquest()) {
 			if(progres[0]==null) {
-				JProgressBar jp=new JProgressBar(0, controller.getGameNeed().getMyquest().getMission());
+				JProgressBar jp=new JProgressBar(0, controller.getGameNeed().getMyquestmission());
 				jp.setBounds(10, 240+1*400, 150, 40);
 				jp.setValue(0);
 				add(jp);
 				progres[0]=jp;			
 			}else {
-				progres[0].setValue(controller.getGameNeed().getMyquest().getHave());
+				progres[0].setValue(controller.getGameNeed().getMyquesthave());
 			}		
 		}else {
 			progres[0]=null;						
 		}
-		if(controller.getGameNeed().getEnemyQuest()!=null) {
+		if(controller.getGameNeed().isEnemyQuest()) {
 			if(progres[1]==null) {
-				JProgressBar jp=new JProgressBar(0, controller.getGameNeed().getEnemyQuest().getMission());
+				JProgressBar jp=new JProgressBar(0, controller.getGameNeed().getEnemyquestmission());
 				jp.setBounds(10, 240, 150, 40);
 				jp.setValue(0);
 				add(jp);
 				progres[1]=jp;			
 			}else {
-				progres[1].setValue(controller.getGameNeed().getEnemyQuest().getHave());
+				progres[1].setValue(controller.getGameNeed().getEnemyquestmission());
 			}		
 		}else {
 			progres[1]=null;
@@ -286,18 +298,14 @@ public class PlayPanel extends JPanel{
 		if(controller.getGameNeed().getMyWeapon()!=null) {
 			CardShow x=new CardShow(controller.getGameNeed().getMyWeapon());
 			x.setBounds(560, 690, 100, 150);
-			x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
-			x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
+			x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+			x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
 			add(x);
 			weapons.add(x);				
 		}
 		if(controller.getGameNeed().getEnemyWeapon()!=null) {
 			CardShow x=new CardShow(controller.getGameNeed().getEnemyWeapon());
 			x.setBounds(560, 690-520, 100, 150);
-			if(!(controller.getState().equals("online") ||controller.getState().equals("deckreader"))) {
-				x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getEnemyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));
-				x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getEnemyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));				
-			}
 			add(x);
 			weapons.add(x);	
 		}
@@ -307,8 +315,8 @@ public class PlayPanel extends JPanel{
 			if(controller.getGameNeed().getMyBattlrground().get(i) !=null) {
 				CardShow x=new CardShow(controller.getGameNeed().getMyBattlrground().get(i));
 				x.setBounds(200+160*i,500, 100, 150);
-				x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
-				x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyWeapon(), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken()));
+				x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
+				x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getMyBattlrground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn(), controller.getUser().getTocken(),this));
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -319,10 +327,6 @@ public class PlayPanel extends JPanel{
 			if(controller.getGameNeed().getEnemyBattleground().get(i) !=null) {
 				CardShow x=new CardShow(controller.getGameNeed().getEnemyBattleground().get(i));
 				x.setBounds(200+160*i,300, 100, 150);
-				if(!(controller.getState().equals("online") ||controller.getState().equals("deckreader"))) {
-					x.addMouseListener(new  BattlegrounCardListener(controller.getGameNeed().getEnemyBattleground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));
-					x.addMouseMotionListener(new  BattlegrounCardListener(controller.getGameNeed().getEnemyBattleground().get(i), x,controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));				
-				}
 				CurrentBattleground.add(x);
 				add(x);
 			}
@@ -341,26 +345,13 @@ public class PlayPanel extends JPanel{
 		}
 	}
 	private void setenemyHandCard() {
-		if(controller.getState().equals("training")) {
 		int	j1=-1;
-		for(Card s :controller.getGameNeed().getEnemyHand()) {
-			final CardShow x=new CardShow(s);
-				x.addMouseListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));
-				x.addMouseMotionListener(new HandCardListener(this, s, x, controller.getGameNeed().getTurnremind(),controller.getGameNeed().getMyturn()+1, controller.getUser().getTocken()));				
-			CurrentHand.add(x);
+		for (int i = 0; i < controller.getGameNeed().getEnemyHandsize(); i++) {
+			JLabel x=new JLabel(new ImageIcon("src\\main\\java\\play image\\"+controller.getGameNeed().getBackCard()));
 			x.setBounds(1000+(j1*100), 5, 100, 150);
 			add(x);
+			enemyHand.add(x);
 			j1--;
-		}
-		}else {
-			int	j1=-1;
-			for (int i = 0; i < controller.getGameNeed().getEnemyHandsize(); i++) {
-				JLabel x=new JLabel("src\\main\\java\\play image\\"+controller.getGameNeed().getBackCard());
-				x.setBounds(1000+(j1*100), 5, 100, 150);
-				add(x);
-				enemyHand.add(x);
-				j1--;
-			}
 		}
 	}
 }

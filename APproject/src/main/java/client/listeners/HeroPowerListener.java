@@ -3,24 +3,12 @@ package client.listeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-
-import javax.swing.JEditorPane;
-
 import com.google.gson.Gson;
-
-import Cardspackage.Card;
 import client.Client;
-import client.Controller;
-import client.grapic.CardShow;
 import client.grapic.HeroPowerShow;
 import client.grapic.PlayPanel;
 import gameModel.requestAndREsponse.HeroPowerRequest;
-import gameModel.requestAndREsponse.GameNeed;
 import hero.heroPower.HeroPower;
-import interfaces.HeroPowerVisitor;
-import interfaces.Visitor;
-import playModel.Mapper;
-import playModel.PlayerModel;
 
 public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	private HeroPower heropower;
@@ -28,13 +16,14 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	private int turn;
 	int tocken;
 	private HeroPowerShow x;
-	public HeroPowerListener( HeroPower heroPower,int round, int turn, HeroPowerShow x, int tocken) {
+	PlayPanel panel;
+	public HeroPowerListener( HeroPower heroPower,int round, int turn, HeroPowerShow x, int tocken, PlayPanel panel) {
 		this.tocken=tocken;
 		this.round=round;
 		this.turn=turn;
 		this.heropower = heroPower;
 		this.x=x;
-
+		this.panel=panel;
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -48,14 +37,15 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(heropower.isUsed()==false && round%2==turn) {
+		if(!heropower.isUsed()&& round%2==turn) {
 			try {
-				String message="HeroPower>>"+new Gson().toJson(new HeroPowerRequest(tocken, x.getX(), x.getY()))+"#";
+				String message="HEROPOWER>>"+new Gson().toJson(new HeroPowerRequest(tocken, x.getX(), x.getY()))+"#";
 				Client.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
+		panel.updatePanel();
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {

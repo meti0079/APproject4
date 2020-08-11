@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-
 import Cardspackage.Card;
 import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
@@ -41,9 +40,6 @@ public class Controller {
 	private PlayShow playPanel;
 	private GameNeed gameNeed;
 	private String state;
-
-
-
 
 
 	public Controller() {
@@ -82,44 +78,13 @@ public class Controller {
 		case "PLAYSTART":
 			frame.ChangePanel(playShow);
 			break;
-
-			
-			
-			
-			
+		case "PLAYEPANEL":
+			frame.ChangePanel(playPanel);
+			break;
 		default:
 			break;
 		}	
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public User getUser() {
 		return user;
 	}
@@ -149,7 +114,6 @@ public class Controller {
 	}
 	public void shopNeed(String message) {
 		StringReader reader=new StringReader(message);
-		System.out.println(message);
 		ShopNeeds sh=gson.fromJson(new JsonReader(reader), ShopNeeds.class);
 //		shop.setMyCards(sh.getCards());
 //		shop.setHeros(sh.getBuyHeros());
@@ -215,7 +179,6 @@ public class Controller {
 	public void setGameNeed(String message) {
 		gameNeed=gson.fromJson(message, GameNeed.class);
 		playPanel.update(gameNeed.getText());
-		frame.ChangePanel(playPanel);
 	}
 	public void attackError(String message) {
 		JOptionPane.showMessageDialog(playPanel, message);	

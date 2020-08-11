@@ -1,6 +1,5 @@
 package game;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import Cardspackage.Card;
 import hero.Heros;
 
@@ -97,42 +96,12 @@ public class Player {
 	public ArrayList<Deck> getalldeck() {
 		return my_Decks;
 	}
-
-
 	public Deck getMyDeck() {
 		return my_Decks.get(currentDeck);
 	}
-
 	public void setMyDeck(int x) {
 		this.currentDeck=x;
 	}
-//	public ArrayList<Card> findHeroCard(String name){
-//		ArrayList<Card> sum=new ArrayList<>();
-//		for(Card s : my_Cards) {
-//			if(s.get_Class().contains(name)) {
-//				sum.add(s);		
-//			}
-//		}
-//		return sum;
-//	}
-//	public ArrayList<Card> findManaCard(int x){
-//		ArrayList<Card> sum=new ArrayList<>();
-//		for(Card s : my_Cards) {
-//			if(s.get_Mana()==x) {
-//				sum.add(s);		
-//			}
-//		}
-//		return sum;
-//	}
-//	public ArrayList<Card> findNameCard(String x){
-//		ArrayList<Card> sum=new ArrayList<>();
-//		for(Card s : my_Cards) {
-//			if(s.get_Name().contains(x)) {
-//				sum.add(s);		
-//			}
-//		}
-//		return sum;
-//	}
 	public ArrayList<Deck> sortDecks() {
 		Deck [] allDeck=new Deck[my_Decks.size()];
 		int x=0;
@@ -142,10 +111,16 @@ public class Player {
 		}
 		for(int i=0;i<my_Decks.size()-1;i++) {
 			for(int j=my_Decks.size()-i-1;j>0;j--) {
-				if(allDeck[j].getWin()>=allDeck[j-1].getWin()) {	
+				if(allDeck[j].getCup()>allDeck[j-1].getCup()) {	
 					Deck y=allDeck[j-1];
 					allDeck[j-1]=allDeck[j];
 					allDeck[j]=y;
+				}else if(allDeck[j].getCup()==allDeck[j-1].getCup()) {
+					if(allDeck[j].getWin()>allDeck[j-1].getWin()) {
+						Deck y=allDeck[j-1];
+						allDeck[j-1]=allDeck[j];
+						allDeck[j]=y;						
+					}
 				}
 			}
 		}
@@ -166,17 +141,13 @@ public class Player {
 	public int getCup() {
 		return cup;
 	}
-	
 	public void setCup(int cup) {
 		this.cup = cup;
 	}
-	
 	public int getTocken() {
 		return tocken;
 	}
-	
 	public void setTocken(int tocken) {
 		this.tocken = tocken;
 	}
-
 }

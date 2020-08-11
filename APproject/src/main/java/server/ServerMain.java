@@ -10,12 +10,12 @@ public class ServerMain {
 	public static int maxLenght=1000;
 	public static DatagramSocket datagramSocket;
 
-	public static DatagramPacket readPacket() throws IOException {
+	public static synchronized DatagramPacket readPacket() throws IOException {
 		DatagramPacket datagramPacket = new DatagramPacket(new byte[maxLenght], maxLenght);
 		datagramSocket.receive(datagramPacket);
 		return datagramPacket;
 	}
-	public static void WriteMessage(String message, SocketAddress address) throws IOException {
+	public static synchronized void WriteMessage(String message, SocketAddress address) throws IOException {
 		byte[] data=message.getBytes();
 		DatagramPacket datagramPacket= new DatagramPacket(data, data.length, address );
 		datagramSocket.send(datagramPacket);	

@@ -9,9 +9,12 @@ public class DeckInfo {
 	String heroName;
 	String bestCard;
 	int size;
-	public DeckInfo(String name, float play, int won, int useDeck, float average, String heroName, String bestCard, int size) {
+	int cup;
+
+	
+	public DeckInfo(String name, float play, int won, int useDeck, float average, String heroName, String bestCard,
+			int size, int cup) {
 		super();
-		this.size=size;
 		this.name = name;
 		this.play = play;
 		this.won = won;
@@ -19,6 +22,8 @@ public class DeckInfo {
 		this.average = average;
 		this.heroName = heroName;
 		this.bestCard = bestCard;
+		this.size = size;
+		this.cup = cup;
 	}
 	public int getSize() {
 		return size;
@@ -29,7 +34,13 @@ public class DeckInfo {
 	public DeckInfo() {
 		// TODO Auto-generated constructor stub
 	}
+	public int getCup() {
+		return cup;
+	}
 
+	public void setCup(int cup) {
+		this.cup = cup;
+	}
 	public String getName() {
 		return name;
 	}

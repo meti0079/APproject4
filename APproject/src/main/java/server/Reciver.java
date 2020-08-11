@@ -9,12 +9,12 @@ public class Reciver extends Thread{
 
 	@Override
 	public void run() {
-		Controller  controller=new Controller();
+MessageHandler handler=new MessageHandler();
 		while (true) {
 			try {
 				DatagramPacket datagramPacket= ServerMain.readPacket();
 				ByteArrayInputStream arrayInputStream=new ByteArrayInputStream(datagramPacket.getData());				
-				controller.whatWant(read(arrayInputStream), datagramPacket);
+				handler.whatWant(read(arrayInputStream), datagramPacket);
 			} catch (IOException e) {	e.printStackTrace();}
 		}
 	}

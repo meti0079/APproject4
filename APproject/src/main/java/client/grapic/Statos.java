@@ -41,9 +41,9 @@ public class Statos extends JPanel{
 	}
 	private void drawRoundRect(Graphics g) {
 		for(int i=0;i<5;i++)
-			g.drawRoundRect(10, 165+i*170, 880, 160,20,20);
+			g.drawRoundRect(10, 165+i*190, 880, 160,20,20);
 		for(int i=0;i<5;i++)
-			g.drawRoundRect(900, 165+i*170, 880, 160,20,20);
+			g.drawRoundRect(900, 165+i*190, 880, 160,20,20);
 	}
 	private void drawDeckDetails(Graphics g) {
 		int co=40;
@@ -72,6 +72,8 @@ public class Statos extends JPanel{
 				first+=x;
 				g.drawString("hero :" +s.getHeroName(), co, first);
 				first+=x;
+				g.drawString("cup :" +s.getCup(), co, first);
+				first+=x;
 					g.drawString("best card " +s.getBestCard(), co, first);
 				first+=50;
 				if(first>980) {
@@ -84,7 +86,6 @@ public class Statos extends JPanel{
 			}
 		}
 	}
-	
 	public void setDecks(ArrayList<DeckInfo> decks) {
 		this.decks = decks;
 	}

@@ -10,8 +10,8 @@ import java.net.SocketAddress;
 public class Client {
 	public static SocketAddress address;
 	public static DatagramSocket  datagramSocket;
-	public static String serverIP="localhost";
-	public static int serverport=8000;
+	public static String serverIP="";
+	public static int serverport;
 	public static int maxLenght=100000;
 
 	public static DatagramPacket readPacket(DatagramSocket datagramSocket) throws IOException {
@@ -26,8 +26,7 @@ public class Client {
 	}
 	public static void main(String[] args) throws IOException {
 		datagramSocket= new DatagramSocket();
-//		Controller.getInsist();
-		address=new InetSocketAddress(serverIP, serverport);
+//		new InetSocketAddress(serverIP, serverport);
 		Reciver re= new Reciver(datagramSocket);
 		re.start();
 	}

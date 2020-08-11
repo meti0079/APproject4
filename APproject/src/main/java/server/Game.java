@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import client.model.Card;
 import game.AbstractAdapter;
 import game.Logger;
@@ -26,6 +27,7 @@ public class Game {
 	private Logger log;
 	String text;
 	Gson gson;
+	boolean showPassive=true;
 	public Game(User user) {
 		try {
 			initialGson();
@@ -38,10 +40,12 @@ public class Game {
 			addToHand(1);
 			addToHand(1);
 			addToHand(1);
-			addToHand(2);
-			addToHand(2);
-			addToHand(2);
+			addToHand(0);
+			addToHand(0);
+			addToHand(0);
 			sendGameNeed();
+			String messString="CHANGEPANEL>>PLAYEPANEL#";
+			ServerMain.WriteMessage(messString, user1.getAddress());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,39 +62,48 @@ public class Game {
 			addToHand(1);
 			addToHand(1);
 			addToHand(1);
-			addToHand(2);
-			addToHand(2);
-			addToHand(2);
+			addToHand(0);
+			addToHand(0);
+			addToHand(0);
+			String messString="CHANGEPANEL>>PLAYEPANEL#";
+			ServerMain.WriteMessage(messString, user1.getAddress());
+			ServerMain.WriteMessage(messString, user2.getAddress());
 			sendGameNeed();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private void initialGson() {
-		GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
-		builder.serializeSpecialFloatingPointValues();
-		builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
-		gson= builder.create();
-	}
+
 	public void attack(int i, String cardName, int x, int y) {
-		if(round%2==i) {
+		if(user1.getGameState().equals("training")) {
 			try {
-				if(i==0) {
-					if(mapper.handleAttack(me, enemy,x,y,findCard(cardName, me.getBattleGroundCard()) )) {
-						String 	ss=me.getName()+"     played   "+findCard(cardName, me.getBattleGroundCard()).get_Name()+"\n";
+				if(round%2==0) {
+					if(mapper.handleAttack(me, enemy,x,y,findCard(cardName, me.getBattleGroundCard())) ||  mapper.handleAttack(me, enemy,x,y,me.getWeapon())) {
+						String 	ss=me.getName()+"     played   "+cardName+"\n";
 						Logger.getinsist().log(me.getName(), "", ss);
-						findCard(cardName, me.getBattleGroundCard()).setUsedToAttack(true);
+						if(me.getWeapon()!=null && cardName.equalsIgnoreCase(me.getWeapon().get_Name())) {
+							me.getWeapon().setUsedToAttack(true);
+						}else {
+							if(findCard(cardName, me.getBattleGroundCard())!=null)
+								findCard(cardName, me.getBattleGroundCard()).setUsedToAttack(true);
+						}
 						text+=ss;
 						sendGameNeed();
 					}else {
-						String message= "PLAYERROR>> cant attack!!!!!!!! #";
+						String message= "ATTACKERROR>> cant attack!!!!!!!! #";
 						ServerMain.WriteMessage(message, user1.getAddress());
 					}
 				}else {
-					if(mapper.handleAttack(enemy, me,x,y,findCard(cardName, enemy.getBattleGroundCard()) )) {
-						String 	ss=enemy.getName()+"     played   "+findCard(cardName, enemy.getBattleGroundCard()).get_Name()+"\n";
+					if(mapper.handleAttack(enemy, me,x,y,findCard(cardName, enemy.getBattleGroundCard()))|| mapper.handleAttack(enemy, me,x,y,enemy.getWeapon())) {
+						String 	ss=enemy.getName()+"     played   "+cardName+"\n";
 						Logger.getinsist().log(enemy.getName(), "", ss);
-						findCard(cardName, enemy.getBattleGroundCard()).setUsedToAttack(true);
+						if(enemy.getWeapon()!=null && cardName.equalsIgnoreCase(enemy.getWeapon().get_Name())) {
+							enemy.getWeapon().setUsedToAttack(true);
+						}else{
+							if(findCard(cardName, enemy.getBattleGroundCard())!=null)
+								findCard(cardName, enemy.getBattleGroundCard()).setUsedToAttack(true);
+						}
 						text+=ss;
 						sendGameNeed();
 					}else {
@@ -100,26 +113,65 @@ public class Game {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			}	
+		}else
+			if(round%2==i) {
+				try {
+					if(i==0) {
+						if(mapper.handleAttack(me, enemy,x,y,findCard(cardName,me.getBattleGroundCard())) || mapper.handleAttack(me, enemy,x,y,me.getWeapon())) {
+							String 	ss=me.getName()+"     played   "+cardName+"\n";
+							Logger.getinsist().log(me.getName(), "", ss);
+							if(me.getWeapon()!=null && cardName.equalsIgnoreCase(me.getWeapon().get_Name())) {
+								me.getWeapon().setUsedToAttack(true);
+							}else {
+								if(findCard(cardName, me.getBattleGroundCard())!=null)
+									findCard(cardName, me.getBattleGroundCard()).setUsedToAttack(true);
+							}
+							text+=ss;
+							sendGameNeed();
+						}else {
+							String message= "ATTACKERROR>> cant attack!!!!!!!! #";
+							ServerMain.WriteMessage(message, user1.getAddress());
+						}
+					}else {
+						if(mapper.handleAttack(enemy, me,x,y,findCard(cardName, enemy.getBattleGroundCard())) || mapper.handleAttack(enemy, me,x,y,enemy.getWeapon())) {
+							String 	ss=enemy.getName()+"     played   "+cardName+"\n";
+							Logger.getinsist().log(enemy.getName(), "", ss);
+							if(enemy.getWeapon()!=null && cardName.equalsIgnoreCase(enemy.getWeapon().get_Name())) {
+								enemy.getWeapon().setUsedToAttack(true);
+							}else {
+								if(findCard(cardName, enemy.getBattleGroundCard())!=null)
+									findCard(cardName, enemy.getBattleGroundCard()).setUsedToAttack(true);
+							}
+							text+=ss;
+							sendGameNeed();
+						}else {
+							String message= "ATTACKERROR>> cant attack!!!!!!!! #";
+							ServerMain.WriteMessage(message, user2.getAddress());
+						}
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-		}
+		sendGameNeed();
 	}
 
-	private void sendGameNeed() {
-		mapper.checkQuest(me);
+	private void sendGameNeed() {	
+		ArrayList<String> pas=passives();
 		mapper.checkQuest(enemy);
 		if(me.getWeapon()!=null && me.getWeapon().getDurability()==0)
 			me.setWeapon(null);
 		if(enemy.getWeapon()!=null && enemy.getWeapon().getDurability()==0)
 			enemy.setWeapon(null);
 		if(user1.getGameState().equals("online") || user1.getGameState().equals("deckreader")) {
-	
 			GameNeed gameNeed1=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),new ArrayList<>(),
 					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
 					mekeACard(me.getWeapon())
 					,mekeACard(enemy.getWeapon()),
 					me.getHero(),
 					enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
-					text, passives(), enemy.getName(),me.getTurn(),me.getQuest(),enemy.getQuest(), user1.getBackBattleGround(),user1.getBackCard());
+					text, pas, enemy.getName(),me.getTurn(),	mapper.checkQuest(me),	mapper.checkQuest(me)?me.getQuest().getHave():0,	mapper.checkQuest(me)?me.getQuest().getMission():0,mapper.checkQuest(enemy),mapper.checkQuest(enemy)?enemy.getQuest().getHave():0,mapper.checkQuest(enemy)?enemy.getQuest().getMission():0, user1.getBackBattleGround(),user1.getBackCard());
 
 			GameNeed gameNeed2=new GameNeed(enemy.getDecksize(), me.getDecksize(),makeClientCards( enemy.getHand()),new ArrayList<>(),
 					makeClientCards(enemy.getBattleGroundCard()), makeClientCards(me.getBattleGroundCard()),
@@ -127,8 +179,8 @@ public class Game {
 					mekeACard(me.getWeapon())
 					, enemy.getHero(),
 					me.getHero(), me.getHand().size(), round, enemy.getCurrentgem(), me.getCurrentgem(),
-					text, passives(), me.getName(),enemy.getTurn(),enemy.getQuest(),me.getQuest(),user2.getBackBattleGround(),user2.getBackCard());
-
+					text, pas, me.getName(),enemy.getTurn(),mapper.checkQuest(enemy),mapper.checkQuest(enemy)?enemy.getQuest().getHave():0,mapper.checkQuest(enemy)?enemy.getQuest().getMission():0
+							,mapper.checkQuest(me),	mapper.checkQuest(me)?me.getQuest().getHave():0,mapper.checkQuest(me)?me.getQuest().getMission():0,user2.getBackBattleGround(),user2.getBackCard());
 			String message1="SETGAMENEED>>"+gson.toJson(gameNeed1)+"#";
 			String message2="SETGAMENEED>>"+gson.toJson(gameNeed2)+"#";
 			try {
@@ -137,17 +189,27 @@ public class Game {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		}else {
-			GameNeed gameNeed=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),makeClientCards( enemy.getHand()),
-					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
-					mekeACard(me.getWeapon())
-					,mekeACard(enemy.getWeapon()), me.getHero(),	enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
-					text, passives(), enemy.getName(),me.getTurn(),me.getQuest(),enemy.getQuest(),user1.getBackBattleGround(),user1.getBackCard());
-			String message1="SETGAMENEED>>"+gson.toJson(gameNeed)+"#";
-			me.setTurn((me.getTurn()+1)%2);
 			try {
-				ServerMain.WriteMessage(message1, user1.getAddress());
+				if(round%2==0) {
+					GameNeed gameNeed=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),new ArrayList<>(),
+							makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
+							mekeACard(me.getWeapon())
+							,mekeACard(enemy.getWeapon()), me.getHero(),	enemy.getHero(), enemy.getHand().size(), round, me.getCurrentgem(), enemy.getCurrentgem(),
+							text, passives(), enemy.getName(),me.getTurn(),mapper.checkQuest(me),	mapper.checkQuest(me)?me.getQuest().getHave():0,mapper.checkQuest(me)?me.getQuest().getMission():0,
+									mapper.checkQuest(enemy),mapper.checkQuest(enemy)?enemy.getQuest().getHave():0,mapper.checkQuest(enemy)?enemy.getQuest().getMission():0,user1.getBackBattleGround(),user1.getBackCard());
+					String message1="SETGAMENEED>>"+gson.toJson(gameNeed)+"#";				
+					ServerMain.WriteMessage(message1, user1.getAddress());
+				}else {
+					GameNeed gameNeed=new GameNeed(enemy.getDecksize(), me.getDecksize(),makeClientCards( enemy.getHand()),new ArrayList<>(),
+							makeClientCards(enemy.getBattleGroundCard()), makeClientCards(me.getBattleGroundCard()),
+							mekeACard(enemy.getWeapon())
+							,mekeACard(me.getWeapon()), enemy.getHero(),	me.getHero(), me.getHand().size(), round, enemy.getCurrentgem(), me.getCurrentgem(),
+							text, passives(), me.getName(),enemy.getTurn(),mapper.checkQuest(enemy),mapper.checkQuest(enemy)?enemy.getQuest().getHave():0,mapper.checkQuest(enemy)?enemy.getQuest().getMission():0
+									,mapper.checkQuest(me),	mapper.checkQuest(me)?me.getQuest().getHave():0,mapper.checkQuest(me)?me.getQuest().getMission():0,user1.getBackBattleGround(),user1.getBackCard());
+					String message1="SETGAMENEED>>"+gson.toJson(gameNeed)+"#";				
+					ServerMain.WriteMessage(message1, user1.getAddress());	
+				}
 			} catch (IOException e) {	e.printStackTrace();
 			}
 		}
@@ -155,28 +217,49 @@ public class Game {
 	private ArrayList<String> passives(){
 		ArrayList<String> passives=new ArrayList<>(); 
 		ArrayList<Integer > a=new ArrayList<>();
-		if(round==60  || round==59)
-			while (a.size()<4) {
+		if(round==60 &&showPassive)
+			while (a.size()<3) {
 				int x=(new Random().nextInt(9));
-				if(!a.contains(x)&&x>=0&&x<=9)
+				if(!a.contains(x)&&x>=0&&x<=9) {
 					passives.add(mapper.getAllPassives().get(x).getName());
-				a.add(x);
+					a.add(x);					
+				}
 			}
+		showPassive=false;
 		return passives;
 	}
 	protected void nextTurn(int turn) throws Exception {
-		System.out.println(turn);
-		System.out.println(round);
-		if(round%2==turn) {
+		if(!user1.getGameState().equals("training")) {
+			if(round%2==turn) {
+				if(round==60) {
+					firstRound();
+					return;
+				}
+				try {
+					mapper.isFinished(me, enemy,round,text);
+				} catch (Exception e) {}
+				mapper.readDeck(me, enemy,user1.getGameState(),user1,user2);
+				if(turn==1) {
+					log.log(user1.getPlayer().get_name(), "clicked end turn ", "");
+					player1Turn();
+				}else {
+					log.log(user2.getPlayer().get_name(), "clicked end turn ", "");
+					player2Turn();
+				}
+				round--;
+				mapper.manaSet(round,me, enemy);
+				sendGameNeed();
+			}
+		}else {
 			if(round==60) {
 				firstRound();
 				return;
 			}
 			try {
-				mapper.isFinished(me, enemy,turn,text);
+				mapper.isFinished(me, enemy,round,text);
 			} catch (Exception e) {}
 			mapper.readDeck(me, enemy,user1.getGameState(),user1,user2);
-			if(turn==1) {
+			if(round%2==1) {
 				log.log(user1.getPlayer().get_name(), "clicked end turn ", "");
 				player1Turn();
 			}else {
@@ -185,89 +268,133 @@ public class Game {
 			}
 			round--;
 			mapper.manaSet(round,me, enemy);
-			System.out.println(round);
 			sendGameNeed();
 		}
 	}
-	private void firstRound() {
-		round--;
-		mapper.manaSet(round,me, enemy);
-	}
-	private void player1Turn() {
-		mapper.nextTurn(me, enemy);
-		addToHand(me.getTurn()+1);
-	}	
-	private void player2Turn() {
-		mapper.nextTurn(enemy, me);
-		addToHand(enemy.getTurn()+1);
-	}
+
 	private void addToHand(int turn) {	
-		if(round%2==turn) {
-			try {
-				mapper.readDeck(me, enemy,user1.getGameState(),user1,user2);
-				if(turn==1) {
-					mapper.addToHand(me, enemy,user1.getGameState());
-					log.log( me.getName(), me.getName(), "summon card : "+me.getHand().get(me.getHand().size()-1).get_Name());
+		try {
+			mapper.readDeck(me, enemy,user1.getGameState(),user1,user2);
+			if(turn==0) {
+				mapper.addToHand(me, enemy,user1.getGameState());
+				log.log( me.getName(), me.getName(), "summon card : "+me.getHand().get(me.getHand().size()-1).get_Name());
+			}else {
+				mapper.addToHand(enemy, me,user1.getGameState());
+				log.log(enemy.getName(), enemy.getName(), "sdraw card : "+enemy.getHand().get(enemy.getHand().size()-1).get_Name());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addToBattleground(int i, String cardName, int x, int y) {
+		try {
+			if(user1.getGameState().equals("training")) {
+				if(round%2==0) {
+					if(mapper.addTobattleground(findCard(cardName, me.getHand()), x, y, me, enemy,text)) {
+						log.log(me.getName(), me.getName(), "summon card : "+cardName);
+						mapper.addUse(cardName,user1.getGameState(),user1);
+						sendGameNeed();
+					}else {
+						String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
+						ServerMain.WriteMessage(message, user1.getAddress());
+					}
 				}else {
-					mapper.addToHand(enemy, me,user1.getGameState());
-					log.log(enemy.getName(), enemy.getName(), "sdraw card : "+enemy.getHand().get(enemy.getHand().size()-1).get_Name());
+					if (mapper.addTobattleground(findCard(cardName, enemy.getHand()), x, y, enemy, me,text)) { 
+						mapper.addUse(cardName,user1.getGameState(),user2);
+						log.log(enemy.getName(), enemy.getName(), "summon card : "+cardName);
+						sendGameNeed();
+					}else {			
+						String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
+						ServerMain.WriteMessage(message, user2.getAddress());						
+					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			}else	
+				if(round%2==i) {
+					if(i==0) {
+						if(mapper.addTobattleground(findCard(cardName, me.getHand()), x, y, me, enemy,text)) {
+							log.log(me.getName(), me.getName(), "summon card : "+cardName);
+							mapper.addUse(cardName,user1.getGameState(),user1);
+							sendGameNeed();
+						}else {
+							String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
+							ServerMain.WriteMessage(message, user1.getAddress());
+						}
+					}else {
+						if (mapper.addTobattleground(findCard(cardName, enemy.getHand()), x, y, enemy, me,text)) { 
+							mapper.addUse(cardName,user1.getGameState(),user2);
+							log.log(enemy.getName(), enemy.getName(), "summon card : "+cardName);
+							sendGameNeed();
+						}else {			
+							String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
+							ServerMain.WriteMessage(message, user2.getAddress());						
+						}
+					}
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void handleHeroPower(int i, int x, int y) {
+		if(user1.getGameState().equals("training")) {
+			if(i==me.getTurn()) {
+				if(me.getCurrentgem()>=me.getHero().getHero_power().getMana())
+					if(mapper.handleHeroPower(me, enemy, x, y, me.getHero().getHero_power())) {
+						text+=me.getName()+"     played    hero power\n";
+					}					
+			}else {
+				if(enemy.getCurrentgem()>=enemy.getHero().getHero_power().getMana())
+					if(mapper.handleHeroPower(enemy, me, x, y, enemy.getHero().getHero_power())) {
+						text+=enemy.getName()+"     played    hero power\n";
+					}								
+			}
+			sendGameNeed();	
+		}else		
+			if(round%2==i) {
+				if(i==me.getTurn()) {
+					if(me.getCurrentgem()>=me.getHero().getHero_power().getMana())
+						if(mapper.handleHeroPower(me, enemy, x, y, me.getHero().getHero_power())) {
+							text+=me.getName()+"     played    hero power\n";
+						}					
+				}else {
+					if(enemy.getCurrentgem()>=enemy.getHero().getHero_power().getMana())
+						if(mapper.handleHeroPower(enemy, me, x, y, enemy.getHero().getHero_power())) {
+							text+=enemy.getName()+"     played    hero power\n";
+						}								
+				}
+				sendGameNeed();
+			}
+	}
+
+	public void setPassive(int i, String passiveName) {
+		if(round%2==i) {
+
+			if(i==0) {
+				for (Passive passive : mapper.getAllPassives()) {
+					if(passive.getName().equalsIgnoreCase(passiveName))
+						me.setPassive(passive);
+				}
+			}else if(i==1) {
+				for (Passive passive : mapper.getAllPassives()) {
+					if(passive.getName().equalsIgnoreCase(passiveName))
+						enemy.setPassive(passive);
+				}			
+			}
+			sendGameNeed();
+		}
+	}
+	public void changCard(int i, String cardName) {
+		if(round%2==i) {
+			if (i==0 && me.getChanges()<3) {
+				mapper.changeCartAtFirst(me, findCard(cardName, me.getHand()));
+				sendGameNeed();
+			}else if(i==1&& enemy.getChanges()<3){
+				mapper.changeCartAtFirst(enemy, findCard(cardName, enemy.getHand()));
+				sendGameNeed();
 			}
 		}
 	}
 
-
-	public void handleHeroPower(int i, int x, int y) {
-		if(i==me.getTurn()) {
-			if(me.getCurrentgem()>=me.getHero().getHero_power().getMana())
-				if(mapper.handleHeroPower(me, enemy, x, y, me.getHero().getHero_power())) {
-					text+=me.getName()+"     played    hero power\n";
-				}					
-		}else {
-			if(enemy.getCurrentgem()>=enemy.getHero().getHero_power().getMana())
-				if(mapper.handleHeroPower(enemy, me, x, y, enemy.getHero().getHero_power())) {
-					text+=enemy.getName()+"     played    hero power\n";
-				}								
-		}
-	}
-	public User getUser1() {
-		return user1;
-	}
-	public void setUser1(User user1) {
-		this.user1 = user1;
-	}
-	public User getUser2() {
-		return user2;
-	}
-	public void setUser2(User user2) {
-		this.user2 = user2;
-	}
-	public PlayerModel getMe() {
-		return me;
-	}
-	public void setMe(PlayerModel me) {
-		this.me = me;
-	}
-	public PlayerModel getEnemy() {
-		return enemy;
-	}
-	public void setEnemy(PlayerModel enemy) {
-		this.enemy = enemy;
-	}
-	public Mapper getMapper() {
-		return mapper;
-	}
-	public void setMapper(Mapper mapper) {
-		this.mapper = mapper;
-	}
-	public int getRound() {
-		return round;
-	}
-	public void setRound(int round) {
-		this.round = round;
-	}
 	private ArrayList<Card> makeClientCards(ArrayList<Cardspackage.Card> cards){
 		ArrayList<Card> c=new ArrayList<>();
 		for (Cardspackage.Card card : cards) {
@@ -293,23 +420,6 @@ public class Game {
 		}
 		return c;
 	}
-	public void setPassive(int i, String passiveName) {
-		if(round%2==i) {
-
-			if(i==0) {
-				for (Passive passive : mapper.getAllPassives()) {
-					if(passive.getName().equalsIgnoreCase(passiveName))
-						me.setPassive(passive);
-				}
-			}else if(i==1) {
-				for (Passive passive : mapper.getAllPassives()) {
-					if(passive.getName().equalsIgnoreCase(passiveName))
-						enemy.setPassive(passive);
-				}			
-			}
-			sendGameNeed();
-		}
-	}
 	private Cardspackage.Card findCard(String name, ArrayList<Cardspackage.Card> cards) {
 		for (Cardspackage.Card card : cards) {
 			if(card.get_Name().equals(name))
@@ -325,41 +435,65 @@ public class Game {
 		}
 		return null;
 	}
-	public void changCard(int i, String cardName) {
-		if(round%2==i) {
-			if (i==0 && me.getChanges()<3) {
-				mapper.changeCartAtFirst(me, findCard(cardName, me.getHand()));
-				sendGameNeed();
-			}else if(i==1&& enemy.getChanges()<3){
-				mapper.changeCartAtFirst(enemy, findCard(cardName, enemy.getHand()));
-				sendGameNeed();
-			}
-		}
+	private void firstRound() {
+		round--;
+		mapper.manaSet(round,me, enemy);
+		sendGameNeed();
 	}
-	public void addToBattleground(int i, String cardName, int x, int y) {
-		try {
-			if(round%2==i) {
-				if(i==0) {
-					if(mapper.addTobattleground(findCard(cardName, me.getHand()), x, y, me, enemy,text)) {
-						log.log(me.getName(), me.getName(), "summon card : "+cardName);
-						mapper.addUse(findCard(cardName, me.getBattleGroundCard()),user1.getGameState(),user1);
-						sendGameNeed();
-					}else {
-						String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
-						ServerMain.WriteMessage(message, user1.getAddress());
-					}
-				}else {
-					if (mapper.addTobattleground(findCard(cardName, enemy.getHand()), x, y, enemy, me,text)) { 
-						mapper.addUse(findCard(cardName, enemy.getBattleGroundCard()),user1.getGameState(),user2);
-						log.log(enemy.getName(), enemy.getName(), "summon card : "+cardName);
-						sendGameNeed();
-					}			
-					String message= "ATTACKERROR>> cant summon this card!!!!!!!! #";
-					ServerMain.WriteMessage(message, user2.getAddress());
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void player1Turn() {
+		mapper.nextTurn(me, enemy);
+		addToHand(0);
+	}	
+	private void player2Turn() {
+		mapper.nextTurn(enemy, me);
+		addToHand(1);
+	}
+	private void initialGson() {
+		GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+		builder.serializeSpecialFloatingPointValues();
+		builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+		gson= builder.create();
+	}
+	public User getUser1() {
+		return user1;
+	}
+	public User getUser2() {
+		return user2;
+	}
+	public void exit(int i) {
+		if(i==0) {
+			setUserWiner(user1, user2);
+		}else {
+			setUserWiner(user2, user1);			
 		}
+		user1.getPlayer().addPlays();				
+		user2.getPlayer().addPlays();							
+		try {
+			String message1="SETPLAYER>>"+new Gson().toJson(new client.model.User(user1.getPlayer().get_name(), user1.getPlayer().getTocken(), user1.getPlayer().gem, user1.getPlayer().getCup()))+"#";
+			ServerMain.WriteMessage(message1, user1.getAddress());
+			String message2="SETPLAYER>>"+new Gson().toJson(new client.model.User(user2.getPlayer().get_name(), user2.getPlayer().getTocken(), user2.getPlayer().gem, user2.getPlayer().getCup()))+"#";
+			ServerMain.WriteMessage(message2, user2.getAddress());
+		} catch (IOException e) {e.printStackTrace();}	
+	}
+	void setUserWiner(User user1, User user2) {
+		if(user1.getGameState().equalsIgnoreCase("online")) {
+			user2.getPlayer().getMyDeck().addWin();
+			user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
+			user1.getPlayer().setCup(user1.getPlayer().getCup()-30);
+			user2.getPlayer().getMyDeck().setCup(1);
+			user1.getPlayer().getMyDeck().setCup(-1);
+			user1.getPlayer().getMyDeck().addUsethisDeck();
+			user2.getPlayer().getMyDeck().addUsethisDeck();
+		}else if(user1.getGameState().equalsIgnoreCase("deckreader")) {
+			user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
+			user1.getPlayer().setCup(user1.getPlayer().getCup()-30);						
+		}
+		String message1="PLAYERROR>>"+me.getName()+" left !!!! #";
+		try {
+			String message3="CHANGEPANEL>>MENU#";
+		ServerMain.WriteMessage(message3, user1.getAddress());
+			ServerMain.WriteMessage(message1, user2.getAddress());
+			Logger.getinsist().log(user1.getPlayer().get_name(), user1.getPlayer().get_name()+"  left the match", "");
+		} catch (IOException e) {e.printStackTrace();}
 	}
 }

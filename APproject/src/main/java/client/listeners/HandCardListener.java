@@ -5,7 +5,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import com.google.gson.Gson;
 import client.Client;
-import client.Controller;
 import client.grapic.CardShow;
 import client.grapic.PlayPanel;
 import client.grapic.ShowCardBigger;
@@ -41,8 +40,8 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 				String message="ADDTOBATTLEGROUND>>"+new Gson().toJson(new AttackRequest(tocken, x.getX(), x.getY(), card.getName()))+"#";
 				Client.WriteMessage(message);
 			} catch (Exception e1) {}						
+		}
 		panel.updatePanel();
-		}					
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -63,7 +62,9 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 		sho.setVisible(true);
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void mouseClicked(MouseEvent e) {
+		sho.setVisible(false);
+	}
 	@Override
 	public void mouseMoved(MouseEvent e) {}		
 	@Override

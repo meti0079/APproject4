@@ -3,21 +3,13 @@ package client.listeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
-import Cardspackage.Minion;
 import client.Client;
-import client.Controller;
 import client.grapic.CardShow;
 import client.grapic.PlayPanel;
 import client.grapic.ShowCardBigger;
 import client.model.Card;
 import gameModel.requestAndREsponse.AttackRequest;
-import interfaces.Visitor;
-import playModel.Mapper;
-import playModel.PlayerModel;
 
 public class BattlegrounCardListener implements MouseListener,MouseMotionListener{
 	private Card card;
@@ -26,7 +18,9 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 	int round;
 	int turn;
 	int tocken;
-	public  BattlegrounCardListener(Card card, CardShow x, int round, int turn,int tocken) {
+	PlayPanel panel;
+	public  BattlegrounCardListener(Card card, CardShow x, int round, int turn,int tocken, PlayPanel panel) {
+		this.panel=panel;
 		this.tocken=tocken;
 		this.card=card;
 		this.x=x;
@@ -37,7 +31,7 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 		sho.setVisible(false);
 	}
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {		sho.setVisible(false);
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -54,7 +48,7 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		sho.setVisible(false);
-		if(card.isUsedToAttack() ==false || (card).isRush()) {
+		if(!card.isUsedToAttack()|| (card).isRush()) {
 			try {
 			String message="ATTACK>>"+new Gson().toJson(new AttackRequest(tocken, x.getX(), x.getY(),card.getName()))+"#";
 			Client.WriteMessage(message);
@@ -62,6 +56,7 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 				e1.printStackTrace();
 			}
 		}
+		panel.updatePanel();
 	}
 	@Override
 	public void mouseDragged(MouseEvent e) {

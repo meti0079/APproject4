@@ -30,7 +30,6 @@ public class StartPlayPanel extends JPanel{
 		this.controller=controller;
 		setEnemyBut();
 		setDeckReaderBut();
-		setComputerBut();
 		setOnlineBut();
 	}
 	@Override
@@ -75,19 +74,6 @@ public class StartPlayPanel extends JPanel{
 		});
 		add(b);
 	}
-	private void setOnlineBut() {
-		JButton b= new JButton("online");
-		b.setBounds(280, 400, 300, 100);
-		b.addActionListener(new ActionListener() {	
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				state="online";
-				controller.setState(state);
-				go.setEnabled(true);	
-			}
-		});
-		add(b);
-	}
 	private void setDeckReaderBut() {
 		JButton b= new JButton("Deck reader");
 		b.setBounds(490, 400, 300,100);
@@ -101,17 +87,18 @@ public class StartPlayPanel extends JPanel{
 		});
 		add(b);
 	}
-	private void setComputerBut() {
-		JButton b= new JButton("Play with computer");
+	private void setOnlineBut() {
+		JButton b= new JButton("online");
 		b.setBounds(700, 600, 300,100);
-		b.addActionListener(new ActionListener() {			
+		b.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				state="computer";
+				state="online";
 				controller.setState(state);
-				go.setEnabled(true);			
+				go.setEnabled(true);	
 			}
 		});
 		add(b);
 	}
+
 }

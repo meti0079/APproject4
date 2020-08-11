@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import javax.swing.JOptionPane;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import Cardspackage.Card;
@@ -22,6 +21,7 @@ import game.Logger;
 import hero.Mage;
 import hero.heroPower.HeroPower;
 import passives.Passive;
+import server.Controller;
 import server.ServerMain;
 import server.User;
 
@@ -121,7 +121,7 @@ public class Mapper {
 	public boolean addTobattleground(Card s,int x,int y, PlayerModel me, PlayerModel enemy, String text) throws Exception {
 		if(s.get_Mana()<=me.getCurrentgem()) {
 			if(s.getType().equalsIgnoreCase("minion")) {
-				if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
+				if(y<700 && y>480) {
 					s.accept(visitor,findTarget(x, y, me, enemy), me, enemy, this);
 					if(me.getBattleGroundCard().get((x-200)/160) == null ) {
 						calleBattleAccept(me, enemy, s);
@@ -142,10 +142,12 @@ public class Mapper {
 						me.checkCard(enemy, visitor, this);
 						checkQuestDone(s, me);
 						return true;
-					}else {						
+					}else {	
+						System.out.println("cant betxin "+ me.getName());
 					return false;							
 					}
 				}else {
+					System.out.println("location"+ me.getName()+"       "+x+"     "+y);
 					return false;
 				}
 			}else if(s.getType().equalsIgnoreCase("Spell")) {
@@ -167,6 +169,7 @@ public class Mapper {
 			}
 			return true;
 		}else {
+			System.out.println("mana "+ me.getName()+"   "+me.getCurrentgem());
 			return false;
 		}
 	}
@@ -180,13 +183,13 @@ public class Mapper {
 
 	private Object findTarget(int x, int y, PlayerModel me, PlayerModel enemy) {
 
-		if(y<700-(220*me.getTurn()) && y>480-(220*me.getTurn())) {
+		if(y<700 && y>480) {
 			return me.getBattleGroundCard().get((x-200)/160);
-		}else if(y<700-(220*enemy.getTurn()) && y>480-(220*enemy.getTurn())) {
+		}else if(y<480 && y>260) {
 			return enemy.getBattleGroundCard().get((x-200)/160);
-		}else if(658 <x && x<850  && y>660-(560*me.getTurn()) &&y<860-(560*me.getTurn())) {
+		}else if(658 <x && x<850  && y>660 &&y<860) {
 			return me.getHero();
-		}else if(658 <x && x<850  && y>100+(560*me.getTurn()) &&y<300+(560*me.getTurn())) {
+		}else if(658 <x && x<850  && y>100 &&y<300) {
 			return enemy.getHero();
 		}
 		return null;		
@@ -248,7 +251,7 @@ public class Mapper {
 	public void addToHand(PlayerModel p, PlayerModel enemy,String state) {
 		int x=0;
 		calleHandAccept(p, enemy);
-		if(state.equalsIgnoreCase("enemy") || state.equalsIgnoreCase("computer")  ) {			
+		if(state.equalsIgnoreCase("training")) {			
 			if(p.getDecksize()<=0) {
 				x=0;
 			}else {
@@ -267,6 +270,7 @@ public class Mapper {
 		}else {
 			x=0;
 			p.setDecksize(p.getDecksize()-1);
+			readDeck(p, enemy, state, user1, user2);
 			if(p.getHand().size()<10) {
 				p.AddToHand(p.getDeck().get(x));
 				checkPassive( enemy,p, p.getDeck().get(Math.abs(x)));
@@ -285,39 +289,33 @@ public class Mapper {
 			if(me.getDecksize()==0 ) {
 				me.setDeck((ArrayList<Card>) user1.getPlayer().get_mydeck().clone());
 				me.setDecksize(me.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if(enemy.getDecksize()==0 ) {
 				enemy.setDeck((ArrayList<Card>) user1.getEnemy().getEnemyDeck().getDeck().clone());
 				enemy.setDecksize(enemy.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player2 : Deck update");	
 			}
 		}else if(state.equalsIgnoreCase("deckreader")){
 			if(me.getDecksize()==0 ) {
 				me.setDeck((ArrayList<Card>) deckReader.cardFactory("friend").clone());
 				me.setDecksize(me.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if(enemy.getDecksize()==0 ) {
 				enemy.setDeck((ArrayList<Card>) deckReader.cardFactory("enemy").clone());
 				enemy.setDecksize(enemy.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player2 : Deck update");	
 			}
 		}else if(state.equalsIgnoreCase("online")) {
 			if(me.getDecksize()==0 ) {
 				me.setDeck((ArrayList<Card>) user1.getPlayer().get_mydeck().clone());
 				me.setDecksize(me.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player1 : Deck update");	
 			}
 			if(enemy.getDecksize()==0 ) {
 				enemy.setDeck((ArrayList<Card>) user2.getPlayer().get_mydeck().clone());
 				enemy.setDecksize(enemy.getDeck().size());
-				JOptionPane.showMessageDialog(null, "player2 : Deck update");	
 			}
 		}
 	}
 	public PlayerModel readMe(String state, User user) throws Exception {
-		if(state.equals("training") ||state.equals("computer")) {
+		if(state.equals("training") ) {
 			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 0, user.getPlayer().get_name());
 			return x;
 		}else if(state.equals("deckreader") ) {
@@ -344,7 +342,7 @@ public class Mapper {
 		deckReader=gson.fromJson(se, DeckReader.class);	
 	}
 	public PlayerModel readEnemy(String state, User user) throws Exception {
-		if(state.equals("training")||state.equals("computer")) {
+		if(state.equals("training")) {
 			PlayerModel x=new PlayerModel(user.getEnemy().getEnemyDeck(), 1,"enemy");
 			x.setPreviosgem(0);
 			return x;
@@ -356,14 +354,14 @@ public class Mapper {
 			x.setPreviosgem(0);
 			return x;
 		}else if( state.equalsIgnoreCase("online")){
-			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 0, user.getPlayer().get_name());
+			PlayerModel x=new PlayerModel(user.getPlayer().getMyDeck(), 1, user.getPlayer().get_name());
 			return x;
 		}else	
 		return null;
 	}
-	public void addUse(Card s, String state, User user) {
-		if(state.equalsIgnoreCase("deckreader") ||state.equalsIgnoreCase("online") )
-			user.getPlayer().SpecialCard(s.get_Name()).addUse();
+	public void addUse(String s, String state, User user) {
+		if(state.equalsIgnoreCase("online") )
+			user.getPlayer().SpecialCard(s).addUse();
 	}
 	public boolean isFinished(PlayerModel me, PlayerModel enemy,int turn, String text) {
 		try {
@@ -372,7 +370,23 @@ public class Mapper {
 					text+=enemy.getName()+" win the game !!!!!!";
 					String message1="PLAYERROR>>"+enemy.getName()+" WON !!!! #";
 					ServerMain.WriteMessage(message1, user2.getAddress());
-					ServerMain.WriteMessage(message1, user1.getAddress());
+					ServerMain.WriteMessage(message1, user1.getAddress());		
+					if(user1.getGameState().equalsIgnoreCase("online")) {
+						user2.getPlayer().getMyDeck().addWin();
+						user1.getPlayer().getMyDeck().addUsethisDeck();
+						user2.getPlayer().getMyDeck().addUsethisDeck();
+						user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
+						user1.getPlayer().setCup(user1.getPlayer().getCup()-30);
+						user2.getPlayer().getMyDeck().setCup(1);
+						user1.getPlayer().getMyDeck().setCup(-1);
+						user1.getPlayer().addPlays();				
+						user2.getPlayer().addPlays();	
+					}else if(user1.getGameState().equalsIgnoreCase("deckreader")) {
+						user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
+						user1.getPlayer().setCup(user1.getPlayer().getCup()-30);
+						user1.getPlayer().addPlays();				
+						user2.getPlayer().addPlays();							
+					}
 					Logger.getinsist().log(user2.getPlayer().get_name(), enemy.getName()+" won the match", "");
 				}else {
 					text+=me.getName()+"  win the game !!!!!!";
@@ -380,17 +394,32 @@ public class Mapper {
 					ServerMain.WriteMessage(message1, user2.getAddress());
 					ServerMain.WriteMessage(message1, user1.getAddress());
 					Logger.getinsist().log(user1.getPlayer().get_name(), user1.getPlayer().get_name()+"  won the match", "");
+
 					if(user1.getGameState().equalsIgnoreCase("online")) {
 						user1.getPlayer().getMyDeck().addWin();
-						user2.getPlayer().getMyDeck().addWin();						
 						user1.getPlayer().getMyDeck().addUsethisDeck();
 						user2.getPlayer().getMyDeck().addUsethisDeck();
+						user1.getPlayer().setCup(user1.getPlayer().getCup()+30);
+						user2.getPlayer().setCup(user2.getPlayer().getCup()-30);
+						user1.getPlayer().getMyDeck().setCup(1);
+						user2.getPlayer().getMyDeck().setCup(-1);
+						user1.getPlayer().addPlays();				
+						user2.getPlayer().addPlays();	
+					}else if(user1.getGameState().equalsIgnoreCase("deckreader")) {
+						user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
+						user1.getPlayer().setCup(user1.getPlayer().getCup()-30);
+						user1.getPlayer().addPlays();				
+						user2.getPlayer().addPlays();							
 					}
 				}
-				if(user1.getGameState().equalsIgnoreCase("online") || user1.getGameState().equalsIgnoreCase("deckreader")) {
-					user1.getPlayer().addPlays();				
-					user2.getPlayer().addPlays();				
+				for(int i=0;i<Controller.games.size();i++) {
+					if(Controller.games.get(i).getUser1().equals(user1))
+						Controller.games.remove(i);
 				}
+				String message1="SETPLAYER>>"+new Gson().toJson(new client.model.User(user1.getPlayer().get_name(), user1.getPlayer().getTocken(), user1.getPlayer().gem, user1.getPlayer().getCup()))+"#";
+				ServerMain.WriteMessage(message1, user1.getAddress());
+				String message2="SETPLAYER>>"+new Gson().toJson(new client.model.User(user2.getPlayer().get_name(), user2.getPlayer().getTocken(), user2.getPlayer().gem, user2.getPlayer().getCup()))+"#";
+				ServerMain.WriteMessage(message2, user2.getAddress());
 				return true;
 			}
 		}catch (Exception e) {}
@@ -425,7 +454,9 @@ public class Mapper {
 		this.allPassives = allPassives;
 	}
 	public boolean handleAttack(PlayerModel me , PlayerModel enemy, int x, int y, Card card) {
+		if(card!=null)
 		return card.accept(visitor, findTarget(x, y, me, enemy), me, enemy, this);
+	return false;
 	}
 	public boolean checkTount(PlayerModel targetP) {
 		for(Card card : targetP.getBattleGroundCard()) {

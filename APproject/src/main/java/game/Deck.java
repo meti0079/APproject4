@@ -16,11 +16,21 @@ public class Deck {
 	private String name;
 	private int win;
 	private int useThisDeck;
-
+	private int cup;
 	public Deck() throws Exception {
 		this.deck=new ArrayList<>();
 		win=0;
 		useThisDeck=0;
+	}
+
+	public int getCup() {
+		return cup;
+	}
+
+	public void setCup(int i) {
+		this.cup +=30*i;
+		if(cup<0)
+			cup=0;
 	}
 
 	public float GetAverage() {

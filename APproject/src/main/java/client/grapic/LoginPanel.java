@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,6 +26,8 @@ public class LoginPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTextField namefield;
 	private JTextField namefield2;
+	private JTextField serverPort;
+	private JTextField serverIp;
 	private JPasswordField passfield;
 	private JPasswordField passfield2;
 	private JButton loginButton;
@@ -45,6 +49,8 @@ public class LoginPanel extends JPanel {
 		this.passfield=new JPasswordField(15);
 		this.namefield2=new JTextField(15);
 		this.passfield2=new JPasswordField(15);
+		serverIp=new JTextField(15);
+		serverPort=new JTextField(15);
 	}
 	private void setErrorLables(){
 		error=new JLabel("username or password is incoreect!!!!  try again");
@@ -61,6 +67,9 @@ public class LoginPanel extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				Client.serverIP=serverIp.getText();
+				Client.serverport=Integer.parseInt(serverPort.getText());
+				Client.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
 				String name =namefield.getText();
 				String pass=passfield.getText();
 				if(namefield.getText().equals("") || passfield.getText().equals("")) {
@@ -82,6 +91,9 @@ public class LoginPanel extends JPanel {
 		newAccountButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				Client.serverIP=serverIp.getText();
+				Client.serverport=Integer.parseInt(serverPort.getText());
+				Client.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
 				String name=namefield2.getText();
 				String pass=passfield2.getText();
 				LoginAndSingUpRequest loginRequest=new LoginAndSingUpRequest(name, pass);
@@ -111,13 +123,15 @@ public class LoginPanel extends JPanel {
 	}
 	private void writeFieldName(Graphics g) {
 		g.setFont(new Font("Tahoma", Font.BOLD, 20));
+		g.drawString("server Port :", 30	, 130);
+		g.drawString("server IP :", 30, 180);
 		g.drawString("WellCome", 10	, 30);
-		g.drawString("Sign in", 30, 80);
-		g.drawString("Username :", 50, 202);
-		g.drawString("Password :", 50, 248);
-		g.drawString("create account", 30, 600);
-		g.drawString("Username :", 50, 659);
-		g.drawString("Password :", 50, 709);
+		g.drawString("Sign in", 30, 280);
+		g.drawString("Username :", 50, 402);
+		g.drawString("Password :", 50, 448);
+		g.drawString("create account", 30, 700);
+		g.drawString("Username :", 50, 759);
+		g.drawString("Password :", 50, 809);
 	}
 	private void drawBackGrounfd(Graphics g) {
 		ImageIcon image = new ImageIcon("loginBackground.png"); 
@@ -131,49 +145,24 @@ public class LoginPanel extends JPanel {
 	}
 
 	public void layoutComponenet() {
-		setLayout(new GridBagLayout());
-		GridBagConstraints g= new GridBagConstraints();
-		g.weightx=0;
-		g.weighty=0.1;
-		g.gridx=0;
-		g.gridy=0;
-		g.fill=GridBagConstraints.NONE;
-		g.anchor=GridBagConstraints.LINE_END;
-		g.insets=new Insets(100,150,0, 150);
-		add(namefield,g);
-		////////////////  second row////////////////	
-		g.gridx=0;
-		g.insets=new Insets(190, 180, 0, 150);
-		g.anchor=GridBagConstraints.LINE_START;
-		add(passfield,g);
-		////////////////next     
-		g.gridy++;	
-		g.gridx=0;
-		g.insets=new Insets(0, 150, 600,220);
-		g.anchor=GridBagConstraints.FIRST_LINE_END;
-		add(loginButton,g);
-		////////////////third row////////////////
-		g.gridx=0;
-		g.insets=new Insets(350,180, 0, 0);
-		g.anchor=GridBagConstraints.FIRST_LINE_START;
-		add(namefield2,g);
-		/////  box
-		g.gridx=0;
-		g.insets=new Insets(400,180, 0, 0);
-		g.anchor=GridBagConstraints.FIRST_LINE_START;
-		add(passfield2,g);
-		////////////////next     
-		g.gridx=0;
-		g.insets=new Insets(450,150, 0,180);
-		g.anchor=GridBagConstraints.FIRST_LINE_END;
-		add(newAccountButton,g);
-		g.gridx=0;
-		g.insets=new Insets(582,100, 0,140);
-		g.anchor=GridBagConstraints.FIRST_LINE_END;
-		add(error1,g);
-		g.gridx=0;
-		g.insets=new Insets(82,40, 0,80);
-		g.anchor=GridBagConstraints.FIRST_LINE_END;
-		add(error,g);
+		setLayout(null);
+		serverPort.setBounds(180, 115, 200, 20);
+		add(serverPort);
+		serverIp.setBounds(180, 165, 200, 20);
+		add(serverIp);
+		namefield.setBounds(180, 385, 200, 20);
+		add(namefield);
+		passfield.setBounds(180, 425, 200, 20);
+		add(passfield);
+		loginButton.setBounds(300, 480, 150, 60);
+		add(loginButton);
+		namefield2.setBounds(180, 745, 200, 20);
+		add(namefield2);
+		passfield2.setBounds(180, 795, 200, 20);
+		add(passfield2);
+		newAccountButton.setBounds(300, 850, 150, 60);
+		add(newAccountButton);		
+
+
 	}
 }

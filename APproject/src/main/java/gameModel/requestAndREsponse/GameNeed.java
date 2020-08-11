@@ -26,14 +26,18 @@ public class GameNeed {
 	ArrayList<String > passive;
 	String enemyName;
 	int myturn;
-	Quest myquest;
-	Quest enemyQuest;
+	boolean myquest;
+	boolean enemyQuest;
+	int myquesthave;
+	int enemyquesthave;
+	int myquestmission;
+	int enemyquestmission;
 	String battleground;
 	String backCard;
 	public GameNeed(int myDeck, int enemDeck, ArrayList<Card> myHand, ArrayList<Card> enemyHand,
 			LinkedList<Card> myBattlrground, LinkedList<Card> enemyBattleground, Card myWeapon, Card enemyWeapon,
 			Heros myHero, Heros enemyHero, int enemyHandsize, int turnremind, int myMana, int enemyMana, String text,
-			ArrayList<String> passive, String enemyName, int myturn,Quest my,Quest enem, String battleground, String backCard) {
+			ArrayList<String> passive, String enemyName, int myturn,boolean my,int h,int m,boolean enem,int he, int me, String battleground, String backCard) {
 		this.myDeck = myDeck;
 		this.myturn=myturn;
 		this.backCard=backCard;
@@ -56,13 +60,48 @@ public class GameNeed {
 		this.enemyName = enemyName;
 		this.myquest=my;
 		this.enemyQuest=enem;
+		this.myquestmission=m;
+		this.myquesthave=h;
+		this.enemyquesthave=he;
+		this.enemyquestmission=me;	
 	}
-	public Quest getMyquest() {
+	public boolean isMyquest() {
 		return myquest;
 	}
-	public void setMyquest(Quest myquest) {
+	public void setMyquest(boolean myquest) {
 		this.myquest = myquest;
 	}
+	public boolean isEnemyQuest() {
+		return enemyQuest;
+	}
+	public void setEnemyQuest(boolean enemyQuest) {
+		this.enemyQuest = enemyQuest;
+	}
+	public int getMyquesthave() {
+		return myquesthave;
+	}
+	public void setMyquesthave(int myquesthave) {
+		this.myquesthave = myquesthave;
+	}
+	public int getEnemyquesthave() {
+		return enemyquesthave;
+	}
+	public void setEnemyquesthave(int enemyquesthave) {
+		this.enemyquesthave = enemyquesthave;
+	}
+	public int getMyquestmission() {
+		return myquestmission;
+	}
+	public void setMyquestmission(int myquestmission) {
+		this.myquestmission = myquestmission;
+	}
+	public int getEnemyquestmission() {
+		return enemyquestmission;
+	}
+	public void setEnemyquestmission(int enemyquestmission) {
+		this.enemyquestmission = enemyquestmission;
+	}
+
 	public String getBattleground() {
 		return battleground;
 	}
@@ -74,12 +113,6 @@ public class GameNeed {
 	}
 	public void setBackCard(String backCard) {
 		this.backCard = backCard;
-	}
-	public Quest getEnemyQuest() {
-		return enemyQuest;
-	}
-	public void setEnemyQuest(Quest enemyQuest) {
-		this.enemyQuest = enemyQuest;
 	}
 	public int getMyturn() {
 		return myturn;
