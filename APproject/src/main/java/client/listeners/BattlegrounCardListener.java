@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.grapic.CardShow;
 import client.grapic.PlayPanel;
 import client.grapic.ShowCardBigger;
@@ -51,7 +51,7 @@ public class BattlegrounCardListener implements MouseListener,MouseMotionListene
 		if(!card.isUsedToAttack()|| (card).isRush()) {
 			try {
 			String message="ATTACK>>"+new Gson().toJson(new AttackRequest(tocken, x.getX(), x.getY(),card.getName()))+"#";
-			Client.WriteMessage(message);
+			ClientMain.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

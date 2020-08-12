@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.grapic.HeroPowerShow;
 import client.grapic.PlayPanel;
 import gameModel.requestAndREsponse.HeroPowerRequest;
@@ -40,7 +40,7 @@ public class HeroPowerListener implements MouseListener,MouseMotionListener{
 		if(!heropower.isUsed()&& round%2==turn) {
 			try {
 				String message="HEROPOWER>>"+new Gson().toJson(new HeroPowerRequest(tocken, x.getX(), x.getY()))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

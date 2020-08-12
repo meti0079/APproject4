@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 import server.gameModel.FileReader;
@@ -44,7 +44,7 @@ public class InfoPanel extends JPanel{
 					int j=JOptionPane.showConfirmDialog(null, "Do you want realy Exit", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
 					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 					System.exit(0);
 					}
 				} catch (IOException e1) {
@@ -66,7 +66,7 @@ public class InfoPanel extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String 	message= "GOMENU>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

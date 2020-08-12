@@ -5,8 +5,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import com.google.gson.Gson;
-import client.Client;
-import client.Controller;
+import client.ClientMain;
 import client.model.Card;
 import gameModel.requestAndREsponse.AddCardToDeck;
 
@@ -28,7 +27,7 @@ public class EnemyDeckListener implements MouseListener {
 		if(x==JOptionPane.OK_OPTION) {
 			try {
 				String 	message= "REMOVEFROMENEMYDECK>>"+new Gson().toJson(new AddCardToDeck(tocken,s.getName()))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

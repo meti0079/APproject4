@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import gameModel.requestAndREsponse.ChatRequest;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
@@ -60,7 +60,7 @@ public class MenuPanel extends JPanel {
 				try {
 					String j=JOptionPane.showInputDialog( "enter player name you want watch her/his match","");				
 						String 	message= "SEEMATCH>>"+new Gson().toJson(new ChatRequest(j, controller.getUser().getTocken()))+"#";
-						Client.WriteMessage(message);			
+						ClientMain.WriteMessage(message);			
 				} catch (IOException e1) {
 					System.out.println("save button");
 					e1.printStackTrace();
@@ -80,7 +80,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String 	message= "GORANK>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);			
+					ClientMain.WriteMessage(message);			
 				} catch (IOException e1) {
 					System.out.println("save button");
 					e1.printStackTrace();
@@ -111,7 +111,7 @@ public class MenuPanel extends JPanel {
 					int j=JOptionPane.showConfirmDialog(MenuPanel.this, "Do you want save game", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
 						String 	message= "SAVE>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-						Client.WriteMessage(message);	
+						ClientMain.WriteMessage(message);	
 					}
 				} catch (IOException e1) {
 					System.out.println("save button");
@@ -135,7 +135,7 @@ public class MenuPanel extends JPanel {
 					int j=JOptionPane.showConfirmDialog(MenuPanel.this, "Do you want realy Exit", "Confirm", JOptionPane.OK_CANCEL_OPTION);
 					if(j==JOptionPane.OK_OPTION) {
 					String 	message= "EXIT>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 					System.exit(0);
 					}
 				} catch (IOException e1) {
@@ -157,7 +157,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String 	message= "GOSHOP>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -176,7 +176,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String 	message= "GOSTATOS>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -195,7 +195,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String 	message= "GOSETTING>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -214,7 +214,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {				
 				String 	message= "GOPLAY>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					System.out.println("cant go play");
 					e1.printStackTrace();
@@ -234,7 +234,7 @@ public class MenuPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String 	message= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

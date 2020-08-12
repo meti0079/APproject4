@@ -16,7 +16,7 @@ public class Reciver extends Thread{
 		MessageHandler handler=new MessageHandler();
 		while (true) {
 			try {
-				DatagramPacket packet= Client.readPacket(data);
+				DatagramPacket packet= ClientMain.readPacket(data);
 				ByteArrayInputStream arrayInputStream=new ByteArrayInputStream(packet.getData());				
 				handler.readMessage(read(arrayInputStream));
 			} catch (IOException e) {	e.printStackTrace();	}

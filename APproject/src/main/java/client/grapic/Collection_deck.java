@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import client.model.DeckInfo;
 import gameModel.requestAndREsponse.EditDeckRequest;
@@ -85,7 +85,7 @@ public class Collection_deck extends JPanel{
 
 
 					String message="NEWDECK>>"+new Gson().toJson(new NewDeck(s, controller.getUser().getTocken()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
@@ -110,7 +110,7 @@ public class Collection_deck extends JPanel{
 					if(n.equalsIgnoreCase("")) {
 					}else {
 						String message="EDITHERODECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), n, ""))+"#";
-						Client.WriteMessage(message);}
+						ClientMain.WriteMessage(message);}
 				} catch (Exception e1) {e1.printStackTrace();}
 			}
 		});
@@ -134,7 +134,7 @@ public class Collection_deck extends JPanel{
 					}
 					if(flag==false) {
 						String message="EDITNAMEDECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), "", name))+"#";
-						Client.WriteMessage(message);
+						ClientMain.WriteMessage(message);
 					}	
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -197,7 +197,7 @@ public class Collection_deck extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String message="CHANGEDECK>>"+new Gson().toJson(new EditDeckRequest(controller.getUser().getTocken(), s.getHeroName(), s.getName()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				}catch (Exception e1) {}
 			}
 		});

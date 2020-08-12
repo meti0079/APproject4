@@ -4,14 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import server.cardspackage.Card;
-import server.cardspackage.Minion;
-import server.cardspackage.Spell;
-import server.cardspackage.Weapon;
 import server.hero.Heros;
 import server.hero.heroPower.HeroPower;
 
@@ -19,14 +14,7 @@ public class DeckReader {
 	private ArrayList< String> enemy;
 	private ArrayList< String> friend;
 	private String reward;
-	public String getReward() {
-		return reward;
-	}
-	public void setReward(String reward) {
-		this.reward = reward;
-	}
 	private Gson gson;
-
 
 	public ArrayList<Card> cardFactory(String name) {
 		ArrayList< Card> enemyDe=new ArrayList<>();
@@ -76,6 +64,13 @@ public class DeckReader {
 		}
 		return null;
 	}
+	public String getReward() {
+		return reward;
+	}
+	public void setReward(String reward) {
+		this.reward = reward;
+	}
+
 }
 
 //		String spe="Arcane ShotAstral RiftBackstabBook of SpectersFriendly Smithgift"

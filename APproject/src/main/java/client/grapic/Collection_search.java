@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import client.listeners.LockCardListener;
 import client.listeners.UnlockListener;
@@ -95,7 +95,7 @@ public class Collection_search extends JPanel{
 			message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  show cards that dont have" ))+"#";
 			addnothave();
 		}	
-		Client.WriteMessage(message);
+		ClientMain.WriteMessage(message);
 	}
 	private void addHave() {
 		for(Card s : p.have) {
@@ -151,7 +151,7 @@ public class Collection_search extends JPanel{
 				initialAfterFilter();
 				try {
 					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button  want to show cards with name filter!! searched : "+su))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -191,7 +191,7 @@ public class Collection_search extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String message="SEARCH>>"+new Gson().toJson(new SearchRequest(controller.getUser().getTocken(),"clicked search button "+ gem+"  gem"))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

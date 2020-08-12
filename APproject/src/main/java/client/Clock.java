@@ -21,7 +21,7 @@ public class Clock  extends Thread{
 				long s=System.nanoTime();
 				if((s-connection)/1000000000>timeLeft) {
 					String mess="IAM>>"+new Gson().toJson(new SaveAndExitRequest(tocken))+"#";
-					Client.WriteMessage(mess);
+					ClientMain.WriteMessage(mess);
 				}
 				if((s-connection)/1000000000>deedLine) {
 					JOptionPane.showConfirmDialog(null,"your connection to server has been lost" );

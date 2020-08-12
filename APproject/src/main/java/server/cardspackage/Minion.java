@@ -19,22 +19,18 @@ public abstract  class Minion extends Card{
 	public int getAttack() {
 		return this.attack;
 	}
-
 	@Override
 	public int getHp() {
 		return this.HP;
 	}
-	//
 	@Override
 	public void setAttack(int x) {
 		attack=x;
 	}
-	//
 	@Override
 	public void setHp(int x) {
 		HP=x;
 	}
-	//
 	@Override
 	public String getType() {
 		return "Minion" ;

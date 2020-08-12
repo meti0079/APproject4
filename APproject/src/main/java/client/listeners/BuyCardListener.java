@@ -2,18 +2,9 @@ package client.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import com.google.gson.Gson;
-
-import client.Client;
-import client.Controller;
-import client.grapic.Collection_herospanel;
-import client.grapic.InfoPanel;
-import client.grapic.Shop;
-import client.grapic.StorePanel;
+import client.ClientMain;
 import client.model.Card;
 import gameModel.requestAndREsponse.SellAndBuy;
 
@@ -39,7 +30,7 @@ public class BuyCardListener implements MouseListener {
 		if(j==JOptionPane.OK_OPTION) {
 			try {
 				String message="BUYCARD>>"+new Gson().toJson(new SellAndBuy(card.getName(), tocken))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

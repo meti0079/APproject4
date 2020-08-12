@@ -60,8 +60,6 @@ public class Game {
 			log=Logger.getinsist();
 			this.user1=user1;
 			this.user2=user2;
-//			new OneShot(user1.getGameState(), user1, user2);
-//			new Mapper(user1.getGameState(), user1, user2);
 			this.mapper=mapper;	
 			me=mapper.readMe(user1.getGameState(),user1);
 			enemy=mapper.readEnemy(user2.getGameState(), user2);

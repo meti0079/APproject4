@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import gameModel.requestAndREsponse.StartMatchRequest;
 
@@ -52,7 +52,7 @@ public class StartPlayPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					String message="STARTMATCH>>"+new Gson().toJson(new StartMatchRequest(controller.getUser().getTocken(),state))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}	

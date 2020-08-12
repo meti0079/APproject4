@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import client.listeners.BattlegrounCardListener;
 import client.listeners.HandCardListener;
@@ -130,7 +130,7 @@ public class PlayPanel extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					String message="KICK>>"+gson.toJson(new Kickrequest(string, tocken));
 					try {
-						Client.WriteMessage(message);
+						ClientMain.WriteMessage(message);
 					} catch (IOException e1) {e1.printStackTrace();}
 				}
 			});
@@ -277,7 +277,7 @@ public class PlayPanel extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String message="NEXTTURN>>"+gson.toJson(new NextTurnRequest(tocken));
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (Exception e) {e.printStackTrace();	}
 			}
 		});
@@ -292,10 +292,10 @@ public class PlayPanel extends JPanel{
 				try {
 				if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {
 					String message="EXITGAME>>"+gson.toJson(new SaveAndExitRequest(tocken));
-					Client.WriteMessage(message);					
+					ClientMain.WriteMessage(message);					
 				}else {
 					String message="EXITMATCH>>"+gson.toJson(new SaveAndExitRequest(tocken));
-					Client.WriteMessage(message);					
+					ClientMain.WriteMessage(message);					
 				}
 				} catch (IOException e) {e.printStackTrace();}
 			}

@@ -32,7 +32,6 @@ public abstract  class Weapon extends Card{
 	public void setHp(int x) {
 		durability=x;		
 	}
-
 	@Override
 	public String getType() {
 		return "Weapon";

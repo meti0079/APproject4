@@ -134,6 +134,7 @@ public class Login  {
 		while(sca.hasNext()) {
 			t1+=sca.nextLine();
 		}
+		sca.close();
 		return t1;
 	}
 }

@@ -8,7 +8,6 @@ public class HeroPowerRequest {
 		this.x = x;
 		this.y = y;
 	}
-	
 	public int getTocken() {
 		return tocken;
 	}

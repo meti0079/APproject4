@@ -8,12 +8,10 @@ import java.util.Random;
 import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import server.Controller;
 import server.ServerMain;
 import server.User;
 import server.cardspackage.Card;
-import server.cardspackage.Minion;
 import server.cardspackage.Weapon;
 import server.gameModel.AbstractAdapter;
 import server.gameModel.Deck;

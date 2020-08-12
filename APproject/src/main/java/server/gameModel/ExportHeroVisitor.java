@@ -6,8 +6,6 @@ import server.interfaces.HeroVisitor;
 import server.playModel.PlayerModel;
 
 public class ExportHeroVisitor implements HeroVisitor{
-
-
 	@Override
 	public void visitMage(PlayerModel p, int d, Card x) {
 		if(d==1)

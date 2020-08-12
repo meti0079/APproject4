@@ -5,8 +5,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import javax.swing.JOptionPane;
 import com.google.gson.Gson;
-import client.Client;
-import client.Controller;
+import client.ClientMain;
 import gameModel.requestAndREsponse.SellAndBuy;
 import server.hero.Heros;
 
@@ -35,7 +34,7 @@ public class HeroBuyListener implements MouseListener {
 		if(j==JOptionPane.OK_OPTION) {	
 			String message="BUYHERO>>"+new Gson().toJson(new SellAndBuy(s.getname(), tocken))+"#";
 			try {
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

@@ -2,21 +2,11 @@ package client.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import com.google.gson.Gson;
-
-import client.Client;
-import client.Controller;
-import client.grapic.InfoPanel;
-import client.grapic.Shop;
-import client.grapic.StorePanel;
+import client.ClientMain;
 import client.model.Card;
 import gameModel.requestAndREsponse.SellAndBuy;
-
 
 public class SellCardListener implements MouseListener {
 
@@ -26,16 +16,12 @@ public class SellCardListener implements MouseListener {
 		this.tocken=tocken;
 		this.card = card;
 	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) {}
-
 	@Override
 	public void mouseEntered(MouseEvent e) {}
-
 	@Override
 	public void mouseExited(MouseEvent e) {	}
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		int j=JOptionPane.showConfirmDialog(null, "Do you want sell this card??"
@@ -45,12 +31,10 @@ public class SellCardListener implements MouseListener {
 		if(j==JOptionPane.OK_OPTION) {
 			try {
 				String message="SELL>>"+new Gson().toJson(new SellAndBuy(card.getName(), tocken))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (Exception e1) {e1.printStackTrace();}
 		}
 	}
-
 	@Override
 	public void mouseReleased(MouseEvent e) {}
-
 }

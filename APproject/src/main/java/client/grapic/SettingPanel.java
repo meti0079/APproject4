@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import client.listeners.SettingBackGrounListener;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
@@ -50,7 +50,7 @@ public class SettingPanel extends JPanel{
 				if(x==JOptionPane.OK_OPTION)
 					try {
 						String 	message= "DELETACCOUNT>>"+new SaveAndExitRequest(controller.getUser().getTocken())+"#";
-						Client.WriteMessage(message);
+						ClientMain.WriteMessage(message);
 						System.exit(0);
 					} catch (IOException e) {e.printStackTrace();}
 			}

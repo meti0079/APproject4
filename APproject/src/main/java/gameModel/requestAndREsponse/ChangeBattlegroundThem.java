@@ -4,30 +4,30 @@ public class ChangeBattlegroundThem {
 
 	private int tocken;
 	private String name;
-	
-public ChangeBattlegroundThem() {
-}
 
-public ChangeBattlegroundThem(int tocken, String name) {
-	super();
-	this.tocken = tocken;
-	this.name = name;
-}
+	public ChangeBattlegroundThem() {
+	}
 
-public int getTocken() {
-	return tocken;
-}
+	public ChangeBattlegroundThem(int tocken, String name) {
+		super();
+		this.tocken = tocken;
+		this.name = name;
+	}
 
-public void setTocken(int tocken) {
-	this.tocken = tocken;
-}
+	public int getTocken() {
+		return tocken;
+	}
 
-public String getName() {
-	return name;
-}
+	public void setTocken(int tocken) {
+		this.tocken = tocken;
+	}
 
-public void setName(String name) {
-	this.name = name;
-}	
-	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}	
+
 }

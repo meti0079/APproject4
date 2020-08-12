@@ -5,7 +5,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
 
-public class Client {
+public class ClientMain {
 	public static SocketAddress address;
 	public static DatagramSocket  datagramSocket;
 	public static String serverIP="";

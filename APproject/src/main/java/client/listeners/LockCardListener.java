@@ -4,8 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import com.google.gson.Gson;
-import client.Client;
-import client.Controller;
+import client.ClientMain;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 
 public class LockCardListener implements MouseListener {
@@ -27,7 +26,7 @@ public class LockCardListener implements MouseListener {
 		if(x==JOptionPane.OK_OPTION) {
 			try {
 				String 	message= "GOSHOP>>"+new Gson().toJson(new SaveAndExitRequest(tocken))+"#";
-				Client.WriteMessage(message);
+				ClientMain.WriteMessage(message);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}

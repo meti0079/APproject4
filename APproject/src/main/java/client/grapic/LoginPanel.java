@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import com.google.gson.Gson;
-import client.Client;
+import client.ClientMain;
 import gameModel.requestAndREsponse.LoginAndSingUpRequest;
 
 public class LoginPanel extends JPanel {
@@ -67,9 +67,9 @@ public class LoginPanel extends JPanel {
 		loginButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Client.serverIP=serverIp.getText();
-				Client.serverport=Integer.parseInt(serverPort.getText());
-				Client.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
+				ClientMain.serverIP=serverIp.getText();
+				ClientMain.serverport=Integer.parseInt(serverPort.getText());
+				ClientMain.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
 				String name =namefield.getText();
 				String pass=passfield.getText();
 				if(namefield.getText().equals("") || passfield.getText().equals("")) {
@@ -78,7 +78,7 @@ public class LoginPanel extends JPanel {
 					try {
 						LoginAndSingUpRequest loginRequest=new LoginAndSingUpRequest(name, pass);
 						String message="LOGIN>>"+new Gson().toJson(loginRequest)+"#";
-						Client.WriteMessage(message);
+						ClientMain.WriteMessage(message);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
@@ -91,15 +91,15 @@ public class LoginPanel extends JPanel {
 		newAccountButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Client.serverIP=serverIp.getText();
-				Client.serverport=Integer.parseInt(serverPort.getText());
-				Client.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
+				ClientMain.serverIP=serverIp.getText();
+				ClientMain.serverport=Integer.parseInt(serverPort.getText());
+				ClientMain.address=new InetSocketAddress(serverIp.getText(),Integer.parseInt(serverPort.getText()));
 				String name=namefield2.getText();
 				String pass=passfield2.getText();
 				LoginAndSingUpRequest loginRequest=new LoginAndSingUpRequest(name, pass);
 				String message="SINGUP>>"+new Gson().toJson(loginRequest)+"#";
 				try {
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

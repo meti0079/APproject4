@@ -13,7 +13,6 @@ public class User {
 	private int potr;
 	private SocketAddress address;
 	public User(Player player, Enemy enemy, int potr, SocketAddress address) {
-
 		this.player = player;
 		this.enemy = enemy;
 		this.potr = potr;

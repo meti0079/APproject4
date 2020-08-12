@@ -9,7 +9,6 @@ public class AddCardToDeck {
 		this.cardName = cardName;
 	}
 	public AddCardToDeck() {
-		// TODO Auto-generated constructor stub
 	}
 	public int getTocken() {
 		return tocken;

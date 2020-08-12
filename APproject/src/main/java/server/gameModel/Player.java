@@ -17,8 +17,6 @@ public class Player {
 	private int cup;
 	private int tocken;
 
-
-
 	public Player(String name,String pass,int g) {
 		this.name=name;
 		password=pass;

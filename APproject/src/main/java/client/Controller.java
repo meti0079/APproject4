@@ -3,15 +3,11 @@ package client;
 import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
-
-import java.lang.reflect.Type;
 import com.google.common.reflect.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-
 import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
@@ -174,7 +170,7 @@ public class Controller {
 		if(x==JOptionPane.OK_OPTION) {
 			try {
 				String 	message1= "GOCOLLECTION>>"+new Gson().toJson(new SaveAndExitRequest(getUser().getTocken()))+"#";
-				Client.WriteMessage(message1);
+				ClientMain.WriteMessage(message1);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -209,7 +205,7 @@ public class Controller {
 		if(	message.equals("59") && gameNeed.getTurnremind()%2==gameNeed.getMyturn()) {		
 			try {
 				String message1="NEXTTURN>>"+gson.toJson(new NextTurnRequest(user.getTocken()));
-				Client.WriteMessage(message1);
+				ClientMain.WriteMessage(message1);
 			} catch (Exception e) {e.printStackTrace();
 			}
 		}

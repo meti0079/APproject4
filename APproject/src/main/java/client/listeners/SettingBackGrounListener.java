@@ -4,9 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import com.google.gson.Gson;
-
-import client.Client;
-import client.Controller;
+import client.ClientMain;
 import gameModel.requestAndREsponse.ChangeBattlegroundThem;
 
 public class SettingBackGrounListener implements MouseListener {
@@ -23,7 +21,7 @@ public class SettingBackGrounListener implements MouseListener {
 	public void mousePressed(MouseEvent arg0) {
 		try {
 			String message="CHANGEBATTLEGROUND>>"+new Gson().toJson(new ChangeBattlegroundThem(tocken, "nattle"+s+".jpg"))+"#";
-			Client.WriteMessage(message);
+			ClientMain.WriteMessage(message);
 		} catch (Exception e) {e.printStackTrace();}
 		JOptionPane.showMessageDialog(null, "choosed");
 	}

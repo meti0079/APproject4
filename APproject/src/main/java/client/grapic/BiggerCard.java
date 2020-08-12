@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
-import client.Client;
+import client.ClientMain;
 import client.Controller;
 import client.model.Card;
 import gameModel.requestAndREsponse.AddCardToDeck;
@@ -68,7 +68,7 @@ public class BiggerCard extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String message="ADDTOENEMYDECK>>"+new Gson().toJson(new AddCardToDeck(controlle.getUser().getTocken(), card.getName()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 					setVisible(false);
 				} catch (Exception e) {e.printStackTrace();}
 			}
@@ -83,7 +83,7 @@ public class BiggerCard extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String message="ADDTOMYDECK>>"+new Gson().toJson(new AddCardToDeck(controller.getUser().getTocken(), card.getName()))+"#";
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 					setVisible(false);
 				} catch (Exception e1) {e1.printStackTrace();}
 			}

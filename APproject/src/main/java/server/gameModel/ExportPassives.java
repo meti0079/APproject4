@@ -8,6 +8,7 @@ import server.interfaces.PassiveVisitor;
 import server.playModel.PlayerModel;
 
 public class ExportPassives implements PassiveVisitor{
+	private boolean flag=true;
 	@Override
 	public void visitStargazing(PlayerModel me, PlayerModel enemy, Card x) {
 		if(me.getHero().getHero_power().getMaxUse()!=2) {
@@ -24,9 +25,10 @@ public class ExportPassives implements PassiveVisitor{
 	}
 	@Override
 	public void visitManaJump(PlayerModel me, PlayerModel enemy, Card x) {
-//		if(PlayPanel.getRoundGame()>57 && PlayPanel.getRoundGame()%2==me.getTurn()) {
-//			me.setPreviosgem(me.getPreviosgem()+1);
-//		}
+		if(flag) {
+			me.setPreviosgem(me.getPreviosgem()+1);
+		flag=false;
+		}
 	}	
 	@Override
 	public void visitAlchemistsStone(PlayerModel me, PlayerModel enemy, Card x) {

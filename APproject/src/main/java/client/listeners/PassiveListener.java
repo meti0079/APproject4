@@ -2,11 +2,8 @@ package client.listeners;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import com.google.gson.Gson;
-
-import client.Client;
-import client.Controller;
+import client.ClientMain;
 import client.grapic.PassivePanel;
 import gameModel.requestAndREsponse.SetPassiveRequest;
 
@@ -32,7 +29,7 @@ public class PassiveListener implements MouseListener{
 	public void mousePressed(MouseEvent e) {
 		try {
 			String message="SETPASSIVE>>"+new Gson().toJson(new SetPassiveRequest(name, tocken))+"#";
-			Client.WriteMessage(message);
+			ClientMain.WriteMessage(message);
 		} catch (Exception e1) {e1.printStackTrace();}
 		pas.setVisible(false);
 	}

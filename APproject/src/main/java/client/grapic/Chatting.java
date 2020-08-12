@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import com.google.gson.Gson;
 
-import client.Client;
+import client.ClientMain;
 import gameModel.requestAndREsponse.ChatRequest;
 
 public class Chatting  extends JPanel{
@@ -47,7 +47,7 @@ public class Chatting  extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				String message="SENDMESSAGE>>"+new Gson().toJson(new ChatRequest(textField.getText(),tocken ))+"#";
 				try {
-					Client.WriteMessage(message);
+					ClientMain.WriteMessage(message);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

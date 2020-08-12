@@ -2,8 +2,6 @@ package server.gameModel;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import client.grapic.PlayPanel;
 import server.User;
 import server.cardspackage.Card;
 import server.cardspackage.Minion;
@@ -18,7 +16,6 @@ import server.cardspackage.Minions.HighPriestAmet;
 import server.cardspackage.Minions.KronxDragonhoof;
 import server.cardspackage.Minions.LeperGnome;
 import server.cardspackage.Minions.Locust;
-import server.cardspackage.Minions.MechanicalYeti;
 import server.cardspackage.Minions.MurlocRaider;
 import server.cardspackage.Minions.MurlocWarleader;
 import server.cardspackage.Minions.OasisSnapjaw;
@@ -56,13 +53,11 @@ import server.playModel.PlayerModel;
 import server.playModel.Quest;
 
 public class ExportVisitor implements Visitor{
-
-
 	private DeckReader d;
-	Mapper mapper;
-	String state;
-	User user1;
-	User user2;
+	private Mapper mapper;
+	private String state;
+	private User user1;
+	private User user2;
 	public ExportVisitor(Mapper mapper, String state, User user1, User user2) {
 		d= new DeckReader();
 		this.mapper=mapper;
@@ -70,8 +65,6 @@ public class ExportVisitor implements Visitor{
 		this.user1=user1;
 		this.user2=user2;
 	}
-
-
 	///////////// spells
 	@Override
 	public void visitLearnDraconic(LearnDraconic m, Object taeget, PlayerModel attackerP, PlayerModel targetP) {
@@ -168,7 +161,6 @@ public class ExportVisitor implements Visitor{
 	}
 	private void handledeck(PlayerModel attackerP , PlayerModel targetP) throws Exception {
 		if(attackerP.getDeck().size()==0) {
-//			if(PlayPanel.getRoundGame()%2==0)
 				if(attackerP.getTurn()==0) {
 					mapper.readDeck(attackerP, targetP,state,user1,user2);
 				}else {
@@ -235,7 +227,6 @@ public class ExportVisitor implements Visitor{
 					}
 				}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
