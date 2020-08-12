@@ -13,9 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
-import Cardspackage.Card;
-import hero.Heros;
-import hero.heroPower.HeroPower;
+
+import server.cardspackage.Card;
+import server.hero.Heros;
+import server.hero.heroPower.HeroPower;
 
 public class HeroPowerShow extends JPanel {
 	private static final long serialVersionUID = 1L;

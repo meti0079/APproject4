@@ -73,6 +73,9 @@ public class MessageHandler {
 		case "SETRANKNEED":
 			controller.setRankNeed(message);
 			break;	
+		case "SETSTATE":
+			controller.setStateGame(message);
+			break;	
 		default:
 			break;
 		}

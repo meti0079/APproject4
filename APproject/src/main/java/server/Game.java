@@ -6,16 +6,15 @@ import java.util.LinkedList;
 import java.util.Random;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import client.model.Card;
-import game.AbstractAdapter;
-import game.Logger;
 import gameModel.requestAndREsponse.GameNeed;
-import hero.Heros;
-import hero.heroPower.HeroPower;
-import passives.Passive;
-import playModel.Mapper;
-import playModel.PlayerModel;
+import server.gameModel.AbstractAdapter;
+import server.gameModel.Logger;
+import server.hero.Heros;
+import server.hero.heroPower.HeroPower;
+import server.passives.Passive;
+import server.playModel.Mapper;
+import server.playModel.PlayerModel;
 
 public class Game {
 	User user1;
@@ -55,13 +54,15 @@ public class Game {
 			e.printStackTrace();
 		}
 	}
-	public Game(User user1, User user2) {
+	public Game(User user1, User user2, Mapper mapper) {
 		try {
 			initialGson();
 			log=Logger.getinsist();
 			this.user1=user1;
 			this.user2=user2;
-			mapper=new Mapper(user1.getGameState(),user1,user2);
+//			new OneShot(user1.getGameState(), user1, user2);
+//			new Mapper(user1.getGameState(), user1, user2);
+			this.mapper=mapper;	
 			me=mapper.readMe(user1.getGameState(),user1);
 			enemy=mapper.readEnemy(user2.getGameState(), user2);
 			clock=new Clock(this);
@@ -171,14 +172,14 @@ public class Game {
 		sendGameNeed();
 	}
 
-	private void sendGameNeed() {	
+	private void sendGameNeed() {
 		ArrayList<String> pas=passives();
 		mapper.checkQuest(enemy);
 		if(me.getWeapon()!=null && me.getWeapon().getDurability()==0)
 			me.setWeapon(null);
 		if(enemy.getWeapon()!=null && enemy.getWeapon().getDurability()==0)
 			enemy.setWeapon(null);
-		if(user1.getGameState().equals("online") || user1.getGameState().equals("deckreader")) {
+		if(user1.getGameState().equals("online") || user1.getGameState().contains("deckreader")) {
 			GameNeed gameNeed1=new GameNeed(me.getDecksize(), enemy.getDecksize(),makeClientCards( me.getHand()),new ArrayList<>(),
 					makeClientCards(me.getBattleGroundCard()), makeClientCards(enemy.getBattleGroundCard()),
 					mekeACard(me.getWeapon())
@@ -427,14 +428,14 @@ public class Game {
 		}
 	}
 
-	private ArrayList<Card> makeClientCards(ArrayList<Cardspackage.Card> cards){
+	private ArrayList<Card> makeClientCards(ArrayList<server.cardspackage.Card> cards){
 		ArrayList<Card> c=new ArrayList<>();
-		for (Cardspackage.Card card : cards) {
+		for (server.cardspackage.Card card : cards) {
 			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp(),card.isRush(),card.getUsedToAttack()));
 		}
 		return c;
 	}
-	private Card mekeACard(Cardspackage.Card card) {
+	private Card mekeACard(server.cardspackage.Card card) {
 		if(card ==null) {
 			return null;
 		}else {
@@ -442,7 +443,7 @@ public class Game {
 
 		}
 	}
-	private LinkedList<Card> makeClientCards(LinkedList<Cardspackage.Card> cards){
+	private LinkedList<Card> makeClientCards(LinkedList<server.cardspackage.Card> cards){
 		LinkedList<Card> c=new LinkedList<>();
 		for (int i=0;i<7;i++) {
 			if(cards.get(i)==null) {
@@ -452,15 +453,15 @@ public class Game {
 		}
 		return c;
 	}
-	private Cardspackage.Card findCard(String name, ArrayList<Cardspackage.Card> cards) {
-		for (Cardspackage.Card card : cards) {
+	private server.cardspackage.Card findCard(String name, ArrayList<server.cardspackage.Card> cards) {
+		for (server.cardspackage.Card card : cards) {
 			if(card.get_Name().equals(name))
 				return card;
 		}
 		return null;
 	}
-	private Cardspackage.Card findCard(String name, LinkedList<Cardspackage.Card> cards) {
-		for (Cardspackage.Card card : cards) {
+	private server.cardspackage.Card findCard(String name, LinkedList<server.cardspackage.Card> cards) {
+		for (server.cardspackage.Card card : cards) {
 			if(card!=null)
 				if(card.get_Name().equals(name))
 					return card;
@@ -516,7 +517,7 @@ public class Game {
 			user1.getPlayer().getMyDeck().setCup(-1);
 			user1.getPlayer().getMyDeck().addUsethisDeck();
 			user2.getPlayer().getMyDeck().addUsethisDeck();
-		}else if(user1.getGameState().equalsIgnoreCase("deckreader")) {
+		}else if(user1.getGameState().contains("deckreader")) {
 			user2.getPlayer().setCup(user2.getPlayer().getCup()+30);
 			user1.getPlayer().setCup(user1.getPlayer().getCup()-30);						
 		}

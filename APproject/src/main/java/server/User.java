@@ -1,7 +1,8 @@
 package server;
 import java.net.SocketAddress;
-import game.Enemy;
-import game.Player;
+
+import server.gameModel.Enemy;
+import server.gameModel.Player;
 
 public class User {
 	private String gameState;

@@ -12,7 +12,7 @@ import client.Controller;
 import client.listeners.HeroBuyListener;
 import client.listeners.SellCardListener;
 import client.model.Card;
-import hero.Heros;
+import server.hero.Heros;
 
 
 public class Shop extends JPanel{

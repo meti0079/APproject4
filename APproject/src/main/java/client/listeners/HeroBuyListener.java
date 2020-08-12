@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import client.Client;
 import client.Controller;
 import gameModel.requestAndREsponse.SellAndBuy;
-import hero.Heros;
+import server.hero.Heros;
 
 public class HeroBuyListener implements MouseListener {
 	private Heros s;

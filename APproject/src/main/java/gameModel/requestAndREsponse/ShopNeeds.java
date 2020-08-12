@@ -3,7 +3,7 @@ package gameModel.requestAndREsponse;
 import java.util.ArrayList;
 
 import client.model.Card;
-import hero.Heros;
+import server.hero.Heros;
 
 public class ShopNeeds {
 	ArrayList<Card> cards;

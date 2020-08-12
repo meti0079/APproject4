@@ -22,6 +22,7 @@ public class HandCardListener implements MouseListener,MouseMotionListener {
 	int tocken;
 
 	public HandCardListener(PlayPanel panel,Card card, CardShow x,int round, int turn, int tocken) {
+		this.turn=turn;
 		this.round=round;
 		this.tocken=tocken;
 		this.card=card;

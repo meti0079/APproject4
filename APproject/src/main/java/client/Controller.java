@@ -11,7 +11,7 @@ import com.google.common.reflect.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import Cardspackage.Card;
+
 import client.grapic.CollectionPanel;
 import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
@@ -23,7 +23,6 @@ import client.grapic.Shop;
 import client.grapic.StartPlayShow;
 import client.grapic.Statos;
 import client.model.User;
-import game.AbstractAdapter;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
 import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
@@ -32,8 +31,10 @@ import gameModel.requestAndREsponse.StatosNeeds;
 import gameModel.requestAndREsponse.GameNeed;
 import gameModel.requestAndREsponse.NextTurnRequest;
 import gameModel.requestAndREsponse.RankNeed;
-import hero.Heros;
-import hero.heroPower.HeroPower;
+import server.cardspackage.Card;
+import server.gameModel.AbstractAdapter;
+import server.hero.Heros;
+import server.hero.heroPower.HeroPower;
 public class Controller {
 
 	private MainFrame frame;
@@ -237,6 +238,10 @@ public class Controller {
 		rankPanel.setMe(need.getMe());
 		rankPanel.repaint();
 		rankPanel.revalidate();
+	}
+
+	public void setStateGame(String message) {
+		playShow.getPanel().specia=message;		
 	}
 
 }

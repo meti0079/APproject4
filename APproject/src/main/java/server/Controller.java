@@ -12,15 +12,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import client.model.Card;
 import client.model.DeckInfo;
-import game.AbstractAdapter;
-import game.Deck;
-import game.Enemy;
-import game.FileReader;
-import game.Logger;
-import game.Login;
-import game.Player;
-import game.Rank;
-import game.Store;
 import gameModel.requestAndREsponse.AddCardToDeck;
 import gameModel.requestAndREsponse.AttackRequest;
 import gameModel.requestAndREsponse.ChangInDeckResponse;
@@ -41,8 +32,17 @@ import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StartMatchRequest;
 import gameModel.requestAndREsponse.StatosNeeds;
 import gameModel.requestAndREsponse.changeCardRequest;
-import hero.Heros;
-import hero.heroPower.HeroPower;
+import server.gameModel.AbstractAdapter;
+import server.gameModel.Deck;
+import server.gameModel.Enemy;
+import server.gameModel.FileReader;
+import server.gameModel.Logger;
+import server.gameModel.Login;
+import server.gameModel.Player;
+import server.gameModel.Rank;
+import server.gameModel.Store;
+import server.hero.Heros;
+import server.hero.heroPower.HeroPower;
 
 
 public class Controller {
@@ -55,8 +55,11 @@ public class Controller {
 	private Gson  gson;
 	private FileReader game;
 	Rank rank;
+	private ClassLouder classLouder;
 	public Controller() {
 		try {
+			classLouder=new ClassLouder();
+			classLouder.start();
 			rank= new Rank();
 			log= Logger.getinsist();
 			game=new FileReader();
@@ -201,17 +204,17 @@ public class Controller {
 			try {
 				if(request.getState().equals("training")) {
 					games.add(new Game(x));
-				}else if(request.getState().equals("deckreader")) {
+				}else if(request.getState().contains("deckreader")) {
 					deckReaderWaiting.add(x);
 					if(deckReaderWaiting.size()>=2) {
-						games.add(new Game(deckReaderWaiting.get(0), deckReaderWaiting.get(1)));
+						games.add(new Game(deckReaderWaiting.get(0), deckReaderWaiting.get(1),classLouder.getnewMapper(request.getState(),deckReaderWaiting.get(0), deckReaderWaiting.get(1))));
 						deckReaderWaiting.remove(0);
 						deckReaderWaiting.remove(0);
 					}
 				}else if(request.getState().equals("online")) {
 					onlineWaiting.add(x);
 					if(onlineWaiting.size()>=2) {
-						games.add(new Game(onlineWaiting.get(0), onlineWaiting.get(1)));
+						games.add(new Game(onlineWaiting.get(0), onlineWaiting.get(1),classLouder.getnewMapper(request.getState(),onlineWaiting.get(0), onlineWaiting.get(1))));
 						onlineWaiting.remove(0);
 						onlineWaiting.remove(0);
 					}					
@@ -231,6 +234,10 @@ public class Controller {
 				if(canStart(x)){
 					log.log(x.getPlayer().get_name(), "go to  start a match", "");
 					String message1="CHANGEPANEL>>PLAYSTART#";
+					if(classLouder.classes.size()>0) {
+						String mes="SETSTATE>>"+classLouder.classes.get(0).getName()+"#";
+						ServerMain.WriteMessage(mes, x.getAddress());						
+					}
 					ServerMain.WriteMessage(message1, x.getAddress());
 				}else {
 					String message1="PLAYERROR>> you have to make a good deck for yourself and enemy!!! edit or change them"+"#";					
@@ -512,7 +519,7 @@ public class Controller {
 		User user=online.get(sellAndBuy.getTocken());
 		try {
 			if(user!=null) {
-				Cardspackage.Card card=findCard(sellAndBuy.getName(), user.getPlayer().getMyStore().getBuyCard());
+				server.cardspackage.Card card=findCard(sellAndBuy.getName(), user.getPlayer().getMyStore().getBuyCard());
 				if(card!=null) {					
 					if(user.getPlayer().gem>=card.gemCost()) {
 						user.getPlayer().gem-=card.gemCost();
@@ -565,7 +572,7 @@ public class Controller {
 		User user=online.get(sellAndBuy.getTocken());
 		try {
 			if(user!=null) {
-				Cardspackage.Card card=findCard(sellAndBuy.getName(), user.getPlayer().get_myCards());
+				server.cardspackage.Card card=findCard(sellAndBuy.getName(), user.getPlayer().get_myCards());
 				if(card!=null)
 					if(user.getPlayer().sellaCard(card)) {			
 						user.getPlayer().gem+=card.gemCost();
@@ -599,9 +606,9 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	private ArrayList<Card> makeClientCards(ArrayList<Cardspackage.Card> cards){
+	private ArrayList<Card> makeClientCards(ArrayList<server.cardspackage.Card> cards){
 		ArrayList<Card> c=new ArrayList<>();
-		for (Cardspackage.Card card : cards) {
+		for (server.cardspackage.Card card : cards) {
 			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp(),card.isRush(),card.getUsedToAttack()));
 		}
 		return c;
@@ -706,8 +713,8 @@ public class Controller {
 		}
 	}	
 
-	private Cardspackage.Card findCard(String name, ArrayList<Cardspackage.Card> cards) {
-		for (Cardspackage.Card card : cards) {
+	private server.cardspackage.Card findCard(String name, ArrayList<server.cardspackage.Card> cards) {
+		for (server.cardspackage.Card card : cards) {
 			if(card.get_Name().equals(name))
 				return card;
 		}

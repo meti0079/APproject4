@@ -6,7 +6,7 @@ public class Clock  extends Thread{
 	private long user1LastConnection;
 	private long user2LastConnection;
 	int timeLeft=58;
-	
+	private int maximumTime=60;
 	private int time;
 	private  final long Frametime=1000/50;
 	private float movepessecond;
@@ -72,7 +72,7 @@ public class Clock  extends Thread{
 				if(e<Frametime) {
 					this.sleep(1000);
 				}
-				if (time==60) {
+				if (time==maximumTime) {
 					time=0;
 					try {
 					} catch (Exception e1) {

@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import hero.Heros;
+import server.hero.Heros;
 
 public class HeroShow extends JPanel {
 

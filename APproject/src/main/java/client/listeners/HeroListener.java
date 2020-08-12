@@ -3,11 +3,11 @@ package client.listeners;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import Cardspackage.Spell;
 import client.grapic.PlayPanel;
-import game.FileReader;
-import interfaces.Visitor;
-import playModel.PlayerModel;
+import server.cardspackage.Spell;
+import server.gameModel.FileReader;
+import server.interfaces.Visitor;
+import server.playModel.PlayerModel;
 
 public class HeroListener implements MouseListener{
 private PlayerModel me;

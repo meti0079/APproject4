@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import client.model.Card;
-import hero.Heros;
-import playModel.Quest;
+import server.hero.Heros;
+import server.playModel.Quest;
 
 public class GameNeed {
 	int myDeck;

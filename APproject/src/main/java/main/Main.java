@@ -3,9 +3,16 @@ package main;
 
 import javax.swing.SwingUtilities;
 
-import passives.ManaJump;
-import passives.OffCards;
-import passives.Passive;
+import server.cardspackage.Card;
+import server.cardspackage.Minions.Locust;
+import server.cardspackage.Minions.MechanicalYeti;
+import server.cardspackage.Minions.Sheep;
+import server.cardspackage.Minions.SleepyDragon;
+import server.cardspackage.Minions.WaxElemental;
+import server.gameModel.AbstractAdapter;
+import server.passives.ManaJump;
+import server.passives.OffCards;
+import server.passives.Passive;
 
 //import passives.AlchemistsStone;
 //import passives.BandofScarabs;
@@ -25,57 +32,8 @@ import java.io.FileWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-//
-import Cardspackage.Card;
-//import Cardspackage.Minions.Locust;
-////
-//import Cardspackage.Minions.BigGameHunter;
-//import Cardspackage.Minions.BluegillWarrior;
-//import Cardspackage.Minions.ChillwindYeti;
-//import Cardspackage.Minions.CurioCollector;
-//import Cardspackage.Minions.Dreadscale;
-//import Cardspackage.Minions.Gruul;
-//import Cardspackage.Minions.HighPriestAmet;
-//import Cardspackage.Minions.KronxDragonhoof;
-//import Cardspackage.Minions.LeperGnome;
-//import Cardspackage.Minions.MurlocRaider;
-//import Cardspackage.Minions.MurlocWarleader;
-//import Cardspackage.Minions.OasisSnapjaw;
-//import Cardspackage.Minions.Sandbinder;
-//import Cardspackage.Minions.Sathrovarr;
-//import Cardspackage.Minions.SeaGiant;
-//import Cardspackage.Minions.SecurityRover;
-//import Cardspackage.Minions.Shieldbearer;
-//import Cardspackage.Minions.SwampKingDred;
-//import Cardspackage.Minions.TheBlackKnight;
-//import Cardspackage.Minions.ThrallmarFarseer;
-//import Cardspackage.Minions.TombWarden;
-//import Cardspackage.Spells.ArcaneShot;
-//import Cardspackage.Spells.Backstab;
-//import Cardspackage.Spells.BookofSpecters;
-//import Cardspackage.Spells.FriendlySmith;
-//import Cardspackage.Spells.HolySmite;
-//import Cardspackage.Spells.LearnDraconic;
-//import Cardspackage.Spells.PharaohBlessing;
-//import Cardspackage.Spells.Polymorph;
-//import Cardspackage.Spells.Sprint;
-//import Cardspackage.Spells.StrengthinNumbers;
-//import Cardspackage.Spells.Swarmoflocusts;
-//import Cardspackage.Spells.gift;
-//import Cardspackage.Weapons.BattleAxe;
-//import Cardspackage.Weapons.BloodFury;
-//import Cardspackage.Weapons.HeavyAxe;
-//import GAME.AbstractAdapter;
-//
-//import Cardspackage.Card;
-//import Cardspackage.Spells.AstralRift;
-import Cardspackage.Minions.Locust;
-import Cardspackage.Minions.MechanicalYeti;
-import Cardspackage.Minions.Sheep;
-import Cardspackage.Minions.SleepyDragon;
-import Cardspackage.Minions.WaxElemental;
+
 import client.grapic.MainFrame;
-import game.AbstractAdapter;
 
 public class Main {
 	public static void main(String[] args) throws Exception {

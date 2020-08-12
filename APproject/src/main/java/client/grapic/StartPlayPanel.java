@@ -20,6 +20,7 @@ public class StartPlayPanel extends JPanel{
 	private JButton go;
 	String state;
 	Controller controller;
+	public String specia="";
 	private void initial() throws Exception {
 		setLayout(null);
 		setPreferredSize(new Dimension(1800, 900));
@@ -80,7 +81,7 @@ public class StartPlayPanel extends JPanel{
 		b.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				state="deckreader";
+				state="deckreader"+specia;
 				controller.setState(state);
 				go.setEnabled(true);
 			}

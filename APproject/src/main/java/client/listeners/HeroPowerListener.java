@@ -8,7 +8,7 @@ import client.Client;
 import client.grapic.HeroPowerShow;
 import client.grapic.PlayPanel;
 import gameModel.requestAndREsponse.HeroPowerRequest;
-import hero.heroPower.HeroPower;
+import server.hero.heroPower.HeroPower;
 
 public class HeroPowerListener implements MouseListener,MouseMotionListener{
 	private HeroPower heropower;

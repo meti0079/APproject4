@@ -19,12 +19,12 @@ import com.google.gson.Gson;
 import client.Client;
 import client.Controller;
 import client.model.DeckInfo;
-import game.Deck;
-import game.FileReader;
-import game.Logger;
 import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.NewDeck;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
+import server.gameModel.Deck;
+import server.gameModel.FileReader;
+import server.gameModel.Logger;
 
 public class Collection_deck extends JPanel{
 

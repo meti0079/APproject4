@@ -16,7 +16,7 @@ import client.listeners.MyDeckListener;
 import client.listeners.UnlockListener;
 import client.model.Card;
 import client.model.DeckInfo;
-import hero.Heros;
+import server.hero.Heros;
 
 
 public class CollectionPanel extends JPanel {
