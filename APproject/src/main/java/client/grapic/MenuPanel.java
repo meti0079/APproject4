@@ -26,6 +26,7 @@ public class MenuPanel extends JPanel {
 	private JButton exit;
 	private JButton save;
 	private JButton setting;
+	private JButton rank;
 	private Controller controller;
 	private JButton watch;
 	private void initial() throws Exception {
@@ -45,13 +46,14 @@ public class MenuPanel extends JPanel {
 		setExitButton();
 		setSaveButton();
 		setWatchButton();
+		setRankButton();
 	}
 	private void setWatchButton() {
 		watch=new JButton("watch");
 		watch.setFont(new Font("Tahoma", Font.BOLD, 30));
 		watch.setForeground(Color.BLACK);
 		watch.setBackground(Color.orange);
-		watch.setBounds(20, 20, 330, 60);
+		watch.setBounds(20, 20, 300, 60);
 		watch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -66,6 +68,26 @@ public class MenuPanel extends JPanel {
 			}
 		});	
 		add(watch);		
+	}
+	private void setRankButton() {
+		rank=new JButton("Rank");
+		rank.setFont(new Font("Tahoma", Font.BOLD, 30));
+		rank.setForeground(Color.BLACK);
+		rank.setBackground(Color.orange);
+		rank.setBounds(20, 90, 300, 60);
+		rank.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String 	message= "GORANK>>"+new Gson().toJson(new SaveAndExitRequest(controller.getUser().getTocken()))+"#";
+					Client.WriteMessage(message);			
+				} catch (IOException e1) {
+					System.out.println("save button");
+					e1.printStackTrace();
+				}
+			}
+		});	
+		add(rank);		
 	}
 	@Override
 	protected void paintComponent(Graphics g) {

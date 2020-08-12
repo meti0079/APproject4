@@ -17,7 +17,7 @@ import com.google.gson.Gson;
 
 import client.Client;
 import client.Controller;
-import game.Gamestate;
+import game.FileReader;
 import game.Logger;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 

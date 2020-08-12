@@ -21,6 +21,7 @@ import client.listeners.BattlegrounCardListener;
 import client.listeners.HandCardListener;
 import client.listeners.HeroPowerListener;
 import client.model.Card;
+import gameModel.requestAndREsponse.Kickrequest;
 import gameModel.requestAndREsponse.NextTurnRequest;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 
@@ -49,6 +50,8 @@ public class PlayPanel extends JPanel{
 	private int tocken;
 	Controller controller;
 	private JLabel enemyName;
+	private ArrayList<String> watcher=new ArrayList<>();  
+	private ArrayList<JButton> watcherButtons=new ArrayList<>();  
 	public PlayPanel( TextArea t, Controller controller) throws Exception {
 		tocken=controller.getUser().getTocken();
 		this.controller=controller;
@@ -77,6 +80,7 @@ public class PlayPanel extends JPanel{
 
 	}
 	private void setCard() {
+		setWatcher();
 		setQuest();
 		drawHeroPower();
 		removeLables();
@@ -111,6 +115,33 @@ public class PlayPanel extends JPanel{
 		x1.setBounds(828, 140, 150, 150);
 		add(x1);
 		heroPowers.add(x1);
+	}
+	public void setWatcher() {
+		for (JButton jButton : watcherButtons) {
+			remove(jButton);
+		}
+		watcherButtons.removeAll(watcherButtons);
+		int x=1;
+		for (String string : watcher) {
+			System.out.println(string);
+			JButton button=new JButton("KICK :"+string);
+			button.addActionListener(new ActionListener() {	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String message="KICK>>"+gson.toJson(new Kickrequest(string, tocken));
+					try {
+						Client.WriteMessage(message);
+					} catch (IOException e1) {e1.printStackTrace();}
+				}
+			});
+			watcherButtons.add(button);
+			button.setBounds(10, x*200, 150, 50);
+			add(button);
+			x++;
+		}	
+	}
+	public void setWatcher(ArrayList<String> watcher) {
+		this.watcher = watcher;
 	}
 	private void drawHero() {
 		for (int i = 0; i < heros.size(); i++) {
@@ -256,12 +287,16 @@ public class PlayPanel extends JPanel{
 		exitGame.setBounds(1300, 0, 100, 80);
 		add(exitGame);
 		exitGame.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String message="EXITWATCH>>"+gson.toJson(new SaveAndExitRequest(tocken));
-					Client.WriteMessage(message);
+				if(!controller.getGameNeed().getEnemyName().equals("&&&&")) {
+					String message="EXITGAME>>"+gson.toJson(new SaveAndExitRequest(tocken));
+					Client.WriteMessage(message);					
+				}else {
+					String message="EXITMATCH>>"+gson.toJson(new SaveAndExitRequest(tocken));
+					Client.WriteMessage(message);					
+				}
 				} catch (IOException e) {e.printStackTrace();}
 			}
 		});	

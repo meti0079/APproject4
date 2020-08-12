@@ -5,7 +5,7 @@ import java.awt.event.MouseListener;
 
 import Cardspackage.Spell;
 import client.grapic.PlayPanel;
-import game.Gamestate;
+import game.FileReader;
 import interfaces.Visitor;
 import playModel.PlayerModel;
 

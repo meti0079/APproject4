@@ -1,10 +1,4 @@
-/CArds/
 /Cardspackage/
-/LOGFILE/
-/PLAYERSNAME/
-/all cards/
-/backgrund image/
-/button image/
 /card image/
 /client/
 /game/
@@ -18,3 +12,4 @@
 /playModel/
 /pll/
 /server/
+/LOGFILE/

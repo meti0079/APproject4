@@ -15,10 +15,11 @@ import client.model.DeckInfo;
 import game.AbstractAdapter;
 import game.Deck;
 import game.Enemy;
-import game.Gamestate;
+import game.FileReader;
 import game.Logger;
 import game.Login;
 import game.Player;
+import game.Rank;
 import game.Store;
 import gameModel.requestAndREsponse.AddCardToDeck;
 import gameModel.requestAndREsponse.AttackRequest;
@@ -28,6 +29,7 @@ import gameModel.requestAndREsponse.ChatRequest;
 import gameModel.requestAndREsponse.CollectionNeed;
 import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.HeroPowerRequest;
+import gameModel.requestAndREsponse.Kickrequest;
 import gameModel.requestAndREsponse.LoginAndSingUpRequest;
 import gameModel.requestAndREsponse.NewDeck;
 import gameModel.requestAndREsponse.NextTurnRequest;
@@ -51,11 +53,13 @@ public class Controller {
 	public static ArrayList<Game> games=new  ArrayList<>();
 	private Logger log;
 	private Gson  gson;
-	private Gamestate game;
+	private FileReader game;
+	Rank rank;
 	public Controller() {
 		try {
+			rank= new Rank();
 			log= Logger.getinsist();
-			game=new Gamestate();
+			game=new FileReader();
 			GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
 			builder.serializeSpecialFloatingPointValues();
 			builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
@@ -118,6 +122,21 @@ public class Controller {
 				e.printStackTrace();
 			}
 		}	
+	}
+	void sendRank(String message, DatagramPacket  packet) {
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
+		try {
+			User x=online.get(request.getTocken());
+			if(x!=null) {
+			String mes="SETRANKNEED>>"+gson.toJson(rank.setRankNeed(x.getPlayer()))+"#";
+			String mse1="CHANGEPANEL>>RANK#";
+			ServerMain.WriteMessage(mes, x.getAddress());
+			ServerMain.WriteMessage(mse1, x.getAddress());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	void setPassive(String message, DatagramPacket packet) {
 		StringReader reader=new StringReader(message);
@@ -705,19 +724,19 @@ public class Controller {
 		StringReader reader=new StringReader(message);
 		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		User x=online.get(request.getTocken());
-			if(x!=null) {
-				try {
-					for (Game game : games) {
-						if(game.getUser1()==x) {
-							game.exit(0);
-						}else if(game.getUser2()==x) {
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						game.exit(0);
+					}else if(game.getUser2()==x) {
 						game.exit(1);
-						}
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		}
 	}
 	public void isAlive(String message, DatagramPacket packet) {
 		StringReader reader=new StringReader(message);
@@ -736,34 +755,87 @@ public class Controller {
 		StringReader reader=new StringReader(message);
 		ChatRequest request=gson.fromJson(new JsonReader(reader), ChatRequest.class);
 		User x=online.get(request.getTocken());
-			if(x!=null) {
-				try {
-					for (Game game : games) {
-						if(game.getUser1()==x) {
-							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser2().getAddress());
-						}else if(game.getUser2()==x) {
-							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser1().getAddress());						
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x) {
+						ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser2().getAddress());
+						for (User user : clients) {								
+							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", user.getAddress());						
 						}
+					}else if(game.getUser2()==x) {
+						for (User user : clients) {								
+							ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", user.getAddress());						
+						}
+						ServerMain.WriteMessage("MESSAGE>>"+request.getMessag()+"#", game.getUser1().getAddress());						
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		}
 	}
 	public void seeMatch(String message, DatagramPacket packet) {
 		StringReader reader=new StringReader(message);
 		ChatRequest request=gson.fromJson(new JsonReader(reader), ChatRequest.class);
 		User x=online.get(request.getTocken());
-			if(x!=null) {
-				try {
-					for (Game game : games) {
-						if(game.getUser1().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ||game.getUser2().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ) {
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ||game.getUser2().getPlayer().get_name().equalsIgnoreCase(request.getMessag()) ) {
+						if(!game.getUser1().getGameState().equals("training"))
 							game.addWatcher(x);
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void kick(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		Kickrequest request=gson.fromJson(new JsonReader(reader),Kickrequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					if(game.getUser1()==x || game.getUser2()==x) {
+						for (int i = 0; i < game.getWatcher().size(); i++) {
+							if(game.getWatcher().get(i).getPlayer().get_name().equals(request.getName())) {
+								String message2="CHANGEPANEL>>MENU#";
+								ServerMain.WriteMessage(message2, game.getWatcher().get(i).getAddress());
+								game.getWatcher().remove(i);
+								game.sendWatcher();
+							}
+
 						}
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+		}
+	}
+	public void exitwatching(String message, DatagramPacket packet) {
+		StringReader reader=new StringReader(message);
+		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader),SaveAndExitRequest.class);
+		User x=online.get(request.getTocken());
+		if(x!=null) {
+			try {
+				for (Game game : games) {
+					for (int i = 0; i < game.getWatcher().size(); i++) {
+						if(game.getWatcher().get(i)==x) {
+							String message2="CHANGEPANEL>>MENU#";
+							ServerMain.WriteMessage(message2, x.getAddress());
+							game.getWatcher().remove(i);
+							game.sendWatcher();
+						}
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

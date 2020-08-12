@@ -530,12 +530,29 @@ public class Game {
 	}
 	public void addWatcher(User x) {
 		watcher.add(x);
-		String messString="CHANGEPANEL>>PLAYEPANEL#";
+		sendWatcher();
 		try {
+			String messString="CHANGEPANEL>>PLAYEPANEL#";
 			ServerMain.WriteMessage(messString, x.getAddress());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	public void sendWatcher() {
+		ArrayList<String> ss=new ArrayList<>();
+		for (User user : watcher) {
+			ss.add(user.getPlayer().get_name());
+		}
+		try {
+			String message="SETWATCHER>>"+gson.toJson(ss)+"#";
+			ServerMain.WriteMessage(message, user1.getAddress());
+			ServerMain.WriteMessage(message, user2.getAddress());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<User> getWatcher() {
+		return watcher;
+	}
+
 }

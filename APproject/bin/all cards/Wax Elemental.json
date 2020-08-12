@@ -1,0 +1,23 @@
+{
+  "type": "Cardspackage.Minions.WaxElemental",
+  "data": {
+    "HP": 2,
+    "attack": 0,
+    "usedToAttack": false,
+    "windfury": false,
+    "taunt": true,
+    "divineShield": false,
+    "deathrattle": false,
+    "battlecry": false,
+    "rush": false,
+    "quest": false,
+    "mana": 1,
+    "name": "Wax Elemental",
+    "use": 0,
+    "rarity": "epic",
+    "cardClass": "Neutral",
+    "description": "Tunt",
+    "type": "Minion",
+    "needTarget": true
+  }
+}

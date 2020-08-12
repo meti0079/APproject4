@@ -13,10 +13,10 @@ import Cardspackage.Card;
 import hero.Heros;
 import hero.heroPower.HeroPower;
 
-public class Gamestate {
+public class FileReader {
 	private	Gson gson;
 
-	public Gamestate() throws Exception{
+	public FileReader() throws Exception{
 		initialGson();
 	}
 	public String toString(Player player) {

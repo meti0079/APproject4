@@ -1,7 +1,13 @@
 package client;
 
 import java.io.StringReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
+
+import java.lang.reflect.Type;
+import com.google.common.reflect.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
@@ -11,6 +17,7 @@ import client.grapic.LoginPanel;
 import client.grapic.MainFrame;
 import client.grapic.MenuPanel;
 import client.grapic.PlayShow;
+import client.grapic.RankPanel;
 import client.grapic.SettingPanel;
 import client.grapic.Shop;
 import client.grapic.StartPlayShow;
@@ -24,6 +31,7 @@ import gameModel.requestAndREsponse.ShopNeeds;
 import gameModel.requestAndREsponse.StatosNeeds;
 import gameModel.requestAndREsponse.GameNeed;
 import gameModel.requestAndREsponse.NextTurnRequest;
+import gameModel.requestAndREsponse.RankNeed;
 import hero.Heros;
 import hero.heroPower.HeroPower;
 public class Controller {
@@ -39,6 +47,7 @@ public class Controller {
 	private CollectionPanel collectionPanel;
 	private StartPlayShow playShow;
 	private PlayShow playPanel;
+	private RankPanel rankPanel;
 	private GameNeed gameNeed;
 	private String state;
 	Clock clock;
@@ -83,6 +92,9 @@ public class Controller {
 		case "PLAYEPANEL":
 			frame.ChangePanel(playPanel);
 			break;
+		case "RANK":
+			frame.ChangePanel(rankPanel);
+			break;
 		default:
 			break;
 		}	
@@ -101,6 +113,7 @@ public class Controller {
 		clock.setConnection(System.nanoTime());
 		clock.start();
 		try {
+			rankPanel=new RankPanel(this);
 			menuPanel=new MenuPanel(this);
 			shop=new Shop(this);
 			statos=new Statos(this);
@@ -204,6 +217,26 @@ public class Controller {
 		clock.setConnection(System.nanoTime());	
 	}
 	public void message(String message) {
+		clock.setConnection(System.nanoTime());	
 		playPanel.getChat().getTextArea().setText(message);
 	}
+
+	public void setWatcher(String message) {
+		clock.setConnection(System.nanoTime());	
+		Type listOfMyClassObject = new TypeToken<ArrayList<String>>() {}.getType();
+		StringReader reader=new StringReader(message);
+		ArrayList<String> ss=gson.fromJson(new JsonReader(reader), listOfMyClassObject);
+		playPanel.getP().setWatcher(ss);
+		playPanel.getP().setWatcher();
+	}
+
+	public void setRankNeed(String message) {
+		StringReader reader=new StringReader(message);
+		RankNeed need=gson.fromJson(new JsonReader(reader), RankNeed.class);
+		rankPanel.setTop(need.getTop());
+		rankPanel.setMe(need.getMe());
+		rankPanel.repaint();
+		rankPanel.revalidate();
+	}
+
 }

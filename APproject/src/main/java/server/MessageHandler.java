@@ -142,6 +142,15 @@ public class MessageHandler {
 		case "SEEMATCH":
 			controller.seeMatch(message,packet);
 			break;
+		case "KICK":
+			controller.kick(message,packet);
+			break;
+		case "EXITMATCH":
+			controller.exitwatching(message,packet);
+			break;
+		case "GORANK":
+			controller.sendRank(message,packet);
+			break;
 		default:
 			break;
 		}

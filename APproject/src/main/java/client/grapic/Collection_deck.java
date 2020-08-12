@@ -20,7 +20,7 @@ import client.Client;
 import client.Controller;
 import client.model.DeckInfo;
 import game.Deck;
-import game.Gamestate;
+import game.FileReader;
 import game.Logger;
 import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.NewDeck;

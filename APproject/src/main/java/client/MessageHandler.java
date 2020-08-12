@@ -67,6 +67,12 @@ public class MessageHandler {
 		case "MESSAGE":
 			controller.message(message);
 			break;	
+		case "SETWATCHER":
+			controller.setWatcher(message);
+			break;	
+		case "SETRANKNEED":
+			controller.setRankNeed(message);
+			break;	
 		default:
 			break;
 		}
