@@ -619,7 +619,7 @@ public class Controller {
 		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			log.log(online.get(request.getTocken()).getPlayer().get_name(), "exit game", "");
-			game.update(clients.get(request.getTocken()).getPlayer());
+			game.update(online.get(request.getTocken()).getPlayer());
 			clients.remove(online.get(request.getTocken()));
 			deckReaderWaiting.remove(online.get(request.getTocken()));
 			onlineWaiting.remove(online.get(request.getTocken()));
@@ -634,7 +634,7 @@ public class Controller {
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {			
-				game.save(x.getPlayer());
+				game.makeProfile(x.getEnemy(), x.getPlayer());
 				game.writeName(x.getPlayer().get_name(), x.getPlayer().get_pass());
 				log.log(x.getPlayer().get_name(), "save game", "");		
 			}

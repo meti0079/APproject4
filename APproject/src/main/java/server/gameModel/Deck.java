@@ -7,6 +7,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -16,11 +18,15 @@ import server.hero.Heros;
 
 @Entity
 public class Deck {
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private long id;
+	
 	@ManyToOne (fetch = FetchType.EAGER,cascade =CascadeType.PERSIST)
 	private  Heros heroDeck;
 	@ManyToMany (fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
-	private List<Card> deck;
-	@Id
+	private List<Card> deck=new ArrayList<Card>();
+	@Column
 	private String name;
 	@Column
 	private int win;
@@ -37,6 +43,17 @@ public class Deck {
 
 	public int getUseThisDeck() {
 		return useThisDeck;
+	}
+
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setDeck(List<Card> deck) {
+		this.deck = deck;
 	}
 
 	public void setUseThisDeck(int useThisDeck) {

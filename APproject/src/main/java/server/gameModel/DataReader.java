@@ -76,12 +76,13 @@ public class DataReader {
 		String na=System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+player.get_name();
 		return na;
 	}
-//	public void makeProfile(Enemy enemy, Player player) throws IOException {
-//		FileWriter ff=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+player.get_name()+"enemy");
-//		String ss=gson.toJson(enemy);
-//		ff.write(ss);
-//		ff.close();
-//	}
+	public void makeProfile(Enemy enemy, Player player) throws IOException {
+		save(player);
+		FileWriter ff=new FileWriter(System.getProperty("user.dir")+"\\src\\main\\java\\pll\\"+player.get_name()+"enemy");
+		String ss=gson.toJson(enemy);
+		ff.write(ss);
+		ff.close();
+	}
 	public Boolean checkName(String name ,String pass) throws IOException {
 		File file=new File(System.getProperty("user.dir")+"\\src\\main\\java\\PLAYERSNAME\\playersname.txt");
 		Scanner s=new Scanner(file);
