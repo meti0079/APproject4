@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.MurlocRaider",
+  "type": "server.cardspackage.Minions.MurlocRaider",
   "data": {
     "HP": 1,
     "attack": 2,

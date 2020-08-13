@@ -23,7 +23,7 @@ import gameModel.requestAndREsponse.EditDeckRequest;
 import gameModel.requestAndREsponse.NewDeck;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
 import server.gameModel.Deck;
-import server.gameModel.FileReader;
+import server.gameModel.DataReader;
 import server.gameModel.Logger;
 
 public class Collection_deck extends JPanel{

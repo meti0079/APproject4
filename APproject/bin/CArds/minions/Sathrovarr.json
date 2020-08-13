@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.Sathrovarr",
+  "type": "server.cardspackage.Minions.Sathrovarr",
   "data": {
     "HP": 5,
     "attack": 5,

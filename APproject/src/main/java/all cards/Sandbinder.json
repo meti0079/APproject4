@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.Sandbinder",
+  "type": "server.cardspackage.Minions.Sandbinder",
   "data": {
     "HP": 4,
     "attack": 2,

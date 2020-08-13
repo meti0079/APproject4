@@ -2,25 +2,49 @@ package server.gameModel;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-
-import javax.swing.JOptionPane;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import server.cardspackage.Card;
 import server.hero.Heros;
-import server.hero.Mage;
 
-
+@Entity
 public class Deck {
+	@ManyToOne (fetch = FetchType.EAGER,cascade =CascadeType.PERSIST)
 	private  Heros heroDeck;
-	private ArrayList<Card> deck;
+	@ManyToMany (fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
+	private List<Card> deck;
+	@Id
 	private String name;
+	@Column
 	private int win;
+	@Column
 	private int useThisDeck;
+	@Column
 	private int cup;
+
 	public Deck() throws Exception {
 		this.deck=new ArrayList<>();
 		win=0;
 		useThisDeck=0;
+	}
+
+	public int getUseThisDeck() {
+		return useThisDeck;
+	}
+
+	public void setUseThisDeck(int useThisDeck) {
+		this.useThisDeck = useThisDeck;
+	}
+
+	public void setWin(int win) {
+		this.win = win;
 	}
 
 	public int getCup() {
@@ -55,7 +79,7 @@ public class Deck {
 				deck.remove(a);
 		}
 	}
-	public ArrayList<Card> getDeck() {
+	public List<Card> getDeck() {
 		return deck;
 	}
 	public boolean addCardToDeck(Card e) {
@@ -151,4 +175,5 @@ public class Deck {
 				deck.remove(a);
 		}
 	}
+	
 }

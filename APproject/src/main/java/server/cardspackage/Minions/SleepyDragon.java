@@ -1,9 +1,12 @@
 package server.cardspackage.Minions;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Minion;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
+@Entity
 public class SleepyDragon extends Minion{
 	public SleepyDragon() {
 		this.Set_Name("Sleepy Dragon");

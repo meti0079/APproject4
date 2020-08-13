@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.LeperGnome",
+  "type": "server.cardspackage.Minions.LeperGnome",
   "data": {
     "HP": 1,
     "attack": 1,

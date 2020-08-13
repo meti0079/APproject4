@@ -1,11 +1,13 @@
 package server.hero;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Card;
 import server.hero.heroPower.PriestPower;
 import server.interfaces.AcceptHero;
 import server.interfaces.HeroVisitor;
 import server.playModel.PlayerModel;
-
+@Entity
 public class Priest extends Heros implements AcceptHero{
 
 	public Priest() {

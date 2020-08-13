@@ -1,9 +1,6 @@
 package server.gameModel;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import server.cardspackage.Card;
@@ -14,17 +11,17 @@ public class DeckReader {
 	private ArrayList< String> enemy;
 	private ArrayList< String> friend;
 	private String reward;
-	private Gson gson;
+//	private Gson gson;
 
 	public ArrayList<Card> cardFactory(String name) {
 		ArrayList< Card> enemyDe=new ArrayList<>();
 		ArrayList< Card> friendDe=new ArrayList<>();
-		GsonBuilder gsonBilder=new GsonBuilder();
-		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
-		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
-		gsonBilder.setPrettyPrinting();
-		gson=gsonBilder.create();
+//		GsonBuilder gsonBilder=new GsonBuilder();
+//		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+//		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+//		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+//		gsonBilder.setPrettyPrinting();
+//		gson=gsonBilder.create();
 		if(name.equalsIgnoreCase("enemy")) {
 			for (String string : enemy) {
 				enemyDe.add(find(string));		
@@ -44,25 +41,25 @@ public class DeckReader {
 		return friend;
 	}
 	public  Card find(String name) {
-		GsonBuilder gsonBilder=new GsonBuilder();
-		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
-		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
-		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
-		gsonBilder.setPrettyPrinting();
-		gson=gsonBilder.create();
-		try {
-		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\all cards\\"+name+".json");
-		Scanner s = new Scanner(f);
-		String se="";
-		while(s.hasNext()) {
-			se+=s.nextLine(); 
-		}
-		Card x= gson.fromJson(se, Card.class);
-		return x;	
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return null;
+//		GsonBuilder gsonBilder=new GsonBuilder();
+//		gsonBilder.registerTypeAdapter(Card.class, new AbstractAdapter<Card>());
+//		gsonBilder.registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
+//		gsonBilder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
+//		gsonBilder.setPrettyPrinting();
+//		gson=gsonBilder.create();
+//		try {
+//		File f=new File(System.getProperty("user.dir")+"\\src\\main\\java\\all cards\\"+name+".json");
+//		Scanner s = new Scanner(f);
+//		String se="";
+//		while(s.hasNext()) {
+//			se+=s.nextLine(); 
+//		}
+//		Card x= gson.fromJson(se, Card.class);
+//		return x;	
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+		return DataReader.initial().loud(Card.class, name);
 	}
 	public String getReward() {
 		return reward;

@@ -1,14 +1,13 @@
 package server.hero;
 
-import java.util.ArrayList;
-
+import javax.persistence.Entity;
 import server.cardspackage.Card;
 import server.hero.heroPower.RougePower;
 import server.interfaces.AcceptHero;
 import server.interfaces.HeroVisitor;
 import server.playModel.PlayerModel;
 
-
+@Entity
 public class Rouge  extends Heros  implements AcceptHero{
 
 	public Rouge() {

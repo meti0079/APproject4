@@ -1,5 +1,5 @@
 {
-  "type": "passives.AlchemistsStone",
+  "type": "server.passives.AlchemistsStone",
   "data": {
     "description": "After you play an odd-Cost card\n reduce the Cost of cards in your hand by (1).",
     "name": "Alchemist\u0027s Stone"

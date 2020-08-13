@@ -1,11 +1,12 @@
 package server.hero;
 
+import javax.persistence.Entity;
 import server.cardspackage.Card;
 import server.hero.heroPower.WarlockPower;
 import server.interfaces.AcceptHero;
 import server.interfaces.HeroVisitor;
 import server.playModel.PlayerModel;
-
+@Entity
 public class Warlock  extends Heros implements AcceptHero{
 	public Warlock() {
 		this.set_SpecialPower(" have 35 HP");;

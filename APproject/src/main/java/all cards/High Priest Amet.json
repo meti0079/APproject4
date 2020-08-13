@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.HighPriestAmet",
+  "type": "server.cardspackage.Minions.HighPriestAmet",
   "data": {
     "HP": 7,
     "attack": 2,

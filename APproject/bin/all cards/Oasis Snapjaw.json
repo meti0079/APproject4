@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.OasisSnapjaw",
+  "type": "server.cardspackage.Minions.OasisSnapjaw",
   "data": {
     "HP": 7,
     "attack": 2,

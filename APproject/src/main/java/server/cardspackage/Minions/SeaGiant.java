@@ -1,11 +1,13 @@
 package server.cardspackage.Minions;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Minion;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class SeaGiant extends Minion  implements Acceptable{
 	public SeaGiant() {
 		this.Set_Name("Sea Giant");

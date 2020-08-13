@@ -6,6 +6,7 @@ import java.io.StringReader;
 import java.net.DatagramPacket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +36,7 @@ import gameModel.requestAndREsponse.changeCardRequest;
 import server.gameModel.AbstractAdapter;
 import server.gameModel.Deck;
 import server.gameModel.Enemy;
-import server.gameModel.FileReader;
+import server.gameModel.DataReader;
 import server.gameModel.Logger;
 import server.gameModel.Login;
 import server.gameModel.Player;
@@ -53,7 +54,7 @@ public class Controller {
 	public static ArrayList<Game> games=new  ArrayList<>();
 	private Logger log;
 	private Gson  gson;
-	private FileReader game;
+	private DataReader game;
 	Rank rank;
 	private ClassLouder classLouder;
 	public Controller() {
@@ -62,7 +63,7 @@ public class Controller {
 			classLouder.start();
 			rank= new Rank();
 			log= Logger.getinsist();
-			game=new FileReader();
+			game=DataReader.initial();
 			GsonBuilder builder=new	GsonBuilder().registerTypeAdapter(Heros.class, new AbstractAdapter<Heros>());
 			builder.serializeSpecialFloatingPointValues();
 			builder.registerTypeAdapter(HeroPower.class, new AbstractAdapter<HeroPower>());
@@ -471,7 +472,7 @@ public class Controller {
 			User x=online.get(request.getTocken());
 			if(x!=null) {
 				log.log(x.getPlayer().get_name(), "deleted account", "");
-				game.DeletPlayer(x.getPlayer());
+				game.delete(x.getPlayer());
 				exit(message, packet);	
 			}
 		} catch (IOException e) {e.printStackTrace();}	
@@ -606,9 +607,9 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	private ArrayList<Card> makeClientCards(ArrayList<server.cardspackage.Card> cards){
+	private ArrayList<Card> makeClientCards(List<server.cardspackage.Card> list){
 		ArrayList<Card> c=new ArrayList<>();
-		for (server.cardspackage.Card card : cards) {
+		for (server.cardspackage.Card card : list) {
 			c.add(new Card(card.get_Mana(),card.get_Name(),card.get_Rarity(),card.get_Class(),card.getDescription(),card.getType(),card.getAttack(), card.getHp(),card.isRush(),card.getUsedToAttack()));
 		}
 		return c;
@@ -618,6 +619,7 @@ public class Controller {
 		SaveAndExitRequest request=gson.fromJson(new JsonReader(reader), SaveAndExitRequest.class);
 		try {
 			log.log(online.get(request.getTocken()).getPlayer().get_name(), "exit game", "");
+			game.update(clients.get(request.getTocken()).getPlayer());
 			clients.remove(online.get(request.getTocken()));
 			deckReaderWaiting.remove(online.get(request.getTocken()));
 			onlineWaiting.remove(online.get(request.getTocken()));
@@ -632,10 +634,9 @@ public class Controller {
 		try {
 			User x=online.get(request.getTocken());
 			if(x!=null) {			
-				game.makeProfile(x.getPlayer(), x.getEnemy());
+				game.save(x.getPlayer());
 				game.writeName(x.getPlayer().get_name(), x.getPlayer().get_pass());
 				log.log(x.getPlayer().get_name(), "save game", "");		
-				game.makeProfile(x.getPlayer(), x.getEnemy());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -654,7 +655,7 @@ public class Controller {
 			if(game.checkValid(re.getName())) {
 				ServerMain.WriteMessage("LOGINERROR>> username alredy used!!!!!!#", packet.getSocketAddress());
 			}else {
-				File loog=new File(System.getProperty("user.dir")+"\\src\\LOGFILE\\"+re.getName());
+				File loog=new File(System.getProperty("user.dir")+"\\src\\main\\java\\LOGFILE\\"+re.getName());
 				loog.getParentFile().mkdir();
 				loog.createNewFile();
 				User user= new User(new Player(re.getName(), re.getPassword(), 50), new Enemy(), packet.getPort(), packet.getSocketAddress());
@@ -685,7 +686,7 @@ public class Controller {
 				}
 			}
 			if(game.checkName(re.getName(), re.getPassword())) {
-				File fw=new File("src\\LOGFILE\\"+re.getName());
+				File fw=new File("src\\main\\java\\LOGFILE\\"+re.getName());
 				boolean del=false;
 				Scanner see=new Scanner(fw);
 				while (see.hasNextLine()) {
@@ -696,7 +697,7 @@ public class Controller {
 				}
 				see.close();
 				if(!del) {
-					User user =new User(game.readPlayer(re.getName()),  game.readEnemy(re.getName()), packet.getPort(), packet.getSocketAddress());
+					User user =new User(game.loud(Player.class,re.getName()),  game.readEnemy(re.getName()), packet.getPort(), packet.getSocketAddress());
 					online.put(user.getPlayer().getTocken(), user);
 					clients.add(user);
 					log.log(user.getPlayer().get_name(), "login at :  ", "");
@@ -713,15 +714,15 @@ public class Controller {
 		}
 	}	
 
-	private server.cardspackage.Card findCard(String name, ArrayList<server.cardspackage.Card> cards) {
-		for (server.cardspackage.Card card : cards) {
+	private server.cardspackage.Card findCard(String name, List<server.cardspackage.Card> list) {
+		for (server.cardspackage.Card card : list) {
 			if(card.get_Name().equals(name))
 				return card;
 		}
 		return null;
 	}
-	private Heros findHero(String name, ArrayList<Heros> heros) {
-		for (Heros heros2 : heros) {
+	private Heros findHero(String name, List<Heros> list) {
+		for (Heros heros2 : list) {
 			if(heros2.getname().equals(name))
 				return heros2;
 		}

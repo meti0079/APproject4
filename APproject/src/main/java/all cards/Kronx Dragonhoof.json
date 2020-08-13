@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.KronxDragonhoof",
+  "type": "server.cardspackage.Minions.KronxDragonhoof",
   "data": {
     "HP": 6,
     "attack": 6,

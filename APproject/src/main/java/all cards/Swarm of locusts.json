@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.Swarmoflocusts",
+  "type": "server.cardspackage.Spells.Swarmoflocusts",
   "data": {
     "usedToAttack": false,
     "windfury": false,

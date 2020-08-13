@@ -1,0 +1,89 @@
+ <hibernate-configuration>
+    <session-factory>
+        <!-- Database connection setting -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hearthstone</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">123456789</property>
+        <!-- SQl dialect -->
+        <property name="dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
+        <!-- update the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+	
+    <mapping class="server.cardspackage.Card"/>
+    <mapping class="server.cardspackage.Weapon"/>
+    <mapping class="server.cardspackage.Spell"/>
+    <mapping class="server.cardspackage.Spells.AstralRift"/>
+    <mapping class="server.cardspackage.Spells.ArcaneShot"/>
+    <mapping class="server.cardspackage.Spells.Swarmoflocusts"/>
+    <mapping class="server.cardspackage.Spells.StrengthinNumbers"/>
+    <mapping class="server.cardspackage.Spells.Sprint"/>
+    <mapping class="server.cardspackage.Spells.Polymorph"/>
+    <mapping class="server.cardspackage.Spells.PharaohBlessing"/>
+    <mapping class="server.cardspackage.Spells.LearnDraconic"/>
+    <mapping class="server.cardspackage.Spells.HolySmite"/>
+    <mapping class="server.cardspackage.Spells.gift"/>
+    <mapping class="server.cardspackage.Spells.FriendlySmith"/>
+    <mapping class="server.cardspackage.Spells.BookofSpecters"/>
+    <mapping class="server.cardspackage.Spells.Backstab"/>
+    <mapping class="server.cardspackage.Spells.AstralRift"/>
+    <mapping class="server.cardspackage.Weapons.HeavyAxe"/>
+    <mapping class="server.cardspackage.Weapons.BattleAxe"/>
+    <mapping class="server.cardspackage.Weapons.BloodFury"/>
+    <mapping class="server.cardspackage.Minions.WaxElemental"/>
+    <mapping class="server.cardspackage.Minions.TombWarden"/>
+    <mapping class="server.cardspackage.Minions.TheBlackKnight"/>
+    <mapping class="server.cardspackage.Minions.SwampKingDred"/>
+    <mapping class="server.cardspackage.Minions.SleepyDragon"/>
+    <mapping class="server.cardspackage.Minions.Shieldbearer"/>
+    <mapping class="server.cardspackage.Minions.Sheep"/>
+    <mapping class="server.cardspackage.Minions.SecurityRover"/>
+    <mapping class="server.cardspackage.Minions.SeaGiant"/>
+    <mapping class="server.cardspackage.Minions.Sathrovarr"/>
+    <mapping class="server.cardspackage.Minions.Sandbinder"/>
+    <mapping class="server.cardspackage.Minions.OasisSnapjaw"/>
+    <mapping class="server.cardspackage.Minions.MurlocWarleader"/>
+    <mapping class="server.cardspackage.Minions.MurlocRaider"/>
+    <mapping class="server.cardspackage.Minions.MechanicalYeti"/>
+    <mapping class="server.cardspackage.Minions.Locust"/>
+    <mapping class="server.cardspackage.Minions.LeperGnome"/>
+    <mapping class="server.cardspackage.Minions.KronxDragonhoof"/>
+    <mapping class="server.cardspackage.Minions.HighPriestAmet"/>
+    <mapping class="server.cardspackage.Minions.Gruul"/>
+    <mapping class="server.cardspackage.Minions.Dreadscale"/>
+    <mapping class="server.cardspackage.Minions.CurioCollector"/>
+    <mapping class="server.cardspackage.Minions.BluegillWarrior"/>
+    <mapping class="server.cardspackage.Minions.ChillwindYeti"/>
+    <mapping class="server.cardspackage.Minions.BigGameHunter"/> 
+ 
+    <mapping class="server.cardspackage.Minion"/>
+    <mapping class="server.gameModel.Player"/>
+    <mapping class="server.gameModel.Deck"/>
+    <mapping class="server.gameModel.Store"/>
+    <mapping class="server.hero.Heros"/>
+    <mapping class="server.hero.Hunter"/>
+    <mapping class="server.hero.Mage"/>
+    <mapping class="server.hero.Priest"/>
+    <mapping class="server.hero.Rouge"/>
+    <mapping class="server.hero.Warlock"/>
+    <mapping class="server.hero.heroPower.HeroPower"/>
+    <mapping class="server.hero.heroPower.HunterPower"/>
+    <mapping class="server.hero.heroPower.MagePower"/>
+    <mapping class="server.hero.heroPower.PriestPower"/>
+    <mapping class="server.hero.heroPower.RougePower"/>
+    <mapping class="server.hero.heroPower.WarlockPower"/>
+    <mapping class="server.passives.Passive"/>
+    <mapping class="server.passives.AlchemistsStone"/>
+    <mapping class="server.passives.BandofScarabs"/>
+    <mapping class="server.passives.Caltrops"/>
+    <mapping class="server.passives.CapturedFlag"/>
+    <mapping class="server.passives.GlyphofWarding"/>
+    <mapping class="server.passives.Entrenchment"/>
+    <mapping class="server.passives.GrommashsArmguards"/>
+    <mapping class="server.passives.ManaJump"/>
+    <mapping class="server.passives.OffCards"/>
+    <mapping class="server.passives.Stargazing"/>
+
+    </session-factory>
+</hibernate-configuration>

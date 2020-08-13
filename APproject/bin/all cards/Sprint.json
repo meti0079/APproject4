@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.Sprint",
+  "type": "server.cardspackage.Spells.Sprint",
   "data": {
     "usedToAttack": false,
     "windfury": false,
@@ -13,7 +13,7 @@
     "name": "Sprint",
     "use": 0,
     "rarity": "epic",
-    "cardClass": "Rouge",
+    "cardClass": "Rogue",
     "description": "Draw 4 cards.",
     "needTarget": false
   }

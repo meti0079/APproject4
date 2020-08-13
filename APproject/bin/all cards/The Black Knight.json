@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.TheBlackKnight",
+  "type": "server.cardspackage.Minions.TheBlackKnight",
   "data": {
     "HP": 5,
     "attack": 4,

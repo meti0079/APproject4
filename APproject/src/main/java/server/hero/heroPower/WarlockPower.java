@@ -1,9 +1,11 @@
 package server.hero.heroPower;
 
+import javax.persistence.Entity;
+
 import server.interfaces.HeroPowerVisitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class WarlockPower extends HeroPower{
 	public WarlockPower() {
 		this.setDescriptoin("spend 2 mana and do: 1.increase 1 attack and hp to a card  2,add 1 card to player cards");

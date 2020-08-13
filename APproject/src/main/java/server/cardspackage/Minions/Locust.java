@@ -1,10 +1,12 @@
 package server.cardspackage.Minions;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Minion;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class Locust extends Minion{
 	public Locust() {
 		this.Set_Name("Locust");

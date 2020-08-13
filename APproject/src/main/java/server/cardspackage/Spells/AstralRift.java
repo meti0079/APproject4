@@ -1,11 +1,13 @@
 package server.cardspackage.Spells;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Spell;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class AstralRift extends Spell implements Acceptable{
 	public AstralRift() {
 		this.Set_Name("Astral Rift");

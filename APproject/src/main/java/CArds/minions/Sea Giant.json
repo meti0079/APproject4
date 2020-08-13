@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.SeaGiant",
+  "type": "server.cardspackage.Minions.SeaGiant",
   "data": {
     "HP": 8,
     "attack": 8,

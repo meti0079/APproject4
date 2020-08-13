@@ -1,5 +1,5 @@
 {
-  "type": "passives.GlyphofWarding",
+  "type": "server.passives.GlyphofWarding",
   "data": {
     "description": "Enemy minions cost (1) more.",
     "name": "Glyph of Warding"

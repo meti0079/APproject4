@@ -1,6 +1,7 @@
 package gameModel.requestAndREsponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import client.model.Card;
 import server.hero.Heros;
@@ -9,10 +10,10 @@ public class ShopNeeds {
 	ArrayList<Card> cards;
 	ArrayList<Heros> buyHeros;
 	ArrayList<Card> havenot;
-	public ShopNeeds(ArrayList<Card> cards, ArrayList<Heros> buyHeros, ArrayList<Card> havenot) {
+	public ShopNeeds(ArrayList<Card> cards, List<Heros> list, ArrayList<Card> havenot) {
 		super();
 		this.cards = cards;
-		this.buyHeros = buyHeros;
+		this.buyHeros = (ArrayList<Heros>) list;
 		this.havenot = havenot;
 	}
 	public ShopNeeds() {

@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.ChillwindYeti",
+  "type": "server.cardspackage.Minions.ChillwindYeti",
   "data": {
     "HP": 5,
     "attack": 4,

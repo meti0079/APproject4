@@ -1,18 +1,43 @@
 package server.hero.heroPower;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import server.cardspackage.Minion;
 import server.interfaces.HeroPowerVisitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public abstract  class HeroPower {
-
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	private long id;
+	@Column
 	private int maxUse=1;
+	@Column
 	private String descriptoin;
+	@Column
 	private boolean used=false;
+	@Column
 	private int mana;
+	@Column
 	private int use=0;
 
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
+	}
 	public int getUse() {
 		return use;
 	}

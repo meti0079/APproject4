@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.BluegillWarrior",
+  "type": "server.cardspackage.Minions.BluegillWarrior",
   "data": {
     "HP": 1,
     "attack": 2,

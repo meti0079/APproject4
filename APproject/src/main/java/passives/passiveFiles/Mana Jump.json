@@ -1,5 +1,5 @@
 {
-  "type": "passives.ManaJump",
+  "type": "server.passives.ManaJump",
   "data": {
     "description": "you statr with 1 more mana ",
     "name": "Mana Jump"

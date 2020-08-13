@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.WaxElemental",
+  "type": "server.cardspackage.Minions.WaxElemental",
   "data": {
     "HP": 2,
     "attack": 0,

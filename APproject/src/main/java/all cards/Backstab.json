@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.Backstab",
+  "type": "server.cardspackage.Spells.Backstab",
   "data": {
     "usedToAttack": false,
     "windfury": false,

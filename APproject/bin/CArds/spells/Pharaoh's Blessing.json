@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.PharaohBlessing",
+  "type": "server.cardspackage.Spells.PharaohBlessing",
   "data": {
     "usedToAttack": false,
     "windfury": false,

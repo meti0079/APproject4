@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.gift",
+  "type": "server.cardspackage.Spells.gift",
   "data": {
     "usedToAttack": false,
     "windfury": false,

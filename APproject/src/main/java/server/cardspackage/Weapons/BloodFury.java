@@ -1,11 +1,13 @@
 package server.cardspackage.Weapons;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Weapon;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class BloodFury extends Weapon implements Acceptable{
 
 	public BloodFury() {

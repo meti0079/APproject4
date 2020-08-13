@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.SecurityRover",
+  "type": "server.cardspackage.Minions.SecurityRover",
   "data": {
     "HP": 6,
     "attack": 2,

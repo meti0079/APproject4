@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.AstralRift",
+  "type": "server.cardspackage.Spells.AstralRift",
   "data": {
     "usedToAttack": false,
     "windfury": false,

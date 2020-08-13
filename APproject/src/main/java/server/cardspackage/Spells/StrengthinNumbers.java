@@ -1,11 +1,13 @@
 package server.cardspackage.Spells;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Spell;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class StrengthinNumbers  extends Spell implements Acceptable{
 
 	public StrengthinNumbers() {

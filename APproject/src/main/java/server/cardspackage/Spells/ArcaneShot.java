@@ -1,13 +1,13 @@
 package server.cardspackage.Spells;
 
+import javax.persistence.Entity;
 import javax.swing.JOptionPane;
-
 import server.cardspackage.Spell;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class ArcaneShot extends Spell implements Acceptable{
 
 	public ArcaneShot() {

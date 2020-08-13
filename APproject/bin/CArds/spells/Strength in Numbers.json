@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.StrengthinNumbers",
+  "type": "server.cardspackage.Spells.StrengthinNumbers",
   "data": {
     "usedToAttack": false,
     "windfury": false,

@@ -1,9 +1,11 @@
 package server.hero.heroPower;
 
+import javax.persistence.Entity;
+
 import server.interfaces.HeroPowerVisitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class RougePower extends HeroPower{
 	public RougePower() {
 		this.setDescriptoin("Stil 1 card from enemy");

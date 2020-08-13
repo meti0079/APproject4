@@ -48,7 +48,7 @@ public class PlayerModel {
 		turn=tu;
 		this.name=name;
 		Hero=deck.getHeroDeck();
-		this.deck=(ArrayList<Card>) deck.getDeck().clone();
+		this.deck=(ArrayList<Card>) ((ArrayList<Card>) deck.getDeck()).clone();
 		Decksize=this.deck.size();
 	}
 	public int getTurn() {

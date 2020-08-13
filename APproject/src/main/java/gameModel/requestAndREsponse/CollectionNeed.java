@@ -1,6 +1,8 @@
 package gameModel.requestAndREsponse;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import client.model.Card;
 import client.model.DeckInfo;
 import server.hero.Heros;
@@ -17,14 +19,14 @@ public class CollectionNeed {
 	}
 	
 	public CollectionNeed(ArrayList<Card> have, ArrayList<Card> dontHave, ArrayList<Card> deck,
-			ArrayList<Card> enemydeck, ArrayList<DeckInfo> deckInfo, ArrayList<Heros> hero, String enemyHero) {
+			ArrayList<Card> enemydeck, ArrayList<DeckInfo> deckInfo, List<Heros> list, String enemyHero) {
 		super();
 		this.have = have;
 		this.dontHave = dontHave;
 		this.deck = deck;
 		Enemydeck = enemydeck;
 		this.deckInfo = deckInfo;
-		this.hero = hero;
+		this.hero = (ArrayList<Heros>) list;
 		this.enemyHero = enemyHero;
 	}
 	public ArrayList<Heros> getHero() {

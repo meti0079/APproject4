@@ -1,5 +1,5 @@
 {
-  "type": "passives.OffCards",
+  "type": "server.passives.OffCards",
   "data": {
     "description": "Spending 1 less mana on each card",
     "name": "Off Cards"

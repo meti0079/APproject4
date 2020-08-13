@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.CurioCollector",
+  "type": "server.cardspackage.Minions.CurioCollector",
   "data": {
     "HP": 4,
     "attack": 4,

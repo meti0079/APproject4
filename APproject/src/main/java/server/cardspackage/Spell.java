@@ -1,8 +1,12 @@
 package server.cardspackage;
 
+import javax.persistence.Entity;
 
+@Entity
 public abstract  class Spell extends Card{
-
+public Spell() {
+	// TODO Auto-generated constructor stub
+}
 	@Override
 	public int getAttack() {
 		return -1;

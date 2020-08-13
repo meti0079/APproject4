@@ -1,14 +1,21 @@
 package server.cardspackage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 import server.hero.Heros;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public abstract  class Weapon extends Card{
-
+	@Column
 	private int durability;
+	@Column
 	private int attack;
+	
+	
+	
 	public Weapon() {
 		setType("Weapon");
 	}

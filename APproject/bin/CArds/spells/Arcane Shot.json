@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.ArcaneShot",
+  "type": "server.cardspackage.Spells.ArcaneShot",
   "data": {
     "usedToAttack": false,
     "windfury": false,

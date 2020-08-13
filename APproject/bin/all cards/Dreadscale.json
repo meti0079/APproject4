@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.Dreadscale",
+  "type": "server.cardspackage.Minions.Dreadscale",
   "data": {
     "HP": 2,
     "attack": 4,

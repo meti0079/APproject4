@@ -1,8 +1,12 @@
 package server.passives;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Card;
 import server.interfaces.PassiveVisitor;
 import server.playModel.PlayerModel;
+
+@Entity
 public class ManaJump extends Passive{
 public ManaJump() {
 	

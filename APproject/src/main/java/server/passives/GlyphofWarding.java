@@ -1,9 +1,11 @@
 package server.passives;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Card;
 import server.interfaces.PassiveVisitor;
 import server.playModel.PlayerModel;
-
+@Entity
 public class GlyphofWarding extends Passive{
 	public GlyphofWarding() {
 		setName("Glyph of Warding");

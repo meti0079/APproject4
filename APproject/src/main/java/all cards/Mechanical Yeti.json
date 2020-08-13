@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.MechanicalYeti",
+  "type": "server.cardspackage.Minions.MechanicalYeti",
   "data": {
     "HP": 4,
     "attack": 2,

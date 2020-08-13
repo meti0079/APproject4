@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.Sprint",
+  "type": "server.cardspackage.Spells.Sprint",
   "data": {
     "usedToAttack": false,
     "windfury": false,

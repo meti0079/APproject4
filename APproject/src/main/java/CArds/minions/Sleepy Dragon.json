@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.SleepyDragon",
+  "type": "server.cardspackage.Minions.SleepyDragon",
   "data": {
     "HP": 6,
     "attack": 6,

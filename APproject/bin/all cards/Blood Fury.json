@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Weapons.BloodFury",
+  "type": "server.cardspackage.Weapons.BloodFury",
   "data": {
     "durability": 8,
     "attack": 3,

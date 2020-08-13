@@ -1,5 +1,5 @@
 {
-  "type": "passives.BandofScarabs",
+  "type": "server.passives.BandofScarabs",
   "data": {
     "description": "Enemy minions have -1 Attack",
     "name": "Band of Scarabs"

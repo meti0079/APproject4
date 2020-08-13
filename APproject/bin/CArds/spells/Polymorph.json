@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.Polymorph",
+  "type": "server.cardspackage.Spells.Polymorph",
   "data": {
     "usedToAttack": false,
     "windfury": false,

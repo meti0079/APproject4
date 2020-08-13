@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.Gruul",
+  "type": "server.cardspackage.Minions.Gruul",
   "data": {
     "HP": 7,
     "attack": 7,

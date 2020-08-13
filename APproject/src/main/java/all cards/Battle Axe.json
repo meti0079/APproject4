@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Weapons.BattleAxe",
+  "type": "server.cardspackage.Weapons.BattleAxe",
   "data": {
     "durability": 2,
     "attack": 2,

@@ -1,11 +1,13 @@
 package server.cardspackage.Spells;
 
+import javax.persistence.Entity;
+
 import server.cardspackage.Spell;
 import server.interfaces.Acceptable;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class FriendlySmith extends Spell implements Acceptable{
 	public FriendlySmith() {
 		this.Set_Name("Friendly Smith");

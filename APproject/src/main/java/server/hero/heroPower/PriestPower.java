@@ -1,9 +1,11 @@
 package server.hero.heroPower;
 
+import javax.persistence.Entity;
+
 import server.interfaces.HeroPowerVisitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public class PriestPower extends HeroPower{
 	public PriestPower() {
 		this.setDescriptoin("restore 4 health");

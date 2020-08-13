@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.TombWarden",
+  "type": "server.cardspackage.Minions.TombWarden",
   "data": {
     "HP": 6,
     "attack": 3,

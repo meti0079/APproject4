@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.BookofSpecters",
+  "type": "server.cardspackage.Spells.BookofSpecters",
   "data": {
     "usedToAttack": false,
     "windfury": false,

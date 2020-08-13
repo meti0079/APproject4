@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.HolySmite",
+  "type": "server.cardspackage.Spells.HolySmite",
   "data": {
     "usedToAttack": false,
     "windfury": false,

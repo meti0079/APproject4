@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 import client.ClientMain;
 import client.Controller;
 import gameModel.requestAndREsponse.SaveAndExitRequest;
-import server.gameModel.FileReader;
+import server.gameModel.DataReader;
 import server.gameModel.Logger;
 
 public class InfoPanel extends JPanel{

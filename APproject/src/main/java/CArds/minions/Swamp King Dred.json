@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.SwampKingDred",
+  "type": "server.cardspackage.Minions.SwampKingDred",
   "data": {
     "HP": 9,
     "attack": 9,

@@ -14,6 +14,7 @@ import server.User;
 import server.cardspackage.Card;
 import server.cardspackage.Weapon;
 import server.gameModel.AbstractAdapter;
+import server.gameModel.DataReader;
 import server.gameModel.Deck;
 import server.gameModel.DeckReader;
 import server.gameModel.ExportHeroPower;
@@ -281,11 +282,11 @@ public class Mapper {
 	public void readDeck(PlayerModel me,PlayerModel enemy,String state, User user1,User user2) {
 		if (state.equalsIgnoreCase("training")) {
 			if(me.getDecksize()==0 ) {
-				me.setDeck((ArrayList<Card>) user1.getPlayer().get_mydeck().clone());
+				me.setDeck((ArrayList<Card>) ((ArrayList<Card>) user1.getPlayer().get_mydeck()).clone());
 				me.setDecksize(me.getDeck().size());
 			}
 			if(enemy.getDecksize()==0 ) {
-				enemy.setDeck((ArrayList<Card>) user1.getEnemy().getEnemyDeck().getDeck().clone());
+				enemy.setDeck((ArrayList<Card>) ((ArrayList<Card>) user1.getEnemy().getEnemyDeck().getDeck()).clone());
 				enemy.setDecksize(enemy.getDeck().size());
 			}
 		}else if(state.contains("deckreader")){
@@ -299,11 +300,11 @@ public class Mapper {
 			}
 		}else if(state.equalsIgnoreCase("online")) {
 			if(me.getDecksize()==0 ) {
-				me.setDeck((ArrayList<Card>) user1.getPlayer().get_mydeck().clone());
+				me.setDeck((ArrayList<Card>) ((ArrayList<Card>) user1.getPlayer().get_mydeck()).clone());
 				me.setDecksize(me.getDeck().size());
 			}
 			if(enemy.getDecksize()==0 ) {
-				enemy.setDeck((ArrayList<Card>) user2.getPlayer().get_mydeck().clone());
+				enemy.setDeck((ArrayList<Card>) ((ArrayList<Card>) user2.getPlayer().get_mydeck()).clone());
 				enemy.setDecksize(enemy.getDeck().size());
 			}
 		}
@@ -420,23 +421,26 @@ public class Mapper {
 		return false;
 	}
 	private void readPassiveFile() throws FileNotFoundException {
-		GsonBuilder gsonBilder=new GsonBuilder();
-		gsonBilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
-		gsonBilder.setPrettyPrinting();
-		Gson gson=gsonBilder.create();		
-		File f3=new File(System.getProperty("user.dir")+"\\src\\main\\java\\passives\\passiveFiles");
-		File[] dirr3=f3.listFiles();
-		if(dirr3!=null) {
-			for(File ch:dirr3) {
-				Scanner sca=new Scanner(ch);
-				String t1="";
-				while(sca.hasNext()) {
-					t1+=sca.nextLine();
-				}
-				Passive s= gson.fromJson(t1, Passive.class);
-				allPassives.add(s);
-				sca.close();
-			}
+//		GsonBuilder gsonBilder=new GsonBuilder();
+//		gsonBilder.registerTypeAdapter(Passive.class, new AbstractAdapter<Passive>());
+//		gsonBilder.setPrettyPrinting();
+//		Gson gson=gsonBilder.create();		
+//		File f3=new File(System.getProperty("user.dir")+"\\src\\main\\java\\passives\\passiveFiles");
+//		File[] dirr3=f3.listFiles();
+//		if(dirr3!=null) {
+//			for(File ch:dirr3) {
+//				Scanner sca=new Scanner(ch);
+//				String t1="";
+//				while(sca.hasNext()) {
+//					t1+=sca.nextLine();
+//				}
+//				Passive s= gson.fromJson(t1, Passive.class);
+//				allPassives.add(s);
+//				sca.close();
+//			}
+//		}
+		for (Passive passive : DataReader.initial().loudAll(Passive.class)) {
+			allPassives.add(passive);
 		}
 	}
 

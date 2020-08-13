@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Minions.Shieldbearer",
+  "type": "server.cardspackage.Minions.Shieldbearer",
   "data": {
     "HP": 4,
     "attack": 0,

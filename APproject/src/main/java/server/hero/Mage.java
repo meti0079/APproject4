@@ -1,17 +1,14 @@
 package server.hero;
 
-import java.util.ArrayList;
-
+import javax.persistence.Entity;
 import server.cardspackage.Card;
 import server.hero.heroPower.MagePower;
 import server.interfaces.AcceptHero;
 import server.interfaces.HeroVisitor;
 import server.playModel.PlayerModel;
 
-
-
+@Entity
 public class Mage extends Heros implements AcceptHero{
-
 	public Mage() {
 		this.setname("Mage");
 		this.setHero_power(new MagePower());

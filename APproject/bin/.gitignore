@@ -1,16 +1,19 @@
-/Cardspackage/
+/all cards/
+/backgrund image/
+/button image/
 /card image/
-/client/
-/game/
-/gameModel/
-/hero/
-/interfaces/
 /main/
 /passiva image/
 /passives/
 /play image/
-/playModel/
+/client/
+/gameModel/
+/hibernatecfg.xml
 /pll/
-/server/
-/LOGFILE/
 /reflect/
+/server/
+/sorce/
+/hibernate.cfg.xml
+/CArds/
+/LOGFILE/
+/PLAYERSNAME/

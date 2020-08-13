@@ -1,5 +1,5 @@
 {
-  "type": "Cardspackage.Spells.FriendlySmith",
+  "type": "server.cardspackage.Spells.FriendlySmith",
   "data": {
     "usedToAttack": false,
     "windfury": false,

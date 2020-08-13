@@ -1,5 +1,7 @@
 package server.cardspackage;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.swing.JOptionPane;
 
 import server.cardspackage.Minions.SecurityRover;
@@ -7,13 +9,30 @@ import server.hero.Heros;
 import server.interfaces.Visitor;
 import server.playModel.Mapper;
 import server.playModel.PlayerModel;
-
+@Entity
 public abstract  class Minion extends Card{
+	
+	@Column
 	private int HP;
+	@Column
 	private int attack;
 	public Minion() {
 		this.setType("Minion");
 
+	}
+
+	/**
+	 * @return the hP
+	 */
+	public int getHP() {
+		return HP;
+	}
+
+	/**
+	 * @param hP the hP to set
+	 */
+	public void setHP(int hP) {
+		HP = hP;
 	}
 
 	public int getAttack() {
