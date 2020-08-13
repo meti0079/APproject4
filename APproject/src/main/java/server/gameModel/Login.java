@@ -84,7 +84,8 @@ public class Login  {
 //		dataReader.save(w);
 //		dataReader.save(z);
 //				dataReader.save(m);
-	}
+	}   
+	
 
 	private void makeMinion(Player player) throws FileNotFoundException {
 		Random ran=new Random();
